@@ -1,0 +1,144 @@
+.register-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f7f7f7;
+    padding: 0 20px; /* Añadir un poco de padding lateral */
+}
+
+.register-box {
+    width: 100%; /* Cambiar a 100% para que ocupe todo el ancho */
+    max-width: 700px; /* Limitar el ancho máximo */
+    padding: 30px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.register-title {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.register-subtitle {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+}
+
+.input-button-group {
+    display: flex; /* Usar flexbox para alinear los elementos */
+    align-items: center; /* Alineación vertical */
+}
+
+.register-input {
+    flex: 1; /* Para que ocupe todo el espacio disponible */
+    height: 50px;
+    margin-right: 10px; /* Espacio entre el Input y el Button */
+    
+}
+
+.input-group .p-inputtext{
+    min-width: 0px;
+}
+
+.validate-button {
+    background-color: rgb(94, 135, 224); /* Color morado */
+    border: none; /* Sin borde para mejor apariencia */
+    color: white; /* Texto blanco */
+    height: 50px;
+    min-width: 100px; /* Asegurar un ancho mínimo */
+}
+
+.validate-button:hover {
+    background-color: rgb(7, 115, 216); /* Color al pasar el mouse */
+}
+
+.register-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #000;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.register-button:hover {
+    background-color: #333;
+}
+
+.login-link {
+    margin-top: 20px;
+    font-size: 1rem;
+}
+
+.login-link a {
+    color: #000;
+    font-weight: bold;
+}
+
+/* Login.css */
+.checkbox-custom {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.checkbox-custom a{
+    color: black; /* Cambia el color de los enlaces a negro */
+    text-decoration: none; /* Opcional: elimina el subrayado */
+}
+
+.checkbox-custom .p-checkbox {
+
+border-radius: 8px; /* Circular */
+width: 24px; /* Ajusta el tamaño */
+height: 24px; /* Ajusta el tamaño */
+cursor: pointer;
+}
+
+.checkbox-custom .p-checkbox.p-checkbox-checked {
+background-color: black; /* Color de fondo cuando está seleccionado */
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 768px) {
+    .register-title {
+        font-size: 1.5rem; /* Reducir tamaño de título en pantallas pequeñas */
+    }
+
+    .register-subtitle {
+        font-size: 0.8rem; /* Reducir tamaño de subtítulo */
+    }
+
+    .input-group label {
+        font-size: 0.75rem; /* Reducir tamaño de fuente de etiquetas */
+    }
+
+    .register-input, .validate-button {
+        height: 40px; /* Reducir altura de inputs y botones */
+    }
+
+    .validate-button {
+        min-width: 80px; /* Ajustar el ancho mínimo del botón */
+    }
+}

@@ -1,0 +1,98 @@
+.login-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    padding: 0 50px;
+  }
+  
+  .login-left {
+    width: 40%;
+  }
+  
+  .tituloLogin {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .login-button {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .register-link {
+    margin-top: 20px;
+  }
+  
+  .register-link a{
+    font-weight: bold;
+  }
+  .login-right {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .login-image {
+    width: 90%;
+    height: auto;
+    max-height: 100%;
+  }
+  
+  .login-container a {
+    color: black; /* Cambia el color de los enlaces a negro */
+    text-decoration: none; /* Opcional: elimina el subrayado */
+  }
+  
+  .login-container a:hover {
+    text-decoration: underline; /* Opcional: añade subrayado al pasar el mouse */
+  }
+
+  .input-group .p-inputtext {
+    background-color: white; /* Fondo blanco */
+    width: 100%;/* Ajusta el ancho según tus necesidades, por ejemplo, puedes usar un valor fijo como '300px' */
+    height: 50px; 
+    border-radius: 8px; /* Borde curvado, si no lo has agregado aún */
+  }
+  
+  .login-button {
+    border-radius: 8px;
+    border-color: #000; /* Ajusta el valor para cambiar el grado de curvatura */
+    height: 50px;
+  }
+
+  .input-group label {
+    margin-bottom: 10px; /* Espacio entre el label y el input */
+    text-align: left; /* Asegura que el texto esté alineado a la izquierda */
+    margin-top: 10px;
+  }
+
+  @media (max-width: 890px) {
+    .login-container {
+      flex-direction: column; /* Asegura que el contenido se apile verticalmente */
+      align-items: center; /* Centra el contenido horizontalmente */
+      justify-content: center; /* Centra el contenido verticalmente */
+      height: 100vh; /* Ocupa toda la altura de la pantalla */
+    }
+  
+    .login-left {
+      width: 100%; /* Hace que el contenedor del login ocupe todo el ancho */
+      padding: 20px; /* Agrega un poco de padding si lo deseas */
+      box-shadow: none; /* Quita cualquier sombra si hay */
+    }
+  
+    .login-right {
+      display: none; /* Oculta la imagen */
+    }
+  }
+  
+  
+  
