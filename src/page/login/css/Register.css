@@ -6,6 +6,7 @@
     height: 100vh;
     background-color: #f7f7f7;
     padding: 0 20px; /* Añadir un poco de padding lateral */
+    position: relative;
 }
 
 .register-box {
@@ -72,24 +73,28 @@
 .register-button {
     width: 100%;
     padding: 10px;
-    background-color: #000;
+    background-color: #85C226;
     color: white;
     border: none;
     cursor: pointer;
-}
-
-.register-button:hover {
-    background-color: #333;
+    border-radius: 30px;
 }
 
 .login-link {
-    margin-top: 20px;
     font-size: 1rem;
+    position: absolute;
+    top: 20px; /* Ajusta según sea necesario */
+    right: 20px; /* Ajusta según sea necesario */
+    text-align: right; /* Alinea el texto a la derecha */
 }
 
+.Iniciar {
+    color: #85C226; /* Cambia a rojo */
+  }
+
 .login-link a {
-    color: #000;
     font-weight: bold;
+    margin-left: 10px; /* Espacio entre los enlaces */
 }
 
 /* Login.css */

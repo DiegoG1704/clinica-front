@@ -1,0 +1,80 @@
+.carousel-demo {
+    padding: 2rem;
+    background-color: #ffffff;
+    width: 100%;
+}
+
+.custom-carousel-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    margin: 0 auto;
+    height: 855px;
+    justify-content: center;
+}
+
+.text-section {
+    padding: 1rem;
+}
+
+.title {
+    font-size: 4.7rem;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.highlight {
+    color: #C4DD26; /* Light green color for 'MásSalud' */
+    font-weight: bold;
+    font-size: 5rem;
+    display: flex;
+    text-align: left;
+}
+
+.description {
+    font-size: 1.1rem;
+    color: #707070; /* Light gray for the description */
+    margin: 1rem 0;
+    text-align: left;
+    width: 50%;
+}
+
+.custom-button {
+    background-color: #1A76D1; /* Blue button background */
+    border-color: #1A76D1;
+    color: #fff;
+    border-radius: 10px;
+    padding: 0.5rem 2rem;
+    margin: 5rem;
+    font-size: 30px;
+    width: 262px;
+    height: 76px;
+    
+}
+
+.image-section {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.doctor-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 800px) {
+    .custom-carousel-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .image-section {
+        display: none;
+    }
+}

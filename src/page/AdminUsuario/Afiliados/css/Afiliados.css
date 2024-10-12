@@ -1,0 +1,166 @@
+.afiliados-wrapper {
+    position: relative; /* Permite que los hijos posicionados sean relativos a este contenedor */
+}
+
+.afiliados-container {
+    display: flex;
+    align-items: center; /* Centra verticalmente */
+    justify-content: space-between; /* Distribuye espacio entre elementos */
+    padding: 20px 20px; /* Espaciado alrededor */
+}
+
+.logo {
+    max-width: 200px; /* Ajusta el tamaño del logo */
+    height: auto; /* Mantiene la relación de aspecto */
+}
+
+.header-actions {
+    display: flex;
+    align-items: center; /* Alinea todos los elementos dentro de este contenedor */
+}
+
+.links-container {
+    display: flex; /* Muestra los enlaces en fila */
+    justify-content: center; /* Centra los enlaces horizontalmente */
+    margin-right: 20px; /* Espacio entre enlaces y botón */
+}
+
+.link {
+    margin: 0 15px; /* Espacio entre los enlaces */
+    text-decoration: none; /* Elimina el subrayado */
+    color: #000; /* Cambia el color del texto si es necesario */
+    font-size: 16px; /* Tamaño de fuente */
+}
+
+
+
+.buscador {
+    display: flex; /* Usar flexbox para alinear elementos */
+    flex-direction: column; /* Apilar elementos verticalmente */
+    align-items: center; /* Centrar elementos horizontalmente */
+    padding: 1rem; /* Espaciado interno */
+}
+
+.text {
+    text-align: center; /* Centrar el texto */
+    margin-bottom: 1rem; /* Espacio entre el texto y el input */
+}
+
+.buscer {
+    width: 50%; /* Cambiar a un ancho del 80% del contenedor */
+    min-width: 400px; /* Limitar el ancho máximo para pantallas grandes */
+    height: 5rem;
+    border-radius: 40px;
+    font-size: 1.5rem;
+    padding: 0 1rem; /* Espaciado interno */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+}
+
+@media (max-width: 768px) {
+    .buscer {
+        width: 90%; /* Ampliar el ancho en pantallas pequeñas */
+        font-size: 1.2rem; /* Reducir tamaño de fuente */
+    }
+}
+
+@media (max-width: 480px) {
+    .buscer {
+        height: 4rem; /* Reducir la altura en pantallas más pequeñas */
+        font-size: 1rem; /* Reducir aún más el tamaño de fuente */
+    }
+}
+
+
+.loguear{
+    background-color: #fff;
+    border-color: #000;
+    color: #000;
+    width: 120px;
+    height: 50px;
+    margin-top: 20px;
+}
+
+.clinica-logo-container {
+    width: 300px; /* Aumenta el ancho del contenedor */
+    height: 150px; /* Aumenta la altura del contenedor */
+    overflow: hidden; /* Oculta el desbordamiento */
+    display: flex; /* Usar flexbox */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+}
+
+.clinica-logo {
+    max-width: 100%; /* Ajusta el ancho máximo */
+    max-height: 100%; /* Ajusta la altura máxima */
+    object-fit: contain; /* Mantiene la proporción original */
+}
+
+
+/* .p-carousel-container{
+    height: 150px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    align-items: center;
+    text-align: center;
+} */
+
+.carruselclinica {
+    display: flex; /* Usa flexbox para alinear elementos */
+    justify-content: center; /* Centra el carrusel horizontalmente */
+    margin: 20px auto; /* Margen automático para centrar */
+    width: 100%; /* Asegura que el carrusel ocupe el 100% del ancho disponible */
+    max-width: 1200px; /* Limitar el ancho máximo del carrusel */
+}
+
+.p-carousel .p-carousel-content .p-carousel-prev, .p-carousel .p-carousel-content .p-carousel-next{
+    display: none;
+    
+}
+
+.p-carousel-item-active{
+    display: flex;
+    justify-content: center;
+}
+
+.p-carousel .p-carousel-indicators{
+    display: none;
+}
+
+.p-carousel .p-carousel-content {
+    display: flex; /* Asegura que los items sean flexibles */
+}
+
+.p-carousel .p-carousel-item {
+    display: flex; /* Permite centrar el contenido del ítem */
+    justify-content: center; /* Centra horizontalmente el contenido */
+}
+
+.p-carousel .p-carousel-indicators {
+    display: none; /* Oculta los indicadores si no son necesarios */
+}
+
+@media (max-width: 768px) {
+    .carruselclinica {
+        flex-direction: column; /* Cambia a columna en pantallas más pequeñas */
+        align-items: center; /* Centra elementos verticalmente */
+    }
+    
+    .clinica-logo-container {
+        width: 80%; /* Ajusta el contenedor de los logos en pantallas pequeñas */
+        height: auto; /* Ajusta la altura automáticamente */
+    }
+}
+
+@media (max-width: 480px) {
+    .clinica-logo-container {
+        width: 90%; /* Aumenta el ancho en pantallas más pequeñas */
+        height: auto; /* Ajusta la altura automáticamente */
+    }
+
+    .clinica-logo {
+        max-width: 100%; /* Asegúrate de que las imágenes se escalen correctamente */
+        max-height: 80px; /* Mantén la altura máxima deseada */
+    }
+}

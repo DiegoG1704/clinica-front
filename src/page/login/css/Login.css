@@ -95,4 +95,18 @@
   }
   
   
+  .back-button {
+    background-color: white;
+    border: 2px solid black; /* Grosor y color de los bordes */
+    border-radius: 50%; /* Hace el botón circular */
+    width: 50px; /* Tamaño del botón */
+    height: 50px; /* Tamaño del botón */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    outline: none; /* Elimina el contorno del botón */
+    color: #000;
+  }
+  
   

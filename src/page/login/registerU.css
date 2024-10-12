@@ -1,22 +1,50 @@
-.login-containe {
+.login-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100vh; /* Ocupar toda la altura de la ventana */
+    width: 100vw; /* Ocupar toda la anchura de la ventana */
+    background-color: #f0f0f0; /* Fondo opcional */
+}
+
+.header {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+}
+
+.circular-button {
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    color: #000;
+    background-color: #fff;
+    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 .login-left {
-    width: 40%;
+    width: 100%; /* Ocupar el 100% del contenedor */
+    max-width: 645px; /* Aumenta el ancho máximo del formulario */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    padding: 20px; /* Agrega padding */
+    padding: 20px; /* Espaciado interno */
+    text-align: center;
+    background: white; /* Fondo blanco para el formulario */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
 }
 
 .tituloLogin {
-    font-size: 2.5rem;
+    font-size: 2rem; /* Ajustar tamaño de fuente */
     margin-bottom: 20px;
 }
 
@@ -24,41 +52,53 @@
     margin-bottom: 15px;
     display: flex;
     flex-direction: column;
-    width: 90%; /* Asegura que el grupo de entrada ocupe el 100% del ancho */
+    width: 100%; /* Ocupa el 100% del ancho del contenedor */
 }
 
 .input-group .p-inputtext {
-    width: 100%; /* Asegura que el InputText ocupe el 100% de su contenedor */
+    width: 100%; /* Ocupa el 100% de su contenedor */
     height: 50px; 
     border-radius: 8px;
-    background-color: white; /* Fondo blanco */
+    background-color: white;
 }
 
-.login-left  .login-button {
-    width: 90%;
+.login-left .login-button {
+    width: 100%; /* Ocupa el 100% del contenedor */
     margin-top: 20px;
     background-color: #000;
     color: #fff;
 }
 
-.login-righ {
-    width: 35%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-    background-color: #e8daee;
-    flex-direction: column;
+.login-link {
+    font-size: 1rem;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    text-align: right;
 }
 
-.login-img {
-    width: 100%;
-    height: auto;
+.Iniciar {
+    color: #85C226;
 }
+
+.login-link a {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.checkbox-custom {
+    display: flex;
+    text-align: left; /* Alinea verticalmente */
+    margin-left: 10px;
+}
+
+.checkbox-custom p {
+    margin-left: 10px;
+}
+
 
 @media (max-width: 890px) {
-    .login-containe {
+    .login-container {
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -66,11 +106,7 @@
     }
 
     .login-left {
-        width: 100%;
+        width: 100%; /* Asegúrate de que ocupe el 100% del ancho en móviles */
         padding: 20px;
-    }
-
-    .login-righ {
-        display: none;
     }
 }
