@@ -1,6 +1,4 @@
-.App {
-  text-align: center;
-}
+
 
 .App-logo {
   height: 40vmin;
@@ -11,6 +9,24 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+.main-content {
+  transition: margin-left 0.3s, padding-left 0.3s;
+  padding: 20px;
+  height: calc(100% - 20px); /* Adjusts height based on navbar space */
+  margin-top: 20px; /* Space for the navbar */
+  z-index: 80;
+}
+
+.sidebar-open {
+  margin-left: 260px; /* Width of the sidebar when open */
+  padding-left: 20px; /* Adjust padding to keep content aligned */
+}
+
+.sidebar-closed {
+  margin-left: 70px; /* Width of the sidebar when closed */
+  padding-left: 20px; /* Adjust padding to keep content aligned */
 }
 
 .App-header {

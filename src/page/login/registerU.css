@@ -4,7 +4,6 @@
     align-items: center;
     height: 100vh; /* Ocupar toda la altura de la ventana */
     width: 100vw; /* Ocupar toda la anchura de la ventana */
-    background-color: #f0f0f0; /* Fondo opcional */
 }
 
 .header {

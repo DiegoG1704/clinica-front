@@ -37,7 +37,7 @@ export default function Login({onLogin}) {
 
             if (response.data.success) { 
                 onLogin(response.data.usuario.id)
-                navigate('/');
+                navigate('/Home');
             } else {
                 toastRef.current.show({ severity: 'error', summary: 'Error', detail: response.data.message, life: 3000 });
             }
