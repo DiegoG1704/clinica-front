@@ -11,7 +11,7 @@ function Navbar() {
       
       <ul className="navbar-links">
         <li>
-          <InputText placeholder='Buscar'/>
+          <InputText placeholder='Buscar' className='buscadorNavar'/>
         </li>
         <li>
           <a href="#"><i className="pi pi-bell"></i></a>

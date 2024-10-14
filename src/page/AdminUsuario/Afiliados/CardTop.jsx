@@ -6,13 +6,13 @@ import '../Afiliados/css/ClinicaCards.css';
 import user from '../../../img/sinLogo.png'
 import img from '../../../img/sinImg.png'
 
-export default function ClinicaCards() {
+export default function CardTop() {
     const [clinicas, setClinicas] = useState([]); // Estado para almacenar las clínicas
 
     useEffect(() => {
         const fetchClinicas = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/getPromociones'); // Cambia esta URL según tu configuración
+                const response = await axios.get('http://localhost:4000/getPromocionesTop'); // Cambia esta URL según tu configuración
                 setClinicas(response.data); // Almacena las clínicas en el estado
             } catch (error) {
                 console.error('Error al obtener las promociones:', error);

@@ -8,8 +8,9 @@ import { InputText } from 'primereact/inputtext';
 import { Carousel } from 'primereact/carousel';
 import ClinicaCards from './ClinicaCards';
 import axios from 'axios';
+import CardTop from './CardTop';
 
-export default function Afiliados({ idUsuario, setIdUsuario }) { // Recibe setIdUsuario
+export default function Afiliados({ idUsuario, setIdUsuario }) {
     const menuRight = useRef(null);
     const navigate = useNavigate();
     
@@ -21,6 +22,21 @@ export default function Afiliados({ idUsuario, setIdUsuario }) { // Recibe setId
         { url: 'https://mivida.sanpablo.com.pe/PortalPaciente/img/tssp/logotssp.PNG' },
         { url: 'https://www.clinicasantamaria.cl/Sitefinity/WebsiteTemplates/ClinicaSantaMaria/App_Themes/ClinicaSantaMaria/Images/clinica-santa-maria-logo.png' }
     ]);
+
+    const [IsoTipo, setIsoTipo] = useState([]); // Estado para almacenar los isotipos
+
+    useEffect(() => {
+        const fetchIsoTipo = async () => {
+            try {
+                const response = await axios.get('http://localhost:4000/clinicas/isotipos'); // URL para obtener isotipos
+                setIsoTipo(response.data); // Almacena los isotipos en el estado
+            } catch (error) {
+                console.error('Error al obtener los isotipos:', error);
+            }
+        };
+
+        fetchIsoTipo();
+    }, []);
 
     useEffect(() => {
         const fetchUsuario = async () => {
@@ -53,13 +69,13 @@ export default function Afiliados({ idUsuario, setIdUsuario }) { // Recibe setId
     ];
 
     const handleLogout = () => {
-        setIdUsuario(null); // Reemplaza idUsuario por null
-        navigate('/login'); // Redirige al usuario al componente de inicio de sesión
+        setIdUsuario(null);
+        navigate('/login');
     };
 
     const items = [
         {
-            label: 'Hola, ' + (nombreUsuario || 'Usuario'), // Muestra el nombre del usuario
+            label: 'Hola, ' + (nombreUsuario || 'Usuario'),
             items: [
                 {
                     label: 'Gestionar cuenta',
@@ -74,10 +90,10 @@ export default function Afiliados({ idUsuario, setIdUsuario }) { // Recibe setId
         }
     ];
 
-    const clinicaslogo = (logo) => (
+    const clinicaslogo = (clinica) => (
         <div className="clinica-logo-container">
             <img
-                src={logo.url}
+                src={`http://localhost:4000/uploads/${clinica.IsoTipo}`} // Cambia según tu ruta de imagen
                 alt="Clinica Logo"
                 className="clinica-logo"
             />
@@ -99,7 +115,7 @@ export default function Afiliados({ idUsuario, setIdUsuario }) { // Recibe setId
                         {idUsuario ? (
                             <h1><a className="link">{nombreUsuario}</a></h1>
                         ) : (
-                            <Button label="Sign up" onClick={() => navigate('/login')} className='loguear'/> // Cambia '/login' por la ruta adecuada
+                            <Button label="Sign up" onClick={() => navigate('/login')} className='loguear' />
                         )}
                     </div>
                     {idUsuario && (
@@ -122,7 +138,7 @@ export default function Afiliados({ idUsuario, setIdUsuario }) { // Recibe setId
                     )}
                 </div>
             </div>
-                <Carrousel />
+            <Carrousel />
             <div className='buscador'>
                 <p className='text'>Encuentra los mejores descuentos y promociones médicas en un solo lugar</p>
                 <InputText
@@ -130,10 +146,19 @@ export default function Afiliados({ idUsuario, setIdUsuario }) { // Recibe setId
                     className='buscer'
                 />
                 <h1 className='mejoras'>Nuestras mejores ofertas</h1>
-                <ClinicaCards />
+                <CardTop />
             </div>
             <div>
-                <Carousel className='carruselclinica' value={clinicasLog} numVisible={4} responsiveOptions={responsiveOptions} numScroll={3} circular autoplayInterval={5000} itemTemplate={clinicaslogo} />
+                <Carousel
+                    className='carruselclinica'
+                    value={IsoTipo}
+                    numVisible={4}
+                    responsiveOptions={responsiveOptions}
+                    numScroll={3}
+                    circular
+                    autoplayInterval={5000}
+                    itemTemplate={clinicaslogo}
+                />
             </div>
             <ClinicaCards />
         </div>
