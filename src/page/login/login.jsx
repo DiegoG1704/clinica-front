@@ -30,7 +30,7 @@ export default function Login({onLogin}) {
         }
 
         try {
-            const response = await axios.post("https://clinica-production-baa9.up.railway.app/login", {
+            const response = await axios.post("http://localhost:4000/login", {
                 correo,
                 contraseña
             });

@@ -16,6 +16,8 @@ import UserAfiliados from './page/VistaAdmin/Afiliados';
 import Admin from './page/VistaAdmin/Admin';
 import Promociones from './page/VistaAdmin/Promociones';
 import Configuraciones from './page/VistaAdmin/Configuraciones';
+import SubAfiliados from './page/VistaAdmin/SubAfiliados';
+import SubLocales from './page/VistaAdmin/SubLocales';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -43,12 +45,14 @@ function App() {
               {user ? (
                   <>
                       <Navbar />
-                      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} onLogout={logout} idUsuario={user}/>
+                      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} onLogout={logout} idUsuario={user} />
                       <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
                           <Routes>
                             <Route path="/" element={<Navigate to="/Home" />} />
                               <Route path='/Home' element={<Home/>} />  
-                              <Route path='/Afiliados' element={<UserAfiliados/>} />  
+                              <Route path='/Afiliados' element={<UserAfiliados/>} /> 
+                              <Route path='/SubAfiliados' element={<SubAfiliados/>} /> 
+                              <Route path='/SubLocal' element={<SubLocales/>} /> 
                               <Route path='/Admin' element={<Admin/>} /> 
                               <Route path='/Promociones' element={<Promociones/>} />   
                               <Route path='/Configuraciones' element={<Configuraciones/>} /> 

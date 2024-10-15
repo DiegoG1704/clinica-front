@@ -20,7 +20,7 @@
 }
 
 .title {
-    font-size: 4.7rem;
+    font-size: 5rem;
     color: #000;
     display: flex;
     flex-direction: column;
@@ -30,7 +30,7 @@
 .highlight {
     color: #C4DD26; /* Light green color for 'MásSalud' */
     font-weight: bold;
-    font-size: 5rem;
+    font-size: 5.5rem;
     display: flex;
     text-align: left;
 }

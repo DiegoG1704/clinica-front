@@ -15,14 +15,6 @@ export default function Afiliados({ idUsuario, setIdUsuario }) {
     const navigate = useNavigate();
     
     const [nombreUsuario, setNombreUsuario] = useState('');
-    const [clinicasLog, setClinicasLog] = useState([
-        { url: 'https://queplan.pe/assets/images/logos/clinica-ricardo-palma.png' },
-        { url: 'https://consultoriovirtual.clinicainternacional.com.pe/images/logo.png' },
-        { url: 'https://asdf.amerins.com/uploads/logo_sanna_a3f0989f25.png' },
-        { url: 'https://mivida.sanpablo.com.pe/PortalPaciente/img/tssp/logotssp.PNG' },
-        { url: 'https://www.clinicasantamaria.cl/Sitefinity/WebsiteTemplates/ClinicaSantaMaria/App_Themes/ClinicaSantaMaria/Images/clinica-santa-maria-logo.png' }
-    ]);
-
     const [IsoTipo, setIsoTipo] = useState([]); // Estado para almacenar los isotipos
 
     useEffect(() => {
@@ -42,7 +34,7 @@ export default function Afiliados({ idUsuario, setIdUsuario }) {
         const fetchUsuario = async () => {
             if (idUsuario) {
                 try {
-                    const response = await axios.get(`https://clinica-production-baa9.up.railway.app/user/${idUsuario}`);
+                    const response = await axios.get(`http://localhost:4000/user/${idUsuario}`);
                     setNombreUsuario(response.data.nombres); // Ajusta según la estructura de tu API
                 } catch (error) {
                     console.error('Error fetching user data:', error);
