@@ -1,0 +1,66 @@
+.user-profile__image img{
+    border: 6px solid #85c226;
+    width: 180px;
+}
+.user-profile__info__name{
+    font-weight: 700;
+    font-size: 1.6em;
+}
+.user-profile__info__role{
+    margin-top: -20px;
+    text-align: center;
+    color: #6C6C6C;
+    ;
+}
+.user_profile__record__id p:first-child{
+    font-size: 1.6em;
+    font-weight: 500;
+
+}
+.user_profile__record__quantity-locals p:first-child{
+    font-size: 1.6em;
+    font-weight: 500;
+}
+.user_profile__record__id p:nth-child(2){
+    font-size: 1em;
+    color: #908b8b;
+    
+
+}
+.user_profile__record__quantity-locals p:nth-child(2){
+    font-size: 1em;
+    color: #908b8b;
+}
+.divider-vertical{
+    margin: 0px 15px;
+    height: 80px;
+    align-self: center;
+ 
+}
+.user-form__btn-cancel{
+    background-color: #fff!important;
+    color: #a5a58d;
+    border-radius: 4px;
+    border: 2px solid #a5a58d;
+}
+.user-form__btn-save{
+    background-color:#a5a58d!important;
+    color: #fff;
+    border-radius: 4px;
+    border: 2px solid #a5a58d;
+}
+.container-card-config-user{
+    width: 80%;
+}
+.btn-add-sub-local{
+    background-color: #6B705C;
+    border-color: #6B705C;
+    border-radius: 10px;
+
+}
+.local-name{
+    color: #6C6C6C;
+}
+.header__title{
+    font-size: 2em;
+}

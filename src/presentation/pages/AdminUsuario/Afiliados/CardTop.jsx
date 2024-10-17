@@ -18,7 +18,6 @@ export default function CardTop() {
                 console.error('Error al obtener las promociones:', error);
             }
         };
-
         fetchClinicas();
     }, []);
 
