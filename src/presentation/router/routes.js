@@ -17,16 +17,15 @@ const RoutesConfig = ({ isAuthenticated, onLogin ,user,setUser}) => {
         <>
           <Route path="/" element={<Navigate to="/Home" />} />
           <Route path='/Home' element={<Home />} />  
-          <Route path='/Afiliados' element={<Afiliados />} />
+          <Route path='/Afiliados' element={<Admin />} />
           <Route path='/SubAfiliados' element={<SubAfiliados />} />
           <Route path='/SubLocal' element={<SubLocales />} />
-          <Route path='/Admin' element={<Admin />} />
+          {/* <Route path='/Admin' element={<Admin />} /> */}
           <Route path='/Promociones' element={<Promociones />} />
           <Route path='/Configuraciones' element={<Configuraciones />} />
         </>
       ) : (
         <>
-        
           <Route path="/login" element={<Login onLogin={onLogin} />} />
           <Route path="/home" element={<Register onNext={onLogin} />} />
           <Route path="/DatosU" element={<RegisterU />} />

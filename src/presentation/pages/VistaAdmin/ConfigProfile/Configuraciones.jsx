@@ -4,7 +4,7 @@ import "./style/Configuraciones.css"
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-
+import photoDefault from "../../../img/photo-default.png"
 
 export default function Configuraciones() {
   return (
@@ -18,11 +18,7 @@ export default function Configuraciones() {
           <div className="user-profile flex flex-column align-items-center p-4" style={{ flexBasis: '30%', maxWidth: '300px' }}>
             <header className='flex flex-column align-items-center'>
               <div className="user-profile__image mb-3">
-                <img
-                  src='https://s3-alpha-sig.figma.com/img/11db/cb98/2f9ba115c7d5cc790cc48a457815fb67?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=FZ4KhdPL8nKP7G5HcZN4qrbPbCUzHx7jbnrKR6~ykQjnEsYbdKukovguNKj8n7hvJbuMRv5WxKsPLQNQf3erYOIqPdFTSf~v2SN3i3tldPgu4F~f5ubIrwr3dzCAlYjloqww4x5URAnIBxPU7U-Uys9PDuoX7XyegRiapbrXI8stnmL44Z-SESrfWYCV3UXvyBNg7mKEZe58Vt3NfdrSJ2roFrJ4VVVjRv8LloQJnfjDni-4BEb0EACRY5GIsRfjNjJQ-T7rfjGWykeyeu~Za8N9ewg1lugNtmyQVQ3LgokxrTZwb8sg1mIIuC6mI-lr5XIeyD4sWWMuAhthcT-Ffg__'
-                  className='border-circle'
-
-                />
+                <img src={photoDefault} className='border-circle'/>
               </div>
               <div className="user-profile__info text-center">
                 <p className="user-profile__info__name">Rosa Montecarlo</p>

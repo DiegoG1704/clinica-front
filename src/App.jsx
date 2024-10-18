@@ -16,19 +16,16 @@ function App() {
         setIsSidebarOpen(!isSidebarOpen);
     };
     const [Datos, setDatos] = useState(null);
-
     // Function to handle the login and update the user state
     const handleLoginId = (userData) => {
         setUser(userData);
     };
-
     const handleDatos = (userData) => {
         setDatos(userData);
     };
     const logout = () => {
         setUser(null);
     };
-
     return (
         <Router>
             <div className="App">
