@@ -13,15 +13,15 @@ export default function Register({ onNext }) {
   const [nombres, setnombres] = useState('');
   const [apellidos, setapellidos] = useState('');
   const [direccion, setdireccion] = useState('');
-  const [estadoCivil, setestadoCivil] = useState(null);
+  const [estado_civil, setestadoCivil] = useState(null);
   const [fechNac, setfechNac] = useState('');
   const [loading, setLoading] = useState(false);
 
   const estadoCivilOptions = [
-    { label: 'Soltero(a)', value: 'soltero' },
-    { label: 'Casado(a)', value: 'casado' },
-    { label: 'Divorciado(a)', value: 'divorciado' },
-    { label: 'Viudo(a)', value: 'viudo' },
+    { label: 'Soltero(a)', value: 'Soltero' },
+    { label: 'Casado(a)', value: 'Casado' },
+    { label: 'Divorciado(a)', value: 'Divorciado' },
+    { label: 'Viudo(a)', value: 'iudo' },
   ];
 
   const navigate = useNavigate();
@@ -58,12 +58,12 @@ export default function Register({ onNext }) {
   };
 
   const handleSubmit = () => {
-    if (!dni || !nombres || !apellidos || !direccion || !estadoCivil || !fechNac) {
+    if (!dni || !nombres || !apellidos || !direccion || !estado_civil || !fechNac) {
       toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Por favor, completa todos los campos' });
       return;
     }
   
-    const userData = { dni, nombres, apellidos, direccion, estadoCivil, fechNac };
+    const userData = { dni, nombres, apellidos, direccion, estado_civil, fechNac };
     console.log('Datos del usuario:', userData); // Verifica que los nombres se están enviando correctamente
     
     if (typeof onNext === 'function') {
@@ -152,7 +152,7 @@ export default function Register({ onNext }) {
           <label htmlFor="estadoCivil">Estado Civil</label>
           <Dropdown
             id="estadoCivil"
-            value={estadoCivil}
+            value={estado_civil}
             options={estadoCivilOptions}
             onChange={(e) => setestadoCivil(e.value)}
             placeholder="Selecciona tu estado civil"

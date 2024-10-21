@@ -9,8 +9,14 @@ import Promociones from '../pages/VistaAdmin/Promociones';
 import Configuraciones from '../pages/VistaAdmin/ConfigProfile/Configuraciones';
 import SubAfiliados from '../pages/VistaAdmin/SubAfiliados';
 import SubLocales from '../pages/VistaAdmin/SubLocales';
+import { useState } from 'react';
+import Clinicas from '../pages/VistaAdmin/Clinicas';
 
 const RoutesConfig = ({ isAuthenticated, onLogin ,user,setUser}) => {
+  const [Datos, setDatos] = useState(null);
+  const handleDatos = (userData) => {
+    setDatos(userData);
+};
   return (
     <Routes>
       {isAuthenticated ? (
@@ -20,15 +26,16 @@ const RoutesConfig = ({ isAuthenticated, onLogin ,user,setUser}) => {
           <Route path='/Afiliados' element={<Admin />} />
           <Route path='/SubAfiliados' element={<SubAfiliados />} />
           <Route path='/SubLocal' element={<SubLocales />} />
-          {/* <Route path='/Admin' element={<Admin />} /> */}
+          <Route path='/Clinicas' element={<Clinicas idUsuario={user}/>} /> 
+          <Route path='/Admin' element={<Admin />} />
           <Route path='/Promociones' element={<Promociones />} />
           <Route path='/Configuraciones' element={<Configuraciones />} />
         </>
       ) : (
         <>
           <Route path="/login" element={<Login onLogin={onLogin} />} />
-          <Route path="/home" element={<Register onNext={onLogin} />} />
-          <Route path="/DatosU" element={<RegisterU />} />
+          <Route path="/home" element={<Register onNext={handleDatos} />} />
+          <Route path="/DatosU" element={<RegisterU userData={Datos}/>} />
           <Route path='/' element={<Afiliados idUsuario={user} setIdUsuario={setUser} />} />
         </>
       )}

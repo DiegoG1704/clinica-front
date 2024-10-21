@@ -15,14 +15,11 @@ function App() {
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
-    const [Datos, setDatos] = useState(null);
     // Function to handle the login and update the user state
     const handleLoginId = (userData) => {
         setUser(userData);
     };
-    const handleDatos = (userData) => {
-        setDatos(userData);
-    };
+
     const logout = () => {
         setUser(null);
     };
@@ -34,7 +31,7 @@ function App() {
                         <Navbar />
                         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} onLogout={logout} idUsuario={user} />
                         <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-                            <RoutesConfig isAuthenticated={!!user} />
+                            <RoutesConfig isAuthenticated={!!user}/>
                         </div>
                     </>
                 ) : (

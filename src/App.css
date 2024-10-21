@@ -15,16 +15,12 @@
 
 .main-content {
   transition: margin-left 0.3s, padding-left 0.3s;
-  padding: 20px;
+  padding: 10px;
   height: calc(100vh - 70px)!important; /* Adjusts height based on navbar space */
-  padding-top: 40px;
   z-index: 80;
   background-color:#f8f8f8;
   overflow-y: auto;
   overflow-x: auto;
-
-
-  
 }
 
 .sidebar-open {
