@@ -55,6 +55,7 @@ export default function Registro({ userData }) {
         
 
         if (!userData || !userData.dni || !userData.nombres || !userData.apellidos) {
+            console.log("data",userData)
             toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Información de usuario incompleta' });
             return;
         }        

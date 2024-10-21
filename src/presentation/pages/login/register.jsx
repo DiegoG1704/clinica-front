@@ -71,7 +71,6 @@ export default function Register({ onNext }) {
     } else {
       console.warn('onNext is not a function');
     }
-  
     navigate('/DatosU');
   };
   

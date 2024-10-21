@@ -7,11 +7,13 @@ import 'primeicons/primeicons.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import perfilDefault from "../../../img/photo-default.png"
+import { useAuth } from '../../../context/AuthContext/AuthContext';
 
 export default function Sidebar({ isOpen, toggleSidebar, onLogout, idUsuario }) {
   const navigate = useNavigate();
-  const [usuario, setUsuario] = useState({});
+  const {user, Setuser}= useAuth()
   const [rutas, setRutas] = useState([]);
+  console.log("uss",user)
 
   const handleLogout = () => {
     onLogout();
@@ -30,36 +32,7 @@ export default function Sidebar({ isOpen, toggleSidebar, onLogout, idUsuario }) 
     return roles[rolId] || "Rol desconocido";
   };
 
-  useEffect(() => {
-    const fetchUsuario = async () => {
-      if (idUsuario) {
-        try {
-          const response = await axios.get(`http://localhost:4000/user/${idUsuario}`);
-          setUsuario(response.data);
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        }
-      } else {
-        setUsuario({});
-      }
-    };
 
-    const fetchRutasUsuario = async () => {
-      if (idUsuario) {
-        try {
-          const response = await axios.get(`http://localhost:4000/Rutas/${idUsuario}`);
-          setRutas(response.data);
-        } catch (error) {
-          console.error('Error fetching user routes:', error);
-        }
-      } else {
-        setRutas([]);
-      }
-    };
-
-    fetchUsuario();
-    fetchRutasUsuario();
-  }, [idUsuario]);
 
   return (
     <>
@@ -67,10 +40,10 @@ export default function Sidebar({ isOpen, toggleSidebar, onLogout, idUsuario }) 
         <h1><span className='sidebar__logo-icon'>|</span>MAS SALUD</h1>
         
            <img src={perfilDefault} alt="" />
-        <h2>{usuario.nombres}</h2>
-        <h3>{getNombreRol(usuario.rol_id)}</h3>
+        <h2>{user.nombres}</h2>
+        <h3>{getNombreRol(user.rol_id)}</h3>
         <ul className="sidebar-menu">
-          {rutas.map((rut, index) => (
+          {user.rutas.map((rut, index) => (
             <li key={index} onClick={() => navigate(rut.ruta)}>
               <i className={rut.logo} style={{ fontSize: '20px' }} />
               {isOpen && <span style={{ fontSize: '14px' }}>{rut.nombre}</span>}

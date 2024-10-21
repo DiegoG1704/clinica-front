@@ -8,24 +8,23 @@ import { useState } from 'react';
 import Navbar from './presentation/pages/AdminUsuario/Navar/Navar';
 import Sidebar from './presentation/pages/AdminUsuario/Navar';
 import RoutesConfig from './presentation/router/routes';
+import { useAuth } from './presentation/context/AuthContext/AuthContext';
 
 function App() {
-    const [user, setUser] = useState(null);
+    const { user, Datos, logout,setDatos,setUser,login } = useAuth();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
-    const [Datos, setDatos] = useState(null);
-    // Function to handle the login and update the user state
-    const handleLoginId = (userData) => {
-        setUser(userData);
-    };
+   
+    // // Function to handle the login and update the user state
+    // const handleLoginId = (userData) => {
+    //     setUser(userData);
+    // };
     const handleDatos = (userData) => {
         setDatos(userData);
     };
-    const logout = () => {
-        setUser(null);
-    };
+   
     return (
         <Router>
             <div className="App">
@@ -34,11 +33,11 @@ function App() {
                         <Navbar />
                         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} onLogout={logout} idUsuario={user} />
                         <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-                            <RoutesConfig isAuthenticated={!!user} />
+                            <RoutesConfig isAuthenticated={!!user} Datos={Datos}  />
                         </div>
                     </>
                 ) : (
-                    <RoutesConfig isAuthenticated={false} onLogin={handleLoginId} idUsuario={user} setIdUsuario={setUser}/>
+                    <RoutesConfig isAuthenticated={false} onLogin={login} idUsuario={user} setIdUsuario={setUser} handleDatos={handleDatos} Datos={Datos}/>
                 )}
             </div>
         </Router>

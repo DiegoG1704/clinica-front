@@ -10,7 +10,8 @@ import Configuraciones from '../pages/VistaAdmin/ConfigProfile/Configuraciones';
 import SubAfiliados from '../pages/VistaAdmin/SubAfiliados';
 import SubLocales from '../pages/VistaAdmin/SubLocales';
 
-const RoutesConfig = ({ isAuthenticated, onLogin ,user,setUser}) => {
+const RoutesConfig = ({ isAuthenticated, onLogin ,user,setUser,Datos,handleDatos}) => {
+  console.log("en",onLogin)
   return (
     <Routes>
       {isAuthenticated ? (
@@ -23,13 +24,15 @@ const RoutesConfig = ({ isAuthenticated, onLogin ,user,setUser}) => {
           {/* <Route path='/Admin' element={<Admin />} /> */}
           <Route path='/Promociones' element={<Promociones />} />
           <Route path='/Configuraciones' element={<Configuraciones />} />
+          <Route path='*' element={<Navigate to="/Configuraciones"/>} />
         </>
       ) : (
         <>
           <Route path="/login" element={<Login onLogin={onLogin} />} />
-          <Route path="/home" element={<Register onNext={onLogin} />} />
-          <Route path="/DatosU" element={<RegisterU />} />
+          <Route path="/home" element={<Register onNext={handleDatos} />} />
+          <Route path="/DatosU" element={<RegisterU userData={Datos}/>} />
           <Route path='/' element={<Afiliados idUsuario={user} setIdUsuario={setUser} />} />
+          <Route path='*' element={<Navigate to="/"/>} />
         </>
       )}
     </Routes>
