@@ -7,11 +7,13 @@ import { Divider } from 'primereact/divider';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import SubLocalDialog from '../AdminGeneral/SubLocalDialog';
+import Locales from '../AdminGeneral/Locales';
 
 export default function Clinicas() {
     const [clinicas, setClinicas] = useState([]);
     const [loading, setLoading] = useState(true);
     const [visible,setVisible] = useState(false)
+    const [visibleLocal,setVisibleLocal] = useState(false)
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -44,10 +46,9 @@ export default function Clinicas() {
         </div>
     );
 
-    const actionsFooter = (rowData) => (
-        <div className='flex gap-2'>
-            <Button icon="pi pi-trash" severity="secondary" outlined label='Cancelar' style={{ color: "#607d8b"}} onClick={()=>setVisible(false)}/>
-            <Button icon="pi pi-save" severity="secondary" label='Guardar' style={{ color: "#fff" }} />
+    const actionsLocales = (rowData) => (
+        <div className='flex'>
+            <Button icon="pi pi-building" rounded severity="secondary" aria-label="User" style={{ color: "#fff"}} onClick={()=>setVisibleLocal(true)}/>
         </div>
     );
 
@@ -79,10 +80,12 @@ export default function Clinicas() {
                 <Column field="ruc" header="RUC" />
                 <Column field="ubicacion" header="Ubicación" />
                 <Column field="direccion" header="Direccion" />
+                <Column header='locales' body={actionsLocales}/>
                 <Column header='Admin-local' body={actionsAdminLocal}/>
                 <Column header='Cambios' body={actionsTemplate} />
             </DataTable>
-            <SubLocalDialog visible={visible} onHide={()=> setVisible(false)} footer={actionsFooter}/>
+            <SubLocalDialog visible={visible} onHide={()=> setVisible(false)}/>
+            <Locales visible={visibleLocal} onHide={()=>setVisibleLocal(false)}/>
 
         </div>
     );

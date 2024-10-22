@@ -7,7 +7,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import axios from 'axios'; // Importar axios
 
-export default function SubLocalDialog({ visible, onHide, footer }) {
+export default function SubLocalDialog({ visible, onHide}) {
   const [dni, setDni] = useState('');
   const [nombres, setNombres] = useState('');
   const [apellido, setApellido] = useState('');
@@ -54,7 +54,7 @@ export default function SubLocalDialog({ visible, onHide, footer }) {
 
   return (
     <div>
-      <Dialog header='Usuario Sub-local' visible={newSL} onHide={() => setNewSL(false)} footer={actionsFooter} style={{ width: '1000px' }}>
+      <Dialog header='Crear Administrador local' visible={newSL} onHide={() => setNewSL(false)} footer={actionsFooter} style={{ width: '1000px' }}>
         <div className='flex'>
           <div className='flex-1 p-2'>
             <h2>Información General</h2>
