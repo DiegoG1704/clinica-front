@@ -9,30 +9,33 @@ import Promociones from '../pages/VistaAdmin/Promociones';
 import Configuraciones from '../pages/VistaAdmin/ConfigProfile/Configuraciones';
 import SubAfiliados from '../pages/VistaAdmin/SubAfiliados';
 import SubLocales from '../pages/VistaAdmin/SubLocales';
+import ClinicaPage from '../pages/VistaAdmin/Clinicas/ClinicaPage';
+import { ClinicaProvider } from '../context/ClinicaContext/ClinicaContext';
 
-const RoutesConfig = ({ isAuthenticated, onLogin ,user,setUser,Datos,handleDatos}) => {
-  console.log("en",onLogin)
+const RoutesConfig = ({ isAuthenticated, onLogin, user, setUser, Datos, handleDatos }) => {
+
   return (
     <Routes>
       {isAuthenticated ? (
         <>
           <Route path="/" element={<Navigate to="/Home" />} />
-          <Route path='/Home' element={<Home />} />  
+          <Route path='/Home' element={<Home />} />
           <Route path='/Afiliados' element={<Admin />} />
           <Route path='/SubAfiliados' element={<SubAfiliados />} />
           <Route path='/SubLocal' element={<SubLocales />} />
           {/* <Route path='/Admin' element={<Admin />} /> */}
           <Route path='/Promociones' element={<Promociones />} />
           <Route path='/Configuraciones' element={<Configuraciones />} />
-          <Route path='*' element={<Navigate to="/Configuraciones"/>} />
+          <Route path='/Clinicas' element={<ClinicaProvider><ClinicaPage /></ClinicaProvider>} />
+          <Route path='*' element={<Navigate to="/Configuraciones" />} />
         </>
       ) : (
         <>
           <Route path="/login" element={<Login onLogin={onLogin} />} />
-          <Route path="/home" element={<Register onNext={handleDatos} />} />
-          <Route path="/DatosU" element={<RegisterU userData={Datos}/>} />
+          <Route path="/Register" element={<Register onNext={handleDatos} />} />
+          <Route path="/DatosU" element={<RegisterU userData={Datos} />} />
           <Route path='/' element={<Afiliados idUsuario={user} setIdUsuario={setUser} />} />
-          <Route path='*' element={<Navigate to="/"/>} />
+          <Route path='*' element={<Navigate to="/" />} />
         </>
       )}
     </Routes>

@@ -3,11 +3,12 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import FulLuz from '../../img/img02.png';
 import { useNavigate } from 'react-router-dom';
-import './css/Login.css'; 
+import './css/Login.css';
 import { Toast } from 'primereact/toast';
+import { showToast, showToastWithErrors } from '../../../shared/showToast';
 
 export default function Login({ onLogin }) {
-    const [correo, setCorreo] = useState("");
+    const [correo, setCorreo] = useState("");   
     const [contraseña, setContraseña] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -18,28 +19,15 @@ export default function Login({ onLogin }) {
     };
     const handleLogin = async () => {
         setLoading(true);
-        if (!correo || !contraseña) {
-            toastRef.current.show({ severity: 'error', summary: 'Error', detail: 'Por favor, complete todos los campos.', life: 3000 });
-            setLoading(false);
-            return;
-        }
         try {
-            const response = await onLogin(correo,contraseña);
-            console.log("da",response)
-            if (response) {
-                console.log("ruts",response?.rutas?.[0]?.ruta)
+            const response = await onLogin(correo, contraseña);
+            if (response?.success) {
                 navigate(response?.rutas?.[0]?.ruta);
             } else {
-                toastRef.current.show({ severity: 'error', summary: 'Error', detail: response.data.message, life: 3000 });
+                 showToastWithErrors("error","Error al iniciar Sesión",response?.error,toastRef)
             }
         } catch (error) {
-            if (error.response) {
-                toastRef.current.show({ severity: 'error', summary: 'Error', detail: error.response.data.message || "Error al iniciar sesión.", life: 3000 });
-            } else if (error.request) {
-                toastRef.current.show({ severity: 'error', summary: 'Error', detail: "No se pudo conectar con el servidor.", life: 3000 });
-            } else {
-                toastRef.current.show({ severity: 'error', summary: 'Error', detail: "Ocurrió un error inesperado.", life: 3000 });
-            }
+            console.log(error)
         } finally {
             setLoading(false);
         }
@@ -100,7 +88,7 @@ export default function Login({ onLogin }) {
                 />
                 <div className="register-link">
                     <label>¿Aún no tienes una cuenta?</label>
-                    <a href="/home"> Regístrate</a>
+                    <a href="/Register"> Regístrate</a>
                 </div>
             </div>
 

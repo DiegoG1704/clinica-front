@@ -72,7 +72,7 @@
 
 .toggle-button {
   position: fixed;
-  top: 75px; /* Ajusta la posición vertical según sea necesario */
+  top: 20px; /* Ajusta la posición vertical según sea necesario */
   z-index: 200; /* Asegúrate de que el botón esté sobre el contenido */
   cursor: pointer;
   display: flex;

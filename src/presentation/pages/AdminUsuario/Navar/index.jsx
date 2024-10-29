@@ -11,27 +11,13 @@ import { useAuth } from '../../../context/AuthContext/AuthContext';
 
 export default function Sidebar({ isOpen, toggleSidebar, onLogout, idUsuario }) {
   const navigate = useNavigate();
-  const {user, Setuser}= useAuth()
+  const {user, setuser}= useAuth()
   const [rutas, setRutas] = useState([]);
-  console.log("uss",user)
 
   const handleLogout = () => {
     onLogout();
     navigate('/login');
   };
-
-  const roles = {
-    1: "Administrador_general",
-    2: "Administrador_local",
-    3: "Afiliador",
-    4: "Afiliado",
-    5: "Sub-Administrador",
-  };
-
-  const getNombreRol = (rolId) => {
-    return roles[rolId] || "Rol desconocido";
-  };
-
 
 
   return (
@@ -40,10 +26,10 @@ export default function Sidebar({ isOpen, toggleSidebar, onLogout, idUsuario }) 
         <h1><span className='sidebar__logo-icon'>|</span>MAS SALUD</h1>
         
            <img src={perfilDefault} alt="" />
-        <h2>{user.nombres}</h2>
-        <h3>{getNombreRol(user.rol_id)}</h3>
+        <h2>{user?.nombres}</h2>
+        <h3>{user?.rolId}</h3>
         <ul className="sidebar-menu">
-          {user.rutas.map((rut, index) => (
+          {user?.rutas.map((rut, index) => (
             <li key={index} onClick={() => navigate(rut.ruta)}>
               <i className={rut.logo} style={{ fontSize: '20px' }} />
               {isOpen && <span style={{ fontSize: '14px' }}>{rut.nombre}</span>}

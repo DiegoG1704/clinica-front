@@ -1,13 +1,19 @@
 export class LoginUseCase {
-    constructor(authRepository) {
+    constructor(authRepository, authValidator) {
         this.authRepository = authRepository;
+        this.authValidator = authValidator;
     }
     async execute({ correo, contraseña }) {
         try {
-            const user = await this.authRepository.login(correo, contraseña);
-            return user;
+            let isValid = this.authValidator?.validateUserData({ correo, contraseña })
+            if (isValid?.success) {
+                const user = await this.authRepository.login(correo, contraseña);
+                return { success: true, data: user };
+            } else {
+                return { success: false, error: isValid?.errors };
+            }
         } catch (error) {
-            throw new Error('Login failed');
+            return { success: false, error: [error] };
         }
     }
 }

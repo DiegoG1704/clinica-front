@@ -59,11 +59,14 @@
 }
 
 .validate-button {
-    background-color: rgb(94, 135, 224); /* Color morado */
+    background-color:#85C226!important; /* Color morado */
     border: none; /* Sin borde para mejor apariencia */
     color: white; /* Texto blanco */
     height: 50px;
     min-width: 100px; /* Asegurar un ancho mínimo */
+    position: relative;
+    right: 4px;
+    border-radius: 0px 9px 9px 0px;
 }
 
 .validate-button:hover {
@@ -124,7 +127,13 @@ background-color: black; /* Color de fondo cuando está seleccionado */
 .login-link a:hover {
     text-decoration: underline;
 }
-
+.input-calendar .p-datepicker-trigger{
+    background-color: #85c226!important;
+    border-color: #85c226!important;
+    position: relative;
+    right: 4px;
+    border-radius: 0px 9px 9px 0px;
+}
 /* Media Queries para Responsividad */
 @media (max-width: 768px) {
     .register-title {

@@ -4,16 +4,19 @@ import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { Toast } from 'primereact/toast';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import './css/Register.css';
+import { useAuth } from '../../context/AuthContext/AuthContext';
+import { showToast, showToastWithErrors } from '../../../shared/showToast';
+import { Calendar } from 'primereact/calendar';
 
 export default function Register({ onNext }) {
+  const { FindPersonWithDni, validateGeneralData } = useAuth()
   const toast = useRef(null);
   const [dni, setDni] = useState('');
   const [nombres, setnombres] = useState('');
   const [apellidos, setapellidos] = useState('');
   const [direccion, setdireccion] = useState('');
-  const [estadoCivil, setestadoCivil] = useState(null);
+  const [estadoCivil, setestadoCivil] = useState('');
   const [fechNac, setfechNac] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -23,67 +26,53 @@ export default function Register({ onNext }) {
     { label: 'Divorciado(a)', value: 'divorciado' },
     { label: 'Viudo(a)', value: 'viudo' },
   ];
-
   const navigate = useNavigate();
 
   const handleValidateDni = async () => {
-    if (!dni) {
-      toast.current.show({ severity: 'error', summary: 'Error', detail: 'Por favor ingresa un DNI' });
-      return;
-    }
-
     setLoading(true);
-
     try {
-      const response = await axios.get(
-        `https://dniruc.apisperu.com/api/v1/dni/${dni}?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRnc3QxNzA0QGdtYWlsLmNvbSJ9.4MWOq0VPNPDODZpUXh3p2MoG55I6hSBLSMzEFvT7es0`
-      );
-
-      if (response.data) {
-        const { nombres, apellidoPaterno, apellidoMaterno } = response.data;
+      const dataPerson = await FindPersonWithDni(dni)
+      console.log("pe",dataPerson)
+      if (dataPerson.success) {
+        const { nombres, apellidos } = dataPerson.data;
         setnombres(nombres);
-        setapellidos(`${apellidoPaterno} ${apellidoMaterno}`);
-        console.log('Datos de la API:', response.data);
-        toast.current.show({ severity: 'success', summary: 'Éxito', detail: 'Datos encontrados' });
+        setapellidos(apellidos);
+        showToast("success", 'Éxito', 'Datos encontrados', toast)
       }
-       else {
-        toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'No se encontraron datos para el DNI ingresado' });
+      else {
+        showToastWithErrors("error", 'Advertencia', dataPerson?.error, toast)
       }
     } catch (error) {
-      console.error('Error al validar el DNI:', error);
-      toast.current.show({ severity: 'error', summary: 'Error', detail: 'Hubo un error al validar el DNI' });
+      console.log("enre", error)
+      showToastWithErrors("error", 'Advertencia', error, toast)
     } finally {
       setLoading(false);
     }
   };
 
+
   const handleSubmit = () => {
-    if (!dni || !nombres || !apellidos || !direccion || !estadoCivil || !fechNac) {
-      toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Por favor, completa todos los campos' });
-      return;
-    }
-  
-    const userData = { dni, nombres, apellidos, direccion, estadoCivil, fechNac };
-    console.log('Datos del usuario:', userData); // Verifica que los nombres se están enviando correctamente
-    
-    if (typeof onNext === 'function') {
-      onNext(userData); // Pass data to parent
+    const response = validateGeneralData({ dni, nombres, apellidos, direccion, estadoCivil, fechNac })
+    console.log("estas", response)
+    if (response?.success) {
+      const userData = { dni, nombres, apellidos, direccion, estadoCivil, fechNac };
+      onNext(userData);
+      navigate('/DatosU');
     } else {
-      console.warn('onNext is not a function');
+      showToastWithErrors("warn", 'Advertencia', response?.error, toast)
     }
-    navigate('/DatosU');
   };
-  
-  
+
+
 
   return (
     <div className="register-container">
       <Toast ref={toast} />
-      <Button 
-          icon="pi pi-chevron-left" 
-          className="back-button" 
-          onClick={()=> navigate('/login')} 
-          aria-label="Retroceder" 
+      <Button
+        icon="pi pi-chevron-left"
+        className="back-button"
+        onClick={() => navigate('/login')}
+        aria-label="Retroceder"
       />
       <div className="login-link">
         <div>
@@ -161,18 +150,16 @@ export default function Register({ onNext }) {
 
         <div className="input-group">
           <label htmlFor="fechNac">Fecha de nacimiento</label>
-          <InputText
-            type='date'
-            className="register-input"
-            id="fechNac"
+          <Calendar showIcon id="fecha_mantenimiento"
             value={fechNac}
             onChange={(e) => setfechNac(e.target.value)}
+            className='input-calendar'
           />
         </div>
 
         <Button label="Siguiente" className="register-button" onClick={handleSubmit} />
       </div>
-      
+
     </div>
   );
 }

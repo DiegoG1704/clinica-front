@@ -1,6 +1,7 @@
 // src/data/repositories/UserRepositoryImpl.js
-import { UserRepository } from '../../../domain/repositories/UserRepository';
-import UserMapper from '../../mappers/UserMapper';
+
+import UserRepository from '../../../domain/repositories/auth/UserRepository';
+import UserMapper from '../../mappers/user/UserMapper'; 
 
 
 class UserRepositoryImpl extends UserRepository {
@@ -16,8 +17,9 @@ class UserRepositoryImpl extends UserRepository {
 
     async createUser(user) {
         const userData = UserMapper.toData(user); // Convierte el User a formato de datos
+        console.log("to-dat",userData)
         const createdUserData = await this.adapter.post('CreateUsuario', userData); // Llama a la API
-        return UserMapper.toDomain(createdUserData); // Devuelve el User como entidad
+        return UserMapper.toDomain(createdUserData); 
     }
 
     async updateUser(user) {
