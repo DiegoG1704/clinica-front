@@ -19,7 +19,7 @@ function App() {
     const handleLoginId = (userData) => {
         setUser(userData);
     };
-
+    console.log('idUserLog',user)
     const logout = () => {
         setUser(null);
     };
@@ -31,7 +31,7 @@ function App() {
                         <Navbar />
                         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} onLogout={logout} idUsuario={user} />
                         <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-                            <RoutesConfig isAuthenticated={!!user}/>
+                            <RoutesConfig isAuthenticated={!!user} idUsuario={user}/>
                         </div>
                     </>
                 ) : (

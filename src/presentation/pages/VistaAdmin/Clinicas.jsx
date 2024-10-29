@@ -4,8 +4,6 @@ import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import axios from 'axios';
 import { Divider } from 'primereact/divider';
-import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
 import SubLocalDialog from '../AdminGeneral/SubLocalDialog';
 import Locales from '../AdminGeneral/Locales';
 
