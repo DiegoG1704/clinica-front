@@ -5,6 +5,7 @@ import { Column } from 'primereact/column';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { InputText } from 'primereact/inputtext';
+import { Card } from 'primereact/card';
 
 export default function Admin() {
   const [afiliadores, setAfiliadores] = useState([]);
@@ -45,26 +46,33 @@ export default function Admin() {
           <Divider />
         </div>
       </div>
-      <InputText
-        placeholder='Buscar nombre de afiliados...'
-        style={{ width: '50%' }}
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <DataTable value={filteredAfiliadores} rowClassName="my-2">
-        <Column
-          header='Foto de Perfil'
-          body={(rowData) => (
-            <img src={`http://localhost:4000/uploads/${rowData.fotoPerfil}`} alt="Tipo" width="60" className='border-round-sm' />
-          )}
-        />
-        <Column field="nombres" header="Nombre" />
-        <Column field="apellidos" header="Apellidos" />
-        <Column field="correo" header="Correo" />
-        <Column field="telefono" header="Télefono" />
-        <Column field="dni" header="DNI" />
-        <Column field="rol" header="Rol" />
-      </DataTable>
+      <div className='flex justify-content-center'>
+        <Card style={{ width: '80%', height: '7rem' }}>
+          <div className='flex justify-content-between align-items-center' style={{ height: '100%' }}>
+            <InputText
+              placeholder='Buscar nombre de afiliados...'
+              style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <div className='flex'>
+              <Button icon='pi pi-file-excel' className='bg-white border-white text-green-600' />
+              <Button icon='pi pi-file-pdf' className='bg-white border-white text-red-600' style={{ marginLeft: '0.5rem' }}/>
+            </div>
+          </div>
+        </Card>
+      </div>
+      <div className='flex justify-content-center'>
+        <Card style={{ width: '80%', marginTop:'15px' }}>
+          <DataTable value={filteredAfiliadores} rowClassName="my-2" dataKey="id" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
+            <Column field="nombres" header="Nombre" />
+            <Column field="apellidos" header="Apellidos" />
+            <Column field="telefono" header="Télefono" />
+            <Column field="dni" header="DNI" />
+            <Column field="rol" header="Rol" />
+          </DataTable>
+        </Card>
+      </div>
     </>
   );
 }
