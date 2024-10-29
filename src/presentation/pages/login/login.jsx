@@ -5,7 +5,7 @@ import FulLuz from '../../img/img02.png';
 import { useNavigate } from 'react-router-dom';
 import './css/Login.css';
 import { Toast } from 'primereact/toast';
-import { showToast, showToastWithErrors } from '../../../shared/showToast';
+import { showToast, showToastWithErrors } from '../../utils/showToast';
 
 export default function Login({ onLogin }) {
     const [correo, setCorreo] = useState("");   
@@ -22,7 +22,8 @@ export default function Login({ onLogin }) {
         try {
             const response = await onLogin(correo, contraseña);
             if (response?.success) {
-                navigate(response?.rutas?.[0]?.ruta);
+                navigate(response?.data?.rutas?.[0]?.ruta);
+                
             } else {
                  showToastWithErrors("error","Error al iniciar Sesión",response?.error,toastRef)
             }

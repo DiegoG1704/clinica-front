@@ -7,7 +7,6 @@ import { useClinica } from '../../../context/ClinicaContext/ClinicaContext'
 const ClinicaPage = () => {
     const {clinicas,getAllClinicas}=useClinica()
     useEffect(() => {
-        console.log("ddd")
         getAllClinicas();
     }, []);
     return (
@@ -16,7 +15,7 @@ const ClinicaPage = () => {
 
                 <header className='flex'>
                     <div className='flex-1 p-2'>
-                        <h1>Sub administradores locales</h1>
+                        <h1>Lista de Clinicas</h1>
                         <Divider />
                     </div>
                     <div className='flex justify-content-end align-items-center'>

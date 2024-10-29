@@ -1,12 +1,12 @@
 import { DataTable } from 'primereact/datatable'
 import React from 'react'
-
+import "./CustomTable.css"
 const CustomTable = ({children,data}) => {
     return (
         <>
             < DataTable
                 value={data}
-                rowClassName="my-2"
+                rowClassName="custom-row"
             >
                 {children}
             </DataTable >

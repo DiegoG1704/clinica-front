@@ -18,16 +18,7 @@ const RoutesConfig = ({ isAuthenticated, onLogin, user, setUser, Datos, handleDa
     <Routes>
       {isAuthenticated ? (
         <>
-          <Route path="/" element={<Navigate to="/Home" />} />
-          <Route path='/Home' element={<Home />} />
-          <Route path='/Afiliados' element={<Admin />} />
-          <Route path='/SubAfiliados' element={<SubAfiliados />} />
-          <Route path='/SubLocal' element={<SubLocales />} />
-          {/* <Route path='/Admin' element={<Admin />} /> */}
-          <Route path='/Promociones' element={<Promociones />} />
-          <Route path='/Configuraciones' element={<Configuraciones />} />
-          <Route path='/Clinicas' element={<ClinicaProvider><ClinicaPage /></ClinicaProvider>} />
-          <Route path='*' element={<Navigate to="/Configuraciones" />} />
+      
         </>
       ) : (
         <>

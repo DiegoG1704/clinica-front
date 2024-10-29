@@ -21,7 +21,6 @@ export const ClinicaProvider = ({ children }) => {
 
     const getAllClinicas =async () => {
         const data =await getAllClinicasUseCase.execute()
-   
         setClinicas(data)
     }
    

@@ -92,6 +92,28 @@ export default function Afiliados({ idUsuario, setIdUsuario }) {
         </div>
     );
 
+    const [promociones, setPromociones] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(''); // Estado para almacenar promociones
+
+    // Función para obtener las promociones
+    useEffect(() => {
+      const fetchPromociones = async () => {
+        try {
+          const response = await axios.get('http://localhost:4000/getPromociones');
+          setPromociones(response.data);
+        } catch (error) {
+          console.error('Error al obtener las promociones:', error);
+        }
+      };
+  
+      fetchPromociones();
+    }, []);
+
+    // Filtrar promociones según el término de búsqueda
+    const filteredPromociones = promociones.filter(promocion =>
+        promocion.area.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div className="afiliados-wrapper">
             <div className="afiliados-container">
@@ -136,6 +158,8 @@ export default function Afiliados({ idUsuario, setIdUsuario }) {
                 <InputText
                     placeholder="Buscar..."
                     className='buscer'
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <h1 className='mejoras'>Nuestras mejores ofertas</h1>
                 <CardTop />
@@ -152,7 +176,7 @@ export default function Afiliados({ idUsuario, setIdUsuario }) {
                     itemTemplate={clinicaslogo}
                 />
             </div>
-            <ClinicaCards />
+            <ClinicaCards Ancho={'400px'} Alto={'550px'} Margen={'2rem'} Promociones={filteredPromociones} Admin={false}/>
         </div>
     );
 }

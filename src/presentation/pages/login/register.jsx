@@ -6,7 +6,7 @@ import { Toast } from 'primereact/toast';
 import { useNavigate } from 'react-router-dom';
 import './css/Register.css';
 import { useAuth } from '../../context/AuthContext/AuthContext';
-import { showToast, showToastWithErrors } from '../../../shared/showToast';
+import { showToast, showToastWithErrors } from '../../utils/showToast';
 import { Calendar } from 'primereact/calendar';
 
 export default function Register({ onNext }) {

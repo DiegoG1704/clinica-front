@@ -9,7 +9,7 @@ import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast';
 import "./registerU.css";
 import { useAuth } from '../../context/AuthContext/AuthContext';
-import { showToast, showToastWithErrors } from '../../../shared/showToast';
+import { showToast, showToastWithErrors } from '../../utils/showToast';
 
 export default function Registro({ userData }) {
     const toast = useRef(null);

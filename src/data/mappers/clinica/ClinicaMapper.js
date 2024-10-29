@@ -4,16 +4,17 @@ import { Clinica } from "../../../domain/entities/Clinica";
 
 class ClinicaMapper {
     static toDomain(data) {
-      
+        let logoUrl=`${process.env.REACT_APP_API_BASE_URL}uploads/${data?.IsoTipo}`
+        
         return new Clinica(
             data?.id,
             data?.nombre,
             data?.direccion,
             data?.ruc,
             data?.ubicacion,
-            data?.telefono,
+            data?.telefonos,
             data?.ImagenTipo,
-            data?.logo
+            logoUrl
         );
     }
     static toData(clinica) {
@@ -28,7 +29,9 @@ class ClinicaMapper {
         };
     }
     static toDomainArray(dataArray) {
-        console.log("dataaa",dataArray)
+      
+        const list= dataArray.map(data => this.toDomain(data));
+        console.log("dataaa",list)
         
         return dataArray.map(data => this.toDomain(data));
     }

@@ -5,9 +5,7 @@ import 'primeicons/primeicons.css'; //icons
 import "/node_modules/primeflex/primeflex.css";
 import { Navigate, BrowserRouter as Router, Routes, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Navbar from './presentation/pages/AdminUsuario/Navar/Navar';
-import Sidebar from './presentation/pages/AdminUsuario/Navar';
-import RoutesConfig from './presentation/router/routes';
+
 import { useAuth } from './presentation/context/AuthContext/AuthContext';
 import PrivateRoutes from './presentation/router/PrivateRoutes';
 import { GuestRoutes } from './presentation/router/GuestRoutes';
