@@ -12,7 +12,7 @@ export  class Ploc {
     }
 
     // Cambia el estado y notifica a los suscriptores
-    setState(newState) {
+    changeState(newState) {
         this.state = newState;
         this.notifyListeners();
     }

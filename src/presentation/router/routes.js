@@ -8,7 +8,7 @@ import Admin from '../pages/VistaAdmin/Admin';
 import Promociones from '../pages/VistaAdmin/Promociones';
 import Configuraciones from '../pages/VistaAdmin/ConfigProfile/Configuraciones';
 import SubAfiliados from '../pages/VistaAdmin/SubAfiliados';
-import SubLocales from '../pages/VistaAdmin/SubLocales';
+import SubLocales from '../pages/VistaAdmin/SubLocales/SubLocales';
 import ClinicaPage from '../pages/VistaAdmin/Clinicas/ClinicaPage';
 import { ClinicaProvider } from '../context/ClinicaContext/ClinicaContext';
 

@@ -24,7 +24,6 @@ export default function PromocionesLocales({ IdUsuario }) {
         console.error('Error al obtener las promociones:', error);
       }
     };
-
     fetchPromociones();
   }, [user]);
 
