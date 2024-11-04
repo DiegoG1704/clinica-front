@@ -13,4 +13,12 @@ export default class AxiosAdapter  {
         const response = await this.axiosInstance.post(url, data);
         return response.data;
     }
+    async put(url, data) {
+        const response = await this.axiosInstance.put(url, data);
+        return response.data;
+    }
+    async delete(url) {
+        const response = await this.axiosInstance.delete(url);
+        return response.data;
+    }
 }

@@ -18,7 +18,7 @@ class UserMapper {
             data.estadoCivil,
             data.rol,
             data.afiliadorId,
-            data.clinicaId,
+            data.clinica_id,
             fechaNacimiento,
             data.telefono,
             data.fotoPerfil,
