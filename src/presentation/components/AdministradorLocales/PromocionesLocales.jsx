@@ -67,7 +67,7 @@ export default function PromocionesLocales({ IdUsuario }) {
         </div>
       </div>
       <InputText
-        placeholder='Buscar nombre de afiliados...'
+        placeholder='Buscar nombre de Promociones...'
         style={{ width: '50%' }}
       />
       <DataTable value={promociones} rowClassName="my-2">
