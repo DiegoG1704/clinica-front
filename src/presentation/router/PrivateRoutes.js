@@ -15,10 +15,12 @@ import PromocionesLocalesPage from '../pages/VistaAdmin/PromocionesLocales/Promo
 import { PromocionProvider } from '../context/PromocionesContext/PromocionContext';
 import PromocionesLocales from '../components/AdministradorLocales/PromocionesLocales';
 import { SubLocalProvider } from '../context/subLocalContext/subLocalContext';
+import SubAdmin from '../pages/VistaAdmin/SubLocales/SubAdmin';
 
 const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario }) => {
-    console.log("id",idUsuario)
-    return (<>
+    console.log('problem')
+    return (
+    <>
         <Navbar />
         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} onLogout={logout} idUsuario={idUsuario} />
         <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
@@ -29,23 +31,16 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario }) => {
                 <Route path='/Promociones' element={<Promociones  />} />
                 <Route path='/PromocionesLocales' element={<PromocionesLocales IdUsuario={idUsuario} />} />
                 {/* <Route path='/Configuraciones' element={<Configuraciones />} /> */}
-                
                 <Route path='/Home' element={<Home />} />
                 <Route path='/Afiliados' element={<Admin />} />
+                <Route path='/SubAdmin' element={<SubAdmin/>}/>
                 <Route path='/SubAfiliados' element={<SubAfiliados UserId={idUsuario}/>} />
-               
                 <Route path='/SubLocal' element={<SubLocalProvider><SubLocales /></SubLocalProvider> } />
-                
                 {/* <Route path='/Admin' element={<Admin />} /> */}
                 <Route path='/Promociones' element={<Promociones />} />
                 <Route path='/Configuraciones' element={<Configuraciones />} />
                 <Route path='/Clinicas' element={<ClinicaProvider><ClinicaPage /></ClinicaProvider>} />
                 {/* <Route path='/PromocionesLocales' element={<PromocionProvider><PromocionesLocalesPage /></PromocionProvider>} /> */}
-
-
-
-
-
             </Routes>
 
         </div>

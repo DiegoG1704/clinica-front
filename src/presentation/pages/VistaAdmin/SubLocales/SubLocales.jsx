@@ -23,7 +23,7 @@ export default function SubLocales() {
     }
   }, [user?.clinica_id, ploc]);
 
-  
+  console.log('user',user)
 
   return (
     <div>
