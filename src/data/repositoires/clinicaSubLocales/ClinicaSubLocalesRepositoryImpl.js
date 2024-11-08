@@ -10,6 +10,7 @@ export class ClinicaSubLocalesRepositoryImpl extends ClinicaSubLocalRepository {
     async fetchClinicas(idClinica) {
         try {
             const response = await this.adapter.get(`locales/clinica/${idClinica}`);
+            console.log("respuesta", response)
             return ClinicaSubLocalMapper.toDomainArray(response)
         } catch (error) {
             throw Error(error?.response?.data?.message)

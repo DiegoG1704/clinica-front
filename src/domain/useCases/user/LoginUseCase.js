@@ -8,7 +8,7 @@ export class LoginUseCase {
             let isValid = this.authValidator?.validateUserData({ correo, contraseña })
             if (isValid?.success) {
                 const user = await this.authRepository.login(correo, contraseña);
-                return { success: true, data: user };
+                return { success: true, data: user?.user ,token:user?.token};
             } else {
                 return { success: false, error: isValid?.errors };
             }

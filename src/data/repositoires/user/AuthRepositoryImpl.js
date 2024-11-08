@@ -10,8 +10,10 @@ export class AuthRepositoryImpl extends AuthRepository {
         try {
             const response = await this.adapter.post('/login', { correo, contraseña });
             if (response.success) {
-                console.log("success", UserMapper.toDomain(response?.usuario))
-                return UserMapper.toDomain(response?.usuario)
+              
+                let user=UserMapper.toDomain(response?.usuario)
+                let dataResponse={success:true,user:user,token:response?.token}
+                return dataResponse
             }
         } catch (error) {
             throw Error(error?.response?.data?.message)

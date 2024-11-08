@@ -6,12 +6,13 @@ import axios from 'axios';
 import { Divider } from 'primereact/divider';
 import SubLocalDialog from '../AdminGeneral/SubLocalDialog';
 import Locales from '../AdminGeneral/Locales';
+import CustomDialog from '../../components/Dialog/CustomDialog';
 
 export default function Clinicas() {
     const [clinicas, setClinicas] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [visible,setVisible] = useState(false)
-    const [visibleLocal,setVisibleLocal] = useState(false)
+    const [visible, setVisible] = useState(false)
+    const [visibleLocal, setVisibleLocal] = useState(false)
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -40,13 +41,13 @@ export default function Clinicas() {
 
     const actionsAdminLocal = (rowData) => (
         <div className='flex'>
-            <Button icon="pi pi-user" rounded severity="info" aria-label="User" style={{ color: "#fff"}} onClick={()=>setVisible(true)}/>
+            <Button icon="pi pi-user" rounded severity="info" aria-label="User" style={{ color: "#fff" }} onClick={() => setVisible(true)} />
         </div>
     );
 
     const actionsLocales = (rowData) => (
         <div className='flex'>
-            <Button icon="pi pi-building" rounded severity="secondary" aria-label="User" style={{ color: "#fff"}} onClick={()=>setVisibleLocal(true)}/>
+            <Button icon="pi pi-building" rounded severity="secondary" aria-label="User" style={{ color: "#fff" }} onClick={() => setVisibleLocal(true)} />
         </div>
     );
 
@@ -61,11 +62,10 @@ export default function Clinicas() {
                     <Divider />
                 </div>
                 <div className='flex justify-content-end align-items-center'>
-                    <Button label='Añadir Clinica' className='' style={{ backgroundColor: "#85C226", borderColor: "#85C226",width:"200px", height:"60px" }} />
+                    <Button label='Añadir Clinica' className='' style={{ backgroundColor: "#85C226", borderColor: "#85C226", width: "200px", height: "60px" }} />
                 </div>
             </div>
-            
-            <DataTable value={clinicas} rowClassName="my-2" dataKey="id">
+            < CustomDialog value={clinicas} rowClassName="my-2" dataKey="id">
                 <Column field="nombre" header="Nombre" />
                 <Column
                     header='IsoTipo'
@@ -73,17 +73,21 @@ export default function Clinicas() {
                         <img src={`http://localhost:4000/uploads/${rowData.IsoTipo}`} alt="Tipo" width="60" className='border-round-sm' />
                     )}
                 />
-                
+
                 <Column field="telefonos" header="Teléfono" />
                 <Column field="ruc" header="RUC" />
                 <Column field="ubicacion" header="Ubicación" />
                 <Column field="direccion" header="Direccion" />
-                <Column header='locales' body={actionsLocales}/>
-                <Column header='Admin-local' body={actionsAdminLocal}/>
+                <Column header='locales' body={actionsLocales} />
+                <Column header='Admin-local' body={actionsAdminLocal} />
                 <Column header='Cambios' body={actionsTemplate} />
-            </DataTable>
-            <SubLocalDialog visible={visible} onHide={()=> setVisible(false)}/>
-            <Locales visible={visibleLocal} onHide={()=>setVisibleLocal(false)}/>
+            </CustomDialog>
+
+           
+
+           
+            <SubLocalDialog visible={visible} onHide={() => setVisible(false)} />
+            <Locales visible={visibleLocal} onHide={() => setVisibleLocal(false)} />
 
         </div>
     );

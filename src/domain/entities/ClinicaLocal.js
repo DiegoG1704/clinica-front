@@ -1,4 +1,5 @@
 
+
 export class ClinicaLocal {
     constructor(id, nombre,direccion,clinica_id) {
         this.id = id;

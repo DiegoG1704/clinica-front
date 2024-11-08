@@ -1,8 +1,8 @@
 import './App.css';
-import 'primereact/resources/themes/lara-light-indigo/theme.css'; //theme
-import 'primereact/resources/primereact.min.css'; //core css
-import 'primeicons/primeicons.css'; //icons
-import "/node_modules/primeflex/primeflex.css";
+import 'primereact/resources/themes/lara-light-indigo/theme.css';  // Cambia el tema si prefieres otro
+import 'primereact/resources/primereact.min.css';                  // CSS principal de PrimeReact
+import 'primeicons/primeicons.css';                                // Iconos de PrimeReact
+import 'primeflex/primeflex.css';                                  // Utilidades de Flexbox
 import { Navigate, BrowserRouter as Router, Routes, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
