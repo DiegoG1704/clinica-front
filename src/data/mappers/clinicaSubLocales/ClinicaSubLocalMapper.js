@@ -5,9 +5,10 @@ import { ClinicaLocal } from "../../../domain/entities/ClinicaLocal";
 
 class ClinicaSubLocalMapper {
     static toDomain(data) {
+       
         
         // let logoUrl=`${process.env.REACT_APP_API_BASE_URL}uploads/${data?.IsoTipo}`
-        
+        console.log("zzz",data)
         return new ClinicaLocal (
             data?.id,
             data?.nombre,
@@ -23,6 +24,7 @@ class ClinicaSubLocalMapper {
         };
     }
     static toDomainArray(dataArray) {
+     
       
         // const list= dataArray.map(data => this.toDomain(data));
         // console.log("dataaa",list)

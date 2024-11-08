@@ -29,12 +29,13 @@ export class SubLocalPloc extends Ploc {
 
     }
     loadSubLocal(id) {
+        console.log("nettr")
         if (this.state?.clinica_id === 0) {
             this.changeState({ ...this.state, clinica_id: id })
         }
         this.changeState({ ...this.state, loading: true });
         this.getLocalUseCase.execute(this.state?.clinica_id)
-            .then(local => { this.changeState({ ...this.state, loading: false, locales: local?.data }) })
+            .then(local => { console.log("zz");this.changeState({ ...this.state, loading: false, locales: local?.data }) })
             .catch(error => this.changeState({ ...this.state, loading: false, error: "Error loading Promocion" }));
 
     }

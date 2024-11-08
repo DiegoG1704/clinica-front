@@ -6,7 +6,7 @@ class GetAllClinicaSubLocales {
     async execute(id) {
         console.log("shla")
         const subLocal = await this.subLocalRepository.fetchClinicas(id);
-        console.log("dataton",subLocal)
+        console.log("las",subLocal)
         return { success: true, data: subLocal };
     }
 }
