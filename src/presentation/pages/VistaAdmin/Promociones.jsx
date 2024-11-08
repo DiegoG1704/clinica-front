@@ -4,18 +4,19 @@ import ClinicaCards from '../AdminUsuario/Afiliados/ClinicaCards';
 import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import { Button } from 'primereact/button';
+import { useAuth } from '../../context/AuthContext/AuthContext';
 
 export default function Promociones({RolID}) {
   const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
   const [promociones, setPromociones] = useState([]); // Estado para almacenar promociones
 
   console.log('idrol',RolID)
-
+  const {user}= useAuth()
   // Función para obtener las promociones
   useEffect(() => {
     const fetchPromociones = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/getPromociones');
+        const response = await axios.get(`http://localhost:4000/getPromociones/${user?.id}`);
         setPromociones(response.data);
       } catch (error) {
         console.error('Error al obtener las promociones:', error);

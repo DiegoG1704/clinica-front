@@ -28,8 +28,8 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario }) => {
                 <Route path="/" element={<Navigate to="/Home" />} />
                 
                 <Route path='/Admin' element={<Admin />} />
-                <Route path='/Promociones' element={<Promociones  />} />
-                <Route path='/PromocionesLocales' element={<PromocionesLocales IdUsuario={idUsuario} />} />
+                <Route path='/Promociones' element={<PromocionesLocales/>} />
+                <Route path='/PromocionesLocales' element={<Promociones />} />
                 {/* <Route path='/Configuraciones' element={<Configuraciones />} /> */}
                 <Route path='/Home' element={<Home />} />
                 <Route path='/Afiliados' element={<Admin />} />

@@ -8,26 +8,49 @@ import { InputText } from 'primereact/inputtext';
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../../context/AuthContext/AuthContext';
 import CreateSubAdmin from './Components/Dialogs/CreateSubAdmin';
+import EditSubAdmin from './Components/Dialogs/EditSubAdmin';
+import DeleteSubAdmin from './Components/Dialogs/DeleteSubAdmin';
 
 export default function SubAdmin() {
   const {user} = useAuth()
-    const[subAdmin,setSubAdmin]=useState([])
-    const [create,setCreate]=useState(false)
+  const[subAdmin,setSubAdmin]=useState([])
+  const [create,setCreate]=useState(false)
+  const [edit, setEdit] = useState(false);  // Para controlar si estamos en modo edición
+  const [editData, setEditData] = useState(null);  // Para almacenar los datos del subadministrador que estamos editando
+  const [delet , setDelete] = useState(false)
+
+    const fetchSubAdmin = async () => {
+      try {
+          const response = await axios.get(`http://localhost:4000/GetSubAdministrador/${user.clinica_id}`);
+          setSubAdmin(response.data);
+      } catch (error) {
+          console.error('Error fetching subadmins:', error);
+      }
+    };
     useEffect(() => {
-        const fetchSubAdmin= async () => {
-            try {
-                const response = await axios.get(`http://localhost:4000/GetSubAdministrador/${user.clinica_id}`);
-                setSubAdmin(response.data);
-            } catch (error) {
-                console.error('Error fetching clinic data:', error);
-            }
-        };
-        fetchSubAdmin();
-      }, [user.clinica_id]);
+      fetchSubAdmin();
+  }, [user.clinica_id]);  // Asegúrate de que esta dependencia sea correcta
+
       const actionsTemplate = (rowData) => (
         <div className='flex gap-2'>
-            <Button icon="pi pi-pencil" className="bg-white border-none shadow-none" style={{ color: "#85C226" }} />
-            <Button icon="pi pi-trash" className="bg-white border-none shadow-none" style={{ color: "#85C226" }} />
+             <Button 
+                icon="pi pi-pencil" 
+                className="bg-white border-none shadow-none" 
+                style={{ color: "#85C226" }} 
+                onClick={() => {
+                    setEdit(true);      // Cambiar el estado de edición
+                    setEditData(rowData);  // Guardar los datos del subadministrador en el estado
+                }} 
+            />
+            <Button 
+              icon="pi pi-trash" 
+              className="bg-white border-none shadow-none" 
+              style={{ color: "#85C226" }} 
+              onClick={()=>{
+                setEditData(rowData);
+                setDelete(true)
+              }}
+              />
         </div>
     );
   return (
@@ -67,7 +90,23 @@ export default function SubAdmin() {
         </Card>
       </div>
       </main>
-      <CreateSubAdmin visible={create} close={()=>setCreate(false)}/>
+      <CreateSubAdmin 
+        visible={create} 
+        close={()=>setCreate(false)} 
+        actualizar={fetchSubAdmin}
+      />
+      <EditSubAdmin 
+        visible={edit} 
+        close={() => setEdit(false)}  // Cerrar el modal
+        actualizar={fetchSubAdmin}  // Función para actualizar la lista de subadministradores
+        editData={editData}
+      />
+      <DeleteSubAdmin
+        visible={delet}
+        close={()=>setDelete(false)}
+        actualizar={fetchSubAdmin}
+        Data={editData}
+      />
     </div>
   )
 }

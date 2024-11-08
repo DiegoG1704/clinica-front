@@ -18,7 +18,7 @@ export default function PromocionesLocales({ IdUsuario }) {
   useEffect(() => {
     const fetchPromociones = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/getPromociones/${user?.id}`);
+        const response = await axios.get('http://localhost:4000/getPromociones');
         setPromociones(response.data);
       } catch (error) {
         console.error('Error al obtener las promociones:', error);
@@ -85,25 +85,6 @@ export default function PromocionesLocales({ IdUsuario }) {
       </DataTable>
       <Dialog visible={agregar} onHide={() => setAgregar(false)} header='Agregar nueva Promocion' style={{ width: '800px' }}>
         <div style={{ display: 'flex' }}>
-          <div style={{ marginRight: '20px' }}>
-            <input type="file" accept="image/*" style={{ display: 'none' }} id="imageUpload" />
-            <label htmlFor="imageUpload" style={{ cursor: 'pointer' }}>
-              <div
-                style={{
-                  width: '220px',
-                  height: '220px',
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  border: '2px dashed #ccc',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center'
-                }}
-              >Ingresar imagen de promoción
-              </div>
-            </label>
-          </div>
           <div style={{ flex: 1 }}>
             <div className="field flex flex-column">
               <label>Área</label>

@@ -10,32 +10,42 @@ import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
         
 
-export default function CreateSubAdmin({ visible, close, actualizar }) {
+export default function EditSubAdmin({ visible, close, actualizar,editData }) {
   const { user } = useAuth();  
   const [subAdmin, setSubAdmin] = useState([]);
   const [formDataLocal, setFormDataLocal] = useState({
     nombres: '',
     apellidos: '',
     telefono: '',
-    fechNac: null,
+    fechNac: null,  // Asegúrate de que esto sea null y no undefined
     direccion: '',
     dni: '',
-    estado_civil: null,
-    rol_id: 5, // El rol es 5 para subadministradores
+    estado_civil: '',  // Asignar una cadena vacía en vez de null
+    rol_id: 5,
     afiliador_id: null,
     clinica_id: user.clinica_id,
     fotoPerfil: null,
-    Local_id: '', // Aquí almacenaremos el ID del local seleccionado
+    Local_id: '',
     codigo: null,
     correo: '',
     contraseña: '',
     confirmPassword: ''
   });
+  
   const [showPassword, setShowPassword] = useState(false);
   const [dniError, setDniError] = useState('');
   const [loading, setLoading] = useState(false);
   const toast = React.useRef(null);
 
+  useEffect(() => {
+    if (editData) {
+      setFormDataLocal({
+        ...formDataLocal,
+        ...editData, // Asegúrate de que editData no tenga valores undefined
+      });
+    }
+  }, [editData]);
+  
   // Manejo de cambios en los campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -111,7 +121,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
 
   // Validación de contraseñas
   const validatePasswords = () => {
-    if (formDataLocal.contraseña !== formDataLocal.confirmPassword) {
+    if (formDataLocal.contraseña && formDataLocal.contraseña !== formDataLocal.confirmPassword) {
       toast.current.show({
         severity: 'warn',
         summary: 'Advertencia',
@@ -122,19 +132,15 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
     }
     return true;
   };
-
+  
   // Validación del correo electrónico
   const validateEmail = () => {
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailPattern.test(formDataLocal.correo);
   };
 
-  // Manejo del envío del formulario
   const handleSubmit = async () => {
-    if (!validatePasswords()) {
-      return; // No continuar si las contraseñas no coinciden
-    }
-
+    if (!validatePasswords()) return;
     if (!validateEmail()) {
       toast.current.show({
         severity: 'warn',
@@ -144,27 +150,26 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
       });
       return;
     }
-
+  
     try {
       setLoading(true);
-      const response = await axios.post(
-        'http://localhost:4000/CreateUsuario',
+      const response = await axios.put(
+        `http://localhost:4000/user/edit/${editData.id}`,
         formDataLocal
       );
-      console.log(response)
+  
       toast.current.show({
         severity: 'success',
         summary: 'Éxito',
-        detail: 'Usuario creado exitosamente',
+        detail: 'Usuario actualizado exitosamente',
         life: 3000
       });
-
-      // Limpiar el formulario
+  
       setFormDataLocal({
         nombres: '',
         apellidos: '',
         telefono: '',
-        fechNac: '',
+        fechNac: null,
         direccion: '',
         dni: '',
         estado_civil: null,
@@ -178,20 +183,22 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
         contraseña: '',
         confirmPassword: ''
       });
+  
       actualizar();
-      close(); // Cerrar el formulario
+      close(); // Cerrar modal
     } catch (error) {
       toast.current.show({
         severity: 'error',
         summary: 'Error',
-        detail: 'Hubo un problema al crear el usuario.',
+        detail: 'Hubo un problema al actualizar el usuario.',
         life: 3000
       });
     } finally {
       setLoading(false);
     }
   };
-
+  
+  
   // Mostrar u ocultar la contraseña
   const togglePassword = () => {
     setShowPassword(!showPassword);
@@ -266,7 +273,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
         <Calendar
           id="fechNac"
           name="fechNac"
-          value={formDataLocal.fechNac}
+          value={formDataLocal.fechNac || null}
           onChange={handleChange}
           showIcon
           dateFormat="dd/mm/yy" // O puedes poner el formato que desees
@@ -344,14 +351,14 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
               <Dropdown
                 id="Local_id"
                 name="Local_id"
-                value={formDataLocal.Local_id}
+                value={formDataLocal.Local_id || ''}
                 onChange={handleLocalChange}
                 options={subAdmin.map((local) => ({
-                  label: local.nombre,  // Muestra el nombre
-                  value: local.id // Solo envía el ID
+                    label: local.nombre,  // Nombre del local
+                    value: local.id // ID del local
                 }))}
                 placeholder="Seleccionar Local"
-              />
+                />
             </div>
             <div className="dialog-footer flex justify-content-end" style={{marginTop:'5px'}}>
               <Button label="Guardar" icon="pi pi-save" onClick={handleSubmit} disabled={loading} />
