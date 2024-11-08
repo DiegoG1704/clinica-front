@@ -45,8 +45,12 @@ export const AuthProvider = ({ children }) => {
         try {
             const loggedInUser = await loginUseCase.execute({ correo, contraseña });
             if (loggedInUser.success) {
+                console.log("data",loggedInUser)
                 setUser(loggedInUser?.data);
                 localStorage.setItem('user', JSON.stringify(loggedInUser?.data));
+                localStorage.setItem('token', (loggedInUser?.token));
+           
+
                 setIsAuthenticated(true); 
             }
             return loggedInUser
@@ -57,10 +61,11 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         setUser(null);
+        localStorage.removeItem('token');
         localStorage.removeItem('user');
     };
     const autenticate = () => {
-        const storedUser = JSON.parse(localStorage.getItem('user'));
+        const storedUser =(localStorage.getItem('token'));
         
         // Verifica si storedUser existe y no es nulo
         return storedUser !== null; // Devuelve true si hay un usuario almacenado, false de lo contrario

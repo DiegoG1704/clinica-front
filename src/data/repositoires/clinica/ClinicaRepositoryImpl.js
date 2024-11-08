@@ -15,5 +15,13 @@ export class ClinicaRepositoryImpl extends ClinicaRepository {
             throw Error(error?.response?.data?.message)
         }
     }
+    async createClinica() {
+        try {
+            const response = await this.adapter.post('/CreateClinica');
+            console.log("res",response)
+        } catch (error) {
+            throw Error(error?.response?.data?.message)
+        }
+    }
 
 }

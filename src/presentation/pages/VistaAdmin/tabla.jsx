@@ -4,14 +4,15 @@ import { Card } from 'primereact/card';
 import { Chart } from 'primereact/chart';
 import { Divider } from 'primereact/divider';
 import React, { useEffect, useState } from 'react';
+import { apiAdapter } from '../../../core/adapters/apiAdapter';
 
 export default function Home() { 
   const [logistica, setLogistica] = useState(null);
     useEffect(() => {
       const fetchLogistica = async () => {
           try {
-              const response = await axios.get('http://localhost:4000/Logistica');
-              setLogistica(response.data); // Asegúrate de que este acceso sea correcto
+              const response = await apiAdapter.get('Logistica');
+              setLogistica(response); // Asegúrate de que este acceso sea correcto
           } catch (error) {
               console.error('Error fetching clinic data:', error);
           }

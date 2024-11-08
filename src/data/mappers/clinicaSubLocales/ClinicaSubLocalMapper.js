@@ -5,6 +5,7 @@ import { ClinicaLocal } from "../../../domain/entities/ClinicaLocal";
 
 class ClinicaSubLocalMapper {
     static toDomain(data) {
+        
         // let logoUrl=`${process.env.REACT_APP_API_BASE_URL}uploads/${data?.IsoTipo}`
         
         return new ClinicaLocal (

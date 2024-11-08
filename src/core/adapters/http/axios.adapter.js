@@ -1,24 +1,37 @@
 import axios from 'axios';
 
-export default class AxiosAdapter  {
-    constructor({ baseUrl, params }) {
+export default class AxiosAdapter {
+    constructor({ baseUrl, params, getToken }) {
         this.axiosInstance = axios.create({ baseURL: baseUrl, params });
+        this.axiosInstance.interceptors.request.use(
+            (config) => {
+                const token = getToken?.();
+                if (token) {
+                    config.headers.Authorization = `Bearer ${token}`;
+                }
+                return config;
+            },
+            (error) => Promise.reject(error)
+        );
+    }
+    async request(method, url, data = null) {
+        const response = await this.axiosInstance({ method, url, data });
+        return response.data;
     }
 
-    async get(url) {
-        const response = await this.axiosInstance.get(url);
-        return response.data;
+    get(url) {
+        return this.request('get', url);
     }
-    async post(url, data) {
-        const response = await this.axiosInstance.post(url, data);
-        return response.data;
+
+    post(url, data) {
+        return this.request('post', url, data);
     }
-    async put(url, data) {
-        const response = await this.axiosInstance.put(url, data);
-        return response.data;
+
+    put(url, data) {
+        return this.request('put', url, data);
     }
-    async delete(url) {
-        const response = await this.axiosInstance.delete(url);
-        return response.data;
+
+    delete(url) {
+        return this.request('delete', url);
     }
 }
