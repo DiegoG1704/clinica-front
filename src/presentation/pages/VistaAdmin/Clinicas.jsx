@@ -7,6 +7,7 @@ import { Divider } from 'primereact/divider';
 import SubLocalDialog from '../AdminGeneral/SubLocalDialog';
 import Locales from '../AdminGeneral/Locales';
 import CustomDialog from '../../components/Dialog/CustomDialog';
+import { apiAdapter } from '../../../core/adapters/apiAdapter';
 
 export default function Clinicas() {
     const [clinicas, setClinicas] = useState([]);
@@ -19,8 +20,8 @@ export default function Clinicas() {
         const fetchClinicas = async () => {
             setLoading(true); // Asegúrate de iniciar el loading aquí
             try {
-                const response = await axios.get('http://localhost:4000/listaClinicas');
-                setClinicas(response.data); // Asegúrate de que este acceso sea correcto
+                const response = await apiAdapter.get('listaClinicas');
+                setClinicas(response); // Asegúrate de que este acceso sea correcto
             } catch (error) {
                 console.error('Error fetching clinic data:', error);
                 setError('Failed to load clinics.');

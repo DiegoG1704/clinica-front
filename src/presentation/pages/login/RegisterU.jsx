@@ -22,6 +22,7 @@ export default function Registro({ userData }) {
     const [civilStatus, setCivilStatus] = useState(null);
     const [checked, setChecked] = useState(false);
     const [visible, setVisible] = useState(false);
+    const [showPromoterCode, setShowPromoterCode] = useState(false);
     const navigate = useNavigate();
     const { RegisterUser } = useAuth()
 
@@ -179,16 +180,21 @@ export default function Registro({ userData }) {
                         />
                     </div>
                 </div>
-                {/* <div>
-                    <div>
-                        <span>Usa 8 caracteres o más</span>
-                        <span>Usa números (e.g. 1234)</span>
+                <span onClick={() => setShowPromoterCode(!showPromoterCode)}>
+                    ¿Tiene Codigo de algún Promotor?
+                </span>
+                {showPromoterCode && (
+                    <div className="input-group">
+                        <label htmlFor="codigoPromotor">Código de Promotor</label>
+                        <InputText
+                            id="codigoPromotor"
+                            value={telefono} // Puedes cambiar esto por el estado adecuado
+                            onChange={(e) => setTelefono(e.target.value)} // Puedes usar otro estado para el código del promotor si lo prefieres
+                            placeholder="Ingresa Codigo de Promotor..."
+                        />
                     </div>
-                    <div>
-                        <span>Usa caracteres especiales (e.g. Aa)</span>
-                        <span>Usa símbolos (e.g. !@#$)</span>
-                    </div>
-                </div> */}
+                )}
+
 
                 {/* Checkbox para aceptar términos */}
                 <div className="checkbox-custom">

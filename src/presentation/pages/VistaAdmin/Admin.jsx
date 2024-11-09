@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { InputText } from 'primereact/inputtext';
 import { Card } from 'primereact/card';
+import { apiAdapter } from '../../../core/adapters/apiAdapter';
 
 export default function Admin() {
   const [afiliadores, setAfiliadores] = useState([]);
@@ -17,8 +18,8 @@ export default function Admin() {
     const fetchClinicas = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:4000/afiliadores-afiliados');
-        setAfiliadores(response.data);
+        const response = await apiAdapter.get('afiliadores-afiliados');
+        setAfiliadores(response);
       } catch (error) {
         console.error('Error fetching clinic data:', error);
         setError('Failed to load clinics.');
