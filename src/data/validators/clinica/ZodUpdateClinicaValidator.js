@@ -1,11 +1,13 @@
 import { z } from "zod"
 
-import CreateCLinicaValidator from "../../../domain/validators/clinicas/CreateClinicaValidatos";
-export default class ZodCreateClinicalValidator extends CreateCLinicaValidator {
+
+export default class ZodUpdateClinicalValidator {
     constructor() {
-        super();
+        
         // Esquema de Zod para validar todos los datos del usuario
         this.subLocalSchema = z.object({
+            id: z.number()
+                .refine((value) => value !== 0, { message: 'El id de la clinica no puede estar vacio' }),
             nombre: z.string()
                 .refine((value) => value.trim().length > 0, { message: 'El nombre no puede estar vacío' }),
             direccion: z.string()
@@ -15,13 +17,11 @@ export default class ZodCreateClinicalValidator extends CreateCLinicaValidator {
             ubicacion: z.string()
                 .refine((value) => value.trim().length > 0, { message: 'La ubicación no puede estar vacía' })
             ,
-            telefono: z.string()
+            telefono: z.number()
                 .min(9, { message: 'Ingresar telefono valido' })
-                
+
         });
-
     }
-
     // Método que valida todos los datos del usuario
     validateClinicaData(data) {
         console.log("data", data)

@@ -5,29 +5,36 @@ import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
 import DialogUser from './DialogUser'
 import DialogEditarClinica from './DialogEditar'
+import { useClinica } from '../../../../context/ClinicaContext/ClinicaContext'
+import { ConfirmDialog } from 'primereact/confirmdialog'
 
 const ClinicasList = ({ data }) => {
     const [subAdmin, setSubAdmin] = useState(false)
-    const [editar,setEditar] = useState(false)
+
     const [selectedClinicId, setSelectedClinicId] = useState(null) // Estado para el ID de la clínica seleccionada
-    console.log('data',data)
+    const { handleClickEditClinica, editar, setEditar,
+        visibleDelete, setVisibleDelete,
+        handleClickDeleteClinica, handleDeleteClinica } = useClinica()
+
     const LogoRowTemplate = (rowData) => {
         return (<img src={rowData.logo} alt={rowData.nombre} width="60" className='border-round-sm' />)
     }
 
     const actionsTemplate = (rowData) => (
         <div className='flex gap-2'>
-            <Button icon="pi pi-pencil" 
-                className="bg-white border-none shadow-none" 
-                style={{ color: "#85C226" }} 
+            <Button icon="pi pi-pencil"
+                className="bg-white border-none shadow-none"
+                style={{ color: "#85C226" }}
                 onClick={() => {
-                    setSelectedClinicId(rowData.id); // Asignar el id de la clínica seleccionada
+                    handleClickEditClinica(rowData)
                     setEditar(true) // Abrir el diálogo para editar
                 }} />
-            <Button icon="pi pi-trash" className="bg-white border-none shadow-none" style={{ color: "#85C226" }} />
+            <Button icon="pi pi-trash" className="bg-white border-none shadow-none" style={{ color: "#85C226" }} onClick={() => {
+                handleClickDeleteClinica(rowData)
+                
+            }} /> 
         </div>
     );
-
     const UserTemplate = (rowData) => (
         <div className='flex gap-2'>
             <Button
@@ -41,6 +48,9 @@ const ClinicasList = ({ data }) => {
             />
         </div>
     );
+    const closeEditar = () => {
+        setEditar(false)
+    }
 
     return (
         <div>
@@ -65,8 +75,16 @@ const ClinicasList = ({ data }) => {
             />
             <DialogEditarClinica
                 visible={editar}
-                onhide={()=>setEditar(false)}
+                onhiden={closeEditar}
                 idClinica={selectedClinicId}
+            />
+            <ConfirmDialog
+                visible={visibleDelete}
+                header="Confirmación de Eliminación"
+                message={"¿Estás seguro de eliminar la clínica?"}
+                acceptLabel='Sí'
+                onHide={() => { setVisibleDelete(false) }}
+                accept={handleDeleteClinica}
             />
 
         </div>

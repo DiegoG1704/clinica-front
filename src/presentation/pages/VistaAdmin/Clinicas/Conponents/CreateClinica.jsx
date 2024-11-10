@@ -13,17 +13,30 @@ import { Toast } from 'primereact/toast';
 import { showToast, showToastWithErrors } from '../../../../utils/showToast';
 
 export default function CreateClinica({ Next, onNext }) {
-  const { currentStep, setCurrentStep, goNext, goBack, stepperRef, totalSteps, handleNextPanel } = useClinica()
+  const { currentStep,
+    goBack, stepperRef, totalSteps
+    , handleNextPanel, visibleDialogCreate, hideDialogCreate } = useClinica()
 
   const toast = useRef(null); // Para notificaciones
 
-  const handleNext = () => {
-    const responseValidate = handleNextPanel()
-    console.log("response-error", responseValidate)
+  const handleNext = async () => {
+    const responseValidate = await handleNextPanel();
+    console.log("response-error", responseValidate);
+  
     if (responseValidate?.success === false) {
-      showToastWithErrors("error", "Error al registrar", responseValidate?.error, toast)
+      showToastWithErrors("error", "Error al registrar", responseValidate?.error, toast);
+    } else {
+      if (responseValidate?.create === true) {
+        console.log("Entro al toast", responseValidate?.create);
+        toast.current?.show({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Se ha creado la clínica correctamente',
+          life: 3000
+        });
+      }
     }
-  }
+  };
   const footerTemplate = () => {
     return (
 
@@ -43,7 +56,7 @@ export default function CreateClinica({ Next, onNext }) {
 
 
   return (
-    <CustomDialog visible={true} title={"Crear Clínica"} iconClassName={"pi pi-building"} footer={footerTemplate} width='700px' className="overflow-y-hidden">
+    <CustomDialog visible={visibleDialogCreate} title={"Crear Clínica"} iconClassName={"pi pi-building"} footer={footerTemplate} onhide={hideDialogCreate} width='700px' className="overflow-y-hidden" >
       <div className="card flex justify-content-center  ">
         <Toast ref={toast} />
         <Stepper style={{ flexBasis: '50rem' }} ref={stepperRef} className="" linear>

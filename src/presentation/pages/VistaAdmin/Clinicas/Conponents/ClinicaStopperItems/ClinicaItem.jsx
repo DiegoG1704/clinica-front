@@ -85,6 +85,7 @@ const ClinicaItem = ({ Next }) => {
                             placeholder="Ingresar télefono"
                             onChange={(e)=>{e.target.name="telefono";handleChangeClinica(e)}}
                              className="w-full" containerClass="w-full"
+                             maxLength={9}
                            
                         />
 

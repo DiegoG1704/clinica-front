@@ -12,7 +12,8 @@ import CreateUsuario from './Conponents/CreateUsuario'
 import CustomDialog from '../../../components/Dialog/CustomDialog'
 
 const ClinicaPage = () => {
-    const { clinicas, getAllClinicas } = useClinica();
+    const { clinicas, getAllClinicas,
+      showDialogCreate } = useClinica();
     useEffect(() => {
       getAllClinicas();
     }, []);
@@ -44,7 +45,7 @@ const ClinicaPage = () => {
                 label="Añadir clínica"
                 style={{ backgroundColor: "#85C226", borderColor: "#85C226", height: "60px", borderRadius: "6px" }}
                 icon="pi pi-plus"
-                onClick={() => setVisible(true)}
+                onClick={showDialogCreate}
               />
             </div>
           </header>

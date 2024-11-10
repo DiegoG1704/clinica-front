@@ -13,6 +13,7 @@ export default class ZodGeneralDataValidatorImpl extends GeneralDataValidator {
       estadoCivil: z.string().min(1,{message:"Seleccionar estado civil"}),
       fechNac: z.date({ message: 'Ingresar la fecha de nacimiento y debe ser válida' }),
       direccion: z.string().min(1,{message:"Ingresar dirección de domicilio"}),
+      telefono: z.string().min(9, { message: "El teléfono debe tener al menos 9 dígitos" }).max(9, { message: "El teléfono no puede tener más de 9 dígitos" })
     });
   }
   // Método que valida todos los datos del usuario

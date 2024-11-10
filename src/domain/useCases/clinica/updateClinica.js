@@ -1,4 +1,4 @@
-class CreateClinica {
+class UpdateClinica {
     constructor(clinicaRepository, clinicaValidator) {
         this.clinicaRepository = clinicaRepository;
         this.clinicaValidator = clinicaValidator;
@@ -8,15 +8,15 @@ class CreateClinica {
         let isValid = this.clinicaValidator.validateClinicaData(data);
         console.log("vlaida",isValid)
         if (isValid?.success) {
-            const response = await this.clinicaRepository.createClinica(data);
+            const response = await this.clinicaRepository.updateClinica(data);
             console.log("use-case",response)
-            dataResponse = { success: response?.success, data: response?.data, error: [response?.error],create:true }
+            dataResponse = { success: response?.success, data: response?.data, error: [response?.error],update:true }
         } else {
             console.log("res",isValid)
-            dataResponse = { ...dataResponse, success: false, error: isValid?.error }
+            dataResponse = { ...dataResponse, success: false, error: isValid?.errors }
         }
         return dataResponse
     }
 }
 
-export default CreateClinica
+export default UpdateClinica

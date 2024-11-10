@@ -36,7 +36,7 @@ export default function CreateAdmin({ Next, Prev, idClinica, onNext, formData })
             onChange={(e)=>{e.target.name="dni";handleChangeUserAdmin(e)}}
             className={"w-full"}
             containerClass={"w-full"}
-
+          
           />
           <Button
             className="validate-button"
@@ -54,7 +54,7 @@ export default function CreateAdmin({ Next, Prev, idClinica, onNext, formData })
           <InputText
             value={clinicaAdministrador?.nombres}
             name="nombres"
-            placeholder="Ingresa el DNI"
+            placeholder="Ingresa nombres"
             onChange={handleChangeUserAdmin}
 
           />
@@ -69,8 +69,8 @@ export default function CreateAdmin({ Next, Prev, idClinica, onNext, formData })
             name="apellidos"
             onChange={handleChangeUserAdmin}
 
-            placeholder="Ingresa el DNI"
-            maxLength={8}
+            placeholder="Ingresa apellidos"
+            
           />
         </div>
 
@@ -90,10 +90,6 @@ export default function CreateAdmin({ Next, Prev, idClinica, onNext, formData })
 
       </div>
 
-
-
-
-
       {/* Dirección */}
       <div className="input-group">
         <label htmlFor="dni">Dirección</label>
@@ -103,6 +99,21 @@ export default function CreateAdmin({ Next, Prev, idClinica, onNext, formData })
             name="direccion"
             value={clinicaAdministrador?.direccion}
             placeholder="Ingresa dirección"
+
+          />
+        </div>
+
+      </div>
+      {/* Dirección */}
+      <div className="input-group">
+        <label htmlFor="dni">Télefono</label>
+        <div className="input-button-group">
+          <InputText
+            onChange={handleChangeUserAdmin}
+            name="telefono"
+            value={clinicaAdministrador?.telefono}
+            placeholder="Ingresa dirección"
+            maxLength={9}
 
           />
         </div>
