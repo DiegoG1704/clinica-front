@@ -1,7 +1,7 @@
 import { InputText } from 'primereact/inputtext';
 
 
-const InputInteger = ({ style, className, name, value, onChange, keyfilter, autoComplete, maxLength, minLength, valueError, placeholder, containerClass }) => {
+const InputInteger = ({ style, className, name, value, onChange, keyfilter, autoComplete, maxLength=11, minLength, valueError, placeholder, containerClass }) => {
     const validateValue = (value) => {
         const regex = /^[1-9]\d*$|^0$|^$/; // Permite enteros positivos, "0", o una cadena vacía
         return regex.test(value);
@@ -42,7 +42,7 @@ const InputInteger = ({ style, className, name, value, onChange, keyfilter, auto
                 onChange={handleChange}
                 keyfilter="int"
                 autoComplete={autoComplete}
-                maxLength={11}
+                maxLength={maxLength}
                 className={`${className}`}
                 minLength={minLength}
             />

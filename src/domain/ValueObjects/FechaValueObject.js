@@ -28,6 +28,7 @@ export default // core/utils/FechaValueObject.js
         const anio = this.fecha.getFullYear();             // Año en formato numérico
         const mes = String(this.fecha.getMonth() + 1).padStart(2, '0');  // Mes (ajustado y con dos dígitos)
         const dia = String(this.fecha.getDate()).padStart(2, '0');       // Día con dos dígitos
+        console.log("data-fecha", `${anio}-${mes}-${dia}`)
         return `${anio}-${mes}-${dia}`; // Formato "YYYY-MM-DD"
     }
 

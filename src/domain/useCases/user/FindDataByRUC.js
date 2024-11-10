@@ -9,7 +9,8 @@ export default class FindDataByRUC{
             let isValid = this.Validator.validateRucData(ruc);
             if (isValid?.success) {
                 const response = await this.Repository.consultarPorRUC(ruc);
-                return { success: true, data: response?.data ,error:[response?.error]};
+                console.log("response-ruc",response)
+                return { success: response?.success, data: response?.data ,error:[response?.error]};
             } else {
                 console.log("er",isValid);
                 return { success: false, error: isValid?.errors };

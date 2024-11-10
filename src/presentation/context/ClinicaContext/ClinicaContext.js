@@ -19,6 +19,9 @@ import ZodUserAdminValidator from '../../../data/validators/user/ZodUserAdminVal
 import ZodUserValidator from '../../../data/validators/user/ZodUserValidator';
 import CreateUser from '../../../domain/useCases/user/CreateUser';
 import UserRepositoryImpl from '../../../data/repositoires/user/UserRepositoryImpl';
+import UpdateClinica from '../../../domain/useCases/clinica/updateClinica';
+import ZodUpdateClinicalValidator from '../../../data/validators/clinica/ZodUpdateClinicaValidator';
+import DeleteClinica from '../../../domain/useCases/clinica/deleteClinica';
 
 
 // Crear el contexto
@@ -30,15 +33,19 @@ export const useClinica = () => useContext(ClinicaContext);
 // Proveedor del contexto
 export const ClinicaProvider = ({ children }) => {
     const [clinicas, setClinicas] = useState([])
-
+    const [visibleDialogCreate, setVisibleDialogCreate] = useState(false)
+    const [editar, setEditar] = useState(false)
     const [clinica, setClinica] = useState({
+        id: 0,
         nombre: "",
+
         direccion: "",
         ruc: "",
         ubicacion: "",
         telefono: "",
     })
     const [clinicaAdministrador, setClinicaAdministrador] = useState({
+
 
         nombres: "",
         apellidos: "",
@@ -52,6 +59,7 @@ export const ClinicaProvider = ({ children }) => {
         afiliadorId: null,
         clinicaId: null,
         confirmarContraseña: "",
+        telefono: "",
 
     })
     const DocumentValidator = new ZodRucValidator()
@@ -75,9 +83,23 @@ export const ClinicaProvider = ({ children }) => {
     const userAdminValidator = new ZodUserAdminValidator()
     const verifyUserData = new VerifyUserData(userAdminValidator)
     // CreateUser
-    const userRepository = new UserRepositoryImpl()
-    const userValidatorUseCase = new ZodUserValidator()
-    const createUserUseCase = new CreateUser(userRepository, userValidatorUseCase)
+    const userRepository = new UserRepositoryImpl(apiAdapter)
+
+    // const createUserUseCase = new CreateUser(userRepository, userAdminValidator)
+    //update CLinica
+    const updateValidator = new ZodUpdateClinicalValidator()
+    const updateClinicaUseCase = new UpdateClinica(ClinicaRepository, updateValidator)
+    const deleteClinica = new DeleteClinica(ClinicaRepository)
+
+    //Delete CLinica
+    const [visibleDelete, setVisibleDelete] = useState(false)
+    const handleClickDeleteClinica=(rowData)=>{
+        
+        setClinica(rowData)
+        setVisibleDelete(true)
+
+    }
+
 
 
     //Function GetAllClinicas
@@ -97,21 +119,20 @@ export const ClinicaProvider = ({ children }) => {
 
     const findDataByRuc = async () => {
         const response = await FindDataByDocUseCase.execute(clinica?.ruc)
+        console.log("")
         if (response?.success) {
             setClinica({ ...clinica, nombre: response?.data?.nombres, direccion: response?.data?.direccion })
         }
     }
-    const createClinica =async () => {
-        const response = await createClinicaUseCase.execute(clinica)
-        console.log("dta", response)
+    const createClinica = async () => {
+        const response = await createClinicaUseCase.execute({ ...clinica, clinicaAdministrador })
+        console.log("response", response)
+        if (response?.success) {
+            // setClinica({ ...clinica, id: response?.data })
+        }
+
         return response
     }
-    const createUser = async() => {
-        const response = await createUserUseCase.execute(clinicaAdministrador)
-        return response
-
-    }
-
     const validateClininicaData = () => {
 
         let response = validateClinicaDataUseCase.execute(clinica)
@@ -143,31 +164,57 @@ export const ClinicaProvider = ({ children }) => {
         }
     };
     const stepperRef = useRef(null);
-
-    const handleNextPanel = () => {
-        const isValid = currentStep === 0 ? validateClininicaData() :
-            currentStep === 1 ? validateAdminData() :
-                validateUserData(); // Último paso
-
-        if (isValid?.success && currentStep < 2) { // Solo avanza si no es el último paso
-            goNext();
+    const handleNextPanel = async () => {
+        let isValid;
+        if (currentStep === 0) {
+            isValid = validateClininicaData();
+        } else if (currentStep === 1) {
+            isValid = validateAdminData();
+        } else {
+            isValid = validateUserData(); // Último paso
         }
-        console.log("esta", isValid)
+        console.log("cur", isValid)
+        if (isValid?.success && currentStep < 3) { // Solo avanza si no es el último paso
+
+            if (currentStep === 2) {
+                // Llamamos a createClinicaWithAdmin después de la validación de usuario
+                const result = await createClinicaWithAdmin();
+                console.log("holaaasaasas", result)
+                if (result?.success) {
+                    // Si la creación de la clínica y el usuario fue exitosa, avanzar al siguiente paso
+                    hideDialogCreate()
+                    cleanData()
+                    await getAllClinicas()
+
+                }
+                return result
+            } else {
+                goNext();
+            }
+        }
+
         return isValid;
     };
 
     const createClinicaWithAdmin = async () => {
-        const dataClinica = await createClinica()
-        if(dataClinica?.success){
-            setClinicaAdministrador({...clinicaAdministrador,clinicaId:dataClinica?.data?.id})
-            const dataUsuario = await createUser()
-            return dataUsuario
-        }else{
-            return dataClinica
+        const dataClinica = await createClinica();
+        return dataClinica
+    };
+    const updateClinica = async () => {
+        const dataResponse = await updateClinicaUseCase.execute(clinica)
+        if (dataResponse?.success == true) {
+            setEditar(false)
+            cleanDataClinica()
+            await getAllClinicas()
         }
-        
+        return dataResponse
 
     }
+    const handleClickEditClinica = (rowData) => {
+        console.log("data", rowData)
+        setClinica(rowData)
+    }
+
 
 
     const validateAdminData = () => {
@@ -179,7 +226,50 @@ export const ClinicaProvider = ({ children }) => {
         const response = verifyUserData.execute(clinicaAdministrador)
         return response
     }
+    const hideDialogCreate = () => {
+        setVisibleDialogCreate(false)
+    }
+    const showDialogCreate = () => {
+        setVisibleDialogCreate(true)
+    }
+    const cleanDataAdministrador = () => {
+        setClinicaAdministrador({
+            nombres: "",
+            apellidos: "",
+            dni: "",
+            estadoCivil: "",
+            fechNac: "",
+            direccion: "",
+            correo: "",
+            contraseña: "",
+            rol_id: 2,
+            afiliadorId: null,
+            clinicaId: null,
+            confirmarContraseña: "",
+            telefono: "",
+        })
+    }
+    const cleanDataClinica = () => {
+        setClinica({
+            id: 0,
+            nombre: "",
+            direccion: "",
+            ruc: "",
+            ubicacion: "",
+            telefono: "",
+        })
+    }
+    const cleanData = () => {
+        cleanDataAdministrador()
+        cleanDataClinica()
+        setCurrentStep(0)
+    }
+    const handleDeleteClinica = () => {
+        
+        const response = deleteClinica.execute(clinica?.id)
 
+        return response
+    }
 
 
     return (
@@ -195,7 +285,15 @@ export const ClinicaProvider = ({ children }) => {
             totalSteps, currentStep,
             handleNextPanel, findDataByDni,
             validateAdminData,
-            validateUserData
+            validateUserData,
+            visibleDialogCreate,
+            setVisibleDialogCreate, hideDialogCreate,
+            showDialogCreate,
+            handleClickEditClinica,
+            updateClinica,
+            editar, setEditar,
+            visibleDelete, setVisibleDelete,
+            handleClickDeleteClinica,handleDeleteClinica
 
         }}>
             {children}

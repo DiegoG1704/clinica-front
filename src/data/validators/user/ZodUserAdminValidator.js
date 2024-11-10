@@ -17,7 +17,7 @@ export default class ZodUserAdminValidator extends UserValidator {
             afiliadorId: z.number().int().optional().nullable(),
             clinicaId: z.number().int().optional().nullable(),
             fechNac: z.date({ message: 'La fecha de nacimiento debe ser válida' }),
-            telefono: z.string().optional(),
+            telefono: z.string().min(9, { message: "El teléfono debe tener al menos 9 dígitos" }).max(12, { message: "El teléfono no puede tener más de 12 dígitos" }),
             direccion: z.string().optional(),
             rutas: z.array(z.string()).optional(),
             confirmarContraseña: z.string().min(8, { message: 'Ingresar contraseña de confirmación' }),
@@ -29,7 +29,7 @@ export default class ZodUserAdminValidator extends UserValidator {
 
     // Método que valida todos los datos del usuario
     validateUserData(data) {
-        console.log("data", data)
+        console.log("data-validar", data)
         try {
             let resultvalidate = this.userSchema.parse(data);
             if (resultvalidate) {
