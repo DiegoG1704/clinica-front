@@ -10,6 +10,7 @@ import { useAuth } from '../../../context/AuthContext/AuthContext';
 import CreateSubAdmin from './Components/Dialogs/CreateSubAdmin';
 import EditSubAdmin from './Components/Dialogs/EditSubAdmin';
 import DeleteSubAdmin from './Components/Dialogs/DeleteSubAdmin';
+import { apiAdapter } from '../../../../core/adapters/apiAdapter';
 
 export default function SubAdmin() {
   const {user} = useAuth()
@@ -21,8 +22,8 @@ export default function SubAdmin() {
 
     const fetchSubAdmin = async () => {
       try {
-          const response = await axios.get(`http://localhost:4000/GetSubAdministrador/${user.clinica_id}`);
-          setSubAdmin(response.data);
+          const response = await apiAdapter.get(`GetSubAdministrador/${user.clinica_id}`);
+          setSubAdmin(response);
       } catch (error) {
           console.error('Error fetching subadmins:', error);
       }

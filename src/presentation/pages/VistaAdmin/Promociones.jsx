@@ -2,22 +2,21 @@ import { Divider } from 'primereact/divider';
 import React, { useEffect, useState } from 'react';
 import ClinicaCards from '../AdminUsuario/Afiliados/ClinicaCards';
 import { InputText } from 'primereact/inputtext';
-import axios from 'axios';
 import { Button } from 'primereact/button';
 import { useAuth } from '../../context/AuthContext/AuthContext';
+import { apiAdapter } from '../../../core/adapters/apiAdapter';
 
-export default function Promociones({RolID}) {
+export default function Promociones() {
   const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
   const [promociones, setPromociones] = useState([]); // Estado para almacenar promociones
-
-  console.log('idrol',RolID)
   const {user}= useAuth()
+  console.log('user',user)
   // Función para obtener las promociones
   useEffect(() => {
     const fetchPromociones = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/getPromociones/${user?.id}`);
-        setPromociones(response.data);
+        const response = await apiAdapter.get(`getPromociones/${user?.clinica_id}`);
+        setPromociones(response);
       } catch (error) {
         console.error('Error al obtener las promociones:', error);
       }
@@ -39,7 +38,7 @@ export default function Promociones({RolID}) {
           <Divider />
         </div>
         <div className='flex justify-content-end align-items-center'>
-          {RolID === 4 && (
+          {user?.rolId === 'afiliado' && (
               <Button 
                 label='Cambiar de Plan' 
                 className='' 

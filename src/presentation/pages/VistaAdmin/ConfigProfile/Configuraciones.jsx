@@ -9,6 +9,7 @@ import { useAuth } from '../../../context/AuthContext/AuthContext';
 import { FileUpload } from 'primereact/fileupload';
 import { useState } from 'react';  // Asegúrate de que useState esté importado
 import axios from 'axios';  // Importar axios para las solicitudes HTTP
+import { apiAdapter } from '../../../../core/adapters/apiAdapter';
 
 export default function Configuraciones() {
   const { user, setUser } = useAuth();
@@ -26,8 +27,8 @@ const handleImageUpload = async ({ files }) => {
 
   try {
     // Llamada a la API para subir la imagen
-    const response = await axios.post(
-      `http://localhost:4000/Usuario/${user?.id}/uploadProfileImage`, 
+    const response = await apiAdapter.post(
+      `Usuario/${user?.id}/uploadProfileImage`, 
       formData, 
       {
         headers: {
@@ -37,7 +38,7 @@ const handleImageUpload = async ({ files }) => {
     );
 
     // Asumiendo que la respuesta contiene la URL de la nueva foto de perfil
-    const { fotoPerfil: newFotoPerfil } = response.data;
+    const { fotoPerfil: newFotoPerfil } = response;
     if (typeof newFotoPerfil === 'string') {
       // Actualiza el estado local con la nueva foto
       setFotoPerfil(newFotoPerfil);  
