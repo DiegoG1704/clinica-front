@@ -4,8 +4,9 @@ import { Clinica } from "../../../domain/entities/Clinica";
 
 class ClinicaMapper {
     static toDomain(data) {
+        console.log('imagenes',data)
         let logoUrl=`${process.env.REACT_APP_API_BASE_URL}uploads/${data?.IsoTipo}`
-        
+        let ImagoTipo=`${process.env.REACT_APP_API_BASE_URL}uploads/${data?.ImagoTipo}`
         return new Clinica(
             data?.id,
             data?.nombre,
@@ -13,8 +14,9 @@ class ClinicaMapper {
             data?.ruc,
             data?.ubicacion,
             data?.telefonos,
-            data?.ImagenTipo,
+            ImagoTipo,
             logoUrl
+            
         );
     }
     static toData(clinica) {

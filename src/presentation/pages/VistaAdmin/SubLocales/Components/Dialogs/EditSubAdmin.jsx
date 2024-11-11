@@ -8,6 +8,7 @@ import { Dialog } from 'primereact/dialog';
 import { Divider } from 'primereact/divider';
 import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
+import { apiAdapter } from '../../../../../../core/adapters/apiAdapter';
         
 
 export default function EditSubAdmin({ visible, close, actualizar,editData }) {
@@ -23,7 +24,7 @@ export default function EditSubAdmin({ visible, close, actualizar,editData }) {
     estado_civil: '',  // Asignar una cadena vacía en vez de null
     rol_id: 5,
     afiliador_id: null,
-    clinica_id: user.clinica_id,
+    clinica_id: user?.clinica_id,
     fotoPerfil: null,
     Local_id: '',
     codigo: null,
@@ -60,14 +61,14 @@ export default function EditSubAdmin({ visible, close, actualizar,editData }) {
   useEffect(() => {
     const fetchSubAdmin = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/locales/clinica/${user.clinica_id}`);
-        setSubAdmin(response.data);
+        const response = await apiAdapter.get(`locales/clinica/${user?.clinica_id}`);
+        setSubAdmin(response);
       } catch (error) {
         console.error('Error fetching clinic data:', error);
       }
     };
     fetchSubAdmin();
-  }, [user]);
+  }, [user?.clinica_id]);
 
   // Validación del DNI
   const validateDni = async () => {
@@ -153,8 +154,8 @@ export default function EditSubAdmin({ visible, close, actualizar,editData }) {
   
     try {
       setLoading(true);
-      const response = await axios.put(
-        `http://localhost:4000/user/edit/${editData.id}`,
+      const response = await apiAdapter.put(
+        `user/edit/${editData.id}`,
         formDataLocal
       );
   

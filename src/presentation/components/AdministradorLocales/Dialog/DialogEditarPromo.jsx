@@ -6,6 +6,8 @@ import { Toast } from 'primereact/toast' // Importar el Toast
 import React, { useRef, useState, useEffect } from 'react'
 import { apiAdapter } from '../../../../core/adapters/apiAdapter'
 import { Dropdown } from 'primereact/dropdown'
+import fotoUser from '../../../img/photo-default.png'
+import ImgPromo from './ImgPromo'
 
 export default function EditarPromo({visible, close, recarga,datos1,datos2}) {
   const toast = useRef(null);
@@ -89,40 +91,14 @@ export default function EditarPromo({visible, close, recarga,datos1,datos2}) {
     <Dialog visible={visible} onHide={close} header='Editar Promocion' style={{ width: '800px' }}>
         <div style={{ display: 'flex' }}>
           <div style={{ marginRight: '20px' }}>
-            <input type="file" accept="image/*" style={{ display: 'none' }} id="imageUploadEdit" />
-            <label htmlFor="imageUploadEdit" style={{ cursor: 'pointer' }}>
-              <div
-                style={{
-                  width: '220px',
-                  height: '220px',
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  border: '2px dashed #ccc',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center'
-                }}
-              >
-                {datos1 && (
-                  <img
-                    src={`http://localhost:4000/uploads/${datos1.imagen}`}
-                    alt="Promoción"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                    }}
-                  />
-                )}
-                {!datos1 && "Ingresar imagen de promoción"}
-              </div>
-            </label>
+            <ImgPromo datos={datos1}/>
           </div>
           <div style={{ flex: 1 }}>
             <div className="field flex flex-column">
               <label>Área</label>
               <InputText
+                id='area'
+                name='area'
                 value={datos.area}
                 placeholder="Ingresar área..."
                 required
@@ -132,14 +108,17 @@ export default function EditarPromo({visible, close, recarga,datos1,datos2}) {
             <div className="field flex flex-column">
               <label>Clinicas</label>
               <Dropdown
-              placeholder="Seleccione clinica...." 
-              options={clinicas.map((clinica) => ({
-                label: clinica.nombre,  // Muestra el nombre
-                value: clinica.id // Solo envía el ID
-              }))} 
-              onChange={handleLocalChange}
-              value={datos.clinica_id}   
-              required />
+                id='id'
+                name='id'
+                placeholder="Seleccione clinica...." 
+                options={clinicas.map((clinica) => ({
+                  label: clinica.nombre,  // Muestra el nombre
+                  value: clinica.id // Solo envía el ID
+                }))} 
+                onChange={handleLocalChange}
+                value={datos.clinica_id}   
+                required 
+              />
             </div>
             <div className="field flex flex-column">
               <label>Descuento</label>
@@ -154,6 +133,8 @@ export default function EditarPromo({visible, close, recarga,datos1,datos2}) {
             <div className="field flex flex-column">
               <label>Descripción</label>
               <InputTextarea
+                id='descripcion'
+                name='descripcion'
                 value={datos.descripcion}
                 placeholder="Ingresar descripción..."
                 required

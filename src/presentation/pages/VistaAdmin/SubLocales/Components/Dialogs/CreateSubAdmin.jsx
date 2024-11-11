@@ -8,10 +8,12 @@ import { Dialog } from 'primereact/dialog';
 import { Divider } from 'primereact/divider';
 import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
+import { apiAdapter } from '../../../../../../core/adapters/apiAdapter';
         
 
 export default function CreateSubAdmin({ visible, close, actualizar }) {
   const { user } = useAuth();  
+  console.log('ll',user.clinica_id)
   const [subAdmin, setSubAdmin] = useState([]);
   const [formDataLocal, setFormDataLocal] = useState({
     nombres: '',
@@ -23,7 +25,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
     estado_civil: null,
     rol_id: 5, // El rol es 5 para subadministradores
     afiliador_id: null,
-    clinica_id: user.clinica_id,
+    clinica_id: user?.clinica_id,
     fotoPerfil: null,
     Local_id: '', // Aquí almacenaremos el ID del local seleccionado
     codigo: null,
@@ -50,14 +52,14 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
   useEffect(() => {
     const fetchSubAdmin = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/locales/clinica/${user.clinica_id}`);
-        setSubAdmin(response.data);
+        const response = await apiAdapter.get(`locales/clinica/${user?.clinica_id}`);
+        setSubAdmin(response);
       } catch (error) {
         console.error('Error fetching clinic data:', error);
       }
     };
     fetchSubAdmin();
-  }, [user]);
+  }, [user?.clinica_id]);
 
   // Validación del DNI
   const validateDni = async () => {

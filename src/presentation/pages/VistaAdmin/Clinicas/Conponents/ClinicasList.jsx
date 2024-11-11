@@ -7,14 +7,15 @@ import DialogUser from './DialogUser'
 import DialogEditarClinica from './DialogEditar'
 import { useClinica } from '../../../../context/ClinicaContext/ClinicaContext'
 import { ConfirmDialog } from 'primereact/confirmdialog'
+import DialogImage from './DialogImage'
 
 const ClinicasList = ({ data }) => {
     const [subAdmin, setSubAdmin] = useState(false)
-
+    const [imagen,setImagen] =useState(false)
     const [selectedClinicId, setSelectedClinicId] = useState(null) // Estado para el ID de la clínica seleccionada
     const { handleClickEditClinica, editar, setEditar,
         visibleDelete, setVisibleDelete,
-        handleClickDeleteClinica, handleDeleteClinica } = useClinica()
+        handleClickDeleteClinica, handleDeleteClinica,getAllClinicas } = useClinica()
 
     const LogoRowTemplate = (rowData) => {
         return (<img src={rowData.logo} alt={rowData.nombre} width="60" className='border-round-sm' />)
@@ -31,8 +32,8 @@ const ClinicasList = ({ data }) => {
                 }} />
             <Button icon="pi pi-trash" className="bg-white border-none shadow-none" style={{ color: "#85C226" }} onClick={() => {
                 handleClickDeleteClinica(rowData)
-                
-            }} /> 
+
+            }} />
         </div>
     );
     const UserTemplate = (rowData) => (
@@ -48,6 +49,28 @@ const ClinicasList = ({ data }) => {
             />
         </div>
     );
+
+    const ImageTemplate = (rowData) =>(
+        <div className='flex gap-2'>
+            <Button
+                icon="pi pi-images"
+                className="bg-teal-500 border-none shadow-none"
+                style={{ color: "white", borderRadius: '40px' }}
+                onClick={() => {
+                    setSelectedClinicId(rowData); // Al hacer clic, se establece el ID de la clínica
+                    setImagen(true); // Mostrar el diálogo
+                }}
+            />
+        </div>
+    );
+
+    // Función para mostrar solo las primeras 5 palabras de la dirección
+    const truncateAddress = (address) => {
+        const words = address.split(' '); // Divide la dirección en palabras
+        const truncated = words.slice(0, 5).join(' '); // Toma las primeras 5 palabras
+        return truncated;
+    }
+
     const closeEditar = () => {
         setEditar(false)
     }
@@ -61,9 +84,10 @@ const ClinicasList = ({ data }) => {
                 />
                 <Column header="RUC" field='ruc' />
                 <Column header="Razón Social" field='nombre' />
-                <Column header="Dirección" field='direccion' />
+                <Column header="Dirección" body={(rowData) => truncateAddress(rowData.direccion)} />
                 <Column header="Telefono" field='telefono' />
                 <Column header="Sub-Admin" body={UserTemplate} />
+                <Column header="Agregaar Imagen" body={ImageTemplate} />
                 <Column body={actionsTemplate} />
             </CustomTable>
 
@@ -85,6 +109,13 @@ const ClinicasList = ({ data }) => {
                 acceptLabel='Sí'
                 onHide={() => { setVisibleDelete(false) }}
                 accept={handleDeleteClinica}
+            />
+
+            <DialogImage
+            visible={imagen}
+            close={()=>setImagen(false)}
+            datos={selectedClinicId}
+            recarga={getAllClinicas}
             />
 
         </div>

@@ -9,6 +9,7 @@ import { Carousel } from 'primereact/carousel';
 import ClinicaCards from './ClinicaCards';
 import axios from 'axios';
 import CardTop from './CardTop';
+import { apiAdapter } from '../../../../core/adapters/apiAdapter';
 
 export default function Afiliados({ idUsuario, setIdUsuario }) {
     const menuRight = useRef(null);
@@ -20,8 +21,8 @@ export default function Afiliados({ idUsuario, setIdUsuario }) {
     useEffect(() => {
         const fetchIsoTipo = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/clinicas/isotipos'); // URL para obtener isotipos
-                setIsoTipo(response.data); // Almacena los isotipos en el estado
+                const response = await apiAdapter.get('clinicas/isotipos'); // URL para obtener isotipos
+                setIsoTipo(response); // Almacena los isotipos en el estado
             } catch (error) {
                 console.error('Error al obtener los isotipos:', error);
             }
@@ -34,8 +35,8 @@ export default function Afiliados({ idUsuario, setIdUsuario }) {
         const fetchUsuario = async () => {
             if (idUsuario) {
                 try {
-                    const response = await axios.get(`http://localhost:4000/user/${idUsuario}`);
-                    setNombreUsuario(response.data.nombres); // Ajusta según la estructura de tu API
+                    const response = await apiAdapter.get(`user/${idUsuario}`);
+                    setNombreUsuario(response.nombres); // Ajusta según la estructura de tu API
                 } catch (error) {
                     console.error('Error fetching user data:', error);
                 }
@@ -99,8 +100,8 @@ export default function Afiliados({ idUsuario, setIdUsuario }) {
     useEffect(() => {
       const fetchPromociones = async () => {
         try {
-          const response = await axios.get('http://localhost:4000/getPromociones');
-          setPromociones(response.data);
+          const response = await apiAdapter.get('http://localhost:4000/getPromociones');
+          setPromociones(response);
         } catch (error) {
           console.error('Error al obtener las promociones:', error);
         }

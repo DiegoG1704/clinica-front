@@ -4,9 +4,11 @@ import { Button } from 'primereact/button';
 import fotoperfil from "../../../../img/user.png";  // Imagen predeterminada
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { apiAdapter } from '../../../../../core/adapters/apiAdapter';
 
 export default function DialogUser({ visible, close, idClinica }) {
   // Estado para manejar los datos del usuario (sub-admin)
+  console.log('id',idClinica)
   const [foto, setFoto] = useState(null);  
   const [nombres, setNombres] = useState('');
   const [apellidos, setApellidos] = useState('');
@@ -20,10 +22,10 @@ export default function DialogUser({ visible, close, idClinica }) {
   useEffect(() => {
     const fetchClinicas = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/GetSubAdmin/${idClinica}`);
-        console.log("Datos recibidos:", response.data);  // Log para verificar los datos
-        if (response.data.length > 0) {
-          const subAdmin = response.data[0];  // Accedemos al primer sub-admin de la respuesta
+        const response = await apiAdapter.get(`GetSubAdmin/${idClinica}`);
+        console.log("Datos recibidos:", response);  // Log para verificar los datos
+        if (response.length > 0) {
+          const subAdmin = response[0];  // Accedemos al primer sub-admin de la respuesta
           setClinica(subAdmin);  // Guardamos los datos del sub-admin en el estado
           setNombres(subAdmin.nombres || '');  
           setApellidos(subAdmin.apellidos || '');
@@ -43,9 +45,8 @@ export default function DialogUser({ visible, close, idClinica }) {
       }
     };
   
-    if (idClinica) {
       fetchClinicas();
-    }
+
   }, [idClinica]);  
 
   // Manejar la selección de una nueva foto

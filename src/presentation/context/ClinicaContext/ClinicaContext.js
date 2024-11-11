@@ -100,8 +100,6 @@ export const ClinicaProvider = ({ children }) => {
 
     }
 
-
-
     //Function GetAllClinicas
     const getAllClinicas = async () => {
         const data = await getAllClinicasUseCase.execute()
@@ -121,7 +119,7 @@ export const ClinicaProvider = ({ children }) => {
         const response = await FindDataByDocUseCase.execute(clinica?.ruc)
         console.log("")
         if (response?.success) {
-            setClinica({ ...clinica, nombre: response?.data?.nombres, direccion: response?.data?.direccion })
+            setClinica({ ...clinica, nombre: response?.data?.nombres, direccion: response?.data?.direccion,distrito:response?.data?.distrito })
         }
     }
     const createClinica = async () => {
@@ -129,6 +127,7 @@ export const ClinicaProvider = ({ children }) => {
         console.log("response", response)
         if (response?.success) {
             // setClinica({ ...clinica, id: response?.data })
+            cleanData()
         }
 
         return response

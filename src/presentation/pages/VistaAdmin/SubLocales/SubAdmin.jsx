@@ -20,9 +20,10 @@ export default function SubAdmin() {
   const [editData, setEditData] = useState(null);  // Para almacenar los datos del subadministrador que estamos editando
   const [delet , setDelete] = useState(false)
 
+  console.log('user',user)
     const fetchSubAdmin = async () => {
       try {
-          const response = await apiAdapter.get(`GetSubAdministrador/${user.clinica_id}`);
+          const response = await apiAdapter.get(`GetSubAdministrador/${user?.clinica_id}`);
           setSubAdmin(response);
       } catch (error) {
           console.error('Error fetching subadmins:', error);
@@ -30,7 +31,7 @@ export default function SubAdmin() {
     };
     useEffect(() => {
       fetchSubAdmin();
-  }, [user.clinica_id]);  // Asegúrate de que esta dependencia sea correcta
+  }, [user?.clinica_id]);  // Asegúrate de que esta dependencia sea correcta
 
       const actionsTemplate = (rowData) => (
         <div className='flex gap-2'>
