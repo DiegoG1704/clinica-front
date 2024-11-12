@@ -48,10 +48,19 @@ export default function EditSubAdmin({ visible, close, actualizar,editData }) {
   }, [editData]);
   
   // Manejo de cambios en los campos del formulario
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+// Manejo de cambios en los campos del formulario
+const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  // Si el campo es 'fechNac', formatear la fecha antes de guardarla
+  if (name === 'fechNac' && value instanceof Date) {
+    // Convierte la fecha a formato 'yyyy-mm-dd' que MySQL acepta
+    const formattedDate = value.toISOString().split('T')[0]; // Solo la fecha
+    setFormDataLocal({ ...formDataLocal, [name]: formattedDate });
+  } else {
     setFormDataLocal({ ...formDataLocal, [name]: value });
-  };
+  }
+};
 
   // Manejo de cambio en el dropdown de Local
   const handleLocalChange = (e) => {
@@ -278,17 +287,19 @@ export default function EditSubAdmin({ visible, close, actualizar,editData }) {
       </div>
 
       {/* Fecha de Nacimiento */}
+      {/* Fecha de Nacimiento */}
       <div className="flex flex-column gap-2">
         <label htmlFor="fechNac">Fecha de Nacimiento</label>
         <Calendar
           id="fechNac"
           name="fechNac"
-          value={formDataLocal.fechNac || null}
+          value={formDataLocal.fechNac ? new Date(formDataLocal.fechNac) : null} // Convertir a Date si ya existe
           onChange={handleChange}
           showIcon
-          dateFormat="dd/mm/yy" // O puedes poner el formato que desees
+          dateFormat="dd/mm/yy" // Mantener el formato visual, pero la fecha será guardada correctamente
         />
       </div>
+
 
       {/* Dirección */}
       <div className="flex flex-column gap-2">

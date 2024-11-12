@@ -17,7 +17,7 @@ export default class ZodUpdateClinicalValidator {
             ubicacion: z.string()
                 .refine((value) => value.trim().length > 0, { message: 'La ubicación no puede estar vacía' })
             ,
-            telefono: z.number()
+            telefono: z.string()
                 .min(9, { message: 'Ingresar telefono valido' })
 
         });

@@ -40,8 +40,17 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
   // Manejo de cambios en los campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormDataLocal({ ...formDataLocal, [name]: value });
+  
+    // Si el campo es 'fechNac', formatear la fecha antes de guardarla
+    if (name === 'fechNac' && value instanceof Date) {
+      // Convierte la fecha a formato 'yyyy-mm-dd' que MySQL acepta
+      const formattedDate = value.toISOString().split('T')[0]; // Solo la fecha
+      setFormDataLocal({ ...formDataLocal, [name]: formattedDate });
+    } else {
+      setFormDataLocal({ ...formDataLocal, [name]: value });
+    }
   };
+  
 
   // Manejo de cambio en el dropdown de Local
   const handleLocalChange = (e) => {
@@ -276,11 +285,12 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
         <Calendar
           id="fechNac"
           name="fechNac"
-          value={formDataLocal.fechNac}
+          value={formDataLocal.fechNac ? new Date(formDataLocal.fechNac) : null} // Convertir a Date si ya existe
           onChange={handleChange}
           showIcon
-          dateFormat="dd/mm/yy" // O puedes poner el formato que desees
+          dateFormat="dd/mm/yy" // Mantener el formato visual, pero la fecha será guardada correctamente
         />
+
       </div>
 
       {/* Dirección */}
