@@ -85,13 +85,22 @@ export default function EditarPromo({visible, close, recarga,datos1,datos2}) {
         });
       }
     };
+
+    const headerTemplate = () => {
+      return (
+          <div className='flex flex-row gap-2'>
+              <span className="pi pi-building" style={{fontSize:"40px",fontWeight:"500",color:"#85C226"}}></span>
+              <span style={{fontSize:"24px",fontWeight:"700"}}>Editar Promocion</span>
+          </div>
+      )
+  }
   return (
     <>
     <Toast ref={toast} />
-    <Dialog visible={visible} onHide={close} header='Editar Promocion' style={{ width: '800px' }}>
+    <Dialog visible={visible} onHide={close} header={headerTemplate} style={{ width: '800px' }}>
         <div style={{ display: 'flex' }}>
           <div style={{ marginRight: '20px' }}>
-            <ImgPromo datos={datos1}/>
+            <ImgPromo datos={datos1} Actualizar={recarga}/>
           </div>
           <div style={{ flex: 1 }}>
             <div className="field flex flex-column">
@@ -144,8 +153,14 @@ export default function EditarPromo({visible, close, recarga,datos1,datos2}) {
           </div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
-          <Button label="Cancelar" style={{ marginRight: '10px' }} onClick={close} />
-          <Button label="Guardar" onClick={handleSubmit}/>
+          <Button 
+          label="Cancelar" 
+          style={{ backgroundColor: "#85C226", borderColor: "#85C226", height: "40px", borderRadius: "6px",margin:'5px' }}
+          onClick={close} />
+          <Button 
+          label="Guardar" 
+          style={{ backgroundColor: "#85C226", borderColor: "#85C226", height: "40px", borderRadius: "6px",margin:'5px' }}
+          onClick={handleSubmit}/>
         </div>
       </Dialog>
       </>

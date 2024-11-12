@@ -71,7 +71,7 @@ export default function Clinicas() {
                 <Column
                     header='IsoTipo'
                     body={(rowData) => (
-                        <img src={`http://localhost:4000/uploads/${rowData.IsoTipo}`} alt="Tipo" width="60" className='border-round-sm' />
+                        <img src={`${process.env.REACT_APP_API_BASE_URL}uploads/${rowData.IsoTipo}`} alt="Tipo" width="60" className='border-round-sm' />
                     )}
                 />
 

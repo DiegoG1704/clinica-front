@@ -5,9 +5,11 @@ import { Chart } from 'primereact/chart';
 import { Divider } from 'primereact/divider';
 import React, { useEffect, useState } from 'react';
 import { apiAdapter } from '../../../core/adapters/apiAdapter';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() { 
   const [logistica, setLogistica] = useState(null);
+  const Navigate = useNavigate()
     useEffect(() => {
       const fetchLogistica = async () => {
           try {
@@ -165,7 +167,8 @@ export default function Home() {
                       <h1>{item.cantidad}</h1>
                   </div>
                   <div>
-                      <Button icon={item.icono} rounded severity={item.severity} aria-label="Favorite" style={{ marginRight: '8px', width: '60px', height: '60px' }} />
+                      <Button icon={item.icono} disabled rounded severity={item.severity} aria-label="Favorite" 
+                      style={{ marginRight: '8px', width: '60px', height: '60px',background:'#85C226',borderColor:'#85C226' }} />
                   </div>
               </div>
               <div>
@@ -187,13 +190,13 @@ export default function Home() {
       </div>
       <div style={{ display: 'flex', marginTop: '20px',width:'81%' }}>
         <Card style={{ width: '50%', margin: '15px' }}>
-          <label style={{ fontWeight: 'bold',fontSize:'30px' }}>Lista de Mejores Promociones</label>
+          <label style={{ fontWeight: 'bold',fontSize:'25px' }}>Lista de Mejores Promociones</label>
           <Divider/>
           {logistica && logistica.promocionesLista.map((item, index) => (
             <div key={index} className='flex flex-column h-6rem'>
               <div className='flex flex-block'>
                 <div>
-                  <img src={`http://localhost:4000/uploads/${item.imagen}`} alt="Tipo" width="60" className='border-round-sm' />
+                  <img src={`${process.env.REACT_APP_API_BASE_URL}uploads/${item.imagen}`} alt="Tipo" width="60" className='border-round-sm' />
                 </div>
                 <div className='flex flex-column ml-3'>
                   <label style={{ fontWeight: 'bold',fontSize:'15px' }}>{item.area}</label>
@@ -204,17 +207,20 @@ export default function Home() {
             </div>
           ))}
           <div className='flex justify-content-end'>
-            <Button style={{background:'white',borderColor:'white',color:'black'}}> ver todas las promociones</Button>
+            <Button 
+            style={{background:'white',borderColor:'white',color:'black'}}
+            onClick={()=>Navigate('/PromocionesLocales')}
+            > ver todas las promociones</Button>
           </div>
         </Card>
         <Card style={{ width: '50%', margin: '15px' }}>
-          <label style={{ fontWeight: 'bold',fontSize:'30px' }}>Lista de Clinicas</label>
+          <label style={{ fontWeight: 'bold',fontSize:'25px' }}>Lista de Clinicas</label>
           <Divider/>
            {logistica && logistica.clinicasLista.map((item, index) => (
               <div key={index} className='flex flex-column h-6rem'>
                 <div className='flex flex-block'>
                   <div>
-                    <img src={`http://localhost:4000/uploads/${item.IsoTipo}`} alt="Tipo" width="60" className='border-round-sm' />
+                    <img src={`${process.env.REACT_APP_API_BASE_URL}uploads/${item.IsoTipo}`} alt="Tipo" width="60" className='border-round-sm' />
                   </div>
                   <div className='flex flex-column ml-3'>
                     <label style={{ fontWeight: 'bold',fontSize:'15px' }}>{item.nombre}</label>
@@ -225,7 +231,10 @@ export default function Home() {
               </div>
             ))}
             <div className='flex justify-content-end'>
-            <Button style={{background:'white',borderColor:'white',color:'black'}}> ver todas las clinicas</Button>
+            <Button 
+            style={{background:'white',borderColor:'white',color:'black'}}
+            onClick={()=>Navigate('/Clinicas')}
+            > ver todas las clinicas</Button>
           </div>
         </Card>
       </div>

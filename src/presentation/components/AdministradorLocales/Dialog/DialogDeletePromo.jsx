@@ -31,17 +31,23 @@ export default function DeletePromo({ visible, close, recargar, datos1 }) {
     }
   };
 
+  const headerTemplate = () => {
+    return (
+        <div className='flex flex-row gap-2'>
+            <span className="pi pi-building" style={{fontSize:"40px",fontWeight:"500",color:"#85C226"}}></span>
+            <span style={{fontSize:"24px",fontWeight:"700"}}>¿Desea Eliminar el área de {datos1?.area}?</span>
+        </div>
+    )
+}
+
   return (
     <>
 
       <Toast ref={toast} />
 
-      <Dialog visible={visible} onHide={close} style={{ width: '400px' }}>
+      <Dialog visible={visible} onHide={close} header={headerTemplate()} style={{ width: '400px' }}>
         {datos1 && (
           <>
-            <h2 style={{ textAlign: 'center' }}>
-              ¿Desea Eliminar el área de {datos1.area}?
-            </h2>
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
               <Button
                 label="Cancelar"

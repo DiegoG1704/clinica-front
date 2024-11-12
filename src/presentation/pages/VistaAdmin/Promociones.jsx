@@ -10,7 +10,6 @@ export default function Promociones() {
   const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
   const [promociones, setPromociones] = useState([]); // Estado para almacenar promociones
   const {user}= useAuth()
-  console.log('user',user)
   // Función para obtener las promociones
   useEffect(() => {
     const fetchPromociones = async () => {

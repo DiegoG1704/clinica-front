@@ -36,8 +36,6 @@ const SubLocalEdit = () => {
         ploc.updateLocalData({ [name]: value }); // Crea un nuevo objeto con el campo que cambió
     };
 
-    console.log("dataso", ploc?.state)
-
     return (
         <>
         <Toast ref={toast}/>

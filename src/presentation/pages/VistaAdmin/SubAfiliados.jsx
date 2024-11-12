@@ -17,7 +17,7 @@ export default function SubAfiliados({ UserId }) {
   useEffect(() => {
     const fetchAfiliados = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/usuarios/${UserId?.id}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}usuarios/${UserId?.id}`);
         const formattedData = response.data.map(formatAfiliados);
         setAfiliados(formattedData);
         setFilteredAfiliados(formattedData); // Inicialmente, mostrar todos los afiliados

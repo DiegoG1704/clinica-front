@@ -77,22 +77,6 @@ export default function Registro({ userData }) {
 
         }
 
-
-
-        // try {
-        //     const response = await axios.post('http://localhost:4000/CreateUsuario', newUser);
-        //     if (response.data.success) {
-        //         
-        //     } else {
-        //         toast.current.show({ severity: 'error', summary: 'Error', detail: 'Usuario no creado' });
-        //     }
-        // } catch (error) {
-        //     if (error.response) {
-        //         toast.current.show({ severity: 'error', summary: 'Error', detail: error.response.data.message || 'Hubo un error al crear el usuario' });
-        //     } else {
-        //         toast.current.show({ severity: 'error', summary: 'Error', detail: 'Hubo un error en la solicitud' });
-        //     }
-        // }
     };
 
     return (

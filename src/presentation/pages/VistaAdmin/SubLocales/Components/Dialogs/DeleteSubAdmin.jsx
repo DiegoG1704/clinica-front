@@ -8,7 +8,6 @@ import { date } from 'zod';
 
 export default function DeleteSubAdmin({ visible, close, actualizar ,Data}) {
     const toast = React.useRef(null);
-    console.log('ss',Data)
 
     // Asegurarse de que Data es válido antes de continuar
     if (!Data) {
@@ -38,18 +37,29 @@ export default function DeleteSubAdmin({ visible, close, actualizar ,Data}) {
               });
         }
     }
+    const headerTemplate = () => {
+        return (
+            <div className='flex flex-row gap-2'>
+                <span className="pi pi-building" style={{fontSize:"40px",fontWeight:"500",color:"#85C226"}}></span>
+                <span style={{fontSize:"24px",fontWeight:"700"}}>Desea eliminar {Data.nombres || 'usuario'}</span>
+            </div>
+        )
+    }
+    
 
     return (
-        <Dialog visible={visible} onHide={close} style={{ width: '400px' }}>
+        <Dialog visible={visible} onHide={close} style={{ width: '400px' }} header={headerTemplate}>
             <Toast ref={toast} />
-            {/* Comprobación para evitar acceder a un campo de Data que no existe */}
-            <h3>Desea eliminar {Data.nombres || 'usuario'}</h3>
             <div className='flex justify-content-center'>
                 <div style={{ margin: '5px' }}>
-                    <Button label="Cancelar" icon="pi pi-save" onClick={close} />
+                    <Button label="Cancelar" onClick={close} />
                 </div>
                 <div style={{ margin: '5px' }}>
-                    <Button label="Eliminar" icon="pi pi-save" onClick={handleSubmit} />
+                    <Button 
+                    label="Eliminar"
+                     icon="pi pi-save" 
+                     style={{background:'red',borderColor:'red'}}
+                     onClick={handleSubmit} />
                 </div>
             </div>
         </Dialog>

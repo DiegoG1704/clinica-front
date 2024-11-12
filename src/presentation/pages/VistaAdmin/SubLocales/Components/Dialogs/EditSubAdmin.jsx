@@ -205,8 +205,17 @@ export default function EditSubAdmin({ visible, close, actualizar,editData }) {
     setShowPassword(!showPassword);
   };
 
+  const headerTemplate = () => {
+    return (
+        <div className='flex flex-row gap-2'>
+            <span className="pi pi-building" style={{fontSize:"40px",fontWeight:"500",color:"#85C226"}}></span>
+            <span style={{fontSize:"24px",fontWeight:"700"}}>Editar Subadministrador</span>
+        </div>
+    )
+}
+
   return (
-    <Dialog visible={visible} onHide={close} header="Crear Subadministrador" style={{width:'800px'}}>
+    <Dialog visible={visible} onHide={close} header={headerTemplate} style={{width:'800px'}}>
       <Toast ref={toast} />
       <div className="flex gap-4"> {/* Contenedor principal con `flex` y espacio entre las columnas */}
   <div className="flex-1"> {/* La columna de Datos Personales ocupa el 50% */}
@@ -362,7 +371,16 @@ export default function EditSubAdmin({ visible, close, actualizar,editData }) {
                 />
             </div>
             <div className="dialog-footer flex justify-content-end" style={{marginTop:'5px'}}>
-              <Button label="Guardar" icon="pi pi-save" onClick={handleSubmit} disabled={loading} />
+              <Button 
+              style={{margin:'5px',background:'#85C226',borderColor:'#85C226',margin:'5px'}}
+              label="Guardar" 
+              icon="pi pi-save" 
+              onClick={handleSubmit} 
+              disabled={loading} />
+              <Button
+                style={{margin:'5px',background:'#85C226',borderColor:'#85C226',margin:'5px'}}
+                label="Cerrar" 
+                onClick={close} />
             </div>
           </div>
         </div>

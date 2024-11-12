@@ -57,38 +57,7 @@ const ClinicaPage = () => {
           </main>
           
         </div>
-        
-  
-        {/* <CustomDialog visible={visible} onHide={() => setVisible(false)} header="Crear Clínica" style={{ width: '600px' }}>
 
-          // <div className="card flex justify-content-center">
-          //   <Stepper ref={stepperRef} style={{ flexBasis: '50rem' }}>
-          //     <StepperPanel header="Clínica">
-          //       <CreateClinica
-          //         Next={() => stepperRef.current.nextCallback()}
-          //         onNext={handleDatos} // Pasa el id de la clínica aquí
-          //       />
-          //     </StepperPanel>
-  
-          //     <StepperPanel header="Administrador">
-          //       <CreateAdmin
-          //         Next={() => stepperRef.current.nextCallback()}
-          //         Prev={() => stepperRef.current.prevCallback()}
-          //         idClinica={idClinica}
-          //         onNext={handleDatosPer} // Asegúrate de pasar el idClinica y avanzar al siguiente paso
-          //       />
-          //     </StepperPanel>
-  
-          //     <StepperPanel header="Usuario">
-          //       <CreateUsuario
-          //         Prev={() => stepperRef.current.prevCallback()}
-          //         DatosPer={datosPer}
-          //         Close={() => setVisible(false)} // Pasa los datos del administrador aquí si es necesario
-          //       />
-          //     </StepperPanel>
-          //   </Stepper>
-          // </div>
-        </CustomDialog> */}
       </div>
     );
   };

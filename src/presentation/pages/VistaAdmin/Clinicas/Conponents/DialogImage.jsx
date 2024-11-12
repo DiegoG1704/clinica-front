@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
-import fotoUser from '../../../../img/photo-default.png'; // Imagen por defecto si no hay foto
+import React, { useState, useEffect, useRef } from 'react';
+import fotoUser from '../../../../img/sinImg.png'; // Imagen por defecto si no hay foto
 import { FileUpload } from 'primereact/fileupload'; // Componente de carga de archivos
 import { Button } from 'primereact/button'; // Componente de botón
 import { Dialog } from 'primereact/dialog';
+import { Toast } from 'primereact/toast'; // Importar el componente Toast
 import { apiAdapter } from '../../../../../core/adapters/apiAdapter';
 
 export default function DialogImage({ visible, close, recarga, datos }) {
-    console.log('datos', datos);
-
     const [selectedImage, setSelectedImage] = useState(null);  // Estado para la imagen seleccionada
     const [selectedImageTipo, setSelectedImageTipo] = useState(null);  // Estado para la imagen tipo seleccionada
-    const [fotoPerfil, setFotoPerfil] = useState(datos?.logo);  // Foto de perfil
-    const [fotoPerfilTipo, setFotoPerfilTipo] = useState(datos?.imagenTipo);  // Foto de tipo
+    const [fotoPerfil, setFotoPerfil] = useState(datos?.logo);  // Foto de perfil desde los datos
+    const [fotoPerfilTipo, setFotoPerfilTipo] = useState(datos?.imagenTipo);  // Foto de tipo desde los datos
     const [imageName, setImageName] = useState("");  // Estado para almacenar el nombre de la imagen (recortado)
     const [imageNameTipo, setImageNameTipo] = useState("");  // Estado para almacenar el nombre de la imagen tipo (recortado)
+
+    const toast = useRef(null); // Crear referencia para el Toast
+
+    // Efecto para actualizar las imágenes cada vez que los datos cambien
+    useEffect(() => {
+        if (datos) {
+            setFotoPerfil(datos.logo);
+            setFotoPerfilTipo(datos.imagenTipo);
+        }
+    }, [datos]);
 
     // Función para seleccionar la imagen de perfil (vista previa)
     const handleImageSelect = (e) => {
@@ -67,11 +76,11 @@ export default function DialogImage({ visible, close, recarga, datos }) {
                 }
             );
 
-            console.log('Imagenes subidas con éxito:', response);
-            // Aquí puedes hacer algo después de la carga, como recargar la página o cerrar el diálogo
-            recarga();
+            toast.current.show({ severity: 'success', summary: 'Éxito', detail: 'Imágenes subidas con éxito', life: 3000 }); // Mostrar Toast de éxito
+            recarga(); // Recargar la página o los datos
             close();  // Cerrar el diálogo
         } catch (error) {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error al subir las imágenes', life: 3000 }); // Mostrar Toast de error
             console.error('Error al subir las imágenes:', error);
         }
     };
@@ -85,9 +94,20 @@ export default function DialogImage({ visible, close, recarga, datos }) {
         }
     };
 
+    const headerTemplate = () => {
+        return (
+            <div className='flex flex-row gap-2'>
+                <span className="pi pi-building" style={{fontSize:"40px",fontWeight:"500",color:"#85C226"}}></span>
+                <span style={{fontSize:"24px",fontWeight:"700"}}>Subir imágenes</span>
+            </div>
+        )
+    }
+
     return (
-        <Dialog visible={visible} onHide={close} header={'Subir imágenes'}>
-            <div style={{ display: 'inline-block', marginRight: '20px' }}>
+        <Dialog visible={visible} onHide={close} header={headerTemplate}>
+            <Toast ref={toast} /> {/* Componente Toast */}
+
+            <div style={{ display: 'inline-block', margin: '10px',textAlign:'center' }}>
                 {/* Imagen de perfil */}
                 <div
                     style={{
@@ -102,7 +122,7 @@ export default function DialogImage({ visible, close, recarga, datos }) {
                     }}
                 >
                     <img
-                        src={createObjectURLIfFile(selectedImage) || (fotoPerfil ? `${fotoPerfil}` : fotoUser)}
+                        src={createObjectURLIfFile(selectedImage) || fotoPerfil || fotoUser}
                         alt="Imagen de perfil"
                         style={{
                             width: '100%',
@@ -118,11 +138,11 @@ export default function DialogImage({ visible, close, recarga, datos }) {
                     accept="image/*"
                     maxFileSize={1000000}
                     onSelect={handleImageSelect}
-                    chooseLabel={imageName ? imageName : "Seleccionar imagen de perfil"} // Etiqueta personalizada con el nombre recortado
+                    chooseLabel={imageName ? imageName : "Cargar ImagoTipo"} // Etiqueta personalizada con el nombre recortado
                 />
             </div>
 
-            <div style={{ display: 'inline-block' }}>
+            <div style={{ display: 'inline-block',textAlign:'center',margin:'10px' }}>
                 {/* Imagen tipo */}
                 <div
                     style={{
@@ -137,7 +157,7 @@ export default function DialogImage({ visible, close, recarga, datos }) {
                     }}
                 >
                     <img
-                        src={createObjectURLIfFile(selectedImageTipo) || (fotoPerfilTipo ? `${fotoPerfilTipo}` : fotoUser)}
+                        src={createObjectURLIfFile(selectedImageTipo) || fotoPerfilTipo || fotoUser}
                         alt="Imagen tipo"
                         style={{
                             width: '100%',
@@ -153,13 +173,18 @@ export default function DialogImage({ visible, close, recarga, datos }) {
                     accept="image/*"
                     maxFileSize={1000000}
                     onSelect={handleImageSelectTipo}
-                    chooseLabel={imageNameTipo ? imageNameTipo : "Seleccionar imagen tipo"} // Etiqueta personalizada con el nombre recortado
+                    chooseLabel={imageNameTipo ? imageNameTipo : "Cargar IsoTipo"} // Etiqueta personalizada con el nombre recortado
                 />
             </div>
 
-            <div style={{ textAlign: 'center', marginTop: '20px' }}>
+            <div style={{marginTop: '20px',display:'flex',justifyContent:'end' }}>
                 {/* Botón para subir las dos imágenes */}
-                <Button label="Subir imágenes" onClick={handleImageUpload} />
+                <Button 
+                style={{margin:'5px',background:'#85C226',borderColor:'#85C226'}}
+                label="Subir imágenes" onClick={handleImageUpload} />
+                <Button
+                style={{margin:'5px',background:'#85C226',borderColor:'#85C226'}}
+                label="Cerrar" onClick={close} />
             </div>
         </Dialog>
     );

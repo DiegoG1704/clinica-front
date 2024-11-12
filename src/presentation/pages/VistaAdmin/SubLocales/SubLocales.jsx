@@ -23,7 +23,6 @@ export default function SubLocales() {
     }
   }, [user?.clinica_id, ploc]);
 
-  console.log('user',user)
 
   return (
     <div>
@@ -33,7 +32,7 @@ export default function SubLocales() {
           <Divider />
         </div>
         <div className='flex justify-content-end align-items-center'>
-          <Button label='Añadir clinica' className='' style={{
+          <Button label='Añadir Sub-Local' className='' style={{
             backgroundColor: "#85C226",
             borderColor: "#85C226", height: "60px", borderRadius: "6px"
           }} icon="pi pi-plus" onClick={() => { ploc.openDialogCreate(user?.clinica_id); }} />

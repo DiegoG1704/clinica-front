@@ -1,14 +1,11 @@
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button'; 
-import fotoperfil from "../../../../img/user.png";  // Imagen predeterminada
+import fotoperfil from "../../../../img/photo-default.png";  // Imagen predeterminada
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { apiAdapter } from '../../../../../core/adapters/apiAdapter';
 
 export default function DialogUser({ visible, close, idClinica }) {
-  // Estado para manejar los datos del usuario (sub-admin)
-  console.log('id',idClinica)
   const [foto, setFoto] = useState(null);  
   const [nombres, setNombres] = useState('');
   const [apellidos, setApellidos] = useState('');
@@ -49,29 +46,25 @@ export default function DialogUser({ visible, close, idClinica }) {
 
   }, [idClinica]);  
 
-  // Manejar la selección de una nueva foto
-  const handleFotoChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFoto(file);
-    }
-  };
-
-  // Abrir el selector de archivos cuando se hace clic en el botón de lápiz
-  const openFileInput = () => {
-    document.getElementById('fotoInput').click();
-  };
+  const headerTemplate = () => {
+    return (
+        <div className='flex flex-row gap-2'>
+            <span className="pi pi-building" style={{fontSize:"40px",fontWeight:"500",color:"#85C226"}}></span>
+            <span style={{fontSize:"24px",fontWeight:"700"}}>Detalles del Usuario</span>
+        </div>
+    )
+}
 
   return (
     <div>
-      <Dialog visible={visible} onHide={close} header={'Detalles del Usuario'} style={{ width: '800px' }}>
+      <Dialog visible={visible} onHide={close} header={headerTemplate} style={{ width: '800px' }}>
         <div className="flex">
           {/* Contenedor para los campos a la izquierda */}
           <div className="flex-1 m-3">
             {/* Mostrar la foto de perfil */}
             <div className="mb-3" style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <img
-              src={clinica && clinica.fotoPerfil ? `http://localhost:4000/uploads/${clinica.fotoPerfil}` : fotoperfil}
+              src={clinica && clinica.fotoPerfil ? `${process.env.REACT_APP_API_BASE_URL}uploads/${clinica.fotoPerfil}` : fotoperfil}
               alt="Foto de perfil"
               style={{
                 width: '187px',
@@ -81,32 +74,7 @@ export default function DialogUser({ visible, close, idClinica }) {
                 objectFit: 'cover', 
               }}
             />
-
-              {/* Botón para cambiar la foto (lápiz) */}
-              <Button
-                icon="pi pi-pencil"
-                className="p-button-rounded p-button-text p-button-sm"
-                style={{
-                  position: 'absolute',
-                  top: '150px',
-                  right: '90px',
-                  backgroundColor: '#ffffff',
-                  border: '3px solid #85c226',
-                }}
-                onClick={openFileInput} 
-              />
             </div>
-
-            {/* Input para cargar una nueva foto (oculto) */}
-            <input
-              type="file"
-              id="fotoInput"
-              name="foto"
-              accept="image/*"
-              style={{ display: 'none' }} 
-              onChange={handleFotoChange}
-            />
-
             {/* Correo */}
             <div className="flex flex-column gap-2">
               <label htmlFor="Correo">Correo</label>
@@ -187,7 +155,15 @@ export default function DialogUser({ visible, close, idClinica }) {
               />
             </div>
           </div>
+          
         </div>
+        <div className='flex justify-content-end'>
+            <Button 
+            label='Cerrar' 
+            onClick={close}
+            style={{ backgroundColor: "#85C226", borderColor: "#85C226", height: "40px", borderRadius: "6px" }}
+            />
+          </div>
       </Dialog>
     </div>
   );

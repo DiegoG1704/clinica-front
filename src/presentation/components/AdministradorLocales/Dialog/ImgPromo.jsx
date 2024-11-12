@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import fotoUser from '../../../img/photo-default.png'; // Imagen por defecto si no hay foto
 import { FileUpload } from 'primereact/fileupload'; // Componente de carga de archivos
 import { Button } from 'primereact/button'; // Componente de botón
+import { Toast } from 'primereact/toast'; // Componente Toast de PrimeReact
 import { apiAdapter } from '../../../../core/adapters/apiAdapter'; // Adaptador de API
 
-export default function ImgPromo({ datos }) {
-    console.log('user',datos)
+export default function ImgPromo({ datos ,Actualizar}) {
     // Estados locales para manejar la imagen seleccionada, carga y éxito
     const [selectedImage, setSelectedImage] = useState(null);  // Estado para la imagen seleccionada
     const [fotoPerfil, setFotoPerfil] = useState(datos?.imagen);  // Estado local para la foto de perfil
-  
-    // Handler para subir la imagen
+    const toast = useRef(null); // Referencia para el Toast
+
     // Handler para subir la imagen
     const handleImageUpload = async ({ files }) => {
         const file = files[0];  // Seleccionamos el archivo
@@ -24,7 +24,7 @@ export default function ImgPromo({ datos }) {
       
         // Mostrar el contenido de formData para depuración
         for (let [key, value] of formData.entries()) {
-          console.log(`${key}:`, value);  // Esto debería mostrar 'image' y el archivo
+          console.log(`${key}:`, value);  // Esto debería mostrar 'imagen' y el archivo
         }
       
         try {
@@ -40,34 +40,54 @@ export default function ImgPromo({ datos }) {
       
           // Aquí puedes manejar la respuesta, si la imagen se subió con éxito
           console.log('Imagen subida con éxito:', response);
+          
+          // Mostrar mensaje de éxito con Toast
+          toast.current.show({ severity: 'success', summary: 'Éxito', detail: 'Imagen subida con éxito!', life: 3000 });
+          
+          // Opcionalmente, actualiza los datos o la vista previa
+          setFotoPerfil(response.imagen);  // Actualiza la imagen si es necesario
         } catch (error) {
           console.error('Error al subir la imagen:', error);
+          
+          // Mostrar mensaje de error con Toast
+          toast.current.show({ severity: 'error', summary: 'Error', detail: 'Hubo un problema al subir la imagen.', life: 3000 });
         }
       };
       
-  
-  
     // Handler para seleccionar la imagen antes de cargarla (solo para vista previa)
-    // Handler para seleccionar la imagen antes de cargarla (solo para vista previa)
-  const handleImageSelect = (e) => {
-    const file = e.files && e.files[0];  // Asegúrate de que files no esté vacío
-    if (file && file instanceof Blob) {  // Verificar que el archivo sea del tipo Blob
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setSelectedImage(e.target.result);  // Establece la URL de la imagen en base64 para la vista previa
-      };
-      reader.readAsDataURL(file);
-    } else {
-      console.error("El archivo seleccionado no es válido o no es del tipo Blob.");
-    }
-  };
+    const handleImageSelect = (e) => {
+        const file = e.files && e.files[0];  // Asegúrate de que files no esté vacío
+        
+        // Verificar que el archivo sea de tipo Blob y que sea una imagen
+        if (file && file instanceof Blob) {
+            const fileType = file.type.split('/')[0];  // Extraemos el tipo (image/video/etc.)
+            
+            if (fileType === 'image') {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    setSelectedImage(e.target.result);  // Establece la URL de la imagen en base64 para la vista previa
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // Si no es una imagen, mostrar un mensaje de error
+                toast.current.show({ severity: 'error', summary: 'Tipo de archivo inválido', detail: 'Por favor, selecciona una imagen.', life: 3000 });
+            }
+        } else {
+            console.error("El archivo seleccionado no es válido o no es del tipo Blob.");
+            toast.current.show({ severity: 'error', summary: 'Archivo inválido', detail: 'El archivo seleccionado no es válido', life: 3000 });
+        }
+    };
   
-  // Restaura el valor de selectedImage al cargar la nueva imagen
-  const handleImageUploadReset = () => {
-    setSelectedImage(null);  // Resetea la vista previa
-  };
+    // Restaura el valor de selectedImage al cargar la nueva imagen
+    const handleImageUploadReset = () => {
+        setSelectedImage(null);  // Resetea la vista previa
+    };
+
     return (
         <div style={{ position: 'relative', display: 'inline-block' }}>
+            {/* Toast Component */}
+            <Toast ref={toast} />
+
             <div
                 style={{
                     width: '220px',
@@ -84,7 +104,7 @@ export default function ImgPromo({ datos }) {
             >
                 {/* Mostrar la imagen de perfil o una imagen predeterminada */}
                 <img 
-                    src={selectedImage || (fotoPerfil ? `http://localhost:4000/uploads/${fotoPerfil}` : fotoUser)} 
+                    src={selectedImage || (fotoPerfil ? `${process.env.REACT_APP_API_BASE_URL}uploads/${fotoPerfil}` : fotoUser)} 
                     alt="Imagen de perfil" 
                     className="border-circle"
                     style={{
@@ -98,13 +118,11 @@ export default function ImgPromo({ datos }) {
             {/* Componente de carga de imagen */}
             <div
                 style={{
-                    position: 'absolute',
                     bottom: '10px',
                     right: '10px',
                     backgroundColor: 'white',
                     borderRadius: '50%',
                     padding: '5px',
-                    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.2)',
                 }}
             >
                 <FileUpload
@@ -115,7 +133,7 @@ export default function ImgPromo({ datos }) {
                     maxFileSize={1000000}  // Tamaño máximo de archivo (1MB)
                     onSelect={handleImageSelect}  // Maneja la selección del archivo
                     onUpload={handleImageUploadReset}  // Resetea el estado de la carga
-                    chooseLabel="Seleccionar imagen"  // Etiqueta del botón
+                    chooseLabel="Cargar Imagen"  // Etiqueta del botón
                 />
             </div>
         </div>

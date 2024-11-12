@@ -19,8 +19,6 @@ export default function SubAdmin() {
   const [edit, setEdit] = useState(false);  // Para controlar si estamos en modo edición
   const [editData, setEditData] = useState(null);  // Para almacenar los datos del subadministrador que estamos editando
   const [delet , setDelete] = useState(false)
-
-  console.log('user',user)
     const fetchSubAdmin = async () => {
       try {
           const response = await apiAdapter.get(`GetSubAdministrador/${user?.clinica_id}`);

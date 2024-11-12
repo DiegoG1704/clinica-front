@@ -73,11 +73,19 @@ export default function CreatePromo({visible,close,recargar}) {
         });
       }
     };
+    const headerTemplate = () => {
+      return (
+          <div className='flex flex-row gap-2'>
+              <span className="pi pi-building" style={{fontSize:"40px",fontWeight:"500",color:"#85C226"}}></span>
+              <span style={{fontSize:"24px",fontWeight:"700"}}>Agregar nueva Promocion</span>
+          </div>
+      )
+  }
   
   return (
     <>
     <Toast ref={toast} />
-    <Dialog visible={visible} onHide={close} header='Agregar nueva Promocion' style={{ width: '800px' }}>
+    <Dialog visible={visible} onHide={close} header={headerTemplate} style={{ width: '800px' }}>
         <div style={{ display: 'flex' }}>
           <div style={{ flex: 1 }}>
             <div className="field flex flex-column">
@@ -126,8 +134,14 @@ export default function CreatePromo({visible,close,recargar}) {
           </div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
-          <Button label="Cancelar" style={{ marginRight: '10px' }} onClick={close} />
-          <Button label="Crear" onClick={handleSubmit}/>
+          <Button 
+          label="Cancelar" 
+          style={{ backgroundColor: "#85C226", borderColor: "#85C226", height: "40px", borderRadius: "6px",margin:'5px' }}
+          onClick={close} />
+          <Button 
+          label="Crear" 
+          style={{ backgroundColor: "#85C226", borderColor: "#85C226", height: "40px", borderRadius: "6px",margin:'5px' }}
+          onClick={handleSubmit}/>
         </div>
       </Dialog>
       </>

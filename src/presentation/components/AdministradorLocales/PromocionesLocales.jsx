@@ -83,7 +83,7 @@ export default function PromocionesLocales() {
         <Column
           header='Foto'
           body={(rowData) => (
-            <img src={rowData.imagen?`http://localhost:4000/uploads/${rowData.imagen}`:logo} alt="Tipo" width="60" className='border-round-sm' />
+            <img src={rowData.imagen?`${process.env.REACT_APP_API_BASE_URL}uploads/${rowData.imagen}`:logo} alt="Tipo" width="60" className='border-round-sm' />
           )}
         />
         <Column field="area" header="Area" />

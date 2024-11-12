@@ -5,7 +5,7 @@ import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import { useNavigate } from 'react-router-dom';
-import fotoperfil from "../../../img/user.png";
+import fotoperfil from "../../../img/photo-default.png";
 import { useAuth } from '../../../context/AuthContext/AuthContext';
 
 export default function Sidebar({ isOpen, toggleSidebar, onLogout }) {
@@ -26,7 +26,7 @@ export default function Sidebar({ isOpen, toggleSidebar, onLogout }) {
     <>
       <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
         <h1><span className='sidebar__logo-icon'>|</span>MAS SALUD</h1>
-        <img src={user.fotoPerfil ? `http://localhost:4000/uploads/${user.fotoPerfil}` : fotoperfil} alt='' />
+        <img src={user.fotoPerfil ? `${process.env.REACT_APP_API_BASE_URL}uploads/${user.fotoPerfil}` : fotoperfil} alt='' />
         <h2>{user.nombres}</h2>
         <h3>{user.rolId}</h3>
         <ul className="sidebar-menu">

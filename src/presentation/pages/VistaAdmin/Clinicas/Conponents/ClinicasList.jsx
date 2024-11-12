@@ -13,9 +13,10 @@ const ClinicasList = ({ data }) => {
     const [subAdmin, setSubAdmin] = useState(false)
     const [imagen,setImagen] =useState(false)
     const [selectedClinicId, setSelectedClinicId] = useState(null) // Estado para el ID de la clínica seleccionada
+    const [selectedCli, setSelectedCli] = useState(null)
     const { handleClickEditClinica, editar, setEditar,
         visibleDelete, setVisibleDelete,
-        handleClickDeleteClinica, handleDeleteClinica,getAllClinicas } = useClinica()
+        handleClickDeleteClinica, handleDeleteClinica,getAllClinicas,closeEditar } = useClinica()
 
     const LogoRowTemplate = (rowData) => {
         return (<img src={rowData.logo} alt={rowData.nombre} width="60" className='border-round-sm' />)
@@ -57,7 +58,7 @@ const ClinicasList = ({ data }) => {
                 className="bg-teal-500 border-none shadow-none"
                 style={{ color: "white", borderRadius: '40px' }}
                 onClick={() => {
-                    setSelectedClinicId(rowData); // Al hacer clic, se establece el ID de la clínica
+                    setSelectedCli(rowData); // Al hacer clic, se establece el ID de la clínica
                     setImagen(true); // Mostrar el diálogo
                 }}
             />
@@ -71,9 +72,6 @@ const ClinicasList = ({ data }) => {
         return truncated;
     }
 
-    const closeEditar = () => {
-        setEditar(false)
-    }
 
     return (
         <div>
@@ -112,10 +110,10 @@ const ClinicasList = ({ data }) => {
             />
 
             <DialogImage
-            visible={imagen}
-            close={()=>setImagen(false)}
-            datos={selectedClinicId}
-            recarga={getAllClinicas}
+                visible={imagen}
+                close={()=>setImagen(false)}
+                datos={selectedCli}
+                recarga={getAllClinicas}
             />
 
         </div>

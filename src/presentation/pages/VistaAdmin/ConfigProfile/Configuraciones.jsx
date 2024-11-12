@@ -7,18 +7,44 @@ import photoDefault from "../../../img/photo-default.png";  // Imagen predetermi
 import fotoperfil from "../../../img/user.png";  // Imagen de usuario si no hay foto
 import { useAuth } from '../../../context/AuthContext/AuthContext';
 import { FileUpload } from 'primereact/fileupload';
-import { useState } from 'react';  // Asegúrate de que useState esté importado
+import { useEffect, useState } from 'react';  // Asegúrate de que useState esté importado
 import axios from 'axios';  // Importar axios para las solicitudes HTTP
 import { apiAdapter } from '../../../../core/adapters/apiAdapter';
 
 export default function Configuraciones() {
   const { user, setUser } = useAuth();
-  console.log("user", user);  // Imprimir 'user'
-  console.log("setUser", setUser);   // Asegúrate de obtener tanto 'user' como 'setUser'
-  const [selectedImage, setSelectedImage] = useState(null);  // Estado para la imagen seleccionada
+  console.log('user',user)
+  const [selectedImage, setSelectedImage] = useState(user?.fotoPerfil ? `${process.env.REACT_APP_API_BASE_URL}uploads/${user.fotoPerfil}` : null);
+  // Estado para la imagen seleccionada
   const [fotoPerfil, setFotoPerfil] = useState(user?.fotoPerfil);  // Estado local para la foto de perfil
 
-  // Handler para subir la imagen
+  const [datos, setDatos] = useState({
+    nombres: user?.nombres || '',  // Asegúrate de que siempre haya un valor (vacío por defecto)
+    apellidos: user?.apellidos || '',  // Igual para apellidos
+    correo: user?.correo || '',
+  });
+  
+  useEffect(() => {
+    if (user) {
+      setDatos({
+        nombres: user?.nombres || '',  // Asegura que los valores no sean undefined
+        apellidos: user?.apellidos || '', 
+        correo: user?.correo || ''
+      });
+    }
+  }, [user]);
+
+  const handleChange = (e) => {
+  const { name, value } = e.target;
+  setDatos((prevState) => ({
+    ...prevState,
+    [name]: value
+  }));
+};
+
+const handleSutmit = async() =>{
+console.log('datos',datos)
+}
   // Handler para subir la imagen
 const handleImageUpload = async ({ files }) => {
   const file = files[0];
@@ -42,7 +68,7 @@ const handleImageUpload = async ({ files }) => {
     if (typeof newFotoPerfil === 'string') {
       // Actualiza el estado local con la nueva foto
       setFotoPerfil(newFotoPerfil);  
-      setSelectedImage(`http://localhost:4000/uploads/${newFotoPerfil}`);  // Actualiza la vista previa
+      setSelectedImage(`${process.env.REACT_APP_API_BASE_URL}uploads/${newFotoPerfil}`);  // Actualiza la vista previa
 
       // Actualiza el estado global de 'user' con la nueva foto de perfil
       setUser(prevState => ({ 
@@ -57,8 +83,6 @@ const handleImageUpload = async ({ files }) => {
   }
 };
 
-
-  // Handler para seleccionar la imagen antes de cargarla (solo para vista previa)
   // Handler para seleccionar la imagen antes de cargarla (solo para vista previa)
 const handleImageSelect = (e) => {
   const file = e.files && e.files[0];  // Asegúrate de que files no esté vacío
@@ -78,8 +102,6 @@ const handleImageUploadReset = () => {
   setSelectedImage(null);  // Resetea la vista previa
 };
 
-  
-
   return (
     <div className="container-page">
       <header>
@@ -93,7 +115,7 @@ const handleImageUploadReset = () => {
               <div className="user-profile__image mb-3">
                 {/* Mostrar la imagen seleccionada o la imagen de perfil predeterminada */}
                 <img 
-                  src={selectedImage || (fotoPerfil ? `http://localhost:4000/uploads/${fotoPerfil}` : photoDefault)} 
+                  src={selectedImage || (fotoPerfil ? fotoPerfil : photoDefault)} 
                   alt="Imagen de perfil" 
                   className='border-circle'
                 />
@@ -106,6 +128,7 @@ const handleImageUploadReset = () => {
                   onSelect={handleImageSelect}
                   onUpload={handleImageUploadReset}  // Restablecer la opción de seleccionar otra imagen
                   style={{ marginTop: '20px' }}
+                  chooseLabel='Subir Foto'
                 />
 
               </div>
@@ -148,7 +171,7 @@ const handleImageUploadReset = () => {
               <h2>Información general</h2>
               <div className='flex gap-2'>
                 <Button label='Cancelar' className='user-form__btn-cancel' />
-                <Button label='Guardar' className='user-form__btn-save' />
+                <Button label='Guardar' className='user-form__btn-save' onClick={handleSutmit}/>
               </div>
             </header>
             <Divider />
@@ -157,11 +180,21 @@ const handleImageUploadReset = () => {
                 <div className='flex gap-4'>
                   <div className="flex flex-column gap-2 flex-1">
                     <label htmlFor="username">Nombres</label>
-                    <InputText value={user?.nombres} id="username" aria-describedby="username-help" />
+                    <InputText 
+                    id="nombre" 
+                    name='nombre'
+                    value={datos.nombres} 
+                    onChange={handleChange}
+                    aria-describedby="username-help" />
                   </div>
                   <div className="flex flex-column gap-2 flex-1">
                     <label htmlFor="username">Apellidos</label>
-                    <InputText value={user?.apellidos} id="username" aria-describedby="username-help" />
+                    <InputText 
+                    id="apellidos" 
+                    name='apellidos'
+                    value={datos.apellidos} 
+                    onChange={handleChange}
+                    aria-describedby="username-help" />
                   </div>
                 </div>
 
@@ -172,7 +205,12 @@ const handleImageUploadReset = () => {
 
                 <div className="flex flex-column gap-2 mt-3">
                   <label htmlFor="email">Correo Electrónico</label>
-                  <InputText value={user?.correo} id="email" />
+                  <InputText 
+                  id="correo"
+                  name='correo'
+                  value={datos.correo} 
+                  onChange={handleChange}
+                   />
                 </div>
               </div>
 

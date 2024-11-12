@@ -18,12 +18,12 @@ export default function ClinicaCards({ Ancho, Alto, Margen, Display, Promociones
                         title={clinica.area}
                         subTitle={<Rating value={clinica.calificacion} readOnly stars={5} cancel={false} />}
                         style={{ width: Ancho, height: Alto, marginRight: Margen }}
-                        header={<img src={clinica.imagen ? `http://localhost:4000/uploads/${clinica.imagen}` : img} style={{ width: '100%', height: '402px', display: Display }} />}
+                        header={<img src={clinica.imagen ? `${process.env.REACT_APP_API_BASE_URL}uploads/${clinica.imagen}` : img} style={{ width: '100%', height: '402px', display: Display }} />}
                         footer={
                             <div >
                                 <div className="card-footer">
                                     <div className="precio">{clinica.descuento}% Descuento</div>
-                                    <img src={clinica.IsoTipo ? `http://localhost:4000/uploads/${clinica.IsoTipo}` : user} alt="logo" className="clinica-logo" />
+                                    <img src={clinica.IsoTipo ? `${process.env.REACT_APP_API_BASE_URL}uploads/${clinica.IsoTipo}` : user} alt="logo" className="clinica-logo" />
                                 </div>
                                 {admin && ( // Mostrar botón solo si admin es true
                                     <div className='flex justify-content-center mt-3'>

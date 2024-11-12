@@ -214,8 +214,6 @@ export const ClinicaProvider = ({ children }) => {
         setClinica(rowData)
     }
 
-
-
     const validateAdminData = () => {
         const response = verifyGeneralData.execute(clinicaAdministrador)
         console.log("xxx", response)
@@ -263,13 +261,19 @@ export const ClinicaProvider = ({ children }) => {
         cleanDataClinica()
         setCurrentStep(0)
     }
-    const handleDeleteClinica = () => {
+    const handleDeleteClinica = async () => {
         
-        const response = deleteClinica.execute(clinica?.id)
-
+        const response = await deleteClinica.execute(clinica?.id)
+        if(response.success){
+            await getAllClinicas()
+        }
         return response
     }
 
+    const closeEditar = () => {
+        setEditar(false);
+        cleanDataClinica()
+    }
 
     return (
         <ClinicaContext.Provider value={{
@@ -292,7 +296,7 @@ export const ClinicaProvider = ({ children }) => {
             updateClinica,
             editar, setEditar,
             visibleDelete, setVisibleDelete,
-            handleClickDeleteClinica,handleDeleteClinica
+            handleClickDeleteClinica,handleDeleteClinica,closeEditar
 
         }}>
             {children}

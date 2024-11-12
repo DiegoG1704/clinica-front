@@ -8,7 +8,6 @@ class ClinicaSubLocalMapper {
        
         
         // let logoUrl=`${process.env.REACT_APP_API_BASE_URL}uploads/${data?.IsoTipo}`
-        console.log("zzz",data)
         return new ClinicaLocal (
             data?.id,
             data?.nombre,

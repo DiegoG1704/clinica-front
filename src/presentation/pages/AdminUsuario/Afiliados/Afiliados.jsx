@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import '../Afiliados/css/Afiliados.css';
 import { Button } from 'primereact/button';
-import { Menu } from 'primereact/menu';
 import { useNavigate } from 'react-router-dom';
 import Carrousel from './Carousel ';
 import { InputText } from 'primereact/inputtext';
@@ -9,20 +8,24 @@ import { Carousel } from 'primereact/carousel';
 import ClinicaCards from './ClinicaCards';
 import axios from 'axios';
 import CardTop from './CardTop';
-import { apiAdapter } from '../../../../core/adapters/apiAdapter';
 
-export default function Afiliados({ idUsuario, setIdUsuario }) {
-    const menuRight = useRef(null);
+export default function Afiliados() {
     const navigate = useNavigate();
     
-    const [nombreUsuario, setNombreUsuario] = useState('');
     const [IsoTipo, setIsoTipo] = useState([]); // Estado para almacenar los isotipos
+    const [promociones, setPromociones] = useState([]);
+    const [top, setTop] = useState([]);
 
     useEffect(() => {
         const fetchIsoTipo = async () => {
             try {
-                const response = await apiAdapter.get('clinicas/isotipos'); // URL para obtener isotipos
-                setIsoTipo(response); // Almacena los isotipos en el estado
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}GetPagHome`);
+                const { Img } = response.data; // URL para obtener isotipos
+                setIsoTipo(Img); // Almacena los isotipos en el estado
+                const { Promociones } = response.data;
+                setPromociones(Promociones);
+                const {Listatop} = response.data
+                setTop(Listatop)
             } catch (error) {
                 console.error('Error al obtener los isotipos:', error);
             }
@@ -30,23 +33,6 @@ export default function Afiliados({ idUsuario, setIdUsuario }) {
 
         fetchIsoTipo();
     }, []);
-
-    useEffect(() => {
-        const fetchUsuario = async () => {
-            if (idUsuario) {
-                try {
-                    const response = await apiAdapter.get(`user/${idUsuario}`);
-                    setNombreUsuario(response.nombres); // Ajusta según la estructura de tu API
-                } catch (error) {
-                    console.error('Error fetching user data:', error);
-                }
-            } else {
-                setNombreUsuario(''); // Reiniciar el nombre si no hay idUsuario
-            }
-        };
-
-        fetchUsuario();
-    }, [idUsuario]);
 
     const responsiveOptions = [
         {
@@ -61,54 +47,18 @@ export default function Afiliados({ idUsuario, setIdUsuario }) {
         },
     ];
 
-    const handleLogout = () => {
-        setIdUsuario(null);
-        navigate('/login');
-    };
-
-    const items = [
-        {
-            label: 'Hola, ' + (nombreUsuario || 'Usuario'),
-            items: [
-                {
-                    label: 'Gestionar cuenta',
-                    icon: 'pi pi-user',
-                },
-                {
-                    label: 'Cerrar Sesión',
-                    icon: 'pi pi-power-off',
-                    command: handleLogout
-                }
-            ]
-        }
-    ];
-
     const clinicaslogo = (clinica) => (
         <div className="clinica-logo-container">
             <img
-                src={`http://localhost:4000/uploads/${clinica.IsoTipo}`} // Cambia según tu ruta de imagen
+                src={`${process.env.REACT_APP_API_BASE_URL}uploads/${clinica.IsoTipo}`} // Cambia según tu ruta de imagen
                 alt="Clinica Logo"
                 className="clinica-logo"
             />
         </div>
     );
 
-    const [promociones, setPromociones] = useState([]);
+    
     const [searchTerm, setSearchTerm] = useState(''); // Estado para almacenar promociones
-
-    // Función para obtener las promociones
-    useEffect(() => {
-      const fetchPromociones = async () => {
-        try {
-          const response = await apiAdapter.get('http://localhost:4000/getPromociones');
-          setPromociones(response);
-        } catch (error) {
-          console.error('Error al obtener las promociones:', error);
-        }
-      };
-  
-      fetchPromociones();
-    }, []);
 
     // Filtrar promociones según el término de búsqueda
     const filteredPromociones = promociones.filter(promocion =>
@@ -127,30 +77,8 @@ export default function Afiliados({ idUsuario, setIdUsuario }) {
                     <div className="links-container">
                         <h1><a className="link">Inicio</a></h1>
                         <h1><a className="link">Promociones</a></h1>
-                        {idUsuario ? (
-                            <h1><a className="link">{nombreUsuario}</a></h1>
-                        ) : (
-                            <Button label="Sign up" onClick={() => navigate('/login')} className='loguear' />
-                        )}
+                        <Button label="Sign up" onClick={() => navigate('/login')} className='loguear' />
                     </div>
-                    {idUsuario && (
-                        <>
-                            <Button
-                                className="user-button"
-                                onClick={(event) => menuRight.current.toggle(event)}
-                                aria-controls="popup_menu_right"
-                                aria-haspopup
-                            >
-                                Usuario
-                            </Button>
-                            <Menu
-                                model={items}
-                                popup
-                                ref={menuRight}
-                                id="popup_menu_right"
-                            />
-                        </>
-                    )}
                 </div>
             </div>
             <Carrousel />
@@ -163,7 +91,7 @@ export default function Afiliados({ idUsuario, setIdUsuario }) {
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <h1 className='mejoras'>Nuestras mejores ofertas</h1>
-                <CardTop />
+                <CardTop valores={top}/>
             </div>
             <div>
                 <Carousel
@@ -177,7 +105,7 @@ export default function Afiliados({ idUsuario, setIdUsuario }) {
                     itemTemplate={clinicaslogo}
                 />
             </div>
-            <ClinicaCards Ancho={'400px'} Alto={'550px'} Margen={'2rem'} Promociones={filteredPromociones} Admin={false}/>
+            <ClinicaCards Ancho={'400px'} Alto={'550px'} Margen={'2rem'} Promociones={promociones} Admin={false}/>
         </div>
     );
 }
