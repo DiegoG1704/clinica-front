@@ -37,14 +37,14 @@ export default function Login({ onLogin }) {
     return (
         <div className="login-container">
             <Toast ref={toastRef} />
-
-            <div className="login-left">
                 <Button
                     icon="pi pi-chevron-left"
                     className="back-button"
                     onClick={() => navigate('/')}
                     aria-label="Retroceder"
                 />
+            <div className="login-left">
+                
                 {/* Columna izquierda con el formulario */}
                 <h1 className="tituloLogin">Inicia Sesión</h1>
                 {/* Input de correo */}

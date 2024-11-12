@@ -48,28 +48,12 @@
 
 .buscer {
     width: 50%; /* Cambiar a un ancho del 80% del contenedor */
-    min-width: 400px; /* Limitar el ancho máximo para pantallas grandes */
     height: 5rem;
     border-radius: 40px;
     font-size: 1.5rem;
     padding: 0 1rem; /* Espaciado interno */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra opcional */
 }
-
-@media (max-width: 768px) {
-    .buscer {
-        width: 90%; /* Ampliar el ancho en pantallas pequeñas */
-        font-size: 1.2rem; /* Reducir tamaño de fuente */
-    }
-}
-
-@media (max-width: 480px) {
-    .buscer {
-        height: 4rem; /* Reducir la altura en pantallas más pequeñas */
-        font-size: 1rem; /* Reducir aún más el tamaño de fuente */
-    }
-}
-
 
 .loguear{
     background-color: #fff;
@@ -93,6 +77,13 @@
     max-width: 100%; /* Ajusta el ancho máximo */
     max-height: 100%; /* Ajusta la altura máxima */
     object-fit: contain; /* Mantiene la proporción original */
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
 }
 
 
@@ -142,6 +133,9 @@
 }
 
 @media (max-width: 768px) {
+    .link{
+        display: none;
+    }
     .carruselclinica {
         flex-direction: column; /* Cambia a columna en pantallas más pequeñas */
         align-items: center; /* Centra elementos verticalmente */
@@ -150,6 +144,11 @@
     .clinica-logo-container {
         width: 80%; /* Ajusta el contenedor de los logos en pantallas pequeñas */
         height: auto; /* Ajusta la altura automáticamente */
+    }
+    
+    .buscer {
+        width: 80%; /* Ampliar el ancho en pantallas pequeñas */
+        font-size: 1.2rem; /* Reducir tamaño de fuente */
     }
 }
 
@@ -162,5 +161,9 @@
     .clinica-logo {
         max-width: 100%; /* Asegúrate de que las imágenes se escalen correctamente */
         max-height: 80px; /* Mantén la altura máxima deseada */
+    }
+    .buscer {
+        height: 4rem; /* Reducir la altura en pantallas más pequeñas */
+        font-size: 1rem; /* Reducir aún más el tamaño de fuente */
     }
 }

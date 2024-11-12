@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Carousel } from 'primereact/carousel';
 import { Button } from 'primereact/button';
-import 'primereact/resources/themes/lara-light-indigo/theme.css';  // PrimeReact theme
-import 'primereact/resources/primereact.min.css';                 // PrimeReact core css
 import '../Afiliados/css/Carousel.css';                            // Custom styling
 import portada from '../../../img/img.png'
 
@@ -20,6 +18,11 @@ export default function Carrousel() {
             numVisible: 1,
             numScroll: 1,
         },
+        {
+            breakpoint: '480px',  // Add another breakpoint for smaller devices
+            numVisible: 1,
+            numScroll: 1,
+        },
     ];
 
     const sampleProducts = [
@@ -29,7 +32,7 @@ export default function Carrousel() {
             highlight: 'MásSalud',
             description: 'Conoce más sobre nuestra iniciativa dando click abajo y entérate de las últimas novedades y beneficios que te ofrecemos',
             buttonLabel: 'Conoce más',
-            image:portada
+            image: portada
         },
         {
             id: 2,

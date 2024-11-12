@@ -8,26 +8,31 @@ import { Carousel } from 'primereact/carousel';
 import ClinicaCards from './ClinicaCards';
 import axios from 'axios';
 import CardTop from './CardTop';
+import { ProgressSpinner } from 'primereact/progressspinner'; // Importar ProgressSpinner
 
 export default function Afiliados() {
     const navigate = useNavigate();
-    
+
     const [IsoTipo, setIsoTipo] = useState([]); // Estado para almacenar los isotipos
     const [promociones, setPromociones] = useState([]);
     const [top, setTop] = useState([]);
+    const [loading, setLoading] = useState(true); // Estado para controlar la carga de los datos
 
     useEffect(() => {
         const fetchIsoTipo = async () => {
             try {
+                setLoading(true); // Inicia el loading
                 const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}GetPagHome`);
                 const { Img } = response.data; // URL para obtener isotipos
                 setIsoTipo(Img); // Almacena los isotipos en el estado
                 const { Promociones } = response.data;
                 setPromociones(Promociones);
-                const {Listatop} = response.data
-                setTop(Listatop)
+                const { Listatop } = response.data;
+                setTop(Listatop);
             } catch (error) {
                 console.error('Error al obtener los isotipos:', error);
+            } finally {
+                setLoading(false); // Detiene el loading después de que los datos son cargados
             }
         };
 
@@ -57,7 +62,6 @@ export default function Afiliados() {
         </div>
     );
 
-    
     const [searchTerm, setSearchTerm] = useState(''); // Estado para almacenar promociones
 
     // Filtrar promociones según el término de búsqueda
@@ -81,31 +85,40 @@ export default function Afiliados() {
                     </div>
                 </div>
             </div>
-            <Carrousel />
-            <div className='buscador'>
-                <p className='text'>Encuentra los mejores descuentos y promociones médicas en un solo lugar</p>
-                <InputText
-                    placeholder="Buscar..."
-                    className='buscer'
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <h1 className='mejoras'>Nuestras mejores ofertas</h1>
-                <CardTop valores={top}/>
-            </div>
-            <div>
-                <Carousel
-                    className='carruselclinica'
-                    value={IsoTipo}
-                    numVisible={4}
-                    responsiveOptions={responsiveOptions}
-                    numScroll={3}
-                    circular
-                    autoplayInterval={5000}
-                    itemTemplate={clinicaslogo}
-                />
-            </div>
-            <ClinicaCards Ancho={'400px'} Alto={'550px'} Margen={'2rem'} Promociones={promociones} Admin={false}/>
+
+            {loading ? ( // Mostrar el spinner mientras se cargan los datos
+                <div className="loading-spinner">
+                    <ProgressSpinner />
+                </div>
+            ) : (
+                <>
+                    <Carrousel />
+                    <div className='buscador'>
+                        <p className='text'>Encuentra los mejores descuentos y promociones médicas en un solo lugar</p>
+                        <InputText
+                            placeholder="Buscar..."
+                            className='buscer'
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        <h1 className='mejoras'>Nuestras mejores ofertas</h1>
+                        <CardTop valores={top} />
+                    </div>
+                    <div>
+                        <Carousel
+                            className='carruselclinica'
+                            value={IsoTipo}
+                            numVisible={4}
+                            responsiveOptions={responsiveOptions}
+                            numScroll={3}
+                            circular
+                            autoplayInterval={5000}
+                            itemTemplate={clinicaslogo}
+                        />
+                    </div>
+                    <ClinicaCards Ancho={'400px'} Alto={'550px'} Margen={'2rem'} Promociones={promociones} Admin={false} />
+                </>
+            )}
         </div>
     );
 }

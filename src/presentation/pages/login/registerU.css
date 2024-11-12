@@ -64,7 +64,8 @@
 .login-left .login-button {
     width: 100%; /* Ocupa el 100% del contenedor */
     margin-top: 20px;
-    background-color: #000;
+    background-color: #85C226;
+    border-color: #85C226;
     color: #fff;
 }
 

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 import { Chart } from 'primereact/chart';
@@ -167,7 +166,7 @@ export default function Home() {
                       <h1>{item.cantidad}</h1>
                   </div>
                   <div>
-                      <Button icon={item.icono} disabled rounded severity={item.severity} aria-label="Favorite" 
+                      <Button icon={item.icono} rounded severity={item.severity} aria-label="Favorite" 
                       style={{ marginRight: '8px', width: '60px', height: '60px',background:'#85C226',borderColor:'#85C226' }} />
                   </div>
               </div>

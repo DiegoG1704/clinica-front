@@ -13,18 +13,19 @@
   .tituloLogin {
     font-size: 2.5rem;
     margin-bottom: 20px;
+    color: #85C226;
   }
   
-  .input-group {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-  }
+  .p-inputgroup {
+    display: flex; /* Aligns the input text and the button in a row */
+    position: relative; /* Needed to position the button relative to this container */
+    width: 100%;
+}
   
   .login-button {
     width: 100%;
     margin-top: 20px;
-    background-color: #000;
+    background: #85C226;
     color: #fff;
   }
   
@@ -56,12 +57,19 @@
     text-decoration: underline; /* Opcional: añade subrayado al pasar el mouse */
   }
 
+  .p-inputgroup .p-button-secondary {
+    position: absolute; /* Positions the button absolutely inside the input group */
+    right: 10px; /* Adjust the right padding based on your design */
+    top: 50%; /* Vertically center the button */
+    transform: translateY(-50%); /* Fine-tune vertical centering */
+}
+
   .input-group .p-inputtext {
-    background-color: white; /* Fondo blanco */
-    width: 100%;/* Ajusta el ancho según tus necesidades, por ejemplo, puedes usar un valor fijo como '300px' */
-    height: 50px; 
-    border-radius: 8px; /* Borde curvado, si no lo has agregado aún */
-  }
+    background-color: white;
+    width: 100%; /* Make input take full width of the container */
+    height: 50px;
+    border-radius: 8px;
+}
   
   .login-button {
     border-radius: 8px;
@@ -74,7 +82,34 @@
     text-align: left; /* Asegura que el texto esté alineado a la izquierda */
     margin-top: 10px;
   }
-
+  
+  .p-button-secondary {
+    background: transparent;
+    border-color: transparent;
+    color: #85C226;
+    position: absolute;
+    right: 10px; /* Distance from the right edge of the input */
+    top: 50%;
+    transform: translateY(-50%); /* Adjusts vertical alignment */
+    padding: 0; /* Optional: Remove default padding */
+}
+  
+  .back-button {
+    background-color: white;
+    border: 2px solid #85C226; /* Grosor y color de los bordes */
+    border-radius: 50%; /* Hace el botón circular */
+    width: 50px; /* Tamaño del botón */
+    height: 50px; /* Tamaño del botón */
+    display: flex;
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    outline: none; /* Elimina el contorno del botón */
+    color: #85C226;
+    top: 0;
+    position: absolute;
+    left: 0;
+    margin: 10px;
+  }
+  
   @media (max-width: 890px) {
     .login-container {
       flex-direction: column; /* Asegura que el contenido se apile verticalmente */
@@ -93,20 +128,4 @@
       display: none; /* Oculta la imagen */
     }
   }
-  
-  
-  .back-button {
-    background-color: white;
-    border: 2px solid black; /* Grosor y color de los bordes */
-    border-radius: 50%; /* Hace el botón circular */
-    width: 50px; /* Tamaño del botón */
-    height: 50px; /* Tamaño del botón */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-    outline: none; /* Elimina el contorno del botón */
-    color: #000;
-  }
-  
-  
+

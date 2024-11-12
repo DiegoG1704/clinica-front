@@ -10,9 +10,7 @@ function Navbar() {
       </div>
       
       <ul className="navbar-links">
-        <li>
-          <InputText placeholder='Buscar' className='buscadorNavar'/>
-        </li>
+
         <li>
           <a href="#"><i className="pi pi-bell"></i></a>
         </li>

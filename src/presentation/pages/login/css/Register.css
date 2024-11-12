@@ -148,10 +148,6 @@ background-color: black; /* Color de fondo cuando está seleccionado */
         font-size: 0.75rem; /* Reducir tamaño de fuente de etiquetas */
     }
 
-    .register-input, .validate-button {
-        height: 40px; /* Reducir altura de inputs y botones */
-    }
-
     .validate-button {
         min-width: 80px; /* Ajustar el ancho mínimo del botón */
     }

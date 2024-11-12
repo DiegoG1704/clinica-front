@@ -31,7 +31,7 @@
     color: #C4DD26; /* Light green color for 'MásSalud' */
     font-weight: bold;
     font-size: 5.5rem;
-    display: flex;
+
     text-align: left;
 }
 
@@ -53,7 +53,6 @@
     font-size: 30px;
     width: 262px;
     height: 76px;
-    
 }
 
 .image-section {
@@ -68,13 +67,102 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 800px) {
+@media (max-width: 1024px) {
     .custom-carousel-content {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr;  /* Stack text and image in one column */
+        height: auto;  /* Remove fixed height to allow more flexibility */
+    }
+
+    .text-section {
+        text-align: center;  /* Center text on smaller screens */
+        padding: 2rem;
+        align-items: center;  /* Add some padding for better readability */
+    }
+    .image-section {
+        display: none;  /* Hide the image on mobile devices */
+    }
+
+    .title {
+        font-size: 3rem;  /* Reduce font size on smaller screens */
         text-align: center;
     }
 
+    .highlight {
+        font-size: 4rem;  /* Adjust highlight size */
+    }
+
+    .description {
+        font-size: 1rem;  /* Adjust description font size */
+        width: 100%;
+        text-align: center;  /* Center the description text */
+    }
+
+    .custom-button {
+        font-size: 24px;  /* Adjust button font size */
+        width: 200px;  /* Adjust button width */
+        margin: 10px;
+    }
+}
+
+@media (max-width: 800px) {
+    .carousel-demo {
+        width: 100%;
+    }
+
+    .custom-carousel-content {
+        grid-template-columns: 1fr;  /* Stack items vertically */
+        height: auto;
+    }
+
     .image-section {
-        display: none;
+        display: none;  /* Hide the image on mobile devices */
+    }
+
+    .text-section {
+        padding: 1.5rem;
+    }
+
+    .title {
+        font-size: 2.5rem;  /* Further reduce font size */
+        text-align: center;
+    }
+
+    .highlight {
+        font-size: 3rem;  /* Adjust highlight for mobile */
+    }
+
+    .description {
+        font-size: 0.9rem;  /* Adjust description font size */
+        width: 100%;
+        text-align: center;  /* Center the description text */
+    }
+
+    .custom-button {
+        font-size: 20px;  /* Smaller button font size */
+        width: 180px;  /* Adjust button width */
+        padding: 0.5rem 1.5rem;  /* Adjust padding */
+    }
+}
+
+@media (max-width: 480px) {
+    .custom-carousel-content {
+        grid-template-columns: 1fr;  /* Stack content vertically */
+    }
+
+    .title {
+        font-size: 2rem;  /* Reduce title size */
+    }
+
+    .highlight {
+        font-size: 2.5rem;  /* Adjust highlight for very small screens */
+    }
+
+    .description {
+        font-size: 0.8rem;  /* Further reduce description font size */
+    }
+
+    .custom-button {
+        font-size: 18px;  /* Smallest button font size */
+        width: 160px;  /* Small button size */
     }
 }
