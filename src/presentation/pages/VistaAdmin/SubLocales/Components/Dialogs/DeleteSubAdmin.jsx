@@ -9,6 +9,8 @@ import { date } from 'zod';
 export default function DeleteSubAdmin({ visible, close, actualizar ,Data}) {
     const toast = React.useRef(null);
 
+    console.log('dat',Data)
+
     // Asegurarse de que Data es válido antes de continuar
     if (!Data) {
         return null; // O también puedes devolver un loading spinner o un mensaje alternativo

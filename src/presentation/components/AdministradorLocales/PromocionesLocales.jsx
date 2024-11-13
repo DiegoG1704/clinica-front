@@ -58,7 +58,11 @@ export default function PromocionesLocales() {
       />
     </div>
   );
-
+  const truncateAddress = (address) => {
+    const words = address.split(' '); // Divide la dirección en palabras
+    const truncated = words.slice(0, 5).join(' '); // Toma las primeras 5 palabras
+    return truncated;
+}
 
   return (
     <>
@@ -88,7 +92,7 @@ export default function PromocionesLocales() {
         />
         <Column field="area" header="Area" />
         <Column field="descuento" header="Descuento" />
-        <Column field="descripcion" header="Descripción" />
+        <Column header="Descripción"  body={(rowData) => truncateAddress(rowData.descripcion)}/>
         <Column header='Acciones' body={actionsTemplate} />
       </DataTable>
       <CreatePromo visible={agregar} close={() => setAgregar(false)} recargar={fetchPromociones}/>

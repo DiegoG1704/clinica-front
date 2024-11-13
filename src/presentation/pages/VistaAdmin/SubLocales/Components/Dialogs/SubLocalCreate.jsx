@@ -42,12 +42,12 @@ const SubLocalCreate = () => {
                 <div className='flex flex-column gap-2'>
                     <div className="flex flex-column gap-2">
                         <label htmlFor="username">Nombre</label>
-                        <InputText id="username" aria-describedby="username-help" name='nombre' onChange={handleChange} />
+                        <InputText id="username" aria-describedby="username-help" name='nombre' placeholder='Ingresar nombre....' onChange={handleChange} />
                     </div>
 
                     <div className="flex flex-column gap-2">
                         <label htmlFor="username">Dirección</label>
-                        <InputText id="username" aria-describedby="username-help" name='direccion' onChange={handleChange} />
+                        <InputText id="username" aria-describedby="username-help" name='direccion' placeholder='Ejm: Av. Guardia Civil 421 - 433 San Borja' onChange={handleChange} />
                     </div>
 
                 </div>

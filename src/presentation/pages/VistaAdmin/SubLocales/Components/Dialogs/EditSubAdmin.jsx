@@ -9,11 +9,13 @@ import { Divider } from 'primereact/divider';
 import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
 import { apiAdapter } from '../../../../../../core/adapters/apiAdapter';
+import '../Estilos/DialogCreate.css'
         
 
 export default function EditSubAdmin({ visible, close, actualizar,editData }) {
   const { user } = useAuth();  
   const [subAdmin, setSubAdmin] = useState([]);
+  console.log('datos',editData)
   const [formDataLocal, setFormDataLocal] = useState({
     nombres: '',
     apellidos: '',
@@ -34,7 +36,6 @@ export default function EditSubAdmin({ visible, close, actualizar,editData }) {
   });
   
   const [showPassword, setShowPassword] = useState(false);
-  const [dniError, setDniError] = useState('');
   const [loading, setLoading] = useState(false);
   const toast = React.useRef(null);
 
@@ -42,10 +43,12 @@ export default function EditSubAdmin({ visible, close, actualizar,editData }) {
     if (editData) {
       setFormDataLocal({
         ...formDataLocal,
-        ...editData, // Asegúrate de que editData no tenga valores undefined
+        ...editData,
+        fechNac: editData.fechNac ? new Date(editData.fechNac) : null, // Convierte a Date si ya existe
       });
     }
   }, [editData]);
+  
   
   // Manejo de cambios en los campos del formulario
 // Manejo de cambios en los campos del formulario
@@ -71,6 +74,7 @@ const handleChange = (e) => {
     const fetchSubAdmin = async () => {
       try {
         const response = await apiAdapter.get(`locales/clinica/${user?.clinica_id}`);
+        console.log('r',response)
         setSubAdmin(response);
       } catch (error) {
         console.error('Error fetching clinic data:', error);
@@ -83,12 +87,16 @@ const handleChange = (e) => {
   const validateDni = async () => {
     const { dni } = formDataLocal;
     if (!dni || dni.length !== 8) {
-      setDniError('El DNI debe tener 8 dígitos');
+      toast.current.show({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'El DNI debe tener 8 dígitos',
+        life: 3000
+      });
       return;
     }
 
     setLoading(true);
-    setDniError('');
 
     try {
       const response = await axios.get(
@@ -108,7 +116,6 @@ const handleChange = (e) => {
           life: 3000
         });
       } else {
-        setDniError('DNI no válido');
         toast.current.show({
           severity: 'error',
           summary: 'Error',
@@ -117,7 +124,6 @@ const handleChange = (e) => {
         });
       }
     } catch (error) {
-      setDniError('Hubo un error al validar el DNI');
       toast.current.show({
         severity: 'error',
         summary: 'Error',
@@ -142,6 +148,27 @@ const handleChange = (e) => {
     }
     return true;
   };
+
+  const validateRequiredFields = () => {
+    const requiredFields = [
+      'nombres', 'apellidos', 'telefono', 'fechNac', 'direccion',
+      'dni', 'correo', 'contraseña', 'confirmPassword', 'Local_id'
+    ];
+  
+    for (let field of requiredFields) {
+      if (!formDataLocal[field]) {
+        toast.current.show({
+          severity: 'warn',
+          summary: 'Advertencia',
+          detail: `El campo ${field} es obligatorio.`,
+          life: 3000
+        });
+        return false;
+      }
+    }
+  
+    return true;
+  };
   
   // Validación del correo electrónico
   const validateEmail = () => {
@@ -150,6 +177,10 @@ const handleChange = (e) => {
   };
 
   const handleSubmit = async () => {
+
+    if (!validateRequiredFields()) {
+      return; // Detener el envío si algún campo requerido está vacío
+    }
     if (!validatePasswords()) return;
     if (!validateEmail()) {
       toast.current.show({
@@ -160,13 +191,20 @@ const handleChange = (e) => {
       });
       return;
     }
+
+    const formDataToSubmit = { 
+      ...formDataLocal,
+      fechNac: formDataLocal.fechNac ? formDataLocal.fechNac.toISOString().split('T')[0] : null // Asegúrate de enviar en formato 'yyyy-mm-dd'
+    };
   
     try {
       setLoading(true);
       const response = await apiAdapter.put(
         `user/edit/${editData.id}`,
-        formDataLocal
+        formDataToSubmit
       );
+
+      console.log(response)
   
       toast.current.show({
         severity: 'success',
@@ -227,94 +265,95 @@ const handleChange = (e) => {
     <Dialog visible={visible} onHide={close} header={headerTemplate} style={{width:'800px'}}>
       <Toast ref={toast} />
       <div className="flex gap-4"> {/* Contenedor principal con `flex` y espacio entre las columnas */}
-  <div className="flex-1"> {/* La columna de Datos Personales ocupa el 50% */}
-    <div className='DatosPersonales'>
-      <div className="input-group">
-        <label htmlFor="dni">DNI</label>
-        <div className="input-button-group">
-          <InputText
-            id="dni"
-            name="dni"
-            value={formDataLocal.dni}
-            onChange={handleChange}
-            placeholder="Ingresa el DNI"
-            maxLength={8}
-          />
-          <Button
-            label={loading ? 'Validando...' : 'Validar'}
-            className="validate-button"
-            onClick={validateDni}
-            disabled={loading}
-          />
+        <div className="flex-1"> {/* La columna de Datos Personales ocupa el 50% */}
+          <div className='DatosPersonales'>
+            <div className="input-group">
+                <label htmlFor="dni">DNI</label>
+                <div className="input-button-group">
+                  <InputText
+                    id="dni"
+                    name="dni"
+                    value={formDataLocal.dni}
+                    onChange={handleChange}
+                    placeholder="Ingresa el DNI ..."
+                    maxLength={8}
+                  />
+                  <Button
+                    label={loading ? 'Validando...' : 'Validar'}
+                    className="validate-button"
+                    onClick={validateDni}
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-column gap-2">
+              <label htmlFor="nombres">Nombres</label>
+              <InputText
+                id="nombres"
+                name="nombres"
+                placeholder='Ingresa nombre...'
+                value={formDataLocal.nombres}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* Apellidos */}
+            <div className="flex flex-column gap-2">
+              <label htmlFor="apellidos">Apellidos</label>
+              <InputText
+                id="apellidos"
+                name="apellidos"
+                placeholder='Ingresa apellido...'
+                value={formDataLocal.apellidos}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* Teléfono */}
+            <div className="flex flex-column gap-2">
+              <label htmlFor="telefono">Teléfono</label>
+              <InputText
+                id="telefono"
+                name="telefono"
+                placeholder='Ingresa telefono...'
+                value={formDataLocal.telefono}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* Fecha de Nacimiento */}
+            <div className="flex flex-column gap-2">
+              <label htmlFor="fechNac">Fecha de Nacimiento</label>
+              <Calendar
+                id="fechNac"
+                name="fechNac"
+                placeholder='Selecciona fecha de nacimiento...'
+                value={formDataLocal.fechNac ? new Date(formDataLocal.fechNac) : null} // Convertir a Date si ya existe
+                onChange={handleChange}
+                showIcon
+                dateFormat="dd/mm/yy" // Mantener el formato visual, pero la fecha será guardada correctamente
+              />
+            </div>
+
+            {/* Dirección */}
+            <div className="flex flex-column gap-2">
+              <label htmlFor="direccion">Dirección</label>
+              <InputText
+                id="direccion"
+                name="direccion"
+                placeholder='Ingresa direccion...'
+                value={formDataLocal.direccion}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
         </div>
-        {dniError && <small style={{ color: 'red' }}>{dniError}</small>}
-      </div>
-
-      {/* Nombres */}
-      <div className="flex flex-column gap-2">
-        <label htmlFor="nombres">Nombres</label>
-        <InputText
-          id="nombres"
-          name="nombres"
-          value={formDataLocal.nombres}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      {/* Apellidos */}
-      <div className="flex flex-column gap-2">
-        <label htmlFor="apellidos">Apellidos</label>
-        <InputText
-          id="apellidos"
-          name="apellidos"
-          value={formDataLocal.apellidos}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      {/* Teléfono */}
-      <div className="flex flex-column gap-2">
-        <label htmlFor="telefono">Teléfono</label>
-        <InputText
-          id="telefono"
-          name="telefono"
-          value={formDataLocal.telefono}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      {/* Fecha de Nacimiento */}
-      {/* Fecha de Nacimiento */}
-      <div className="flex flex-column gap-2">
-        <label htmlFor="fechNac">Fecha de Nacimiento</label>
-        <Calendar
-          id="fechNac"
-          name="fechNac"
-          value={formDataLocal.fechNac ? new Date(formDataLocal.fechNac) : null} // Convertir a Date si ya existe
-          onChange={handleChange}
-          showIcon
-          dateFormat="dd/mm/yy" // Mantener el formato visual, pero la fecha será guardada correctamente
-        />
-      </div>
-
-
-      {/* Dirección */}
-      <div className="flex flex-column gap-2">
-        <label htmlFor="direccion">Dirección</label>
-        <InputText
-          id="direccion"
-          name="direccion"
-          value={formDataLocal.direccion}
-          onChange={handleChange}
-        />
-      </div>
-    </div>
-  </div>
-  <Divider layout="vertical" />
-  <div className="flex-1">
+         <Divider layout="vertical" />
+        <div className="flex-1">
           <div className="DatosUsuario">
             <h2>Datos de Usuario</h2>
 
@@ -326,7 +365,7 @@ const handleChange = (e) => {
                 name="correo"
                 value={formDataLocal.correo}
                 onChange={handleChange}
-                placeholder="Ingresa tu correo"
+                placeholder="Ingresa tu correo..."
               />
             </div>
 
@@ -348,21 +387,31 @@ const handleChange = (e) => {
                 style={{
                   position: 'absolute',
                   right: '10px',
-                  top: '28px'
+                  top: '48px'
                 }}
               />
             </div>
 
             {/* Confirmar contraseña */}
-            <div className="flex flex-column gap-2">
+            <div className="flex flex-column gap-2" style={{ position: 'relative' }}>
               <label htmlFor="confirmPassword">Confirmar Contraseña</label>
               <InputText
                 id="confirmPassword"
                 name="confirmPassword"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 value={formDataLocal.confirmPassword}
                 onChange={handleChange}
-                placeholder="Confirma tu contraseña"
+                placeholder="Confirma tu contraseña..."
+              />
+              <Button
+                icon={showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}
+                className="p-button-secondary transparent-button"
+                onClick={togglePassword}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '48px'
+                }}
               />
             </div>
 
@@ -372,26 +421,26 @@ const handleChange = (e) => {
               <Dropdown
                 id="Local_id"
                 name="Local_id"
-                value={formDataLocal.Local_id || ''}
+                value={formDataLocal.Local_id} // Este valor debe coincidir con el id del local
                 onChange={handleLocalChange}
                 options={subAdmin.map((local) => ({
-                    label: local.nombre,  // Nombre del local
-                    value: local.id // ID del local
+                  label: local.nombre,  // El nombre del local se muestra aquí
+                  value: local.id       // El id del local será el valor que se guarda
                 }))}
-                placeholder="Seleccionar Local"
-                />
+                placeholder="Seleccionar Local..."
+              />
+
             </div>
             <div className="dialog-footer flex justify-content-end" style={{marginTop:'5px'}}>
-              <Button 
-              style={{margin:'5px',background:'#85C226',borderColor:'#85C226',margin:'5px'}}
-              label="Guardar" 
-              icon="pi pi-save" 
-              onClick={handleSubmit} 
-              disabled={loading} />
               <Button
                 style={{margin:'5px',background:'#85C226',borderColor:'#85C226',margin:'5px'}}
                 label="Cerrar" 
                 onClick={close} />
+              <Button 
+                label="Guardar" 
+                onClick={handleSubmit} 
+                style={{margin:'5px',background:'#85C226',borderColor:'#85C226',margin:'5px'}}
+                disabled={loading} />
             </div>
           </div>
         </div>

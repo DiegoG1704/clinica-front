@@ -49,10 +49,10 @@ export default function Login({ onLogin }) {
                 <h1 className="tituloLogin">Inicia Sesión</h1>
                 {/* Input de correo */}
                 <div className="input-group">
-                    <label htmlFor="id">ID o DNI</label>
+                    <label htmlFor="id">Correo</label>
                     <InputText
                         id="id"
-                        placeholder="Ingrese su ID o DNI..."
+                        placeholder="Ingrese su correo..."
                         value={correo}
                         onChange={(e) => setCorreo(e.target.value)}
                         disabled={loading}

@@ -2,6 +2,8 @@ import React from 'react'
 import CustomTable from '../../../../components/Table/CustomTable'
 import { Column } from 'primereact/column'
 import { Button } from 'primereact/button'
+import { InputText } from 'primereact/inputtext'
+import { Card } from 'primereact/card'
 const SubLocalesList = ({ data, fnEdit,FnDelete }) => {
     const actionsTemplate = (rowData) => (
         <div className='flex gap-2'>
@@ -18,17 +20,29 @@ const SubLocalesList = ({ data, fnEdit,FnDelete }) => {
     }
     return (
         <div>
-            <CustomTable data={data}>
-                {/* <Column
-                    header="Imagen"
-                    body={LogoRowTemplate}
-                /> */}
-                <Column header="item" field='id' />
-                <Column header="Nombre" field='nombre' />
-                <Column header="Dirección" field='direccion' />
-                <Column body={actionsTemplate} />
+            <div className='flex justify-content-center'>
+                <Card style={{ width: '80%', height: '7rem'}}>
+                <InputText
+                    placeholder='Buscar nombre de afiliados...'
+                    style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
+                />
+                </Card>
+            </div>
+            <div>
+                <Card style={{ width: '80%', marginTop:'15px' }}>
+                    <CustomTable data={data}>
+                        {/* <Column
+                            header="Imagen"
+                            body={LogoRowTemplate}
+                        /> */}
+                        <Column header="item" field='id' />
+                        <Column header="Nombre" field='nombre' />
+                        <Column header="Dirección" field='direccion' />
+                        <Column body={actionsTemplate} />
 
-            </CustomTable>
+                    </CustomTable>
+                </Card>
+            </div>
         </div>
     )
 }

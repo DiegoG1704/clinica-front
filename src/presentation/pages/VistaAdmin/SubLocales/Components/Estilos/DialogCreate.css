@@ -1,0 +1,146 @@
+
+  /* Estilos del header del diálogo */
+  .p-dialog .p-dialog-header {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .p-dialog .p-dialog-header .pi-building {
+    font-size: 40px;
+    font-weight: 500;
+    color: #85C226;
+  }
+  
+  /* Estilo del título en el header */
+  .p-dialog .p-dialog-header span {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  
+  /* Contenedor de columnas de datos personales y datos de usuario */
+  .flex {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .flex-1 {
+    flex: 1;
+  }
+  
+  .DatosPersonales,
+  .DatosUsuario {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .DatosPersonales .input-group,
+  .DatosUsuario .input-group {
+    margin-bottom: 1rem;
+  }
+  
+  /* Estilo de los campos de formulario */
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  label {
+    font-weight: 600;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  textarea,
+  select {
+    padding: 0.75rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 100%;
+  }
+  
+  input:focus,
+  select:focus {
+    border-color: #85C226;
+    outline: none;
+  }
+  
+  /* Estilo para el botón de validar */
+  .input-button-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .validate-button {
+    background-color: #85C226;
+    border-color: #85C226;
+    color: white;
+  }
+  
+  .validate-button:disabled {
+    background-color: #ccc;
+    border-color: #ccc;
+    color: white;
+  }
+  
+  /* Estilos para los errores de validación */
+  small {
+    color: red;
+    font-size: 0.875rem;
+  }
+  
+  /* Estilo de los botones dentro del diálogo */
+  
+  .p-button:disabled {
+    background-color: #ccc;
+    border-color: #ccc;
+  }
+  
+  .transparent-button {
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+  
+  /* Estilo para el icono del ojo para mostrar/ocultar contraseña */
+  .p-button-secondary {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+  }
+  
+  .p-button-secondary .pi {
+    font-size: 1.2rem;
+  }
+  
+  /* Estilo para el footer del diálogo */
+  .dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  
+  .dialog-footer .p-button {
+    margin: 5px;
+  }
+  
+  .dialog-footer .p-button-close {
+    background-color: #85C226;
+    border-color: #85C226;
+  }
+  
+  /* Estilo para el componente de la fecha (Calendar) */
+  .p-calendar {
+    width: 100%;
+  }
+  
+  /* Estilo del Divider entre las columnas */
+  .p-divider {
+    background-color: #ddd;
+    margin: 0 1rem;
+  }
+  
