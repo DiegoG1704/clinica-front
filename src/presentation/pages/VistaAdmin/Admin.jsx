@@ -7,32 +7,28 @@ import axios from 'axios';
 import { InputText } from 'primereact/inputtext';
 import { Card } from 'primereact/card';
 import { apiAdapter } from '../../../core/adapters/apiAdapter';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 export default function Admin() {
   const [afiliadores, setAfiliadores] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); // Estado de carga
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchClinicas = async () => {
-      setLoading(true);
       try {
+        setLoading(true); // Inicia la carga
         const response = await apiAdapter.get('afiliadores-afiliados');
         setAfiliadores(response);
+        setLoading(false); // Termina la carga
       } catch (error) {
         console.error('Error fetching clinic data:', error);
-        setError('Failed to load clinics.');
-      } finally {
-        setLoading(false);
-      }
+        setLoading(false); // Termina la carga
+      } 
     };
 
     fetchClinicas();
   }, []);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
 
   // Filtrar afiliadores según el término de búsqueda
   const filteredAfiliadores = afiliadores.filter(afiliador =>
@@ -41,6 +37,7 @@ export default function Admin() {
 
   return (
     <>
+   
       <div className='flex'>
         <div className='flex-1 p-2'>
           <h1>Lista de Afiliados</h1>
@@ -56,10 +53,16 @@ export default function Admin() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </Card>
-      </div>
+      </div> 
+      {loading ? (
+        <div className="flex justify-content-center" style={{ marginTop: '50px' }}>
+          <ProgressSpinner />
+        </div>
+      ) : (
       <div className='flex justify-content-center'>
         <Card style={{ width: '80%', marginTop:'15px' }}>
           <DataTable value={filteredAfiliadores} rowClassName="my-2" dataKey="id" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
+          <Column header="Nº" body={(rowData, { rowIndex }) => rowIndex + 1} />
             <Column field="nombres" header="Nombre" />
             <Column field="apellidos" header="Apellidos" />
             <Column field="telefono" header="Télefono" />
@@ -68,6 +71,7 @@ export default function Admin() {
           </DataTable>
         </Card>
       </div>
+    )}
     </>
   );
 }

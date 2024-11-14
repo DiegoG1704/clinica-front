@@ -116,7 +116,26 @@ export default function Afiliados() {
                             itemTemplate={clinicaslogo}
                         />
                     </div>
-                    <ClinicaCards Ancho={'400px'} Alto={'550px'} Margen={'2rem'} Promociones={promociones} Admin={false} />
+                    <ClinicaCards Ancho={'400px'} Alto={'550px'} Margen={'2rem'} Promociones={filteredPromociones} Admin={false} />
+                    <div className='Barra'>
+                        <div className='Informacion'>
+                            <h2>Sobre Nosotros</h2>
+                            <p>Conoce el porqué de nuestra inciativa y quién la crea. Conoce nuestras redes sociales. Mantente conectado.</p>
+                            <div className='iconos'>
+                                <p><i className="pi pi-facebook" style={{ color: 'white'}}></i></p>
+                                <p><i className="pi pi-instagram" style={{ color: 'white'}}></i></p>
+                                <p><i className="pi pi-youtube" style={{ color: 'white'}}></i></p>
+                                <p><i className="pi pi-linkedin" style={{ color: 'white'}}></i></p>
+                            </div>
+                        </div>
+                        <div className='Link'>
+                            <h2>links de Acceso Rapido</h2>
+                            <p><i className="pi pi-play" style={{ color: 'white' }}></i>inicio</p>
+                            <p><i className="pi pi-play" style={{ color: 'white' }}></i>Nosotros</p>
+                            <p><i className="pi pi-play" style={{ color: 'white' }}></i>Contacto</p>
+                            <p><i className="pi pi-play" style={{ color: 'white' }}></i>Conocenos</p>
+                        </div>
+                    </div>
                 </>
             )}
         </div>

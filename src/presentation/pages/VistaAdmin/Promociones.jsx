@@ -5,19 +5,24 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { useAuth } from '../../context/AuthContext/AuthContext';
 import { apiAdapter } from '../../../core/adapters/apiAdapter';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 export default function Promociones() {
   const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
   const [promociones, setPromociones] = useState([]); // Estado para almacenar promociones
   const {user}= useAuth()
+  const [loading, setLoading] = useState(true);
   // Función para obtener las promociones
   useEffect(() => {
     const fetchPromociones = async () => {
       try {
+        setLoading(true)
         const response = await apiAdapter.get(`getPromociones/${user?.clinica_id}`);
         setPromociones(response);
+        setLoading(false)
       } catch (error) {
         console.error('Error al obtener las promociones:', error);
+        setLoading(false)
       }
     };
 
@@ -54,6 +59,11 @@ export default function Promociones() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
+      {loading ? (
+        <div className="flex justify-content-center" style={{ marginTop: '50px' }}>
+          <ProgressSpinner />
+        </div>
+      ) : (
       <ClinicaCards 
         Ancho={'280px'} 
         Alto={'200px'} 
@@ -62,6 +72,7 @@ export default function Promociones() {
         Promociones={filteredPromociones}
         Admin={true}
       />
+      )}
     </>
   );
 }
