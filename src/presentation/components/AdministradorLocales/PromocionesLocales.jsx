@@ -87,7 +87,6 @@ export default function PromocionesLocales() {
     XLSX.writeFile(wb, "promociones.xlsx");
   };
   
-  <Button icon="pi pi-file-excel" severity="success" outlined onClick={exportExcel} />
 
   return (
     <>

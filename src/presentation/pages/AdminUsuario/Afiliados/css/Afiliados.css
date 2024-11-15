@@ -183,6 +183,28 @@ p {
     margin-right: 5px; /* Espacio entre el icono y el texto */
 }
 
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+    background: #176ABC;
+}
+
+.spinner-logo-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-center {
+    margin-top: 10px; /* Ajusta este valor para espaciar el logo del spinner */
+    width: 100px; /* Ajusta el tamaño del logo */
+    position: absolute;
+}
+
+
 /* Media Query para pantallas de 768px o menos */
 @media (max-width: 768px) {
     
@@ -238,7 +260,7 @@ p {
     
     .clinica-logo-container {
         width: 80%; /* Ajusta el contenedor de los logos en pantallas pequeñas */
-        height: auto; /* Ajusta la altura automáticamente */
+        height: 120px; /* Ajusta la altura automáticamente */
     }
     
     .buscer {
@@ -250,7 +272,7 @@ p {
 @media (max-width: 480px) {
     .clinica-logo-container {
         width: 90%; /* Aumenta el ancho en pantallas más pequeñas */
-        height: auto; /* Ajusta la altura automáticamente */
+        height: 120px; /* Ajusta la altura automáticamente */
     }
 
     .clinica-logo {

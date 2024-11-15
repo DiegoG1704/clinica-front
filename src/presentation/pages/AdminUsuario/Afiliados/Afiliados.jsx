@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Afiliados/css/Afiliados.css';
 import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import ClinicaCards from './ClinicaCards';
 import axios from 'axios';
 import CardTop from './CardTop';
 import { ProgressSpinner } from 'primereact/progressspinner'; // Importar ProgressSpinner
+import logo from '../../../img/logo-inicio.png';
 
 export default function Afiliados() {
     const navigate = useNavigate();
@@ -19,9 +20,13 @@ export default function Afiliados() {
     const [loading, setLoading] = useState(true); // Estado para controlar la carga de los datos
 
     useEffect(() => {
+        // Retrasar la carga de los datos para simular un loading de 10 segundos
+        const timeout = setTimeout(() => {
+            setLoading(false); // Cambiar el estado de loading después de 10 segundos
+        }, 5000); // 5 segundos
+
         const fetchIsoTipo = async () => {
             try {
-                setLoading(true); // Inicia el loading
                 const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}GetPagHome`);
                 const { Img } = response.data; // URL para obtener isotipos
                 setIsoTipo(Img); // Almacena los isotipos en el estado
@@ -31,12 +36,13 @@ export default function Afiliados() {
                 setTop(Listatop);
             } catch (error) {
                 console.error('Error al obtener los isotipos:', error);
-            } finally {
-                setLoading(false); // Detiene el loading después de que los datos son cargados
             }
         };
 
-        fetchIsoTipo();
+        fetchIsoTipo(); // Ejecuta la función de obtención de datos
+
+        // Limpiar el timeout al desmontar el componente
+        return () => clearTimeout(timeout);
     }, []);
 
     const responsiveOptions = [
@@ -71,27 +77,31 @@ export default function Afiliados() {
 
     return (
         <div className="afiliados-wrapper">
-            <div className="afiliados-container">
-                <img
-                    src='https://www.massalud.com.pe/img/logo-inicio3.png'
-                    alt="Logo"
-                    className="logo"
-                />
-                <div className="header-actions">
-                    <div className="links-container">
-                        <h1><a className="link">Inicio</a></h1>
-                        <h1><a className="link">Promociones</a></h1>
-                        <Button label="Sign up" onClick={() => navigate('/login')} className='loguear' />
-                    </div>
-                </div>
-            </div>
-
             {loading ? ( // Mostrar el spinner mientras se cargan los datos
                 <div className="loading-spinner">
-                    <ProgressSpinner />
+                    <div className="spinner-logo-container">
+                        <ProgressSpinner className="custom-spinner" style={{width: '200px', height: '200px',}}  strokeWidth="2" fill="var(--surface-ground)" />
+                        <img src={logo} alt="Logo" className="logo-center" />
+                    </div>
                 </div>
             ) : (
                 <>
+                    <div className="afiliados-container">
+                        <img
+                            src='https://www.massalud.com.pe/img/logo-inicio3.png'
+                            alt="Logo"
+                            className="logo"
+                        />
+                        <div className="header-actions">
+                            <div className="links-container">
+                                <h1><a className="link">Inicio</a></h1>
+                                <h1><a className="link">Promociones</a></h1>
+                                <Button label="Sign up" onClick={() => navigate('/login')} className='loguear' />
+                            </div>
+                        </div>
+                    </div>
+
+            
                     <Carrousel />
                     <div className='buscador'>
                         <p className='text'>Encuentra los mejores descuentos y promociones médicas en un solo lugar</p>
