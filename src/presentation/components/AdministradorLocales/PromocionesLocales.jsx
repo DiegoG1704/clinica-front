@@ -4,16 +4,17 @@ import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { Divider } from 'primereact/divider';
 import { InputText } from 'primereact/inputtext';
-import { ProgressSpinner } from 'primereact/progressspinner'; // Importamos el ProgressSpinner
+import { ProgressSpinner } from 'primereact/progressspinner';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext/AuthContext';
 import { apiAdapter } from '../../../core/adapters/apiAdapter';
-import { InputTextarea } from 'primereact/inputtextarea';
-import logo from '../../img/sinLogo.png'
+import logo from '../../img/sinLogo.png';
 import CreatePromo from './Dialog/DialogCreatePromo';
 import EditarPromo from './Dialog/DialogEditarPromo';
 import DeletePromo from './Dialog/DialogDeletePromo';
 import { Card } from 'primereact/card';
+import PromoPDF from './Pdf/PromoPDF';
+import * as XLSX from 'xlsx';
 
 export default function PromocionesLocales() {
   const [promociones, setPromociones] = useState([]);
@@ -21,20 +22,20 @@ export default function PromocionesLocales() {
   const [editar, setEditar] = useState(false);
   const [eliminar, setEliminar] = useState(false);
   const [selectedPromotion, setSelectedPromotion] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(''); // Estado para la búsqueda
-  const [loading, setLoading] = useState(true); // Estado de carga
+  const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
   const { user } = useAuth();
-  
+
   const fetchPromociones = async () => {
-      try {
-        setLoading(true); // Inicia la carga
-        const response = await apiAdapter.get('getPromociones');
-        setPromociones(response);
-        setLoading(false); // Termina la carga
-      } catch (error) {
-        console.error('Error al obtener las promociones:', error);
-        setLoading(false); // En caso de error, también termina la carga
-      }
+    try {
+      setLoading(true);
+      const response = await apiAdapter.get('getPromociones');
+      setPromociones(response);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error al obtener las promociones:', error);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -79,6 +80,15 @@ export default function PromocionesLocales() {
     setSearchTerm(e.target.value);
   };
 
+  const exportExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(promociones);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Promociones");
+    XLSX.writeFile(wb, "promociones.xlsx");
+  };
+  
+  <Button icon="pi pi-file-excel" severity="success" outlined onClick={exportExcel} />
+
   return (
     <>
       <div className='flex'>
@@ -94,14 +104,24 @@ export default function PromocionesLocales() {
           />
         </div>
       </div>
+
       <div className='flex justify-content-center'>
         <Card style={{ width: '80%', height: '7rem' }}>
-          <InputText
-            value={searchTerm}
-            onChange={handleSearchChange}
-            placeholder='Buscar promociones...'
-            style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
-          />
+          <div className='flex align-items-center' style={{ height: '100%' }}>
+            <div className='flex justify-content-start' style={{ flex: 1 }}>
+              <InputText
+                value={searchTerm}
+                onChange={handleSearchChange}
+                placeholder='Buscar promociones...'
+                style={{ width: '50%', height: '3rem', borderRadius: '15px' }}
+              />
+            </div>
+
+            <div className='flex justify-content-end'>
+              <PromoPDF promociones={filteredData} />  {/* Componente para generar el PDF */}
+              <Button icon="pi pi-file-excel" severity="success" outlined onClick={exportExcel} />
+            </div>
+          </div>
         </Card>
       </div>
 
@@ -113,7 +133,7 @@ export default function PromocionesLocales() {
       ) : (
         <div className='flex justify-content-center'>
           <Card style={{ width: '80%', marginTop: '15px' }}>
-            <DataTable value={filteredData} responsiveLayout='stack' rowClassName="my-2" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
+          <DataTable value={filteredData} responsiveLayout='stack' rowClassName="my-2" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
               {/* Nueva columna para enumerar las filas */}
               <Column header="Nº" body={(rowData, { rowIndex }) => rowIndex + 1} />
               
