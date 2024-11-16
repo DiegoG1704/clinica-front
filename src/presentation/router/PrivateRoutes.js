@@ -42,7 +42,7 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
             <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} onLogout={logout} idUsuario={idUsuario} />
             <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
                 <Routes>
-                    {/* <Route path="/" element={<Navigate to={`${idUsuario?.rutas?.[0]?.ruta}`} />} /> */}
+                    
                     {/* Itera las rutas pasadas como props para generar los componentes dinámicamente */}
                     {router?.map((route) => (
                         <Route
@@ -52,6 +52,7 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
                         />
                     ))}
                     <Route path='/Configuraciones' element={<Configuraciones/>} />
+                    <Route path="*" element={<Navigate to={`${idUsuario?.rutas?.[0]?.ruta}`} />} />
                    
                 </Routes>
 
