@@ -62,6 +62,21 @@ class UserRepositoryImpl extends UserRepository {
 
 
     }
+    async logout() {
+        let response = { success: false, data: {}, error: [] }
+        try {
+            const data = await this.adapter.post(`logout`);
+        
+            response = { success: true, data:{message:"Saliendo"}, error: [] }
+
+        } catch (error) {
+            response = { ...response, error: [error?.response?.message] }
+
+        }
+        return response
+
+
+    }
 }
 
 export default UserRepositoryImpl;

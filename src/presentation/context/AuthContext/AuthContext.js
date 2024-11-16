@@ -16,6 +16,8 @@ import VistaRepositoryImpl from '../../../data/repositoires/vistas/VistasReposit
 import GetAllVistas from '../../../domain/useCases/vistas/GetAllVistas';
 import getUserByToken from '../../../domain/useCases/user/getUserByToken';
 import Loader from '../../components/Loader/Loader';
+import { LogoutUser } from '../../../domain/useCases/user/LogoutUser';
+import { history } from '../../utils/history';
 
 // Crear el contexto
 const AuthContext = createContext();
@@ -52,6 +54,8 @@ export const AuthProvider = ({ children }) => {
     const getUserByTokenUseCase = new getUserByToken(userRepository)
     const [loading, setLoading] = useState(true);
     const [panel, setPanel] = useState(true)
+    // LogOut
+    const userLogoutUseCase = new LogoutUser(userRepository)
 
     const login = async (correo, contraseña) => {
         try {
@@ -72,7 +76,14 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        setUser(null);
+        let response = userLogoutUseCase.execute()
+        if (response?.success) {
+
+            // history.navigate("/Configuraciones")
+            window.location.reload();
+            // setIsAuthenticated(false)
+
+        }
         // localStorage.removeItem('token');
         // localStorage.removeItem('user');
     };
