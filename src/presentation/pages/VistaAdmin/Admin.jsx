@@ -47,19 +47,13 @@ export default function Admin() {
         </div>
       </div>
       <div className='flex justify-content-center'>
-        <Card style={{ width: '80%', height: '7rem' }}>
-          <div className='flex justify-content-between align-items-center' style={{ height: '100%' }}>
-            <InputText
-              placeholder='Buscar nombre de afiliados...'
-              style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <div className='flex'>
-              <Button icon='pi pi-file-excel' className='bg-white border-white text-green-600' />
-              <Button icon='pi pi-file-pdf' className='bg-white border-white text-red-600' style={{ marginLeft: '0.5rem' }}/>
-            </div>
-          </div>
+        <Card style={{ width: '80%', height: '7rem'}}>
+          <InputText
+            placeholder='Buscar nombre de afiliados...'
+            style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </Card>
       </div>
       <div className='flex justify-content-center'>

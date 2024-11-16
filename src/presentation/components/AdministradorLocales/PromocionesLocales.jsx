@@ -6,6 +6,7 @@ import { Dialog } from 'primereact/dialog';
 import { Divider } from 'primereact/divider';
 import { InputText } from 'primereact/inputtext';
 import React, { useEffect, useState } from 'react';
+import { useAuth } from '../../context/AuthContext/AuthContext';
 
 export default function PromocionesLocales({ IdUsuario }) {
   const [promociones, setPromociones] = useState([]);
@@ -13,19 +14,18 @@ export default function PromocionesLocales({ IdUsuario }) {
   const [editar, setEditar] = useState(false);
   const [eliminar, setEliminar] = useState(false);
   const [selectedPromotion, setSelectedPromotion] = useState(null);
-
+  const{user}=useAuth()
   useEffect(() => {
     const fetchPromociones = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/getPromociones/${IdUsuario}`);
+        const response = await axios.get(`http://localhost:4000/getPromociones/${user?.id}`);
         setPromociones(response.data);
       } catch (error) {
         console.error('Error al obtener las promociones:', error);
       }
     };
-
     fetchPromociones();
-  }, [IdUsuario]);
+  }, [user]);
 
   const actionsTemplate = (rowData) => (
     <div className='flex gap-2'>
@@ -54,7 +54,7 @@ export default function PromocionesLocales({ IdUsuario }) {
     <>
       <div className='flex'>
         <div className='flex-1 p-2'>
-          <h1>Lista de Afiliados</h1>
+          <h1>Lista de Promociones</h1>
           <Divider />
         </div>
         <div className='flex justify-content-end align-items-center'>
@@ -66,7 +66,7 @@ export default function PromocionesLocales({ IdUsuario }) {
         </div>
       </div>
       <InputText
-        placeholder='Buscar nombre de afiliados...'
+        placeholder='Buscar nombre de Promociones...'
         style={{ width: '50%' }}
       />
       <DataTable value={promociones} rowClassName="my-2">

@@ -5,8 +5,12 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import photoDefault from "../../../img/photo-default.png"
+import fotoperfil from "../../../img/user.png"
+import { useAuth } from '../../../context/AuthContext/AuthContext';
 
 export default function Configuraciones() {
+  const{user}=useAuth()
+  console.log('user',user)
   return (
     <div className="container-page">
       <header>
@@ -18,11 +22,11 @@ export default function Configuraciones() {
           <div className="user-profile flex flex-column align-items-center p-4" style={{ flexBasis: '30%', maxWidth: '300px' }}>
             <header className='flex flex-column align-items-center'>
               <div className="user-profile__image mb-3">
-                <img src={photoDefault} className='border-circle'/>
+                <img src={user.fotoPerfil ? `http://localhost:4000/uploads/${user.fotoPerfil}` : fotoperfil} className='border-circle'/>
               </div>
               <div className="user-profile__info text-center">
-                <p className="user-profile__info__name">Rosa Montecarlo</p>
-                <p className="user-profile__info__role">Administrador local</p>
+                <p className="user-profile__info__name">{user.nombres}</p>
+                <p className="user-profile__info__role">{user.rolId}</p>
               </div>
             </header>
 
@@ -30,7 +34,7 @@ export default function Configuraciones() {
               <div className='flex justify-content-center '>
                 <div className="user__profile__record flex gap-2 text-center ">
                   <div className="user_profile__record__id">
-                    <p>004</p>
+                    <p>{user.id}</p>
                     <p>ID</p>
                   </div>
                   <hr className='divider-vertical' />
@@ -74,22 +78,22 @@ export default function Configuraciones() {
                 <div className='flex gap-4'>
                   <div className="flex flex-column gap-2 flex-1">
                     <label htmlFor="username">Nombres</label>
-                    <InputText id="username" aria-describedby="username-help" />
+                    <InputText value={user.nombres} id="username" aria-describedby="username-help" />
                   </div>
                   <div className="flex flex-column gap-2 flex-1">
                     <label htmlFor="username">Apellidos</label>
-                    <InputText id="username" aria-describedby="username-help" />
+                    <InputText value={user.apellidos} id="username" aria-describedby="username-help" />
                   </div>
                 </div>
 
                 <div className="flex flex-column gap-2 mt-3">
                   <label htmlFor="cargo">Cargo</label>
-                  <InputText id="cargo" />
+                  <InputText value={user.rolId} id="cargo" />
                 </div>
 
                 <div className="flex flex-column gap-2 mt-3">
                   <label htmlFor="email">Correo Electrónico</label>
-                  <InputText id="email" />
+                  <InputText value={user.correo} id="email" />
                 </div>
               </div>
 

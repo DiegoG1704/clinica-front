@@ -3,14 +3,15 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from 'primereact/dropdown';
 import axios from "axios";
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import { Checkbox } from "primereact/checkbox";
 import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast';
 import "./registerU.css";
+import { useAuth } from '../../context/AuthContext/AuthContext';
+import { showToast, showToastWithErrors } from '../../utils/showToast';
 
 export default function Registro({ userData }) {
-    console.log('data',userData)
     const toast = useRef(null);
     const [nombreUsuario, setNombreUsuario] = useState("");
     const [correo, setCorreo] = useState("");
@@ -22,6 +23,7 @@ export default function Registro({ userData }) {
     const [checked, setChecked] = useState(false);
     const [visible, setVisible] = useState(false);
     const navigate = useNavigate();
+    const { RegisterUser } = useAuth()
 
     useEffect(() => {
         // Clear the form when the component mounts
@@ -30,7 +32,13 @@ export default function Registro({ userData }) {
         setConfirmarContraseña("");
         setTelefono("");
         setChecked(false);
+
     }, []);
+    useEffect(() => {
+        if (Object.keys(userData).length === 0) {
+            navigate("/home")
+        }
+    })
 
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
@@ -42,55 +50,48 @@ export default function Registro({ userData }) {
     };
 
     const handleRegister = async () => {
-        // Validate passwords
-        if (contraseña !== confirmarContraseña) {
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Las contraseñas no coinciden' });
-            return;
-        }
-
-        if (contraseña.length < 8) {
-            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'La contraseña debe tener al menos 8 caracteres' });
-            return;
-        }
-        
-
-        if (!userData || !userData.dni || !userData.nombres || !userData.apellidos) {
-            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Información de usuario incompleta' });
-            return;
-        }        
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(correo)) {
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Correo no válido' });
-            return;
-        }
-
-        // Prepare user data for the API
         const newUser = {
             ...userData,
             correo,
             contraseña,
             telefono,
-            rol_id: 4,       
-            fotoPerfil: null, 
-            clinica_id:1
+            rol_id: 4,
+            fotoPerfil: null,
+            clinica_id: 1,
+            aceptarPoliticas: checked,
+            confirmarContraseña: confirmarContraseña
         };
-        console.log('Datos enviados a la API', newUser);
         try {
-            const response = await axios.post('http://localhost:4000/CreateUsuario', newUser);
-            if (response.data.success) {
-                toast.current.show({ severity: 'success', summary: 'Éxito', detail: 'Usuario creado correctamente' });
+            const response = await RegisterUser(newUser)
+            console.log("respon", response)
+            if (response?.success) {
+                showToast("success","Éxito",'Usuario creado correctamente',toast)
                 navigate('/login'); // Navigate to the next page
-            } else {
-                toast.current.show({ severity: 'error', summary: 'Error', detail: 'Usuario no creado' });
+            }else{
+                showToastWithErrors("error","Error al registrar usuario",response?.error,toast)
+
             }
+
         } catch (error) {
-            if (error.response) {
-                toast.current.show({ severity: 'error', summary: 'Error', detail: error.response.data.message || 'Hubo un error al crear el usuario' });
-            } else {
-                toast.current.show({ severity: 'error', summary: 'Error', detail: 'Hubo un error en la solicitud' });
-            }
+
         }
+
+
+
+        // try {
+        //     const response = await axios.post('http://localhost:4000/CreateUsuario', newUser);
+        //     if (response.data.success) {
+        //         
+        //     } else {
+        //         toast.current.show({ severity: 'error', summary: 'Error', detail: 'Usuario no creado' });
+        //     }
+        // } catch (error) {
+        //     if (error.response) {
+        //         toast.current.show({ severity: 'error', summary: 'Error', detail: error.response.data.message || 'Hubo un error al crear el usuario' });
+        //     } else {
+        //         toast.current.show({ severity: 'error', summary: 'Error', detail: 'Hubo un error en la solicitud' });
+        //     }
+        // }
     };
 
     return (
@@ -98,17 +99,17 @@ export default function Registro({ userData }) {
             <Toast ref={toast} />
             <div className="login-link">
                 <div>
-                <label>¿Ya tienes una cuenta?</label>
-                <a className='Iniciar' onClick={() => navigate('/login')}>Inicia sesión</a>
+                    <label>¿Ya tienes una cuenta?</label>
+                    <a className='Iniciar' onClick={() => navigate('/login')}>Inicia sesión</a>
                 </div>
                 <a>¿Olvidaste tu ID o contraseña?</a>
             </div>
 
             <div className="login-left">
                 <div className="header">
-                    <Button 
-                        label='' 
-                        onClick={() => navigate('/home')} 
+                    <Button
+                        label=''
+                        onClick={() => navigate('/home')}
                         className="circular-button"
                     >
                         <i className="pi pi-angle-left"></i>
@@ -197,9 +198,9 @@ export default function Registro({ userData }) {
                         className="custom-checkbox"
                     />
                     <p>
-                        Al registrarte aceptas haber leído y estar de acuerdo con la 
+                        Al registrarte aceptas haber leído y estar de acuerdo con la
                         <span onClick={() => setVisible(true)} className="terminosLink"> Política
-                        de Privacidad y los Términos y condiciones</span>
+                            de Privacidad y los Términos y condiciones</span>
                     </p>
                 </div>
 
@@ -209,7 +210,7 @@ export default function Registro({ userData }) {
                     onClick={handleRegister}
                     className="login-button"
                 />
-                
+
                 {/* Diálogo de términos y condiciones */}
                 <Dialog header="Términos y Condiciones" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
                     <p>Contenido de los términos y condiciones...</p>
