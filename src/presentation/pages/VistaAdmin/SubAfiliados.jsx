@@ -122,6 +122,7 @@ export default function SubAfiliados({ UserId }) {
       <div className="flex justify-content-center">
         <Card style={{ width: '80%', marginTop: '15px' }}>
           <TreeTable value={filteredAfiliados} tableStyle={{ minWidth: '50rem' }} dataKey="key" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
+          <Column header="Nº" body={(rowData, { rowIndex }) => rowIndex + 1} />
             <Column field="nombres" header="Nombres" expander></Column>
             <Column field="apellidos" header="Apellidos"></Column>
             <Column field="dni" header="DNI"></Column>

@@ -71,7 +71,7 @@ export default function DialogUser({ visible, close, idClinica }) {
           <div className="flex-1 m-3">
             {/* Mostrar la foto de perfil */}
             <div className="mb-3" style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <img
+              {/* <img
                 src={clinica && clinica.fotoPerfil ? `${process.env.REACT_APP_API_BASE_URL}uploads/${clinica.fotoPerfil}` : fotoperfil}
                 alt="Foto de perfil"
                 style={{
@@ -81,7 +81,7 @@ export default function DialogUser({ visible, close, idClinica }) {
                   border: '5px solid #85c226',
                   objectFit: 'cover',
                 }}
-              />
+              /> */}
             </div>
             {/* Correo */}
             <div className="input-group">

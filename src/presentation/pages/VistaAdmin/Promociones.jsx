@@ -5,11 +5,13 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { useAuth } from '../../context/AuthContext/AuthContext';
 import { apiAdapter } from '../../../core/adapters/apiAdapter';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 export default function Promociones() {
   const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
   const [promociones, setPromociones] = useState([]); // Estado para almacenar promociones
   const { user } = useAuth()
+  const [loading, setLoading] = useState(true);
   console.log("use", user)
   // Función para obtener las promociones
   const fetchPromociones = async () => {
@@ -26,8 +28,11 @@ export default function Promociones() {
       fetchPromociones();
 
     }
+  }, [])
 
-  }, []);
+
+  // Función para obtener las promociones
+
 
   // Filtrar promociones según el término de búsqueda
   const filteredPromociones = promociones.filter(promocion =>
@@ -59,14 +64,21 @@ export default function Promociones() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <ClinicaCards
-        Ancho={'280px'}
-        Alto={'200px'}
-        Margen={'2rem'}
-        Display={'none'}
-        Promociones={filteredPromociones}
-        Admin={true}
-      />
+      {loading ? (
+        <div className="flex justify-content-center" style={{ marginTop: '50px' }}>
+          <ProgressSpinner />
+        </div>
+      ) : (
+        <ClinicaCards
+          Ancho={'280px'}
+          Alto={'200px'}
+          Margen={'2rem'}
+          Display={'none'}
+          Promociones={filteredPromociones}
+          Admin={true}
+        />
+      )
+      }
     </>
   );
 }

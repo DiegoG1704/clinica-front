@@ -11,6 +11,7 @@ import CreateSubAdmin from './Components/Dialogs/CreateSubAdmin';
 import EditSubAdmin from './Components/Dialogs/EditSubAdmin';
 import DeleteSubAdmin from './Components/Dialogs/DeleteSubAdmin';
 import { apiAdapter } from '../../../../core/adapters/apiAdapter';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 export default function SubAdmin() {
   const {user} = useAuth()
@@ -19,12 +20,25 @@ export default function SubAdmin() {
   const [edit, setEdit] = useState(false);  // Para controlar si estamos en modo edición
   const [editData, setEditData] = useState(null);  // Para almacenar los datos del subadministrador que estamos editando
   const [delet , setDelete] = useState(false)
+  const [loading, setLoading] = useState(true);
+
+  const [searchTerm, setSearchTerm] = useState(''); // Estado para la búsqueda
+    const filteredData = subAdmin.filter(data => {
+        const lowercasedSearchTerm = searchTerm.toLowerCase();
+        return (
+            data.nombres.toLowerCase().includes(lowercasedSearchTerm) ||
+            data.apellidos.toLowerCase().includes(lowercasedSearchTerm)
+        );
+    });
     const fetchSubAdmin = async () => {
       try {
+        setLoading(true)
           const response = await apiAdapter.get(`GetSubAdministrador/${user?.clinica_id}`);
           setSubAdmin(response);
+          setLoading(false)
       } catch (error) {
           console.error('Error fetching subadmins:', error);
+          setLoading(false)
       }
     };
     useEffect(() => {
@@ -44,7 +58,7 @@ export default function SubAdmin() {
             />
             <Button 
               icon="pi pi-trash" 
-              className="bg-white border-none shadow-none" 
+              className="bg-white  border-none shadow-none" 
               style={{ color: "#85C226" }} 
               onClick={()=>{
                 setEditData(rowData);
@@ -53,11 +67,15 @@ export default function SubAdmin() {
               />
         </div>
     );
+
+    const handleSearchChange = (e) => {
+      setSearchTerm(e.target.value);
+  };
   return (
     <div>
       <header className='flex'>
         <div className='flex-1 p-2'>
-          <h1>Bienvenido a SubAdministradores</h1>
+          <h1>Bienvenido a Sub-Administradores</h1>
           <Divider />
         </div>
         <div className='flex justify-content-end align-items-center'>
@@ -73,14 +91,22 @@ export default function SubAdmin() {
       <div className='flex justify-content-center'>
         <Card style={{ width: '80%', height: '7rem'}}>
           <InputText
-            placeholder='Buscar nombre de afiliados...'
+            placeholder='Buscar sub-Administrador...'
             style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
+            value={searchTerm}
+            onChange={handleSearchChange}
           />
         </Card>
       </div>
+      {loading ? (
+        <div className="flex justify-content-center" style={{ marginTop: '50px' }}>
+          <ProgressSpinner />
+        </div>
+      ) : (
       <div className='flex justify-content-center'>
         <Card style={{ width: '80%', marginTop:'15px' }}>
-          <DataTable value={subAdmin} rowClassName="my-2" dataKey="id" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
+          <DataTable value={filteredData} rowClassName="my-2" dataKey="id" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
+          <Column header="Nº" body={(rowData, { rowIndex }) => rowIndex + 1} />
             <Column field="nombres" header="Nombre" />
             <Column field="apellidos" header="Apellidos" />
             <Column field="telefono" header="Télefono" />
@@ -89,6 +115,7 @@ export default function SubAdmin() {
           </DataTable>
         </Card>
       </div>
+    )}
       </main>
       <CreateSubAdmin 
         visible={create} 

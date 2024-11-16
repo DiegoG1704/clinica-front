@@ -8,17 +8,31 @@ import DialogEditarClinica from './DialogEditar'
 import { useClinica } from '../../../../context/ClinicaContext/ClinicaContext'
 import { ConfirmDialog } from 'primereact/confirmdialog'
 import DialogImage from './DialogImage'
+import { Card } from 'primereact/card'
+import { InputText } from 'primereact/inputtext'
 
 const ClinicasList = ({ data }) => {
     const [subAdmin, setSubAdmin] = useState(false)
     const [imagen, setImagen] = useState(false)
     const [selectedClinicId, setSelectedClinicId] = useState(null) // Estado para el ID de la clínica seleccionada
     const [selectedCli, setSelectedCli] = useState(null)
+    const [searchTerm, setSearchTerm] = useState(''); // Estado para la búsqueda
     const { handleClickEditClinica, editar, setEditar,
         visibleDelete, setVisibleDelete,
         handleClickDeleteClinica,
         handleDeleteClinica, getAllClinicas,
         closeEditar, handleCLickAdminUser, setCurrentUser } = useClinica()
+
+    // Filtrar los datos de las clínicas basados en el término de búsqueda
+    const filteredData = data.filter(clinica => {
+        const lowercasedSearchTerm = searchTerm.toLowerCase();
+        return (
+            clinica.nombre.toLowerCase().includes(lowercasedSearchTerm) ||
+            clinica.ruc.toLowerCase().includes(lowercasedSearchTerm) ||
+            clinica.direccion.toLowerCase().includes(lowercasedSearchTerm) ||
+            clinica.telefono.toLowerCase().includes(lowercasedSearchTerm)
+        );
+    });
 
     const LogoRowTemplate = (rowData) => {
         return (<img src={rowData.logo} alt={rowData.nombre} width="60" className='border-round-sm' />)
@@ -81,22 +95,40 @@ const ClinicasList = ({ data }) => {
     }
 
 
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
     return (
         <div>
-            <CustomTable data={data}>
-                <Column
-                    header="Imagen"
-                    body={LogoRowTemplate}
-                />
-                <Column header="RUC" field='ruc' />
-                <Column header="Razón Social" field='nombre' />
-                <Column header="Dirección" body={(rowData) => truncateAddress(rowData.direccion)} />
-                <Column header="Telefono" field='telefono' />
-                <Column header="Sub-Admin" body={UserTemplate} />
-                <Column header="Agregaar Imagen" body={ImageTemplate} />
-                <Column body={actionsTemplate} />
-            </CustomTable>
+            <div className='flex justify-content-center'>
+                <Card style={{ width: '80%', height: '7rem' }}>
+                    <InputText
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        placeholder='Buscar clinicas afiliadas...'
+                        style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
+                    />
+                </Card>
+            </div>
+            <div className='flex justify-content-center'>
+                <Card style={{ width: '80%', marginTop: '15px' }}>
+                    <CustomTable data={filteredData}>
+                        <Column header="Nº" body={(rowData, { rowIndex }) => rowIndex + 1} />
+                        <Column
+                            header="Imagen"
+                            body={LogoRowTemplate}
+                        />
+                        <Column header="RUC" field='ruc' />
+                        <Column header="Razón Social" field='nombre' />
+                        <Column header="Dirección" body={(rowData) => truncateAddress(rowData.direccion)} />
+                        <Column header="Telefono" field='telefono' />
+                        <Column header="Sub-Admin" body={UserTemplate} />
+                        <Column header="Agregaar Imagen" body={ImageTemplate} />
+                        <Column body={actionsTemplate} />
+                    </CustomTable>
+                </Card>
+            </div>
 
             {/* Dialog para Sub-Admin con el ID de la clínica */}
             <DialogUser
