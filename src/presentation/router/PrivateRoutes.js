@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Home from '../pages/VistaAdmin/tabla';
 import Admin from '../pages/VistaAdmin/Admin';
@@ -7,7 +7,7 @@ import SubLocales from '../pages/VistaAdmin/SubLocales/SubLocales';
 import Promociones from '../pages/VistaAdmin/Promociones';
 import Configuraciones from '../pages/VistaAdmin/ConfigProfile/Configuraciones';
 import ClinicaPage from '../pages/VistaAdmin/Clinicas/ClinicaPage';
-import { ClinicaProvider } from '../context/ClinicaContext/ClinicaContext';
+import { ClinicaProvider, useClinica } from '../context/ClinicaContext/ClinicaContext';
 import Sidebar from '../pages/AdminUsuario/Navar';
 import Navbar from '../pages/AdminUsuario/Navar/Navar';
 import PromocionesLocalesPeage from '../pages/VistaAdmin/PromocionesLocales/PromocionesLocalesPage';
@@ -16,36 +16,48 @@ import { PromocionProvider } from '../context/PromocionesContext/PromocionContex
 import PromocionesLocales from '../components/AdministradorLocales/PromocionesLocales';
 import { SubLocalProvider } from '../context/subLocalContext/subLocalContext';
 import SubAdmin from '../pages/VistaAdmin/SubLocales/SubAdmin';
+import Login from '../pages/login/login';
 
-const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario }) => {
-    console.log('problem')
+const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router }) => {
+    console.log('problem', router)
+
+    const componentMap = {
+        "Home": <Home />,
+        "Admin": <Admin />,
+        "Afiliados": <Admin />,
+        "SubAdmin": <SubAdmin />,
+        "SubAfiliados": <SubAfiliados UserId={idUsuario} />,
+        "SubLocal": <SubLocalProvider><SubLocales /></SubLocalProvider>,
+        "Promos": <Promociones />,
+        "PromocionesLocales": <PromocionesLocales />,
+        "Configuraciones": <Configuraciones />,
+        "Clinicas": <ClinicaProvider><ClinicaPage /></ClinicaProvider>,
+    };
+    useEffect(() => {
+        console.log('Rutas cargadas:', router);
+    }, [router]);
     return (
-    <>
-        <Navbar />
-        <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} onLogout={logout} idUsuario={idUsuario} />
-        <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-            <Routes>
-                <Route path="/" element={<Navigate to="/Home" />} />
-                
-                <Route path='/Admin' element={<Admin />} />
+        <>
+            <Navbar />
+            <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} onLogout={logout} idUsuario={idUsuario} />
+            <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+                <Routes>
+                    {/* <Route path="/" element={<Navigate to={`${idUsuario?.rutas?.[0]?.ruta}`} />} /> */}
+                    {/* Itera las rutas pasadas como props para generar los componentes dinámicamente */}
+                    {router?.map((route) => (
+                        <Route
+                            key={route.id}
+                            path={route.ruta}
+                            element={componentMap[route.nombre] || null}
+                        />
+                    ))}
+                    <Route path='/Configuraciones' element={<Configuraciones/>} />
+                   
+                </Routes>
 
-                <Route path='/PromocionesLocales' element={<PromocionesLocales />} />
-                {/* <Route path='/Configuraciones' element={<Configuraciones />} /> */}
-                <Route path='/Home' element={<Home />} />
-                <Route path='/Afiliados' element={<Admin />} />
-                <Route path='/SubAdmin' element={<SubAdmin/>}/>
-                <Route path='/SubAfiliados' element={<SubAfiliados UserId={idUsuario}/>} />
-                <Route path='/SubLocal' element={<SubLocalProvider><SubLocales /></SubLocalProvider> } />
-                {/* <Route path='/Admin' element={<Admin />} /> */}
-                <Route path='/Promociones' element={<Promociones />} />
-                <Route path='/Configuraciones' element={<Configuraciones />} />
-                <Route path='/Clinicas' element={<ClinicaProvider><ClinicaPage /></ClinicaProvider>} />
-                {/* <Route path='/PromocionesLocales' element={<PromocionProvider><PromocionesLocalesPage /></PromocionProvider>} /> */}
-            </Routes>
+            </div>
 
-        </div>
-
-    </>
+        </>
 
     );
 };

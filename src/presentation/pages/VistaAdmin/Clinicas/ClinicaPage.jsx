@@ -10,6 +10,7 @@ import CreateClinica from './Conponents/CreateClinica'
 import CreateAdmin from './Conponents/CreateAdmin'
 import CreateUsuario from './Conponents/CreateUsuario'
 import CustomDialog from '../../../components/Dialog/CustomDialog'
+import { history } from '../../../utils/history'
 
 const ClinicaPage = () => {
     const { clinicas, getAllClinicas,

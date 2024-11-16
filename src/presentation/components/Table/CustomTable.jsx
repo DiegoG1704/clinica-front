@@ -8,6 +8,7 @@ const CustomTable = ({children,data}) => {
                 value={data}
                 rowClassName="custom-row"
                 paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}
+                responsiveLayout='stack'
             >
                 {children}
             </DataTable >

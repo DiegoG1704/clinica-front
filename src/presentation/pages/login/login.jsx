@@ -22,6 +22,7 @@ export default function Login({ onLogin }) {
         try {
             const response = await onLogin(correo, contraseña);
             if (response?.success) {
+                
                 navigate(response?.data?.rutas?.[0]?.ruta);
                 
             } else {
@@ -49,10 +50,10 @@ export default function Login({ onLogin }) {
                 <h1 className="tituloLogin">Inicia Sesión</h1>
                 {/* Input de correo */}
                 <div className="input-group">
-                    <label htmlFor="id">ID o DNI</label>
+                    <label htmlFor="id">Correo</label>
                     <InputText
                         id="id"
-                        placeholder="Ingrese su ID o DNI..."
+                        placeholder="Ingresar correo"
                         value={correo}
                         onChange={(e) => setCorreo(e.target.value)}
                         disabled={loading}

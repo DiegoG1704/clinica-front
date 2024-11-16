@@ -4,7 +4,9 @@ class GetAllClinicas {
         this.clinicaRepository = clinicaRepository;
     }
     async execute() {
-        return this.clinicaRepository.fetchClinicas();
+        let response = await this.clinicaRepository.fetchClinicas();
+        return response
+
     }
 }
 

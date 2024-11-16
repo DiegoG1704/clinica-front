@@ -6,7 +6,7 @@ import FechaValueObject from "../../../domain/ValueObjects/FechaValueObject";
 
 class UserMapper {
     static toDomain(data) {
-        console.log("data-en",data?.rol)
+        console.log("data-en",data)
         const fechaNacimiento = data.fechNac
         return new User(
             data.id,

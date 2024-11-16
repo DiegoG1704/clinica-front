@@ -12,6 +12,10 @@ import ZodGeneralDataValidatorImpl from '../../../data/validators/user/ZodGenera
 import ZodUserValidator from '../../../data/validators/user/ZodUserValidator';
 import UserRepositoryImpl from '../../../data/repositoires/user/UserRepositoryImpl';
 import CreateUser from '../../../domain/useCases/user/CreateUser';
+import VistaRepositoryImpl from '../../../data/repositoires/vistas/VistasRepositoryImpl';
+import GetAllVistas from '../../../domain/useCases/vistas/GetAllVistas';
+import getUserByToken from '../../../domain/useCases/user/getUserByToken';
+import Loader from '../../components/Loader/Loader';
 
 // Crear el contexto
 const AuthContext = createContext();
@@ -23,7 +27,7 @@ export const useAuth = () => useContext(AuthContext);
 // Proveedor del contexto
 export const AuthProvider = ({ children }) => {
     //STATES PARA EL LOGIN
-   
+
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const LoginValidator = new ZodAuthValidator()
@@ -40,18 +44,26 @@ export const AuthProvider = ({ children }) => {
     const RegisterValidator = new ZodUserValidator()
     const RegisterApiRepository = new UserRepositoryImpl(apiAdapter)
     const RegisterUseCase = new CreateUser(RegisterApiRepository, RegisterValidator)
+    //STATES VISTA
+    const VistasRepository = new VistaRepositoryImpl(apiAdapter)
+    const getAllVistasUseCase = new GetAllVistas(VistasRepository)
+    //States ME
+    const userRepository = new UserRepositoryImpl(apiAdapter)
+    const getUserByTokenUseCase = new getUserByToken(userRepository)
+    const [loading, setLoading] = useState(true);
+    const [panel, setPanel] = useState(true)
 
     const login = async (correo, contraseña) => {
         try {
             const loggedInUser = await loginUseCase.execute({ correo, contraseña });
             if (loggedInUser.success) {
-                console.log("data",loggedInUser)
+                console.log("data", loggedInUser)
                 setUser(loggedInUser?.data);
-                localStorage.setItem('user', JSON.stringify(loggedInUser?.data));
-                localStorage.setItem('token', (loggedInUser?.token));
-           
+                // localStorage.setItem('user', JSON.stringify(loggedInUser?.data));
+                // localStorage.setItem('token', (loggedInUser?.token));
 
-                setIsAuthenticated(true); 
+
+                setIsAuthenticated(true);
             }
             return loggedInUser
         } catch (error) {
@@ -61,27 +73,47 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         setUser(null);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        // localStorage.removeItem('token');
+        // localStorage.removeItem('user');
     };
-    const autenticate = () => {
-        const storedUser =(localStorage.getItem('token'));
-        
-        // Verifica si storedUser existe y no es nulo
-        return storedUser !== null; // Devuelve true si hay un usuario almacenado, false de lo contrario
-    };
-    
-    
+    // const autenticate = () => {
+    //     const storedUser =(localStorage.getItem('token'));
+
+    //     // Verifica si storedUser existe y no es nulo
+    //     return storedUser !== null; // Devuelve true si hay un usuario almacenado, false de lo contrario
+    // };
+
+
 
     useEffect(() => {
-        
-        const storedUser = localStorage.getItem('user');
-        console.log("dass",storedUser)
-        if (storedUser) {
-            console.log("qii",setDatos)
-            setUser(JSON.parse(storedUser));
-            setIsAuthenticated(true); 
-        }
+
+        // const storedToken = localStorage.getItem('token');
+        // console.log("dass",storedToken)
+        // if (storedToken) {
+        //     console.log("qii",setDatos)
+        //     getAllVistas()
+        //     setUser(JSON.parse(storedToken));
+        //     setIsAuthenticated(true); 
+        // }
+        const checkAuthStatus = async () => {
+            console.log("Verificando autenticación...");
+            let response = await getUserByTokenUseCase.execute();
+            if (response?.success) {
+                setUser(response?.data);
+                setIsAuthenticated(true);
+            } else {
+                setIsAuthenticated(false);
+            }
+            setTimeout(() => {
+                setLoading(false);  // Seteamos loading a false después de un pequeño retraso
+            }, 2900);
+            // Seteamos loading a false después de la verificación
+        };
+
+        checkAuthStatus();
+
+
+
     }, []);
 
     const FindPersonWithDni = async (dni) => {
@@ -111,10 +143,29 @@ export const AuthProvider = ({ children }) => {
         }
 
     }
-
+    const getAllVistas = () => {
+        getAllVistasUseCase.execute(user?.id)
+    }
+    const me = async () => {
+        console.log("entre")
+        let response = await getUserByTokenUseCase.execute();
+        if (response?.success) {
+            setUser(response?.data);
+            setIsAuthenticated(true);
+        } else {
+            setIsAuthenticated(false);
+        }
+    };
+    const isUserAuthenticated = () => isAuthenticated;
+    if (panel) {
+        return <Loader isLoading={loading} setPanel={setPanel}></Loader>  // Puedes personalizar esta UI según tu diseño
+    }
 
     return (
-        <AuthContext.Provider value={{ user,setUser, login, logout,  isAuthenticated, Datos, setDatos, FindPersonWithDni, validateGeneralData ,RegisterUser,autenticate}}>
+        <AuthContext.Provider value={{
+            user, setUser, login, logout, isAuthenticated, Datos, setDatos, FindPersonWithDni,
+            validateGeneralData, RegisterUser, setIsAuthenticated, isUserAuthenticated
+        }}>
             {children}
         </AuthContext.Provider>
     );

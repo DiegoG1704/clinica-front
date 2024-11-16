@@ -22,6 +22,7 @@ import UserRepositoryImpl from '../../../data/repositoires/user/UserRepositoryIm
 import UpdateClinica from '../../../domain/useCases/clinica/updateClinica';
 import ZodUpdateClinicalValidator from '../../../data/validators/clinica/ZodUpdateClinicaValidator';
 import DeleteClinica from '../../../domain/useCases/clinica/deleteClinica';
+import getUserByClinica from '../../../domain/useCases/user/GetUserByClinica';
 
 
 // Crear el contexto
@@ -90,6 +91,12 @@ export const ClinicaProvider = ({ children }) => {
     const updateValidator = new ZodUpdateClinicalValidator()
     const updateClinicaUseCase = new UpdateClinica(ClinicaRepository, updateValidator)
     const deleteClinica = new DeleteClinica(ClinicaRepository)
+
+    //objects in clinica getUserByClinicaID
+
+    const getUserByClinicaIdUseCase=new getUserByClinica(userRepository)
+    const [currentUser,setCurrentUser]=useState({})
+
 
     //Delete CLinica
     const [visibleDelete, setVisibleDelete] = useState(false)
@@ -274,6 +281,18 @@ export const ClinicaProvider = ({ children }) => {
         setEditar(false);
         cleanDataClinica()
     }
+    const handleCLickAdminUser=async(id)=>{
+        console.log("esta",id)
+        const response=await getUserByClinicaIdUseCase.execute(id)
+        console.log("esta es la respuesta",response)
+        if(response?.success){
+            setCurrentUser(response?.data)
+        }
+        
+
+    }
+    
+  
 
     return (
         <ClinicaContext.Provider value={{
@@ -296,7 +315,8 @@ export const ClinicaProvider = ({ children }) => {
             updateClinica,
             editar, setEditar,
             visibleDelete, setVisibleDelete,
-            handleClickDeleteClinica,handleDeleteClinica,closeEditar
+            handleClickDeleteClinica,handleDeleteClinica,closeEditar,
+            handleCLickAdminUser,currentUser,setCurrentUser
 
         }}>
             {children}

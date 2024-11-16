@@ -13,7 +13,7 @@ export class ClinicaRepositoryImpl extends ClinicaRepository {
             const response = await this.adapter.get('/listaClinicas');
             return ClinicaMapper.toDomainArray(response)
         } catch (error) {
-            throw Error(error?.response?.data?.message)
+            return { success: false, error: { message: error?.response?.data?.message } }
         }
     }
     async createClinica(data) {
