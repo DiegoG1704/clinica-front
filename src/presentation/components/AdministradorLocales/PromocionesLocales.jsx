@@ -134,7 +134,7 @@ export default function PromocionesLocales() {
       ) : (
         <div className='flex justify-content-center'>
           <Card style={{ width: '80%', marginTop: '15px' }}>
-          <DataTable value={filteredData} responsiveLayout='stack' rowClassName="my-2" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
+          <DataTable value={filteredData} rowClassName="my-2" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
               {/* Nueva columna para enumerar las filas */}
               <Column header="Nº" body={(rowData, { rowIndex }) => rowIndex + 1} />
               

@@ -16,10 +16,13 @@ export default function Promociones() {
   // Función para obtener las promociones
   const fetchPromociones = async () => {
     try {
-      const response = await apiAdapter.get(`getPromociones/${user?.clinica_id}`);
+      setLoading(true);
+      const response = await apiAdapter.get(`getPromociones`);
       setPromociones(response);
+      setLoading(false);
     } catch (error) {
       console.error('Error al obtener las promociones:', error);
+      setLoading(false);
     }
   };
 

@@ -59,7 +59,7 @@ export default function CreatePromo({visible,close,recargar}) {
           area: '',
           descuento: '',
           descripcion: '',
-          clinica_id: ''
+          clinica_id: user?.clinica_id
         });
         close();
         recargar(); // Llamar a la función recargar después de crear la promoción

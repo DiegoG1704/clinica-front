@@ -133,13 +133,13 @@ const handleImageUploadReset = () => {
 
               </div>
               <div className="user-profile__info text-center">
-                <p className="user-profile__info__name">{user?.nombres}</p>
+                <p className="user-profile__info__name" >{user?.nombres}</p>
                 <p className="user-profile__info__role">{user?.rolId}</p>
               </div>
             </header>
 
             <main className=''>
-              <div className='flex justify-content-center'>
+              {/* <div className='flex justify-content-center'>
                 <div className="user__profile__record flex gap-2 text-center">
                   <div className="user_profile__record__id">
                     <p>{user?.id}</p>
@@ -161,7 +161,7 @@ const handleImageUploadReset = () => {
                 <div className="mt-3 text-center">
                   <p className='local-name'>Sanna Chacarilla</p>
                 </div>
-              </div>
+              </div> */}
             </main>
           </div>
 
