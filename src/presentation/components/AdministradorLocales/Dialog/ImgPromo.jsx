@@ -43,7 +43,7 @@ export default function ImgPromo({ datos, Actualizar, setImagenSeleccionada }) {
                     justifyContent: 'center',
                 }}
             >
-                {/* <img
+                <img
                     src={
                         selectedImage
                         || (fotoPerfil
@@ -52,7 +52,7 @@ export default function ImgPromo({ datos, Actualizar, setImagenSeleccionada }) {
                     } // Usar imagen predeterminada si no hay imagen cargada
                     alt="Imagen de promoción"
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                /> */}
+                />
             </div>
             <FileUpload
                 mode="basic"

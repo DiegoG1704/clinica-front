@@ -6,15 +6,17 @@ import { InputTextarea } from 'primereact/inputtextarea'
 import { Toast } from 'primereact/toast' // Importar el Toast
 import React, { useRef, useState, useEffect } from 'react'
 import { apiAdapter } from '../../../../core/adapters/apiAdapter'
+import { useAuth } from '../../../context/AuthContext/AuthContext'
 
 export default function CreatePromo({visible,close,recargar}) {
   const toast = useRef(null);
   const [clinicas, setClinicas] = useState([]);
+  const { user } = useAuth();
     const [datos,setDatos]= useState({
         area:'',
         descuento:'',
         descripcion:'',
-        clinica_id:''
+        clinica_id:user?.clinica_id
       })
 
     const handleChange = (e) => {
@@ -108,7 +110,7 @@ export default function CreatePromo({visible,close,recargar}) {
               onChange={handleChange}
               required />
             </div>
-            <div className="field flex flex-column">
+            {/* <div className="field flex flex-column">
               <label>Clinica</label>
               <Dropdown
               placeholder="Seleccione clinica...." 
@@ -119,7 +121,7 @@ export default function CreatePromo({visible,close,recargar}) {
               onChange={handleLocalChange}
               value={datos.clinica_id}   
               required />
-            </div>
+            </div> */}
             <div className="field flex flex-column">
               <label>Descripción</label>
               <InputTextarea

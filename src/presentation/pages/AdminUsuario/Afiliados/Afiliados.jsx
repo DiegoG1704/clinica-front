@@ -77,77 +77,66 @@ export default function Afiliados() {
 
     return (
         <div className="afiliados-wrapper">
-            {loading ? ( // Mostrar el spinner mientras se cargan los datos
-                <div className="loading-spinner">
-                    <div className="spinner-logo-container">
-                        <ProgressSpinner className="custom-spinner" style={{width: '200px', height: '200px',}}  strokeWidth="2" fill="var(--surface-ground)" />
-                        <img src={logo} alt="Logo" className="logo-center" />
+            <div className="afiliados-container">
+                <img
+                    src='https://www.massalud.com.pe/img/logo-inicio3.png'
+                    alt="Logo"
+                    className="logo"
+                />
+                <div className="header-actions">
+                    <div className="links-container">
+                        <h1><a className="link">Inicio</a></h1>
+                        <h1><a className="link">Promociones</a></h1>
+                        <Button label="Sign up" onClick={() => navigate('/login')} className='loguear' />
                     </div>
                 </div>
-            ) : (
-                <>
-                    <div className="afiliados-container">
-                        <img
-                            src='https://www.massalud.com.pe/img/logo-inicio3.png'
-                            alt="Logo"
-                            className="logo"
-                        />
-                        <div className="header-actions">
-                            <div className="links-container">
-                                <h1><a className="link">Inicio</a></h1>
-                                <h1><a className="link">Promociones</a></h1>
-                                <Button label="Sign up" onClick={() => navigate('/login')} className='loguear' />
-                            </div>
-                        </div>
-                    </div>
+            </div>
 
-            
-                    <Carrousel />
-                    <div className='buscador'>
-                        <p className='text'>Encuentra los mejores descuentos y promociones médicas en un solo lugar</p>
-                        <InputText
-                            placeholder="Buscar..."
-                            className='buscer'
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                        <h1 className='mejoras'>Nuestras mejores ofertas</h1>
-                        <CardTop valores={top} />
+    
+            <Carrousel />
+            <div className='buscador'>
+                <p className='text'>Encuentra los mejores descuentos y promociones médicas en un solo lugar</p>
+                <InputText
+                    placeholder="Buscar..."
+                    className='buscer'
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <h1 className='mejoras'>Nuestras mejores ofertas</h1>
+                <CardTop valores={top} />
+            </div>
+            <div>
+                <Carousel
+                    className='carruselclinica'
+                    value={IsoTipo}
+                    numVisible={4}
+                    responsiveOptions={responsiveOptions}
+                    numScroll={3}
+                    circular
+                    autoplayInterval={5000}
+                    itemTemplate={clinicaslogo}
+                />
+            </div>
+            <ClinicaCards Ancho={'400px'} Alto={'550px'} Margen={'2rem'} Promociones={filteredPromociones} Admin={false} />
+            <div className='Barra'>
+                <div className='Informacion'>
+                    <h2>Sobre Nosotros</h2>
+                    <p>Conoce el porqué de nuestra inciativa y quién la crea. Conoce nuestras redes sociales. Mantente conectado.</p>
+                    <div className='iconos'>
+                        <p><i className="pi pi-facebook" style={{ color: 'white'}}></i></p>
+                        <p><i className="pi pi-instagram" style={{ color: 'white'}}></i></p>
+                        <p><i className="pi pi-youtube" style={{ color: 'white'}}></i></p>
+                        <p><i className="pi pi-linkedin" style={{ color: 'white'}}></i></p>
                     </div>
-                    <div>
-                        <Carousel
-                            className='carruselclinica'
-                            value={IsoTipo}
-                            numVisible={4}
-                            responsiveOptions={responsiveOptions}
-                            numScroll={3}
-                            circular
-                            autoplayInterval={5000}
-                            itemTemplate={clinicaslogo}
-                        />
-                    </div>
-                    <ClinicaCards Ancho={'400px'} Alto={'550px'} Margen={'2rem'} Promociones={filteredPromociones} Admin={false} />
-                    <div className='Barra'>
-                        <div className='Informacion'>
-                            <h2>Sobre Nosotros</h2>
-                            <p>Conoce el porqué de nuestra inciativa y quién la crea. Conoce nuestras redes sociales. Mantente conectado.</p>
-                            <div className='iconos'>
-                                <p><i className="pi pi-facebook" style={{ color: 'white'}}></i></p>
-                                <p><i className="pi pi-instagram" style={{ color: 'white'}}></i></p>
-                                <p><i className="pi pi-youtube" style={{ color: 'white'}}></i></p>
-                                <p><i className="pi pi-linkedin" style={{ color: 'white'}}></i></p>
-                            </div>
-                        </div>
-                        <div className='Link'>
-                            <h2>links de Acceso Rapido</h2>
-                            <p><i className="pi pi-play" style={{ color: 'white' }}></i>inicio</p>
-                            <p><i className="pi pi-play" style={{ color: 'white' }}></i>Nosotros</p>
-                            <p><i className="pi pi-play" style={{ color: 'white' }}></i>Contacto</p>
-                            <p><i className="pi pi-play" style={{ color: 'white' }}></i>Conocenos</p>
-                        </div>
-                    </div>
-                </>
-            )}
+                </div>
+                <div className='Link'>
+                    <h2>links de Acceso Rapido</h2>
+                    <p><i className="pi pi-play" style={{ color: 'white' }}></i>inicio</p>
+                    <p><i className="pi pi-play" style={{ color: 'white' }}></i>Nosotros</p>
+                    <p><i className="pi pi-play" style={{ color: 'white' }}></i>Contacto</p>
+                    <p><i className="pi pi-play" style={{ color: 'white' }}></i>Conocenos</p>
+                </div>
+            </div>
         </div>
     );
 }

@@ -26,10 +26,12 @@ export default function PromocionesLocales() {
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
+  console.log('user', user);
+  
   const fetchPromociones = async () => {
     try {
       setLoading(true);
-      const response = await apiAdapter.get('getPromociones');
+      const response = await apiAdapter.get(`getPromociones/${user?.clinica_id}`);
       setPromociones(response);
       setLoading(false);
     } catch (error) {
@@ -145,7 +147,7 @@ export default function PromocionesLocales() {
               <Column field="area" header="Área" />
               <Column field="descuento" header="Descuento" />
               <Column header="Descripción" body={(rowData) => truncateAddress(rowData.descripcion)} />
-              <Column header="Clínica" field='nombre_clinica' />
+              {/* <Column header="Clínica" field='nombre_clinica' /> */}
               <Column header='Acciones' body={actionsTemplate} />
             </DataTable>
           </Card>
