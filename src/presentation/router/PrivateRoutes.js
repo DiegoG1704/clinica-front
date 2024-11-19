@@ -29,7 +29,7 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario }) => {
                 
                 <Route path='/Admin' element={<Admin />} />
 
-                <Route path='/PromocionesLocales' element={<PromocionesLocales />} />
+                <Route path='/Promociones' element={<PromocionesLocales />} />
                 {/* <Route path='/Configuraciones' element={<Configuraciones />} /> */}
                 <Route path='/Home' element={<Home />} />
                 <Route path='/Afiliados' element={<Admin />} />
@@ -37,7 +37,7 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario }) => {
                 <Route path='/SubAfiliados' element={<SubAfiliados UserId={idUsuario}/>} />
                 <Route path='/SubLocal' element={<SubLocalProvider><SubLocales /></SubLocalProvider> } />
                 {/* <Route path='/Admin' element={<Admin />} /> */}
-                <Route path='/Promociones' element={<Promociones />} />
+                <Route path='/PromocionesLocales' element={<Promociones />} />
                 <Route path='/Configuraciones' element={<Configuraciones />} />
                 <Route path='/Clinicas' element={<ClinicaProvider><ClinicaPage /></ClinicaProvider>} />
                 {/* <Route path='/PromocionesLocales' element={<PromocionProvider><PromocionesLocalesPage /></PromocionProvider>} /> */}

@@ -17,7 +17,7 @@ export default function Promociones() {
     const fetchPromociones = async () => {
       try {
         setLoading(true)
-        const response = await apiAdapter.get(`getPromociones/${user?.clinica_id}`);
+        const response = await apiAdapter.get(`getPromociones`);
         setPromociones(response);
         setLoading(false)
       } catch (error) {

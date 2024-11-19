@@ -8,15 +8,17 @@ import { apiAdapter } from '../../../../core/adapters/apiAdapter'
 import { Dropdown } from 'primereact/dropdown'
 import fotoUser from '../../../img/photo-default.png'
 import ImgPromo from './ImgPromo'
+import { useAuth } from '../../../context/AuthContext/AuthContext'
 
 export default function EditarPromo({ visible, close, recarga, datos1, datos2 }) {
   const toast = useRef(null)
   const [clinicas, setClinicas] = useState([])
+  const { user } = useAuth();
   const [datos, setDatos] = useState({
     area: '',
     descuento: '',
     descripcion: '',
-    clinica_id: ''
+    clinica_id: user?.clinica_id
   })
   
   const [imagenSeleccionada, setImagenSeleccionada] = useState(null)  // Almacena la imagen seleccionada
@@ -142,7 +144,7 @@ export default function EditarPromo({ visible, close, recarga, datos1, datos2 })
                 onChange={handleChange}
               />
             </div>
-            <div className="field flex flex-column">
+            {/* <div className="field flex flex-column">
               <label>Clinicas</label>
               <Dropdown
                 id='id'
@@ -156,7 +158,7 @@ export default function EditarPromo({ visible, close, recarga, datos1, datos2 })
                 value={datos.clinica_id}
                 required
               />
-            </div>
+            </div> */}
             <div className="field flex flex-column">
               <label>Descuento</label>
               <InputText

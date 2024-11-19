@@ -23,7 +23,7 @@ export default function Afiliados() {
         // Retrasar la carga de los datos para simular un loading de 10 segundos
         const timeout = setTimeout(() => {
             setLoading(false); // Cambiar el estado de loading después de 10 segundos
-        }, 5000); // 5 segundos
+        }, 3000); // 5 segundos
 
         const fetchIsoTipo = async () => {
             try {

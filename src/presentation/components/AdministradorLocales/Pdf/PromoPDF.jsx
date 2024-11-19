@@ -4,7 +4,7 @@ import logo from "../../../img/logo-inicio.png"; // Ruta de la imagen
 
 const PromoPDF = ({ promociones }) => {
   const generatePDF = () => {
-    const doc = new jsPDF('landscape'); // Cambiar la orientación de la página a horizontal (landscape)
+    const doc = new jsPDF('p', 'mm', 'a4'); // Cambiar la orientación a vertical (portrait)
     doc.setFont("helvetica");
 
     // Título del PDF
@@ -12,13 +12,12 @@ const PromoPDF = ({ promociones }) => {
     doc.text("Lista de Promociones", 14, 20);
 
     // Agregar el logo en la esquina superior derecha y mantener su tamaño original
-    // Tomamos la imagen original (no redimensionada)
     const logoWidth = 40; // Ancho de la imagen (ajústalo según lo que necesitas)
     const logoHeight = 20; // Alto de la imagen (ajústalo según lo que necesitas)
-    doc.addImage(logo, 'PNG', 250, 6, logoWidth, logoHeight); // (url, tipo de imagen, x, y, ancho, alto)
+    doc.addImage(logo, 'PNG', 150, 10, logoWidth, logoHeight); // (url, tipo de imagen, x, y, ancho, alto)
 
     // Establecer la posición inicial de la tabla, moviéndola más abajo
-    let yPosition = 50; // Ahora empieza a partir de la posición 50 para dar espacio al logo
+    let yPosition = 40; // Ahora empieza a partir de la posición 40 para dar espacio al logo
 
     // Establecer los encabezados de la tabla
     doc.setFontSize(12);
@@ -26,14 +25,14 @@ const PromoPDF = ({ promociones }) => {
     // Fondo verde para el encabezado de la tabla
     doc.setTextColor(255, 255, 255); // Color de texto blanco
     doc.setFillColor('#85C226'); // Color de fondo verde (RGB)
-    doc.rect(14, yPosition - 8, 280, 10, 'F'); // Dibuja un rectángulo con color de fondo verde para todo el ancho
+    doc.rect(14, yPosition - 8, 180, 10, 'F'); // Dibuja un rectángulo con color de fondo verde para todo el ancho de la tabla
 
     // Escribir los encabezados
     doc.text("Nº", 14, yPosition);
-    doc.text("Área", 50, yPosition);
-    doc.text("Descuento", 110, yPosition);
-    doc.text("Descripción", 150, yPosition);
-    doc.text("Clínica", 220, yPosition);
+    doc.text("Área", 40, yPosition);
+    doc.text("Descuento", 90, yPosition);
+    doc.text("Descripción", 140, yPosition);
+    // doc.text("Clínica", 170, yPosition);
 
     // Configurar color para las filas
     doc.setTextColor(0, 0, 0); // Color de texto negro
@@ -50,13 +49,12 @@ const PromoPDF = ({ promociones }) => {
       // Truncar la descripción a los primeros 10 caracteres
       const truncatedDescription = promo.descripcion.slice(0, 10);
 
-
       // Escribir los datos en las filas
       doc.text(`${index + 1}`, 14, yPosition + 7);
-      doc.text(promo.area, 50, yPosition + 7);
-      doc.text(promo.descuento, 110, yPosition + 7);
-      doc.text(truncatedDescription, 150, yPosition + 7); // Mostrar la descripción truncada
-      doc.text(promo.nombre_clinica, 200, yPosition + 7);
+      doc.text(promo.area, 40, yPosition + 7);
+      doc.text(promo.descuento, 90, yPosition + 7);
+      doc.text(truncatedDescription, 140, yPosition + 7); // Mostrar la descripción truncada
+      // doc.text(promo.nombre_clinica, 170, yPosition + 7);
     });
 
     // Guardar el PDF generado
