@@ -18,7 +18,7 @@ import { SubLocalProvider } from '../context/subLocalContext/subLocalContext';
 import SubAdmin from '../pages/VistaAdmin/SubLocales/SubAdmin';
 import Login from '../pages/login/login';
 
-const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router }) => {
+const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin }) => {
     console.log('problem', router)
 
     const componentMap = {
@@ -33,16 +33,18 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
         "Configuraciones": <Configuraciones />,
         "Clinicas": <ClinicaProvider><ClinicaPage /></ClinicaProvider>,
     };
-    useEffect(() => {
-        console.log('Rutas cargadas:', router);
-    }, [router]);
+  
+
+    if (!router || router.length === 0) {
+        return <Navigate to="/login" replace />;
+    }
     return (
         <>
             <Navbar />
             <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} onLogout={logout} idUsuario={idUsuario} />
             <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
                 <Routes>
-                    
+
                     {/* Itera las rutas pasadas como props para generar los componentes dinámicamente */}
                     {router?.map((route) => (
                         <Route
@@ -51,9 +53,17 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
                             element={componentMap[route.nombre] || null}
                         />
                     ))}
-                    <Route path='/Configuraciones' element={<Configuraciones/>} />
-                    <Route path="*" element={<Navigate to={`${idUsuario?.rutas?.[0]?.ruta}`} />} />
-                   
+                    <Route path='/Configuraciones' element={<Configuraciones />} />
+                    {!isAuthenticated ? (
+                        <Route path="/login" element={<Login onLogin={onLogin} />} />
+                    ) : <Route
+                        path="*"
+                        element={<Navigate to={idUsuario?.rutas?.[0]?.ruta} />}
+                    />}
+
+
+
+
                 </Routes>
 
             </div>

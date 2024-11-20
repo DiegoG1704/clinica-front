@@ -7,6 +7,7 @@ import { apiAdapter } from '../../../core/adapters/apiAdapter';
 import { useNavigate } from 'react-router-dom';
 
 export default function Home() { 
+  console.log("entre a home")
   const [logistica, setLogistica] = useState(null);
   const Navigate = useNavigate()
     useEffect(() => {

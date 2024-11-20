@@ -1,4 +1,6 @@
 export const history = {
     navigate: null,
-    location: null
+    location: null,
+    backHome:null,
+    
 };

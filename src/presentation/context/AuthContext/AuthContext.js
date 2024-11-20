@@ -75,14 +75,20 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const logout = () => {
-        let response = userLogoutUseCase.execute()
+    const logout = async () => {
+        let response = await userLogoutUseCase.execute()
+        console.log("entre2")
         if (response?.success) {
-
+            console.log("entre")
             // history.navigate("/Configuraciones")
-            window.location.reload();
-            // setIsAuthenticated(false)
-
+            // window.location.reload();
+            // setIsLoggingOut(true);
+            setIsAuthenticated(false);
+            setUser(null);
+            setDatos(null);
+            return true
+        } else {
+            return false
         }
         // localStorage.removeItem('token');
         // localStorage.removeItem('user');
@@ -94,7 +100,7 @@ export const AuthProvider = ({ children }) => {
     //     return storedUser !== null; // Devuelve true si hay un usuario almacenado, false de lo contrario
     // };
 
-
+    const [isLoggingOut, setIsLoggingOut] = useState(false)
 
     useEffect(() => {
 
@@ -175,7 +181,8 @@ export const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider value={{
             user, setUser, login, logout, isAuthenticated, Datos, setDatos, FindPersonWithDni,
-            validateGeneralData, RegisterUser, setIsAuthenticated, isUserAuthenticated
+            validateGeneralData, RegisterUser, setIsAuthenticated, isUserAuthenticated,
+            isLoggingOut, setIsLoggingOut
         }}>
             {children}
         </AuthContext.Provider>

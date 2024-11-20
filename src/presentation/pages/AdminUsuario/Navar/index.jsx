@@ -13,9 +13,11 @@ export default function Sidebar({ isOpen, toggleSidebar, onLogout }) {
   const { user } = useAuth();
   const [rutas, setRutas] = useState([]);
 
-  const handleLogout = () => {
-    onLogout();
-    navigate('/login');
+  const handleLogout = async () => {
+    const response = await onLogout();
+    if (response) {
+      navigate('/login', { replace: true });
+    }
   };
 
   if (!user) {
