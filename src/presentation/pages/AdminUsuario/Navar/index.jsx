@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import '../Navar/Sidebar.css';
 import { Button } from 'primereact/button';
 import 'primereact/resources/themes/saga-blue/theme.css';
@@ -11,7 +10,7 @@ import { useAuth } from '../../../context/AuthContext/AuthContext';
 export default function Sidebar({ isOpen, toggleSidebar, onLogout }) {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [rutas, setRutas] = useState([]);
+
 
   const handleLogout = async () => {
     const response = await onLogout();

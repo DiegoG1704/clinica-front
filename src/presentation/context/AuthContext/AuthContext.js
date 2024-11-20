@@ -12,12 +12,12 @@ import ZodGeneralDataValidatorImpl from '../../../data/validators/user/ZodGenera
 import ZodUserValidator from '../../../data/validators/user/ZodUserValidator';
 import UserRepositoryImpl from '../../../data/repositoires/user/UserRepositoryImpl';
 import CreateUser from '../../../domain/useCases/user/CreateUser';
-import VistaRepositoryImpl from '../../../data/repositoires/vistas/VistasRepositoryImpl';
-import GetAllVistas from '../../../domain/useCases/vistas/GetAllVistas';
+// import VistaRepositoryImpl from '../../../data/repositoires/vistas/VistasRepositoryImpl';
+// import GetAllVistas from '../../../domain/useCases/vistas/GetAllVistas';
 import getUserByToken from '../../../domain/useCases/user/getUserByToken';
 import Loader from '../../components/Loader/Loader';
 import { LogoutUser } from '../../../domain/useCases/user/LogoutUser';
-import { history } from '../../utils/history';
+
 
 // Crear el contexto
 const AuthContext = createContext();
@@ -47,8 +47,8 @@ export const AuthProvider = ({ children }) => {
     const RegisterApiRepository = new UserRepositoryImpl(apiAdapter)
     const RegisterUseCase = new CreateUser(RegisterApiRepository, RegisterValidator)
     //STATES VISTA
-    const VistasRepository = new VistaRepositoryImpl(apiAdapter)
-    const getAllVistasUseCase = new GetAllVistas(VistasRepository)
+    // const VistasRepository = new VistaRepositoryImpl(apiAdapter)
+    // const getAllVistasUseCase = new GetAllVistas(VistasRepository)
     //States ME
     const userRepository = new UserRepositoryImpl(apiAdapter)
     const getUserByTokenUseCase = new getUserByToken(userRepository)
@@ -160,19 +160,19 @@ export const AuthProvider = ({ children }) => {
         }
 
     }
-    const getAllVistas = () => {
-        getAllVistasUseCase.execute(user?.id)
-    }
-    const me = async () => {
-        console.log("entre")
-        let response = await getUserByTokenUseCase.execute();
-        if (response?.success) {
-            setUser(response?.data);
-            setIsAuthenticated(true);
-        } else {
-            setIsAuthenticated(false);
-        }
-    };
+    // const getAllVistas = () => {
+    //     getAllVistasUseCase.execute(user?.id)
+    // }
+    // const me = async () => {
+    //     console.log("entre")
+    //     let response = await getUserByTokenUseCase.execute();
+    //     if (response?.success) {
+    //         setUser(response?.data);
+    //         setIsAuthenticated(true);
+    //     } else {
+    //         setIsAuthenticated(false);
+    //     }
+    // };
     const isUserAuthenticated = () => isAuthenticated;
     if (panel) {
         return <Loader isLoading={loading} setPanel={setPanel}></Loader>  // Puedes personalizar esta UI según tu diseño

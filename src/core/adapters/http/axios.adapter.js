@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { history } from '../../../presentation/utils/history';
 
 export default class AxiosAdapter {
