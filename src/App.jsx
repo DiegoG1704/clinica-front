@@ -3,7 +3,7 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';  // Cambia el 
 import 'primereact/resources/primereact.min.css';                  // CSS principal de PrimeReact
 import 'primeicons/primeicons.css';                                // Iconos de PrimeReact
 import 'primeflex/primeflex.css';                                  // Utilidades de Flexbox
-import { Navigate, Route, BrowserRouter as Router, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import { useAuth } from './presentation/context/AuthContext/AuthContext';
@@ -13,7 +13,7 @@ import { history } from './presentation/utils/history';
 
 
 function App() {
-    const { user, Datos, logout, setDatos, setUser, login, isAuthenticated, isUserAuthenticated, setIsAuthenticated } = useAuth();
+    const { user, Datos, logout, setDatos, setUser, login, isAuthenticated, setIsAuthenticated } = useAuth();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     history.navigate = useNavigate();
     history.location = useLocation();
@@ -25,7 +25,6 @@ function App() {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
-    const location = useLocation();
 
     useEffect(() => {
         console.log("isAuthenticated in App.jsx:", isAuthenticated); // Para depurar el estado

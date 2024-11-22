@@ -14,6 +14,7 @@ import PromocionesLocales from '../components/AdministradorLocales/PromocionesLo
 import { SubLocalProvider } from '../context/subLocalContext/subLocalContext';
 import SubAdmin from '../pages/VistaAdmin/SubLocales/SubAdmin';
 import Login from '../pages/login/login';
+import PromocionesAdmin from '../pages/VistaAdmin/Promociones/PromocionesAdmin';
 
 const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin }) => {
     console.log('problem', router)
@@ -25,7 +26,7 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
         "SubAdmin": <SubAdmin />,
         "SubAfiliados": <SubAfiliados UserId={idUsuario} />,
         "SubLocal": <SubLocalProvider><SubLocales /></SubLocalProvider>,
-        "Promos": <Promociones />,
+        "Promos": <PromocionesAdmin />,
         "PromocionesLocales": <PromocionesLocales />,
         "Configuraciones": <Configuraciones />,
         "Clinicas": <ClinicaProvider><ClinicaPage /></ClinicaProvider>,
