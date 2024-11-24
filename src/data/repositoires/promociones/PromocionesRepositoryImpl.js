@@ -14,5 +14,6 @@ export class PromocionesRepositoryImpl extends PromocionesRepository {
             throw Error(error?.response?.data?.message)
         }
     }
+    
 
 }

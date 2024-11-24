@@ -45,29 +45,6 @@ export default function Afiliados() {
         return () => clearTimeout(timeout);
     }, []);
 
-    const responsiveOptions = [
-        {
-            breakpoint: '1524px',
-            numVisible: 3,
-            numScroll: 3,
-        },
-        {
-            breakpoint: '600px',
-            numVisible: 1,
-            numScroll: 1,
-        },
-    ];
-
-    const clinicaslogo = (clinica) => (
-        <div className="clinica-logo-container">
-            <img
-                src={`${process.env.REACT_APP_API_BASE_URL}uploads/${clinica.IsoTipo}`} // Cambia según tu ruta de imagen
-                alt="Clinica Logo"
-                className="clinica-logo"
-            />
-        </div>
-    );
-
     const [searchTerm, setSearchTerm] = useState(''); // Estado para almacenar promociones
 
     // Filtrar promociones según el término de búsqueda
@@ -111,22 +88,8 @@ export default function Afiliados() {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        <h1 className='mejoras'>Nuestras mejores ofertas</h1>
-                        <CardTop valores={top} />
                     </div>
-                    <div>
-                        <Carousel
-                            className='carruselclinica'
-                            value={IsoTipo}
-                            numVisible={4}
-                            responsiveOptions={responsiveOptions}
-                            numScroll={3}
-                            circular
-                            autoplayInterval={5000}
-                            itemTemplate={clinicaslogo}
-                        />
-                    </div>
-                    <ClinicaCards Ancho={'400px'} Alto={'550px'} Margen={'2rem'} Promociones={filteredPromociones} Admin={false} />
+                    <ClinicaCards Ancho={'80%'} Alto={'320px'} Margen={'2rem'} Promociones={IsoTipo} Admin={false} />
                     <div className='Barra'>
                         <div className='Informacion'>
                             <h2>Sobre Nosotros</h2>

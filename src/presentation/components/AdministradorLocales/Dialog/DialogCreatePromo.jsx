@@ -18,13 +18,13 @@ export default function CreatePromo({visible,close,recargar}) {
       })
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setDatos({ ...datos, [name]: value });
-      };
+      const { name, value } = e.target;
+      setDatos({ ...datos, [name]: value });
+    };
       
-      const handleLocalChange = (e) => {
-        setDatos({ ...datos, clinica_id: e.value }); // Guardar solo el id del local
-      };
+    const handleLocalChange = (e) => {
+      setDatos({ ...datos, clinica_id: e.value }); // Guardar solo el id del local
+    };
 
       useEffect(() => {
         const fetchClinicas = async () => {

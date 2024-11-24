@@ -1,6 +1,7 @@
 import ClinicaRepository from "../../../domain/repositories/clinica/ClinicaRepository";
 import ClinicaAdminMapper from "../../mappers/clinica/ClinicaAdminMapper";
 import ClinicaMapper from "../../mappers/clinica/ClinicaMapper";
+import { PromocionesMapper } from "../../mappers/promociones/promocionesMapper";
 
 
 export class ClinicaRepositoryImpl extends ClinicaRepository {
@@ -50,6 +51,18 @@ export class ClinicaRepositoryImpl extends ClinicaRepository {
             console.log("err", error?.response?.data?.message)
             return { success: false, error: { message: error?.response?.data?.message } }
         }
+    }
+    async uploadTarifario(data) {
+        
+        try {
+            const dataPromo= PromocionesMapper.toData(data?.archivo)
+            const response = await this.adapter.post(`/tarifario/${data?.clinica_id}`, dataPromo);
+            return { success: true }
+        } catch (error) {
+            console.log("err", error?.response?.data?.message)
+            return { success: false, error: { message: error?.response?.data?.message } }
+        }
+
     }
 
 }

@@ -1,9 +1,9 @@
 import { createContext, useContext } from "react";
-
+import { dependenciesLocator } from "../../../common/dependencies/DependenciesLocator";
 
 const PromocionContext = createContext();
 
-export const usePromocionContext = () => {
+export const usePromocionPloc = () => {
     const context = useContext(PromocionContext);
     if (!context) {
         throw new Error('useProductContext must be used within a ProductProvider');
@@ -12,6 +12,12 @@ export const usePromocionContext = () => {
 };
 
 export const PromocionProvider = ({ children, value }) => {
-    return <PromocionContext.Provider value={value}>
+    const promoPloc = dependenciesLocator.providePromocionesPloc();
+    return <PromocionContext.Provider value={promoPloc}>
         {children}</PromocionContext.Provider>
 };
+
+
+
+
+

@@ -12,6 +12,10 @@ class ClinicaMapper {
         let ImagoTipo = data?.ImagoTipo
             ? `${process.env.REACT_APP_API_BASE_URL}uploads/${data.ImagoTipo}`
             : `${process.env.REACT_APP_API_BASE_URL}uploads/hospital-default.jpg`;
+        let tarifaUrl =data?.tarifario
+            ? `${process.env.REACT_APP_API_BASE_URL}${data?.tarifario}`
+            : null;
+        
         return new Clinica(
             data?.id,
             data?.nombre,
@@ -20,7 +24,8 @@ class ClinicaMapper {
             data?.ubicacion,
             data?.telefonos,
             ImagoTipo,
-            logoUrl
+            logoUrl,
+            tarifaUrl
 
         );
     }

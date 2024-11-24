@@ -14,15 +14,11 @@ export class PromocionesMapper {
             data?.calificacion
         );
     }
-    static toData(data) {
-        return {
-         area:data?.area,
-         descuento:data?.descuento,
-         descripcion:data?.descripcion,
-         clinica_id:data?.clinica_id,
-         imagen:data?.imagen,
-         calificacion:data?.calificacion
-        };
+    static toData(archivo) {
+         let promoFormData=new FormData()
+         promoFormData.append("file",archivo)
+         return promoFormData
+        
     }
     static toDomainArray(dataArray) {
       
