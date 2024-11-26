@@ -1,17 +1,18 @@
 .user-profile__image img{
-    border: 6px solid #85c226;
+    border: 6px solid #ffffff;
     width: 180px;
     height: 180px;
 }
 .user-profile__info__name{
     font-weight: 700;
     font-size: 1.6em;
+    color: #fff;
 }
 .user-profile__info__role{
     margin-top: -20px;
     text-align: center;
-    color: #6C6C6C;
-    ;
+    color: #ffffff;
+    font-weight: 400;
 }
 .user_profile__record__id p:first-child{
     font-size: 1.6em;
@@ -41,13 +42,13 @@
 .user-form__btn-cancel{
     background-color: #fff!important;
     color: #a5a58d;
-    border-radius: 4px;
+   
     border: 2px solid #a5a58d;
 }
 .user-form__btn-save{
     background-color:#a5a58d!important;
     color: #fff;
-    border-radius: 4px;
+
     border: 2px solid #a5a58d;
 }
 .container-card-config-user{
@@ -64,4 +65,67 @@
 }
 .header__title{
     font-size: 2em;
+    font-weight: 700;
+}
+.input-config{
+    font-size: 16px;
+    border-radius: 6px;
+}
+
+.header-profile{
+    background: linear-gradient(90deg, #5e8b22, #8ec534);
+    padding: 20px 0px;
+
+    width: 100%;
+
+   border-radius: 20px;
+}
+.user-form-profile{
+    border-radius: 20px;
+    background-color: #fff;
+}
+.title-general-info{
+    color: #8ec534;
+}
+.general-info__icon{
+    background-color:#aeee48;
+    padding: 7px;
+    border-radius: 5px;
+    color: #81b233; ;
+    margin-right: 5px;
+}
+.general-info__data{
+   color: #000;
+}
+.general-info{
+    color: #81b233; 
+}
+.edit-photo{
+    width: 35px;
+    height: 35px;
+    background-color: #fff;
+    border-color: transparent;
+    border-radius: 30px;
+    display: block;
+    color:#5e8b22;
+   
+    margin-right: 10px!important;
+}
+.edit-photo .p-button-icon {
+    display: block;
+    margin: 1px 1px 1px -7px;
+    
+    
+}
+.btn-save{
+    background-color: #8ec534;
+    border-color: #8ec534;
+}
+.btn-cancel{
+    background-color: #fff;
+    color:#8ec534 ;
+    border-color: #8ec534;
+}
+.p-icon-field{
+    width: 100%;
 }
