@@ -16,19 +16,21 @@ import SubAdmin from '../pages/VistaAdmin/SubLocales/SubAdmin';
 import Login from '../pages/login/login';
 import PromocionesAdmin from '../pages/VistaAdmin/Promociones/PromocionesAdmin';
 import { PromocionProvider } from '../context/PromocionesContext/PromocionContext';
+import Tarifario from '../components/Afiliados/Tarifario';
 
 const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin }) => {
     console.log('problem', router)
 
     const componentMap = {
         "Home": <Home />,
-        "Admin": <Admin />,
-        "Afiliados": <Admin />,
+        "Usuarios": <Admin />,
+        "Afiliados": <SubAfiliados/>,
         "SubAdmin": <SubAdmin />,
         "SubAfiliados": <SubAfiliados UserId={idUsuario} />,
         "SubLocal": <SubLocalProvider><SubLocales /></SubLocalProvider>,
         "Tarifarios": <PromocionProvider><PromocionesAdmin /></PromocionProvider>,
         "Tarifas": <PromocionesLocales />,
+        "TarifasClinicas": <Tarifario/>,
         "Configuraciones": <Configuraciones />,
         "Clinicas": <ClinicaProvider><ClinicaPage /></ClinicaProvider>,
     };
