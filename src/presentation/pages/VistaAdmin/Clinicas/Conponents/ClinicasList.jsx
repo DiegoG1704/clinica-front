@@ -24,7 +24,7 @@ const ClinicasList = ({ data }) => {
         closeEditar, handleCLickAdminUser, setCurrentUser } = useClinica()
 
     // Filtrar los datos de las clínicas basados en el término de búsqueda
-    const filteredData = data.filter(clinica => {
+    const filteredData = Array.isArray(data) ? data.filter(clinica => {
         const lowercasedSearchTerm = searchTerm.toLowerCase();
         return (
             clinica.nombre.toLowerCase().includes(lowercasedSearchTerm) ||
@@ -32,7 +32,8 @@ const ClinicasList = ({ data }) => {
             clinica.direccion.toLowerCase().includes(lowercasedSearchTerm) ||
             clinica.telefono.toLowerCase().includes(lowercasedSearchTerm)
         );
-    });
+    }) : [];
+    
 
     const LogoRowTemplate = (rowData) => {
         return (<img src={rowData.logo} alt={rowData.nombre} width="60" className='border-round-sm' />)

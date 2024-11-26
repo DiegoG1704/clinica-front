@@ -52,16 +52,23 @@ export default function Register({ onNext }) {
 
 
   const handleSubmit = () => {
-    const response = validateGeneralData({ dni, nombres, apellidos, direccion, estadoCivil, fechNac })
-    console.log("estas", response)
-    if (response?.success) {
-      const userData = { dni, nombres, apellidos, direccion, estadoCivil, fechNac };
-      onNext(userData);
-      navigate('/DatosU');
-    } else {
-      showToastWithErrors("warn", 'Advertencia', response?.error, toast)
-    }
+    // Asegúrate de enviar solo la parte de la fecha
+    const formattedDate = fechNac ? fechNac.toISOString().split('T')[0] : ''; 
+  
+    const userData = {
+      dni,
+      nombres,
+      apellidos,
+      direccion,
+      estadoCivil,
+      fechNac: formattedDate,  // Aquí formateas la fecha
+    };
+  
+    // Envías userData a la API
+    onNext(userData);
+    navigate('/DatosU');
   };
+  
 
 
 
