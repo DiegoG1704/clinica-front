@@ -75,14 +75,21 @@ export default function Tarifario() {
                     <h1>Tarifario de las Clínicas</h1>
                     <Divider />
                 </div>
-                <div className="flex justify-content-end align-items-center">
-                    <Button
-                        label="Mejorar Plan"
-                        style={{ backgroundColor: "#85C226", borderColor: "#85C226", height: "60px", borderRadius: "6px" }}
-                        icon="pi pi-plus"
-                        onClick={() => setOpen(true)}
-                    />
-                </div>
+                {user?.rol_id === "Afiliado" && (  // Asumiendo que 3 es el ID de afiliador
+                    <div className="flex justify-content-end align-items-center">
+                        <Button
+                            label="Mejorar Plan"
+                            style={{
+                                backgroundColor: "#85C226",
+                                borderColor: "#85C226",
+                                height: "60px",
+                                borderRadius: "6px",
+                            }}
+                            icon="pi pi-plus"
+                            onClick={() => setOpen(true)}
+                        />
+                    </div>
+                )}
             </div>
             <div>
                 <ClinicaCards Promociones={tarifario} Ancho="600px" Alto="300px" />
