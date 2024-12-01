@@ -82,7 +82,7 @@ export default function Registro({ userData }) {
             correo,
             contraseña,
             telefono,
-            rol_id: 4,
+            rol_id: 6,
             codigo2
         };
         try {

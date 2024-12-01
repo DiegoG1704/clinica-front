@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }) => {
     //     return storedUser !== null; // Devuelve true si hay un usuario almacenado, false de lo contrario
     // };
 
-    const [isLoggingOut, setIsLoggingOut] = useState(false)
+ 
 
     useEffect(() => {
 
@@ -182,7 +182,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             user, setUser, login, logout, isAuthenticated, Datos, setDatos, FindPersonWithDni,
             validateGeneralData, RegisterUser, setIsAuthenticated, isUserAuthenticated,
-            isLoggingOut, setIsLoggingOut
+            
         }}>
             {children}
         </AuthContext.Provider>

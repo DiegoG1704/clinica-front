@@ -7,15 +7,25 @@ import photoDefault from "../../../img/photo-default.png";  // Imagen predetermi
 
 import { useAuth } from '../../../context/AuthContext/AuthContext';
 import { FileUpload } from 'primereact/fileupload';
-import { useEffect, useState } from 'react';  // Asegúrate de que useState esté importado
+import { useEffect, useRef, useState } from 'react';  // Asegúrate de que useState esté importado
 
 import { apiAdapter } from '../../../../core/adapters/apiAdapter';
 import ChangePassword from './Components/ChangePassword';
+import { useConfiguracionPloc } from '../../../context/ConfiguracionContext/ConfiguracionContext';
+import { usePlocState } from '../../../hooks/ploc/usePlocState';
+import { Toast } from 'primereact/toast';
+import { showToast, showToastWithErrors } from '../../../utils/showToast';
 
 export default function Configuraciones() {
   const { user, setUser } = useAuth();
-  const [visibleChangePassword,setVisibleChangePassword]=useState(false)
-  console.log('user', user)
+  const toast=useRef(null)
+  const [visibleChangePassword, setVisibleChangePassword] = useState(false)
+  const ploc = useConfiguracionPloc()
+  const state = usePlocState(ploc)
+  console.log("ss", ploc)
+
+
+
   const [selectedImage, setSelectedImage] = useState(user?.fotoPerfil ? `${process.env.REACT_APP_API_BASE_URL}uploads/${user.fotoPerfil}` : null);
   // Estado para la imagen seleccionada
   const [fotoPerfil, setFotoPerfil] = useState(user?.fotoPerfil);  // Estado local para la foto de perfil
@@ -109,9 +119,21 @@ export default function Configuraciones() {
     iconOnly: true,       // Elimina el texto, solo muestra el ícono
     className: 'edit-photo' // Clase CSS opcional para estilos adicionales
   };
+  
+  const handleChangePassword=async()=>{
+    const response=await ploc.changePassword(user?.id);
+    console.log("this-response",response)
+    if(!response.success){
+      showToastWithErrors("error","Error al actualizar",response?.error,toast)
+    }else{
+      showToast("success","Actulizado correctamente","Se ha actualizado su contraseña correctamente",toast)
+      ploc.hideDialogChangePassword()
+    }
+  }
 
   return (
     <div className="container-page">
+      <Toast ref={toast}/>
       <header>
         <h2 className='header__title'>Configuraciones</h2>
 
@@ -166,8 +188,8 @@ export default function Configuraciones() {
             <header className='flex justify-content-between align-items-center mb-3'>
               <h2 className='title-general-info'>Información general</h2>
               <div className='flex gap-2'>
-                <Button tooltip='Cambiar contraseña' icon="pi pi-key"  rounded  className='user-form__btn-cancel' onClick={()=>{setVisibleChangePassword(true)}} />
-                <Button tooltip='Editar datos generales' icon=' pi pi-pencil'  className='user-form__btn-save'rounded  onClick={handleSutmit}  />
+                <Button tooltip='Cambiar contraseña' icon="pi pi-key" rounded className='user-form__btn-cancel' onClick={ploc.showDialogChangePassword} />
+                <Button tooltip='Editar datos generales' icon=' pi pi-pencil' className='user-form__btn-save' rounded onClick={handleSutmit} />
               </div>
             </header>
 
@@ -220,17 +242,13 @@ export default function Configuraciones() {
                   <div className="flex flex-column gap-2 flex-1 general-info">
                     <label htmlFor="username"> <i className='pi pi-id-card general-info__icon'></i>Nombre Completo</label>
                     <p className='general-info__data'>{datos.nombres}{" "}{datos.apellidos}</p>
-
                   </div>
                   <div className="flex flex-column gap-2 flex-1 general-info">
                     <label htmlFor="cargo"><i className='pi pi-user general-info__icon'></i>Cargo</label>
                     <p className='general-info__data'>{user?.rolId}</p>
                   </div>
                 </div>
-
                 <div className="flex flex-column gap-2 mt-3 general-info">
-
-
                 </div>
 
                 <div className="flex flex-column gap-2 mt-3 general-info">
@@ -245,7 +263,12 @@ export default function Configuraciones() {
           </div>
         </div>
       </main>
-      <ChangePassword visibleChangePassword={visibleChangePassword} setVisibleChangePassword={()=>{setVisibleChangePassword(false)}}/>
+      <ChangePassword visibleChangePassword={state?.visibleDialogChangePassword}
+        setVisibleChangePassword={ploc.hideDialogChangePassword}
+        showDialogChangePassword={ploc.showDialogChangePassword}
+        handleChangeData={ploc.handlechange}
+        changePassword={handleChangePassword}
+      />
     </div>
   );
 }

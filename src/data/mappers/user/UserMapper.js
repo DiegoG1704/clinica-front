@@ -23,7 +23,11 @@ class UserMapper {
             data.telefono,
             data.fotoPerfil,
             data.direccion,
-            data.vistas
+            data.vistas,
+            data.estado,
+            data.estadoPr,
+            data.codigo,
+           
         );
     }
     static toData(user) {

@@ -16,6 +16,8 @@ import SubAdmin from '../pages/VistaAdmin/SubLocales/SubAdmin';
 import Login from '../pages/login/login';
 import PromocionesAdmin from '../pages/VistaAdmin/Promociones/PromocionesAdmin';
 import { PromocionProvider } from '../context/PromocionesContext/PromocionContext';
+import { ConfiguracionProvider } from '../context/ConfiguracionContext/ConfiguracionContext';
+import RestringedPage from '../pages/Restringed/RestringedPage';
 
 const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin }) => {
     console.log('problem', router)
@@ -23,13 +25,14 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
     const componentMap = {
         "Home": <Home />,
         "Admin": <Admin />,
-        "Afiliados": <Admin />,
+        "Usuarios": <Admin />,
         "SubAdmin": <SubAdmin />,
         "SubAfiliados": <SubAfiliados UserId={idUsuario} />,
         "SubLocal": <SubLocalProvider><SubLocales /></SubLocalProvider>,
         "Tarifarios": <PromocionProvider><PromocionesAdmin /></PromocionProvider>,
         "Tarifas": <PromocionesLocales />,
-        "Configuraciones": <Configuraciones />,
+        "RestrictedAccess":<RestringedPage/>,
+        
         "Clinicas": <ClinicaProvider><ClinicaPage /></ClinicaProvider>,
     };
   
@@ -52,7 +55,7 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
                             element={componentMap[route.nombre] || null}
                         />
                     ))}
-                    <Route path='/Configuraciones' element={<Configuraciones />} />
+                    <Route path='/Configuraciones' element={ <ConfiguracionProvider><Configuraciones /></ConfiguracionProvider>} />
                     {!isAuthenticated ? (
                         <Route path="/login" element={<Login onLogin={onLogin} />} />
                     ) : <Route

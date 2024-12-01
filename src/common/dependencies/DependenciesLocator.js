@@ -2,8 +2,10 @@ import { apiAdapter } from "../../core/adapters/apiAdapter";
 import { ClinicaRepositoryImpl } from "../../data/repositoires/clinica/ClinicaRepositoryImpl";
 import { ClinicaSubLocalesRepositoryImpl } from "../../data/repositoires/clinicaSubLocales/ClinicaSubLocalesRepositoryImpl";
 import { PromocionesRepositoryImpl } from "../../data/repositoires/promociones/PromocionesRepositoryImpl";
+import UserRepositoryImpl from "../../data/repositoires/user/UserRepositoryImpl";
 import ZodSelectFileValidator from "../../data/validators/promociones/ZodSelectFile";
 import ZodCreateSubLocalValidator from "../../data/validators/subLocal/ZodSubLocalValidator";
+import ZodValidateChangePassword from "../../data/validators/user/ZodValidateChangePassword";
 import GetAllClinicas from "../../domain/useCases/clinica/getAllClinicas";
 import GetAllPromociones from "../../domain/useCases/clinica/getAllClinicas";
 import UploadTarifario from "../../domain/useCases/clinica/uploadTarifa";
@@ -12,7 +14,9 @@ import DeleteSubLocal from "../../domain/useCases/clinicaSubLocales/deleteSubloc
 import GetAllClinicaSubLocales from "../../domain/useCases/clinicaSubLocales/getAllClinicaSubLocales";
 import UpdateSubLocal from "../../domain/useCases/clinicaSubLocales/updateSubLocal";
 import ValidateFilePromocion from "../../domain/useCases/Promociones/validateFilePromocion";
+import { changePassword } from "../../domain/useCases/user/ChangePassword";
 import { ClinicaPloc } from "../../presentation/ploc/Clinica/ClinicaPloc";
+import { ConfiguracionPloc } from "../../presentation/ploc/Configuracion/ConfiguracionPloc";
 
 import { PromocionesPloc } from "../../presentation/ploc/Promociones/ploc/PromocionesPloc";
 import { SubLocalPloc } from "../../presentation/ploc/SubLocal/SubLocalPloc";
@@ -63,10 +67,24 @@ function provideClinicaPloc() {
     );
     return Clinica;
 }
+function provideUserPloc(){
+    const userRepository=new UserRepositoryImpl(apiAdapter)
+    return userRepository
+}
+function provideConfiguracionPloc(userRepository){
+    const changePasswordValidator=new ZodValidateChangePassword()
+    const changePasswordUseCase=new changePassword(userRepository,changePasswordValidator)
+    const configuracion=new ConfiguracionPloc(changePasswordUseCase)
+    return configuracion
+
+}
 const clinicaProvide = provideClinicaPloc();
+const userProvide = provideUserPloc();
 
 export const dependenciesLocator = {
     clinicaProvide,
     providePromocionesPloc: () => providePromocionesPloc(clinicaProvide),
-    provideLocalesPloc
+    provideLocalesPloc,
+    provideUserPloc,
+    provideConfiguracionPloc:()=>provideConfiguracionPloc(userProvide),
 };
