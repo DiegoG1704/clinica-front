@@ -10,10 +10,12 @@ import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
 import { apiAdapter } from '../../../../../../core/adapters/apiAdapter';
 import '../Estilos/DialogCreate.css'
-        
+import CustomDialog from '../../../../../components/Dialog/CustomDialog';
+import { Password } from 'primereact/password';
+
 
 export default function CreateSubAdmin({ visible, close, actualizar }) {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
   const [subAdmin, setSubAdmin] = useState([]);
   const [formDataLocal, setFormDataLocal] = useState({
     nombres: '',
@@ -41,7 +43,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
   // Manejo de cambios en los campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
+
     // Si el campo es 'fechNac', formatear la fecha antes de guardarla
     if (name === 'fechNac' && value instanceof Date) {
       // Convierte la fecha a formato 'yyyy-mm-dd' que MySQL acepta
@@ -51,7 +53,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
       setFormDataLocal({ ...formDataLocal, [name]: value });
     }
   };
-  
+
 
   // Manejo de cambio en el dropdown de Local
   const handleLocalChange = (e) => {
@@ -82,14 +84,14 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
       });
       return;
     }
-  
+
     setLoading(true);
-  
+
     try {
       const response = await axios.get(
         `https://dniruc.apisperu.com/api/v1/dni/${dni}?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRnc3QxNzA0QGdtYWlsLmNvbSJ9.4MWOq0VPNPDODZpUXh3p2MoG55I6hSBLSMzEFvT7es0`
       );
-  
+
       if (response.data && response.data.nombres) {
         const { nombres, apellidoPaterno, apellidoMaterno } = response.data;
         setFormDataLocal({
@@ -122,7 +124,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
       setLoading(false);
     }
   };
-  
+
 
   const validatePasswords = () => {
     if (formDataLocal.contraseña !== formDataLocal.confirmPassword) {
@@ -136,13 +138,13 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
     }
     return true;
   };
-  
+
   const validateRequiredFields = () => {
     const requiredFields = [
       'nombres', 'apellidos', 'telefono', 'fechNac', 'direccion',
       'dni', 'correo', 'contraseña', 'confirmPassword', 'Local_id'
     ];
-  
+
     for (let field of requiredFields) {
       if (!formDataLocal[field]) {
         toast.current.show({
@@ -154,26 +156,26 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
         return false;
       }
     }
-  
+
     return true;
   };
-  
+
 
   const validateEmail = () => {
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailPattern.test(formDataLocal.correo);
   };
-  
+
 
   const handleSubmit = async () => {
     if (!validateRequiredFields()) {
       return; // Detener el envío si algún campo requerido está vacío
     }
-  
+
     if (!validatePasswords()) {
       return; // No continuar si las contraseñas no coinciden
     }
-  
+
     if (!validateEmail()) {
       toast.current.show({
         severity: 'warn',
@@ -183,16 +185,16 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
       });
       return;
     }
-  
+
     try {
       setLoading(true);
-  
+
       // Enviamos la solicitud para crear el subadministrador
       const response = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}CreateUsuario`,
         formDataLocal
       );
-  console.log(response)
+      console.log(response)
       // Si la creación fue exitosa
       toast.current.show({
         severity: 'success',
@@ -200,7 +202,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
         detail: 'Usuario creado exitosamente',
         life: 3000
       });
-  
+
       // Limpiar el formulario
       setFormDataLocal({
         nombres: '',
@@ -233,27 +235,29 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
       setLoading(false);
     }
   };
-  
-  
 
-  // Mostrar u ocultar la contraseña
-  const togglePassword = () => {
-    setShowPassword(!showPassword);
-  };
 
-  const headerTemplate = () => {
-    return (
-        <div className='flex flex-row gap-2'>
-            <span className="pi pi-building" style={{fontSize:"40px",fontWeight:"500",color:"#85C226"}}></span>
-            <span style={{fontSize:"24px",fontWeight:"700"}}>Crear Sub-Administrador</span>
-        </div>
-    )
-}
+
+  
+  const footerTemplate = () => (
+    <div className="dialog-footer flex justify-content-end" style={{ marginTop: '5px' }}>
+      <Button
+        style={{ margin: '5px', background: '#85C226', borderColor: '#85C226', margin: '5px' }}
+        label="Cerrar"
+        onClick={close} />
+      <Button
+        label="Crear"
+        onClick={handleSubmit}
+        style={{ margin: '5px', background: '#85C226', borderColor: '#85C226', margin: '5px' }}
+        disabled={loading} />
+    </div>
+  )
+
 
   return (
-    <Dialog visible={visible} onHide={close} header={headerTemplate} style={{width:'800px'}}>
+    <CustomDialog visible={visible} onhide={close} title={"Crear Sub-Administrador"} iconClassName={"pi pi-building"} width='auto' footer={footerTemplate} >
       <Toast ref={toast} />
-      <div className="flex gap-4"> {/* Contenedor principal con `flex` y espacio entre las columnas */}
+      <div className="flex  "> {/* Contenedor principal con `flex` y espacio entre las columnas */}
         <div className="flex-1"> {/* La columna de Datos Personales ocupa el 50% */}
           <div className='DatosPersonales'>
             <div className="input-group">
@@ -275,69 +279,88 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
                 />
               </div>
             </div>
-            <div className="flex flex-column gap-2">
+            <div className="input-group">
               <label htmlFor="nombres">Nombres</label>
-              <InputText
-                id="nombres"
-                name="nombres"
-                placeholder='Ingresa nombre...'
-                value={formDataLocal.nombres}
-                onChange={handleChange}
-                required
-              />
+              <div className="input-button-group">
+                <InputText
+                  id="nombres"
+                  name="nombres"
+                  placeholder='Ingresa nombre...'
+                  value={formDataLocal.nombres}
+                  onChange={handleChange}
+                  required
+                />
+
+              </div>
             </div>
 
             {/* Apellidos */}
-            <div className="flex flex-column gap-2">
+            <div className="input-group">
               <label htmlFor="apellidos">Apellidos</label>
-              <InputText
-                id="apellidos"
-                name="apellidos"
-                placeholder='Ingresa apellido...'
-                value={formDataLocal.apellidos}
-                onChange={handleChange}
-                required
-              />
+
+              <div className="input-button-group">
+                <InputText
+                  id="apellidos"
+                  name="apellidos"
+                  placeholder='Ingresa apellido...'
+                  value={formDataLocal.apellidos}
+                  onChange={handleChange}
+                  required
+                />
+
+              </div>
             </div>
 
             {/* Teléfono */}
-            <div className="flex flex-column gap-2">
+            <div className="input-group">
               <label htmlFor="telefono">Teléfono</label>
-              <InputText
-                id="telefono"
-                name="telefono"
-                placeholder='Ingresa telefono...'
-                value={formDataLocal.telefono}
-                onChange={handleChange}
-                required
-              />
+
+              <div className="input-button-group">
+                <InputText
+                  id="telefono"
+                  name="telefono"
+                  placeholder='Ingresa telefono...'
+                  value={formDataLocal.telefono}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
+
+
+
 
             {/* Fecha de Nacimiento */}
-            <div className="flex flex-column gap-2">
+            <div className="input-group">
               <label htmlFor="fechNac">Fecha de Nacimiento</label>
-              <Calendar
-                id="fechNac"
-                name="fechNac"
-                placeholder='Selecciona fecha de nacimiento...'
-                value={formDataLocal.fechNac ? new Date(formDataLocal.fechNac) : null} // Convertir a Date si ya existe
-                onChange={handleChange}
-                showIcon
-                dateFormat="dd/mm/yy" // Mantener el formato visual, pero la fecha será guardada correctamente
-              />
+              <div className="input-button-group">
+                <Calendar
+                  id="fechNac"
+                  name="fechNac"
+                  placeholder='Selecciona fecha de nacimiento...'
+                  value={formDataLocal.fechNac ? new Date(formDataLocal.fechNac) : null} // Convertir a Date si ya existe
+                  onChange={handleChange}
+                  showIcon
+                  dateFormat="dd/mm/yy" // Mantener el formato visual, pero la fecha será guardada correctamente
+                />
+              </div>
             </div>
 
+
             {/* Dirección */}
-            <div className="flex flex-column gap-2">
+            <div className="input-group">
               <label htmlFor="direccion">Dirección</label>
-              <InputText
-                id="direccion"
-                name="direccion"
-                placeholder='Ingresa direccion...'
-                value={formDataLocal.direccion}
-                onChange={handleChange}
-              />
+              <div className="input-button-group">
+                <InputText
+                  id="direccion"
+                  name="direccion"
+                  placeholder='Ingresa direccion...'
+                  value={formDataLocal.direccion}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
+
           </div>
         </div>
         <Divider layout="vertical" />
@@ -346,95 +369,86 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
             <h2>Datos de Usuario</h2>
 
             {/* Correo */}
-            <div className="flex flex-column gap-2">
+            <div className="input-group">
               <label htmlFor="correo">Correo</label>
-              <InputText
-                id="correo"
-                name="correo"
-                value={formDataLocal.correo}
-                onChange={handleChange}
-                placeholder="Ingresa tu correo..."
-              />
+
+              <div className="input-button-group">
+                <InputText
+                  id="correo"
+                  name="correo"
+                  value={formDataLocal.correo}
+                  onChange={handleChange}
+                  placeholder="Ingresa tu correo..."
+                />
+              </div>
             </div>
+
 
             {/* Contraseña */}
-            <div className="flex flex-column gap-2" style={{ position: 'relative' }}>
+            <div className="input-group">
               <label htmlFor="contraseña">Contraseña</label>
-              <InputText
-                id="contraseña"
-                name="contraseña"
-                type={showPassword ? 'text' : 'password'}
-                value={formDataLocal.contraseña}
-                onChange={handleChange}
-                placeholder="Ingrese contraseña..."
-              />
-              <Button
-                icon={showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}
-                className="p-button-secondary transparent-button"
-                onClick={togglePassword}
-                style={{
-                  position: 'absolute',
-                  right: '10px',
-                  top: '48px'
-                }}
-              />
+
+              <div className="input-button-group">
+
+                <Password id="contraseña"
+                  name="contraseña"
+                  toggleMask
+                  className='w-full'
+                  value={formDataLocal.contraseña}
+                  onChange={handleChange}
+                  placeholder="Ingrese contraseña..." />
+              </div>
             </div>
+
 
             {/* Confirmar contraseña */}
-            <div className="flex flex-column gap-2" style={{ position: 'relative' }}>
+            <div className="input-group">
               <label htmlFor="confirmPassword">Confirmar Contraseña</label>
-              <InputText
-                id="confirmPassword"
-                name="confirmPassword"
-                type={showPassword ? 'text' : 'password'}
-                value={formDataLocal.confirmPassword}
-                onChange={handleChange}
-                placeholder="Confirma tu contraseña..."
-              />
-              <Button
-                icon={showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}
-                className="p-button-secondary transparent-button"
-                onClick={togglePassword}
-                style={{
-                  position: 'absolute',
-                  right: '10px',
-                  top: '48px'
-                }}
-              />
+
+              <div className="input-button-group">
+                <Password id="confirmPassword"
+                  name="confirmPassword"
+
+                  value={formDataLocal.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Confirma tu contraseña..."
+                  feedback={false}
+                  toggleMask
+                  className='w-full'
+
+                />
+
+              </div>
             </div>
 
+
             {/* Dropdown de Local */}
-            <div className="flex flex-column gap-2">
+            <div className="input-group">
               <label htmlFor="Local_id">Local</label>
-              <Dropdown
-                id="Local_id"
-                name="Local_id"
-                value={formDataLocal.Local_id}
-                onChange={handleLocalChange}
-                options={subAdmin.map((local) => ({
-                  label: local.nombre,  // Muestra el nombre
-                  value: local.id // Solo envía el ID
-                }))}
-                placeholder="Seleccionar Local..."
-              />
+
+              <div className="input-button-group">
+                <Dropdown
+                  id="Local_id"
+                  name="Local_id"
+                  value={formDataLocal.Local_id}
+                  onChange={handleLocalChange}
+                  options={subAdmin.map((local) => ({
+                    label: local.nombre,  // Muestra el nombre
+                    value: local.id // Solo envía el ID
+                  }))}
+                  placeholder="Seleccionar Local..."
+                  className='w-full'
+                />
+              </div>
             </div>
-            <div className="dialog-footer flex justify-content-end" style={{marginTop:'5px'}}>
-              <Button
-                style={{margin:'5px',background:'#85C226',borderColor:'#85C226',margin:'5px'}}
-                label="Cerrar" 
-                onClick={close} />
-              <Button 
-                label="Crear" 
-                onClick={handleSubmit} 
-                style={{margin:'5px',background:'#85C226',borderColor:'#85C226',margin:'5px'}}
-                disabled={loading} />
-            </div>
+
+
           </div>
         </div>
       </div>
 
       {/* Botón para guardar */}
-      
-    </Dialog>
+
+    </CustomDialog>
   );
 }

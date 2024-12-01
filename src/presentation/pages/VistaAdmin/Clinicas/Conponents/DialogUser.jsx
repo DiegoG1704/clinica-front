@@ -8,10 +8,10 @@ import { useClinica } from '../../../../context/ClinicaContext/ClinicaContext';
 import CustomDialog from '../../../../components/Dialog/CustomDialog';
 
 export default function DialogUser({ visible, close, idClinica }) {
- 
+
   const [clinica, setClinica] = useState(null);
   const { currentUser } = useClinica()
-  
+  console.log("current", currentUser)
 
 
   //   const fetchClinicas = async () => {
@@ -71,7 +71,7 @@ export default function DialogUser({ visible, close, idClinica }) {
           <div className="flex-1 m-3">
             {/* Mostrar la foto de perfil */}
             <div className="mb-3" style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              {/* <img
+              <img
                 src={clinica && clinica.fotoPerfil ? `${process.env.REACT_APP_API_BASE_URL}uploads/${clinica.fotoPerfil}` : fotoperfil}
                 alt="Foto de perfil"
                 style={{
@@ -81,7 +81,7 @@ export default function DialogUser({ visible, close, idClinica }) {
                   border: '5px solid #85c226',
                   objectFit: 'cover',
                 }}
-              /> */}
+              />
             </div>
             {/* Correo */}
             <div className="input-group">
@@ -91,7 +91,8 @@ export default function DialogUser({ visible, close, idClinica }) {
                   id="Correo"
                   name="Correo"
                   value={currentUser?.correo || ''}
-
+                  disabled={true}
+                  style={{backgroundColor:"#5b7626", color:"#fff"}}
                 />
 
 
@@ -112,6 +113,8 @@ export default function DialogUser({ visible, close, idClinica }) {
                   id="nombres"
                   name="nombres"
                   value={currentUser?.nombres || ''}
+                  disabled={true}
+                  style={{backgroundColor:"#5b7626", color:"#fff"}}
 
                 />
               </div>
@@ -128,7 +131,8 @@ export default function DialogUser({ visible, close, idClinica }) {
                     id="apellidos"
                     name="apellidos"
                     value={currentUser?.apellidos || ''}
-
+                    disabled={true}
+                    style={{backgroundColor:"#5b7626", color:"#fff"}}
                   />
                 </div>
 
@@ -146,7 +150,8 @@ export default function DialogUser({ visible, close, idClinica }) {
                     id="telefono"
                     name="telefono"
                     value={currentUser?.telefono || ''}
-                    
+                    disabled={true}
+                    style={{backgroundColor:"#5b7626", color:"#fff"}}
                   />
                 </div>
 
@@ -163,7 +168,8 @@ export default function DialogUser({ visible, close, idClinica }) {
                     id="fechNac"
                     name="fechNac"
                     value={currentUser?.fechNac ? currentUser?.fechNac.split('T')[0] : ''}
-
+                    disabled={true}
+                    style={{backgroundColor:"#5b7626", color:"#fff"}}
                   />
                 </div>
 
@@ -182,6 +188,8 @@ export default function DialogUser({ visible, close, idClinica }) {
                     id="direccion"
                     name="direccion"
                     value={currentUser?.direccion || ''}
+                    disabled={true}
+                    style={{backgroundColor:"#5b7626", color:"#fff"}}
                   />
                 </div>
 
@@ -189,7 +197,7 @@ export default function DialogUser({ visible, close, idClinica }) {
 
             </div>
 
-           
+
           </div>
 
         </div>
