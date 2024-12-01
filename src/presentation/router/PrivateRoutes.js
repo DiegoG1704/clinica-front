@@ -16,8 +16,12 @@ import SubAdmin from '../pages/VistaAdmin/SubLocales/SubAdmin';
 import Login from '../pages/login/login';
 import PromocionesAdmin from '../pages/VistaAdmin/Promociones/PromocionesAdmin';
 import { PromocionProvider } from '../context/PromocionesContext/PromocionContext';
+<<<<<<< HEAD
 import { ConfiguracionProvider } from '../context/ConfiguracionContext/ConfiguracionContext';
 import RestringedPage from '../pages/Restringed/RestringedPage';
+=======
+import Tarifario from '../components/Afiliados/Tarifario';
+>>>>>>> 857dcfb331b0d4826a7b2255255bf2f68040cd47
 
 const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin }) => {
     console.log('problem', router)
@@ -26,13 +30,15 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
         "Home": <Home />,
         "Admin": <Admin />,
         "Usuarios": <Admin />,
+        "Afiliados": <SubAfiliados/>,
         "SubAdmin": <SubAdmin />,
         "SubAfiliados": <SubAfiliados UserId={idUsuario} />,
         "SubLocal": <SubLocalProvider><SubLocales /></SubLocalProvider>,
         "Tarifarios": <PromocionProvider><PromocionesAdmin /></PromocionProvider>,
         "Tarifas": <PromocionesLocales />,
         "RestrictedAccess":<RestringedPage/>,
-        
+        "TarifasClinicas": <Tarifario/>,
+        "Configuraciones": <Configuraciones />,
         "Clinicas": <ClinicaProvider><ClinicaPage /></ClinicaProvider>,
     };
   

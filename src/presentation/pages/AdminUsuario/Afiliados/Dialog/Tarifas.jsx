@@ -3,7 +3,6 @@ import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 
 export default function Tarifas({ Visible, Close, clinica }) {
-  console.log('datos', clinica);
 
   const headerTemplate = () => {
     return (
