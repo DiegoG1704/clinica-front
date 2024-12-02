@@ -52,7 +52,39 @@ export default function Register({ onNext }) {
 
 
   const handleSubmit = () => {
-    // Asegúrate de enviar solo la parte de la fecha
+    // Validación de campos vacíos con mensajes específicos
+    if (!dni) {
+      showToast("error", 'Advertencia', 'El DNI es obligatorio', toast);
+      return;
+    }
+      // Validación del formato del DNI (debe ser un número de 8 dígitos)
+    const dniPattern = /^[0-9]{8}$/;
+    if (!dniPattern.test(dni)) {
+      showToast("error", 'Advertencia', 'El DNI debe ser un número de 8 dígitos', toast);
+      return;
+    }
+    if (!nombres) {
+      showToast("error", 'Advertencia', 'El campo "Nombres" es obligatorio', toast);
+      return;
+    }
+    if (!apellidos) {
+      showToast("error", 'Advertencia', 'El campo "Apellidos" es obligatorio', toast);
+      return;
+    }
+    if (!direccion) {
+      showToast("error", 'Advertencia', 'La dirección es obligatoria', toast);
+      return;
+    }
+    if (!estadoCivil) {
+      showToast("error", 'Advertencia', 'El estado civil es obligatorio', toast);
+      return;
+    }
+    if (!fechNac) {
+      showToast("error", 'Advertencia', 'La fecha de nacimiento es obligatoria', toast);
+      return;
+    }
+  
+    // Si todos los campos son válidos, formateamos la fecha
     const formattedDate = fechNac ? fechNac.toISOString().split('T')[0] : ''; 
   
     const userData = {
@@ -69,9 +101,7 @@ export default function Register({ onNext }) {
     navigate('/DatosU');
   };
   
-
-
-
+  
   return (
     <div className="register-container">
       <Toast ref={toast} />

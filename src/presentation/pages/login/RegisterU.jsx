@@ -11,6 +11,7 @@ import "./registerU.css";
 import { useAuth } from '../../context/AuthContext/AuthContext';
 import { showToast, showToastWithErrors } from '../../utils/showToast';
 import AxiosAdapter from '../../../core/adapters/http/axios.adapter';
+import TerminosyCond from './Dialog/TerminosyCond';
 
 export default function Registro({ userData }) {
     const toast = useRef(null);
@@ -188,8 +189,8 @@ export default function Registro({ userData }) {
                         />
                     </div>
                 </div>
-                <span onClick={() => setShowPromoterCode(!showPromoterCode)}>
-                    ¿Tiene Codigo de algún Promotor?
+                <span onClick={() => setShowPromoterCode(!showPromoterCode)} style={{ fontWeight:'bold' }}>
+                <i className="pi pi-chevron-circle-right" style={{ fontSize: '1rem' }}></i> ¿Tiene Codigo de algún Promotor?
                 </span>
                 {showPromoterCode && (
                     <div className="input-group">
@@ -212,7 +213,7 @@ export default function Registro({ userData }) {
                     />
                     <p>
                         Al registrarte aceptas haber leído y estar de acuerdo con la
-                        <span onClick={() => setVisible(true)} className="terminosLink"> Política
+                        <span onClick={() => setVisible(true)} className="terminosLink" style={{ fontWeight:'bold' }}> Política
                             de Privacidad y los Términos y condiciones</span>
                     </p>
                 </div>
@@ -223,12 +224,7 @@ export default function Registro({ userData }) {
                     onClick={handleRegister}
                     className="login-button"
                 />
-
-                {/* Diálogo de términos y condiciones */}
-                <Dialog header="Términos y Condiciones" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
-                    <p>Contenido de los términos y condiciones...</p>
-                    <Button label="Aceptar" onClick={handleTermsAccept} />
-                </Dialog>
+                <TerminosyCond visible={visible} Close={() => setVisible(false)} Aceptar={handleTermsAccept} PDF={'TERMINOS Y CONDICIONES.pdf'}/>
             </div>
         </div>
     );
