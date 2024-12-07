@@ -19,6 +19,7 @@ import { PromocionProvider } from '../context/PromocionesContext/PromocionContex
 import { ConfiguracionProvider } from '../context/ConfiguracionContext/ConfiguracionContext';
 import RestringedPage from '../pages/Restringed/RestringedPage';
 import Tarifario from '../components/Afiliados/Tarifario';
+import UserAfiliados from '../pages/VistaAdmin/Afiliados/Afiliados';
 
 const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin }) => {
     console.log('problem', router)
@@ -37,6 +38,7 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
         "TarifasClinicas": <Tarifario/>,
         "Configuraciones": <Configuraciones />,
         "Clinicas": <ClinicaProvider><ClinicaPage /></ClinicaProvider>,
+        "Afiliaciones":<UserAfiliados/>
     };
   
 

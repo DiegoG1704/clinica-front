@@ -23,7 +23,7 @@ export default function Tarifario() {
     const [datos, setDatos] = useState({
         rol_id: 4,
     });
-    const [isCodigoFetched, setIsCodigoFetched] = useState(false); // Nueva variable de estado
+    const [isCodigoFetched, setIsCodigoFetched] = useState(false);
 
     useEffect(() => {
         const fetchIsoTipo = async () => {
@@ -40,7 +40,6 @@ export default function Tarifario() {
         fetchIsoTipo();
     }, []);
 
-
     const handleTermsAccept = () => {
         setChecked(true);
         setOpenTC(false);
@@ -52,7 +51,6 @@ export default function Tarifario() {
             return false;
         }
 
-        // Lógica para enviar los datos
         try {
             const response = await apiAdapter.post(`${process.env.REACT_APP_API_BASE_URL}CodeGenered/${user?.id}`, datos);
             console.log('Datos enviados:', response);
@@ -60,19 +58,15 @@ export default function Tarifario() {
         } catch (error) {
             console.log('Error en el envío:', error);
         }
- 
     };
-
 
     return (
         <>
-            <div className="flex">
-                <div className="flex-1 p-2">
-                    <h1>Tarifario de las Clínicas</h1>
-                    <Divider />
-                </div>
-                {user?.rolId === "Afiliado" && (  // Asumiendo que 3 es el ID de afiliado
-                    <div className="flex justify-content-end align-items-center">
+            <div className="flex flex-column p-4 bg-white shadow-md rounded-lg">
+                <h1 className="text-2xl font-bold text-gray-800 mb-4">Tarifario de las Clínicas</h1>
+                <Divider />
+                {user?.rolId === "Afiliado" && (
+                    <div className="flex justify-content-end align-items-center mt-4">
                         <Button
                             label="Mejorar Plan"
                             style={{
@@ -80,6 +74,8 @@ export default function Tarifario() {
                                 borderColor: "#85C226",
                                 height: "60px",
                                 borderRadius: "6px",
+                                fontWeight: "bold",
+                                color: "#fff",
                             }}
                             icon="pi pi-plus"
                             onClick={() => setOpen(true)}
@@ -87,25 +83,49 @@ export default function Tarifario() {
                     </div>
                 )}
             </div>
-            <div>
+
+            <div className="mt-6">
                 <ClinicaCards Promociones={tarifario} Ancho="600px" Alto="300px" />
             </div>
-            <Dialog visible={open} onHide={() => setOpen(false)}>
-            <Toast ref={toast} />
-                <h1>Indicaciones</h1>
-                <div className="checkbox-custom">
+
+            <Dialog visible={open} onHide={() => setOpen(false)} className="p-2 max-w-lg mx-auto">
+                <Toast ref={toast} />
+                <p className="message__title">Cambio de rol a Promotor</p>
+                <p className="text-lg font-semibold mb-3 text-gray-700">Para cambiar de rol a Promotor debe seguir los pasos</p>
+                <Divider align="center" className="mb-4">
+                    <div className="inline-flex align-items-center">
+                        <i className="pi pi-lightbulb mr-2 text-yellow-500" />
+                        <p><strong>PASOS</strong></p>
+                    </div>
+                </Divider>
+                <p>Depositar la cantidad de <strong>S/. 59</strong></p>
+                <p>Enviar el comprobante a este número <strong>920517220</strong></p>
+                <p>La cuenta se activará hasta 24h después de la transferencia o 48h de la transferencia interbancaria</p>
+
+                <Divider align="center" className="my-4">
+                    <div className="inline-flex align-items-center">
+                        <p><strong>PAGOS</strong></p>
+                    </div>
+                </Divider>
+                <p><strong>BCP: ADB CONSULTING SAC</strong></p>
+                <p><i className="pi pi-credit-card" style={{ fontSize: '1rem' }}></i> Cuenta Corriente SOLES: <strong>194-2659964-0-21</strong></p>
+                <p><i className="pi pi-credit-card" style={{ fontSize: '1rem' }}></i> CCI Moneda Nacional: <strong>002-19400265996402191</strong></p>
+                <p><i className="pi pi-mobile" style={{ fontSize: '1rem' }}></i> Yape: <strong>920517220</strong></p>
+
+                <div className="flex justify-content-center my-4">
                     <Checkbox
-                        onChange={e => {setChecked(e.checked)}}
+                        onChange={e => { setChecked(e.checked) }}
                         checked={checked}
-                        className="custom-checkbox"
+                        className="mr-2"
                     />
-                    <p>
+                    <p className="text-sm">
                         Al registrarte aceptas haber leído y estar de acuerdo con la
-                        <span onClick={() => setOpenTC(true)} className="terminosLink" style={{ fontWeight:'bold' }}> Política
-                            de Privacidad y los Términos y condiciones</span>
+                        <span onClick={() => setOpenTC(true)} className="text-blue-600 font-bold cursor-pointer"> Política de Privacidad y los Términos y Condiciones</span>
                     </p>
                 </div>
-                <Button label="Aceptar" onClick={submit} />
+                <div className="flex justify-content-end">
+                    <Button label="Aceptar" onClick={submit} className="p-button-success" />
+                </div>
             </Dialog>
 
             <TerminosyCond visible={openTC} Close={() => setOpenTC(false)} Aceptar={handleTermsAccept} PDF={'PROMOTOR.pdf'} />

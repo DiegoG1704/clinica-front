@@ -370,7 +370,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
               />
               <Button
                 icon={showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}
-                className="p-button-secondary transparent-button"
+                className="p-button-secondary-Login transparent-button"
                 onClick={togglePassword}
                 style={{
                   position: 'absolute',
@@ -393,7 +393,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
               />
               <Button
                 icon={showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}
-                className="p-button-secondary transparent-button"
+                className="p-button-secondary-Login transparent-button"
                 onClick={togglePassword}
                 style={{
                   position: 'absolute',

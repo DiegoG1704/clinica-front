@@ -22,6 +22,7 @@ export default function Registro({ userData }) {
     const [showPassword, setShowPassword] = useState(false);
     const [codigo2, setCodigo2] = useState("");
     const [checked, setChecked] = useState(false);
+    const [checkedN, setCheckedN] = useState(false);
     const [visible, setVisible] = useState(false);
     const [showPromoterCode, setShowPromoterCode] = useState(false);
     const navigate = useNavigate();
@@ -73,8 +74,12 @@ export default function Registro({ userData }) {
             showToast("error", "Error", "Debe aceptar los términos y condiciones", toast);
             return false;
         }
+        if (checkedN) {
+            showToast("error", "Error", "No puedes crear una cuenta si no aceptas los términos y condiciones", toast);
+            return false;
+        }
         return true;
-    };
+    };    
     
     const handleRegister = async () => {
         if (!validateForm()) return;
@@ -215,6 +220,17 @@ export default function Registro({ userData }) {
                         Al registrarte aceptas haber leído y estar de acuerdo con la
                         <span onClick={() => setVisible(true)} className="terminosLink" style={{ fontWeight:'bold' }}> Política
                             de Privacidad y los Términos y condiciones</span>
+                    </p>
+                </div>
+
+                <div className="checkbox-custom">
+                    <Checkbox
+                        onChange={e => setCheckedN(e.checked)}
+                        checked={checkedN}
+                        className="custom-checkbox"
+                    />
+                    <p>
+                        No acepto los terminos y condiciones
                     </p>
                 </div>
 

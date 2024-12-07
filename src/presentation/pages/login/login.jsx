@@ -75,7 +75,7 @@ export default function Login({ onLogin }) {
                         <Button
                             icon={showPassword ? "pi pi-eye-slash" : "pi pi-eye"}
                             onClick={toggleShowPassword}
-                            className="p-button-secondary"
+                            className="p-button-secondary-Login"
                             disabled={loading}
                         />
                     </div>

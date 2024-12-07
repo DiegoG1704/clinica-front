@@ -107,11 +107,11 @@
   }
   
   /* Estilo para el icono del ojo para mostrar/ocultar contraseña */
-  .p-button-secondary {
+  /* .p-button-secondary {
     padding: 0;
     border: none;
     background-color: transparent;
-  }
+  } */
   
   .p-button-secondary .pi {
     font-size: 1.2rem;
@@ -140,7 +140,6 @@
   
   /* Estilo del Divider entre las columnas */
   .p-divider {
-    background-color: #ddd;
     margin: 0 1rem;
   }
   

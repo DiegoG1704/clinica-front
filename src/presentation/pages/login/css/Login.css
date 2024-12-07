@@ -83,15 +83,15 @@
     margin-top: 10px;
   }
   
-  .p-button-secondary {
+  .p-button-secondary-Login {
     background: transparent;
     border-color: transparent;
     color: #85C226;
     position: absolute;
-    right: 10px; /* Distance from the right edge of the input */
+    right: 10px;
     top: 50%;
-    transform: translateY(-50%); /* Adjusts vertical alignment */
-    padding: 0; /* Optional: Remove default padding */
+    transform: translateY(-50%); 
+    padding: 0;
 }
   
   .back-button {

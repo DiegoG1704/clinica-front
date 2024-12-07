@@ -3,6 +3,7 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';  // Cambia el 
 import 'primereact/resources/primereact.min.css';                  // CSS principal de PrimeReact
 import 'primeicons/primeicons.css';                                // Iconos de PrimeReact
 import 'primeflex/primeflex.css';                                  // Utilidades de Flexbox
+import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
