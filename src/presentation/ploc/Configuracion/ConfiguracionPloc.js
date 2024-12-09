@@ -11,19 +11,30 @@ const configuracionInitialState = {
         "contraseña": "",
         "newcontraseña": ""
     },
-    visibleDialogChangePassword: false
+    visibleDialogChangePassword: false,
+    general_info: {
+        correo: "",
+        telefono: "",
+        direccion: "",
+        rol_id: 5,
+    },
+    visibleDialogGeneralInfo: false
+    // user_id:0
 };
 
 export class ConfiguracionPloc extends Ploc {
-    constructor(changePassword) {
+    constructor(changePassword, updateGeneralData) {
         super(configuracionInitialState);
         this.changePasswordUseCase = changePassword;
         this.changePassword = this.changePassword.bind(this);
         this.handlechange = this.handlechange.bind(this);
+        this.updateGeneralDataUseCase = updateGeneralData
 
-        this.showDialogChangePassword=this.showDialogChangePassword.bind(this)
-        this.hideDialogChangePassword=this.hideDialogChangePassword.bind(this)
+        this.showDialogChangePassword = this.showDialogChangePassword.bind(this)
+        this.hideDialogChangePassword = this.hideDialogChangePassword.bind(this)
 
+        this.openDialogGeneralInfo = this.openDialogGeneralInfo.bind(this)
+        this.closeDialogGeneralInfo = this.closeDialogGeneralInfo.bind(this)
         // this.addPromocionUseCase = addPromocionUseCase;
         // this.updatePromocionUseCase = updatePromocionUseCase;
         // this.deletePromocionUseCase = deletePromocionUseCase;
@@ -51,7 +62,7 @@ export class ConfiguracionPloc extends Ploc {
         this.changeState({ ...this.state, dataChangePassword: { ...this.state.dataChangePassword, [e.target.name]: e.target.value } })
     }
     showDialogChangePassword() {
-        this.changeState({ ...this.state, visibleDialogChangePassword:true})
+        this.changeState({ ...this.state, visibleDialogChangePassword: true })
     }
     hideDialogChangePassword() {
         this.changeState({
@@ -62,6 +73,46 @@ export class ConfiguracionPloc extends Ploc {
             visibleDialogChangePassword: false
         })
     }
+    handleChangeGeneralInfo(e) {
+        console.log("ee", e.target.name)
+        this.changeState({ ...this.state, general_info: { ...this.state.general_info, [e.target.name]: e.target.value } })
+    }
+    updateGeneralData(id) {
+        return this.updateGeneralDataUseCase.execute(this.state.general_info, id)
+            .then(response => {
+                // this.changeState({ ...this.state, loading: false, clinicas })
+                if (response?.success) {
+                    this.cleanFields()
+                    this.closeDialogGeneralInfo()
+
+                }
+                return response
+            })
+            .catch(error => this.changeState({ ...this.state, loading: false, error: "Error loading Promocion" }));
+    }
+    cleanFields() {
+        this.changeState({
+            ...this.state, general_info: {
+                correo: "",
+                telefono: "",
+                direccion: ""
+            },
+        })
+    }
+    openDialogGeneralInfo(data) {
+        console.log("entssa")
+        this.changeState({
+            ...this.state, visibleDialogGeneralInfo: true,
+            general_info:{correo:data?.correo,direccion:data?.direccion,telefono:data?.telefono}
+        })
+    }
+    closeDialogGeneralInfo() {
+        this.changeState({
+            ...this.state, visibleDialogGeneralInfo: false
+        })
+        this.cleanFields()
+    }
+
 
 
     // addPromocion(promocion) {

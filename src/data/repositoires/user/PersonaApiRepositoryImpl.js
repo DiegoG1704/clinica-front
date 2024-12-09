@@ -11,9 +11,11 @@ export default class PersonaApiRepositoryImpl extends PersonaApiRepository {
         try {
             const response = await this.adapter.get(dni);
             if (response.success) {
-                return PersonByDocumentMapper.toData(response)
+                
+                return { success: true, data: PersonByDocumentMapper.toData(response)}
+
             } else {
-                return{ success:false, error: { message: "RUC no encontrado" } }
+                return { success: false, error: { message: "RUC no encontrado" } }
             }
 
         } catch (error) {

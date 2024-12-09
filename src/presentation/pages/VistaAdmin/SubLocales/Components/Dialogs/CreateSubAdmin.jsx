@@ -12,243 +12,57 @@ import { apiAdapter } from '../../../../../../core/adapters/apiAdapter';
 import '../Estilos/DialogCreate.css'
 import CustomDialog from '../../../../../components/Dialog/CustomDialog';
 import { Password } from 'primereact/password';
+import InputInteger from '../../../../../components/Inputs/InputNumberInteger/InputInteger';
+import { showToast, showToastWithErrors } from '../../../../../utils/showToast';
 
 
-export default function CreateSubAdmin({ visible, close, actualizar }) {
-  const { user } = useAuth();
-  const [subAdmin, setSubAdmin] = useState([]);
-  const [formDataLocal, setFormDataLocal] = useState({
-    nombres: '',
-    apellidos: '',
-    telefono: '',
-    fechNac: null,
-    direccion: '',
-    dni: '',
-    estado_civil: null,
-    rol_id: 5, // El rol es 5 para subadministradores
-    afiliador_id: null,
-    clinica_id: user?.clinica_id,
-    fotoPerfil: null,
-    Local_id: '', // Aquí almacenaremos el ID del local seleccionado
-    codigo: null,
-    correo: '',
-    contraseña: '',
-    confirmPassword: ''
-  });
-  const [showPassword, setShowPassword] = useState(false);
-  const [dniError, setDniError] = useState('');
+export default function CreateSubAdmin({ visible, close, actualizar, fnCreate, handleChange, dataLocales, subAdminData, findDoc }) {
   const [loading, setLoading] = useState(false);
   const toast = React.useRef(null);
 
-  // Manejo de cambios en los campos del formulario
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    // Si el campo es 'fechNac', formatear la fecha antes de guardarla
-    if (name === 'fechNac' && value instanceof Date) {
-      // Convierte la fecha a formato 'yyyy-mm-dd' que MySQL acepta
-      const formattedDate = value.toISOString().split('T')[0]; // Solo la fecha
-      setFormDataLocal({ ...formDataLocal, [name]: formattedDate });
-    } else {
-      setFormDataLocal({ ...formDataLocal, [name]: value });
-    }
-  };
-
-
   // Manejo de cambio en el dropdown de Local
-  const handleLocalChange = (e) => {
-    setFormDataLocal({ ...formDataLocal, Local_id: e.value }); // Guardar solo el id del local
-  };
 
-  useEffect(() => {
-    const fetchSubAdmin = async () => {
-      try {
-        const response = await apiAdapter.get(`locales/clinica/${user?.clinica_id}`);
-        setSubAdmin(response);
-      } catch (error) {
-        console.error('Error fetching clinic data:', error);
-      }
-    };
-    fetchSubAdmin();
-  }, [user?.clinica_id]);
-
-  // Validación del DNI
   const validateDni = async () => {
-    const { dni } = formDataLocal;
-    if (!dni || dni.length !== 8) {
-      toast.current.show({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'El DNI debe tener 8 dígitos',
-        life: 3000
-      });
-      return;
+    const response = await findDoc()
+    if (!response?.success) {
+      showToast("error", "Error en busqueda", "Número de documento no encontrado", toast)
+
+    } else {
+      showToast("success", "Busqueda correcta", "Datos encontrados correctamente", toast)
     }
-
-    setLoading(true);
-
-    try {
-      const response = await axios.get(
-        `https://dniruc.apisperu.com/api/v1/dni/${dni}?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRnc3QxNzA0QGdtYWlsLmNvbSJ9.4MWOq0VPNPDODZpUXh3p2MoG55I6hSBLSMzEFvT7es0`
-      );
-
-      if (response.data && response.data.nombres) {
-        const { nombres, apellidoPaterno, apellidoMaterno } = response.data;
-        setFormDataLocal({
-          ...formDataLocal,
-          nombres: nombres || '',
-          apellidos: `${apellidoPaterno} ${apellidoMaterno}` || ''
-        });
-        toast.current.show({
-          severity: 'success',
-          summary: 'Éxito',
-          detail: 'DNI válido, campos llenados',
-          life: 3000
-        });
-      } else {
-        toast.current.show({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Datos no encontrados para el DNI proporcionado.',
-          life: 3000
-        });
-      }
-    } catch (error) {
-      toast.current.show({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Error en la validación del DNI',
-        life: 3000
-      });
-    } finally {
-      setLoading(false);
-    }
+   
   };
-
-
-  const validatePasswords = () => {
-    if (formDataLocal.contraseña !== formDataLocal.confirmPassword) {
-      toast.current.show({
-        severity: 'warn',
-        summary: 'Advertencia',
-        detail: 'Las contraseñas no coinciden.',
-        life: 3000
-      });
-      return false;
-    }
-    return true;
-  };
-
-  const validateRequiredFields = () => {
-    const requiredFields = [
-      'nombres', 'apellidos', 'telefono', 'fechNac', 'direccion',
-      'dni', 'correo', 'contraseña', 'confirmPassword', 'Local_id'
-    ];
-
-    for (let field of requiredFields) {
-      if (!formDataLocal[field]) {
-        toast.current.show({
-          severity: 'warn',
-          summary: 'Advertencia',
-          detail: `El campo ${field} es obligatorio.`,
-          life: 3000
-        });
-        return false;
-      }
-    }
-
-    return true;
-  };
-
-
-  const validateEmail = () => {
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    return emailPattern.test(formDataLocal.correo);
-  };
-
 
   const handleSubmit = async () => {
-    if (!validateRequiredFields()) {
-      return; // Detener el envío si algún campo requerido está vacío
+    const response=await fnCreate()
+    console.log("res",response)
+    if(!response?.success){
+      showToastWithErrors("error","Error al crear usuario",response?.error,toast)
+    }else{
+      showToast("success","Usuario creado correctamente","Se ha creado el usuario correctamente",toast)
     }
-
-    if (!validatePasswords()) {
-      return; // No continuar si las contraseñas no coinciden
-    }
-
-    if (!validateEmail()) {
-      toast.current.show({
-        severity: 'warn',
-        summary: 'Advertencia',
-        detail: 'El correo electrónico no es válido.',
-        life: 3000
-      });
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      // Enviamos la solicitud para crear el subadministrador
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}CreateUsuario`,
-        formDataLocal
-      );
-      console.log(response)
-      // Si la creación fue exitosa
-      toast.current.show({
-        severity: 'success',
-        summary: 'Éxito',
-        detail: 'Usuario creado exitosamente',
-        life: 3000
-      });
-
-      // Limpiar el formulario
-      setFormDataLocal({
-        nombres: '',
-        apellidos: '',
-        telefono: '',
-        fechNac: '',
-        direccion: '',
-        dni: '',
-        estado_civil: null,
-        rol_id: 5,
-        afiliador_id: null,
-        clinica_id: user.clinica_id,
-        fotoPerfil: null,
-        Local_id: '',
-        codigo: null,
-        correo: '',
-        contraseña: '',
-        confirmPassword: ''
-      });
-      actualizar();
-      close(); // Cerrar el formulario
-    } catch (error) {
-      toast.current.show({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'El correo ya está en uso.',
-        life: 3000
-      });
-    } finally {
-      setLoading(false);
-    }
+  
   };
 
+  const today = new Date();
+
+  // Calcular la fecha máxima: hace 18 años
+  const maxDateFechaNacimiento = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+  // Calcular la fecha mínima: hace 100 años
+  const minDateFechaNacimiento = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
 
 
-  
   const footerTemplate = () => (
     <div className="dialog-footer flex justify-content-end" style={{ marginTop: '5px' }}>
       <Button
-        style={{ margin: '5px', background: '#85C226', borderColor: '#85C226', margin: '5px' }}
+        style={{ margin: '5px', background: '#85C226', borderColor: '#85C226', }}
         label="Cerrar"
         onClick={close} />
       <Button
         label="Crear"
         onClick={handleSubmit}
-        style={{ margin: '5px', background: '#85C226', borderColor: '#85C226', margin: '5px' }}
+        style={{ margin: '5px', background: '#85C226', borderColor: '#85C226' }}
         disabled={loading} />
     </div>
   )
@@ -263,19 +77,21 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
             <div className="input-group">
               <label htmlFor="dni">DNI</label>
               <div className="input-button-group">
-                <InputText
+                <InputInteger
                   id="dni"
                   name="dni"
-                  value={formDataLocal.dni}
-                  onChange={handleChange}
+                  value={subAdminData.dni}
+                  onChange={(e) => { e.target.name = "dni"; handleChange(e) }}
                   placeholder="Ingresa el DNI ..."
                   maxLength={8}
+                  className={"w-full"}
+                  containerClass={"w-full"}
                 />
                 <Button
                   label={loading ? 'Validando...' : 'Validar'}
                   className="validate-button"
                   onClick={validateDni}
-                  disabled={loading}
+                  disabled={subAdminData?.dni?.length !== 8}
                 />
               </div>
             </div>
@@ -286,7 +102,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
                   id="nombres"
                   name="nombres"
                   placeholder='Ingresa nombre...'
-                  value={formDataLocal.nombres}
+                  value={subAdminData.nombres}
                   onChange={handleChange}
                   required
                 />
@@ -303,7 +119,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
                   id="apellidos"
                   name="apellidos"
                   placeholder='Ingresa apellido...'
-                  value={formDataLocal.apellidos}
+                  value={subAdminData.apellidos}
                   onChange={handleChange}
                   required
                 />
@@ -316,20 +132,19 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
               <label htmlFor="telefono">Teléfono</label>
 
               <div className="input-button-group">
-                <InputText
+                <InputInteger
                   id="telefono"
                   name="telefono"
                   placeholder='Ingresa telefono...'
-                  value={formDataLocal.telefono}
-                  onChange={handleChange}
-                  required
+                  value={subAdminData.telefono}
+                  onChange={(e) => { e.target.name = "telefono"; handleChange(e) }}
+                  maxLength={11}
+                  className={"w-full"}
+                  containerClass={"w-full"}
                 />
+
               </div>
             </div>
-
-
-
-
             {/* Fecha de Nacimiento */}
             <div className="input-group">
               <label htmlFor="fechNac">Fecha de Nacimiento</label>
@@ -337,11 +152,14 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
                 <Calendar
                   id="fechNac"
                   name="fechNac"
-                  placeholder='Selecciona fecha de nacimiento...'
-                  value={formDataLocal.fechNac ? new Date(formDataLocal.fechNac) : null} // Convertir a Date si ya existe
+                  placeholder='00/00/0000'
+                  value={subAdminData.fechNac ? new Date(subAdminData.fechNac) : null} // Convertir a Date si ya existe
                   onChange={handleChange}
                   showIcon
                   dateFormat="dd/mm/yy" // Mantener el formato visual, pero la fecha será guardada correctamente
+                  maxDate={maxDateFechaNacimiento}
+                  minDate={minDateFechaNacimiento}
+
                 />
               </div>
             </div>
@@ -355,7 +173,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
                   id="direccion"
                   name="direccion"
                   placeholder='Ingresa direccion...'
-                  value={formDataLocal.direccion}
+                  value={subAdminData.direccion}
                   onChange={handleChange}
                 />
               </div>
@@ -376,7 +194,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
                 <InputText
                   id="correo"
                   name="correo"
-                  value={formDataLocal.correo}
+                  value={subAdminData.correo}
                   onChange={handleChange}
                   placeholder="Ingresa tu correo..."
                 />
@@ -394,7 +212,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
                   name="contraseña"
                   toggleMask
                   className='w-full'
-                  value={formDataLocal.contraseña}
+                  value={subAdminData.contraseña}
                   onChange={handleChange}
                   placeholder="Ingrese contraseña..." />
               </div>
@@ -409,7 +227,7 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
                 <Password id="confirmPassword"
                   name="confirmPassword"
 
-                  value={formDataLocal.confirmPassword}
+                  value={subAdminData.confirmPassword}
                   onChange={handleChange}
                   placeholder="Confirma tu contraseña..."
                   feedback={false}
@@ -429,10 +247,10 @@ export default function CreateSubAdmin({ visible, close, actualizar }) {
               <div className="input-button-group">
                 <Dropdown
                   id="Local_id"
-                  name="Local_id"
-                  value={formDataLocal.Local_id}
-                  onChange={handleLocalChange}
-                  options={subAdmin.map((local) => ({
+                  name="local_id"
+                  value={subAdminData.local_id}
+                  onChange={handleChange}
+                  options={dataLocales.map((local) => ({
                     label: local.nombre,  // Muestra el nombre
                     value: local.id // Solo envía el ID
                   }))}

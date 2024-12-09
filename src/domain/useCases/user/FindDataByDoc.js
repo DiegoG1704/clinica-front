@@ -9,9 +9,8 @@ export default class FindDataByDoc{
             let isValid = this.Validator.validateDniData(dni);
             if (isValid?.success) {
                 const user = await this.Repository.consultarPorDNI(dni);
-                return { success: true, data: user };
+                return { success: user.success, data: user?.data };
             } else {
-                console.log("er",isValid)
                 return { success: false, error: isValid?.errors };
             }
         } catch (error) {

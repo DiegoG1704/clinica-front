@@ -19,7 +19,7 @@ import { PromocionProvider } from '../context/PromocionesContext/PromocionContex
 import { ConfiguracionProvider } from '../context/ConfiguracionContext/ConfiguracionContext';
 import RestringedPage from '../pages/Restringed/RestringedPage';
 import Tarifario from '../components/Afiliados/Tarifario';
-
+import { SubAdminProvider} from '../context/SubAdministradores/SubAdministradorContext';
 const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin }) => {
     console.log('problem', router)
 
@@ -28,7 +28,7 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
         "Admin": <Admin />,
         "Usuarios": <Admin />,
         "Afiliados": <SubAfiliados/>,
-        "SubAdmin": <SubAdmin />,
+        "SubAdmin": <SubAdminProvider><SubAdmin /></SubAdminProvider>,
         "SubAfiliados": <SubAfiliados UserId={idUsuario} />,
         "SubLocal": <SubLocalProvider><SubLocales /></SubLocalProvider>,
         "Tarifarios": <PromocionProvider><PromocionesAdmin /></PromocionProvider>,

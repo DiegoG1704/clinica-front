@@ -59,14 +59,12 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (correo, contraseña) => {
         try {
-            const loggedInUser = await loginUseCase.execute({ correo, contraseña });
+            const loggedInUser = await loginUseCase.execute({ "dni": correo, "contraseña": contraseña });
             if (loggedInUser.success) {
                 console.log("data", loggedInUser)
                 setUser(loggedInUser?.data);
                 // localStorage.setItem('user', JSON.stringify(loggedInUser?.data));
                 // localStorage.setItem('token', (loggedInUser?.token));
-
-
                 setIsAuthenticated(true);
             }
             return loggedInUser
@@ -100,7 +98,18 @@ export const AuthProvider = ({ children }) => {
     //     return storedUser !== null; // Devuelve true si hay un usuario almacenado, false de lo contrario
     // };
 
- 
+    const getUser = async () => {
+        console.log("Verificando autenticación...");
+        let response = await getUserByTokenUseCase.execute();
+        if (response?.success) {
+            setUser(response?.data);
+            setIsAuthenticated(true);
+        } else {
+            setIsAuthenticated(false);
+        }
+
+
+    };
 
     useEffect(() => {
 
@@ -181,8 +190,8 @@ export const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider value={{
             user, setUser, login, logout, isAuthenticated, Datos, setDatos, FindPersonWithDni,
-            validateGeneralData, RegisterUser, setIsAuthenticated, isUserAuthenticated,
-            
+            validateGeneralData, RegisterUser, setIsAuthenticated, isUserAuthenticated, getUser
+
         }}>
             {children}
         </AuthContext.Provider>

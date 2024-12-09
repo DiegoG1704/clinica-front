@@ -15,10 +15,11 @@ import { useConfiguracionPloc } from '../../../context/ConfiguracionContext/Conf
 import { usePlocState } from '../../../hooks/ploc/usePlocState';
 import { Toast } from 'primereact/toast';
 import { showToast, showToastWithErrors } from '../../../utils/showToast';
+import EditProfile from './Components/EditProfile';
 
 export default function Configuraciones() {
-  const { user, setUser } = useAuth();
-  const toast=useRef(null)
+  const { user, setUser, getUser } = useAuth();
+  const toast = useRef(null)
   const [visibleChangePassword, setVisibleChangePassword] = useState(false)
   const ploc = useConfiguracionPloc()
   const state = usePlocState(ploc)
@@ -46,17 +47,7 @@ export default function Configuraciones() {
     }
   }, [user]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDatos((prevState) => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
 
-  const handleSutmit = async () => {
-    console.log('datos', datos)
-  }
   // Handler para subir la imagen
   const handleImageUpload = async ({ files }) => {
     const file = files[0];
@@ -119,21 +110,21 @@ export default function Configuraciones() {
     iconOnly: true,       // Elimina el texto, solo muestra el ícono
     className: 'edit-photo' // Clase CSS opcional para estilos adicionales
   };
-  
-  const handleChangePassword=async()=>{
-    const response=await ploc.changePassword(user?.id);
-    console.log("this-response",response)
-    if(!response.success){
-      showToastWithErrors("error","Error al actualizar",response?.error,toast)
-    }else{
-      showToast("success","Actulizado correctamente","Se ha actualizado su contraseña correctamente",toast)
+
+  const handleChangePassword = async () => {
+    const response = await ploc.changePassword(user?.id);
+    console.log("this-response", response)
+    if (!response.success) {
+      showToastWithErrors("error", "Error al actualizar", response?.error, toast)
+    } else {
+      showToast("success", "Actulizado correctamente", "Se ha actualizado su contraseña correctamente", toast)
       ploc.hideDialogChangePassword()
     }
   }
 
   return (
     <div className="container-page">
-      <Toast ref={toast}/>
+      <Toast ref={toast} />
       <header>
         <h2 className='header__title'>Configuraciones</h2>
 
@@ -189,7 +180,7 @@ export default function Configuraciones() {
               <h2 className='title-general-info'>Información general</h2>
               <div className='flex gap-2'>
                 <Button tooltip='Cambiar contraseña' icon="pi pi-key" rounded className='user-form__btn-cancel' onClick={ploc.showDialogChangePassword} />
-                <Button tooltip='Editar datos generales' icon=' pi pi-pencil' className='user-form__btn-save' rounded onClick={handleSutmit} />
+                <Button tooltip='Editar datos generales' icon=' pi pi-pencil' className='user-form__btn-save' rounded onClick={() => { ploc.openDialogGeneralInfo(user) }} />
               </div>
             </header>
 
@@ -245,17 +236,23 @@ export default function Configuraciones() {
                   </div>
                   <div className="flex flex-column gap-2 flex-1 general-info">
                     <label htmlFor="cargo"><i className='pi pi-user general-info__icon'></i>Cargo</label>
-                    <p className='general-info__data'>{user?.rolId}</p>
+                    <p className='general-info__data'>{user?.rol}</p>
                   </div>
                 </div>
-                <div className="flex flex-column gap-2 mt-3 general-info">
+
+
+                <div className='flex gap-4 mt-4'>
+                  <div className="flex flex-column gap-2 flex-1 general-info">
+                    <label htmlFor="username"> <i className='pi pi-envelope general-info__icon'></i>Correo</label>
+                    <p className='general-info__data'>{user?.correo}</p>
+                  </div>
+                  <div className="flex flex-column gap-2 flex-1 general-info">
+                    <label htmlFor="cargo"><i className='pi pi-phone general-info__icon'></i>Télefono</label>
+                    <p className='general-info__data'>{user?.telefono}</p>
+                  </div>
                 </div>
 
-                <div className="flex flex-column gap-2 mt-3 general-info">
-                  <label htmlFor="email"><i className='pi pi-user general-info__icon'></i>Correo Electrónico</label>
-                  <p className='general-info__data'>{datos.correo}</p>
 
-                </div>
               </div>
 
 
@@ -269,6 +266,12 @@ export default function Configuraciones() {
         handleChangeData={ploc.handlechange}
         changePassword={handleChangePassword}
       />
+      <EditProfile
+        user={user}
+        getUser={getUser}
+      >
+
+      </EditProfile>
     </div>
   );
 }
