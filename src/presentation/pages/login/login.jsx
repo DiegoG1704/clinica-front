@@ -50,7 +50,7 @@ export default function Login({ onLogin }) {
                     <label htmlFor="id">DNI</label>
                     <InputText
                         id="id"
-                        placeholder="Ingresar correo"
+                        placeholder="Ingresar dni ..."
                         value={correo}
                         onChange={(e) => setCorreo(e.target.value)}
                         disabled={loading}

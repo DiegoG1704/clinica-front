@@ -62,9 +62,7 @@ export default function Afiliados() {
                 />
                 <div className="header-actions">
                     <div className="links-container">
-                        <h1><a className="link">Inicio</a></h1>
-                        <h1><a className="link">Promociones</a></h1>
-                        <Button label="Sign up" onClick={() => navigate('/login')} className='loguear' />
+                        <Button label="Iniciar Sesión" onClick={() => navigate('/login')} className='loguear' />
                     </div>
                 </div>
             </div>

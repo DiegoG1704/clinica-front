@@ -23,6 +23,8 @@ import UserAfiliados from '../pages/VistaAdmin/Afiliados/Afiliados';
 import Administracion from '../pages/VistaAdmin/Autorizaciones/Administracion';
 
 import { SubAdminProvider} from '../context/SubAdministradores/SubAdministradorContext';
+import AutorizacionFam from '../pages/VistaAdmin/AutoFamiliares/AutorizacionFam';
+import Pagos from '../pages/VistaAdmin/Pagos/Pagos';
 const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin }) => {
     console.log('problem', router)
 
@@ -40,8 +42,10 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
         "TarifasClinicas": <Tarifario/>,
         "Configuraciones": <Configuraciones />,
         "Clinicas": <ClinicaProvider><ClinicaPage /></ClinicaProvider>,
-        "Afiliaciones":<UserAfiliados/>,
-        "Autorizacion":<Administracion/>
+        "Familiares":<UserAfiliados/>,
+        "Autorizacion":<Administracion/>,
+        "AutorizacionFam":<AutorizacionFam/>,
+        "PagosMensuales":<Pagos/>
     };
   
 

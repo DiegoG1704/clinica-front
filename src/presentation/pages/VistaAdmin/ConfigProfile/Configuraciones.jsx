@@ -135,7 +135,7 @@ export default function Configuraciones() {
             <header className='flex  justify-content-center align-items-center header-profile  flex-column'>
               <div className="user-profile__info text-center  ">
                 <p className="user-profile__info__name">{user?.nombres}</p>
-                <p className="user-profile__info__role mt-2">Usuario</p>
+                <p className="user-profile__info__role mt-2">{user?.rol}</p>
               </div>
               <div className="user-profile__image mb-3 ">
                 {/* Mostrar la imagen seleccionada o la imagen de perfil predeterminada */}

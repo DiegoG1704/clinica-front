@@ -1,24 +1,24 @@
-import axios from 'axios';
-import { Button } from 'primereact/button';
-import { Card } from 'primereact/card';
-import { Column } from 'primereact/column';
-import { TreeTable } from 'primereact/treetable';
 import React, { useEffect, useState, useRef } from 'react';
 import { Toast } from 'primereact/toast';
+import { Button } from 'primereact/button';
+import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
 import { InputText } from 'primereact/inputtext';
+import { TreeTable } from 'primereact/treetable';
+import { Column } from 'primereact/column';
 import { apiAdapter } from '../../../core/adapters/apiAdapter';
 import { useAuth } from '../../context/AuthContext/AuthContext';
+import GenerarPDF from '../../components/PDF/GenerarPDF'; // Importamos GenerarPDF
 
 export default function SubAfiliados({ UserId }) {
   const [afiliados, setAfiliados] = useState([]);
   const [filteredAfiliados, setFilteredAfiliados] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [gananciaTotal, setGananciaTotal] = useState(0); // Estado para la ganancia total
+  const [gananciaTotal, setGananciaTotal] = useState(0);
   const toast = useRef(null);
   const { user } = useAuth();
 
-  // Función para calcular la ganancia total de un afiliado y sus hijos
+  // Función recursiva para calcular la ganancia total y formatear los afiliados
   const calculateGananciaTotal = (data) => {
     let total = data.ganancia || 0;
     if (data.children && data.children.length > 0) {
@@ -27,39 +27,32 @@ export default function SubAfiliados({ UserId }) {
     return total;
   };
 
-  const formatAfiliados = (data, parentId = null) => {
-    const gananciaTotal = calculateGananciaTotal(data); // Calculamos la ganancia total
+  const formatAfiliados = (data) => {
+    const gananciaTotal = calculateGananciaTotal(data);
     return {
-      key: `key_${data.id}`, // Un identificador único para cada afiliado
+      key: `key_${data.id}`,  // Clave única para cada afiliado
       data: {
-        nombres: data.nombres || '', // Asegúrate de que cada propiedad esté correctamente definida
+        nombres: data.nombres || '',
         apellidos: data.apellidos || '',
         dni: data.dni || '',
         telefono: data.telefono || '',
         rol: data.rol || '',
         fecha_inscripcion: data.fecha_inscripcion || '',
-        ganancia: data.ganancia || 0, // Asegúrate de que `ganancia` tenga un valor predeterminado
-        ganancia_total: gananciaTotal, // Ganancia total calculada
+        ganancia: data.ganancia || 0,
+        ganancia_total: gananciaTotal,  // Ganancia total calculada
       },
-      children: data.children?.map(child => formatAfiliados(child, data.id)) || [] // Recursión para hijos
+      children: data.children?.map(formatAfiliados) || [], // Recursión para los hijos
     };
   };
-  
 
   useEffect(() => {
     const fetchAfiliados = async () => {
       try {
-        // Realizas la llamada a la API para obtener los datos
         const response = await apiAdapter.get(`${process.env.REACT_APP_API_BASE_URL}usuarios/${user?.id}`);
-        
-        // Formateamos los datos y calculamos la ganancia total
         const formattedData = response.map(formatAfiliados);
-        
-        // Establecemos los datos formateados en el estado
         setAfiliados(formattedData);
-        setFilteredAfiliados(formattedData); // Mostrar todos los afiliados inicialmente
+        setFilteredAfiliados(formattedData);
 
-        // Calculamos la ganancia total de todos los afiliados
         const totalGanancia = formattedData.reduce((sum, afiliado) => sum + afiliado.data.ganancia_total, 0);
         setGananciaTotal(totalGanancia);
       } catch (error) {
@@ -70,12 +63,11 @@ export default function SubAfiliados({ UserId }) {
     fetchAfiliados();
   }, [UserId]);
 
-  // Función para manejar el filtro de búsqueda
+  // Filtrar los afiliados según el término de búsqueda
   const handleSearch = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchTerm(value);
 
-    // Filtrar afiliados según el término de búsqueda
     const filtered = afiliados.filter(afiliado =>
       (afiliado.data.nombres?.toLowerCase() || '').includes(value) ||
       (afiliado.data.apellidos?.toLowerCase() || '').includes(value) ||
@@ -86,13 +78,11 @@ export default function SubAfiliados({ UserId }) {
 
     setFilteredAfiliados(filtered);
 
-    // Calcular la ganancia total de los afiliados filtrados
     const total = filtered.reduce((sum, item) => sum + item.data.ganancia_total, 0);
     setGananciaTotal(total);
   };
 
-  const [codigo, setCodigo] = useState('');
-
+  // Copiar el código del usuario al portapapeles
   const copiarCodigo = async () => {
     try {
       await navigator.clipboard.writeText(user?.codigo);
@@ -105,12 +95,12 @@ export default function SubAfiliados({ UserId }) {
   return (
     <>
       <Toast ref={toast} />
-      <div className='flex'>
-        <div className='flex-1 p-2'>
+      <div className="flex">
+        <div className="flex-1 p-2">
           <h1>Lista de Afiliados</h1>
           <Divider />
         </div>
-        <div className='flex justify-content-end align-items-center'>
+        <div className="flex justify-content-end align-items-center">
           <Button
             label={user?.codigo}
             style={{ backgroundColor: "#85C226", borderColor: "#85C226", width: "200px", height: "60px" }}
@@ -121,15 +111,12 @@ export default function SubAfiliados({ UserId }) {
       <div className="flex justify-content-center">
         <Card style={{ width: '80%', height: '7rem' }}>
           <div className="flex align-items-center justify-content-between" style={{ height: '100%' }}>
-            {/* Input de búsqueda */}
             <InputText
               placeholder="Buscar afiliado..."
               style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
               value={searchTerm}
               onChange={handleSearch}
             />
-            
-            {/* Contenedor de la ganancia */}
             <div className="flex align-items-center">
               <span className="mr-2">Ganancia Total:</span>
               <InputText value={gananciaTotal} disabled style={{ height: '4rem', width: '3rem' }} />
@@ -144,7 +131,14 @@ export default function SubAfiliados({ UserId }) {
               <h5>Los afiliados registrados se agregarán en esta tabla</h5>
             </div>
           ) : (
-            <TreeTable value={filteredAfiliados} tableStyle={{ minWidth: '50rem' }} dataKey="key" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
+            <TreeTable
+              value={filteredAfiliados}
+              tableStyle={{ minWidth: '50rem' }}
+              dataKey="key"
+              paginator
+              rows={5}
+              rowsPerPageOptions={[5, 10, 25, 50]}
+            >
               <Column field="nombres" header="Nombres" expander></Column>
               <Column field="apellidos" header="Apellidos"></Column>
               <Column field="dni" header="DNI"></Column>
@@ -156,6 +150,7 @@ export default function SubAfiliados({ UserId }) {
           )}
         </Card>
       </div>
+      <GenerarPDF afiliados={filteredAfiliados} gananciaTotal={gananciaTotal} />
     </>
   );
 }

@@ -65,7 +65,7 @@ export default function Tarifario() {
             <div className="flex flex-column p-4 bg-white shadow-md rounded-lg">
                 <h1 className="text-2xl font-bold text-gray-800 mb-4">Tarifario de las Clínicas</h1>
                 <Divider />
-                {user?.rolId === "Afiliado" && (
+                {user?.rol === "Usuario" && (
                     <div className="flex justify-content-end align-items-center mt-4">
                         <Button
                             label="Mejorar Plan"
