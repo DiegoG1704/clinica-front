@@ -1,13 +1,12 @@
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { InputText } from 'primereact/inputtext';
 import { Card } from 'primereact/card';
 import { apiAdapter } from '../../../core/adapters/apiAdapter';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import CustomDataTable from './Autorizaciones/Componente/CustomDataTable';
+import './Autorizaciones/css/Administracion.css'
 
 export default function Admin() {
   const [afiliadores, setAfiliadores] = useState([]);
@@ -24,7 +23,7 @@ export default function Admin() {
       } catch (error) {
         console.error('Error fetching clinic data:', error);
         setLoading(false); // Termina la carga
-      } 
+      }
     };
 
     fetchClinicas();
@@ -35,17 +34,27 @@ export default function Admin() {
     `${afiliador.nombres} ${afiliador.apellidos}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Columnas para la tabla
+  const columns = [
+    { header: 'Nº', body: (rowData, { rowIndex }) => rowIndex + 1 },
+    { field: 'nombres', header: 'Nombre' },
+    { field: 'apellidos', header: 'Apellidos' },
+    { field: 'telefono', header: 'Teléfono' },
+    { field: 'dni', header: 'DNI' },
+    { field: 'rol', header: 'Rol' },
+  ];
+
   return (
     <>
-   
       <div className='flex'>
         <div className='flex-1 p-2'>
           <h1>Lista de Afiliados</h1>
           <Divider />
         </div>
       </div>
+
       <div className='flex justify-content-center'>
-        <Card style={{ width: '80%', height: '7rem'}}>
+        <Card style={{ width: '80%', height: '7rem' }}>
           <InputText
             placeholder='Buscar nombre de afiliados...'
             style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
@@ -53,25 +62,25 @@ export default function Admin() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </Card>
-      </div> 
+      </div>
+
       {loading ? (
         <div className="flex justify-content-center" style={{ marginTop: '50px' }}>
           <ProgressSpinner />
         </div>
       ) : (
-      <div className='flex justify-content-center'>
-        <Card style={{ width: '80%', marginTop:'15px' }}>
-          <DataTable value={filteredAfiliadores} rowClassName="my-2" dataKey="id" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
-          <Column header="Nº" body={(rowData, { rowIndex }) => rowIndex + 1} />
-            <Column field="nombres" header="Nombre" />
-            <Column field="apellidos" header="Apellidos" />
-            <Column field="telefono" header="Télefono" />
-            <Column field="dni" header="DNI" />
-            <Column field="rol" header="Rol" />
-          </DataTable>
-        </Card>
-      </div>
-    )}
+        <div className='flex justify-content-center'>
+          <Card style={{ width: '80%', marginTop: '15px' }}>
+            <CustomDataTable
+              columns={columns} // Pasa las columnas configuradas
+              value={filteredAfiliadores} // Pasa los afiliadores filtrados
+              paginator
+              rows={5}
+              rowsPerPageOptions={[5, 10, 25, 50]} // Opciones de filas por página
+            />
+          </Card>
+        </div>
+      )}
     </>
   );
 }

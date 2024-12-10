@@ -22,6 +22,7 @@ import Tarifario from '../components/Afiliados/Tarifario';
 import UserAfiliados from '../pages/VistaAdmin/Afiliados/Afiliados';
 import Administracion from '../pages/VistaAdmin/Autorizaciones/Administracion';
 
+import { SubAdminProvider} from '../context/SubAdministradores/SubAdministradorContext';
 const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin }) => {
     console.log('problem', router)
 
@@ -30,7 +31,7 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
         "Admin": <Admin />,
         "Usuarios": <Admin />,
         "Afiliados": <SubAfiliados/>,
-        "SubAdmin": <SubAdmin />,
+        "SubAdmin": <SubAdminProvider><SubAdmin /></SubAdminProvider>,
         "SubAfiliados": <SubAfiliados UserId={idUsuario} />,
         "SubLocal": <SubLocalProvider><SubLocales /></SubLocalProvider>,
         "Tarifarios": <PromocionProvider><PromocionesAdmin /></PromocionProvider>,

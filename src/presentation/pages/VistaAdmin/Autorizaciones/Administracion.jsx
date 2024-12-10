@@ -1,144 +1,197 @@
-import { Button } from 'primereact/button'
+import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
-import { Column } from 'primereact/column';
-import { DataTable } from 'primereact/datatable';
-import { Divider } from 'primereact/divider'
 import { InputText } from 'primereact/inputtext';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import { apiAdapter } from '../../../../core/adapters/apiAdapter';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
+import { Divider } from 'primereact/divider';
+import CustomDataTable from './Componente/CustomDataTable';
+import './css/Administracion.css'
 
-export default function Administracion() {
-  const toast = useRef(null);
-    const [afiliadores, setAfiliadores] = useState([]);
-    const [loading, setLoading] = useState(true); // Estado de carga
-    const [searchTerm, setSearchTerm] = useState('');
-    const accept = () => {
-      toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
+export default function AdminPanel() {
+  const toastRef = useRef(null);
+  const [affiliates, setAffiliates] = useState([]);
+  const [loadingState, setLoadingState] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedAffiliateId, setSelectedAffiliateId] = useState(null);
+
+  const fetchAffiliatesData = async () => {
+    try {
+      setLoadingState(true);
+      const response = await apiAdapter.get('EstadosUser');
+      console.log('Affiliates loaded:', response);
+      setAffiliates(response);
+      setLoadingState(false);
+    } catch (error) {
+      console.error('Error fetching affiliates:', error);
+      setLoadingState(false);
+    }
   };
 
-  const reject = () => {
-      toast.current.show({ severity: 'warn', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+  useEffect(() => {
+    fetchAffiliatesData();
+  }, []);
+
+  const handleStatusChange = async () => {
+    if (selectedAffiliateId) {
+      try {
+        const response = await apiAdapter.put(`/CambioEstado/${selectedAffiliateId}`);
+        console.log('API Response:', response);
+        toastRef.current.show({
+          severity: 'success',
+          summary: 'Status Updated',
+          detail: 'The affiliate status has been updated to Active',
+          life: 3000,
+        });
+        await fetchAffiliatesData();
+      } catch (error) {
+        toastRef.current.show({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Unable to update the affiliate status',
+          life: 3000,
+        });
+      }
+    }
   };
 
-  
-    useEffect(() => {
-      const fetchClinicas = async () => {
-        try {
-          setLoading(true); // Inicia la carga
-          const response = await apiAdapter.get('afiliadores-afiliados');
-          setAfiliadores(response);
-          setLoading(false); // Termina la carga
-        } catch (error) {
-          console.error('Error fetching clinic data:', error);
-          setLoading(false); // Termina la carga
-        } 
-      };
-  
-      fetchClinicas();
-    }, []);
-  
-    // Filtrar afiliadores según el término de búsqueda
-    const filteredAfiliadores = afiliadores.filter(afiliador =>
-      `${afiliador.nombres} ${afiliador.apellidos}`.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  const handlePRStatusChange = async () => {
+    if (selectedAffiliateId) {
+      try {
+        const response = await apiAdapter.put(`/CambioEstadoPr/${selectedAffiliateId}`);
+        console.log('API Response:', response);
+        toastRef.current.show({
+          severity: 'success',
+          summary: 'Status Updated',
+          detail: 'The affiliate PR status has been updated to Active',
+          life: 3000,
+        });
+        await fetchAffiliatesData();
+      } catch (error) {
+        toastRef.current.show({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Unable to update the affiliate PR status',
+          life: 3000,
+        });
+      }
+    }
+  };
 
-    const actionsTemplate = (rowData) => (
-      <div className='flex gap-2'>
-           <Button 
-              // className="bg-white border-none shadow-none" 
-              // style={{ color: "#85C226" }} 
-              severity="success"
-              onClick={() => showTemplate()} 
-              label='Activo'
-          />
-      </div>
+  const rejectAction = () => {
+    toastRef.current.show({ severity: 'warn', summary: 'Rejected', detail: 'Status has not been changed', life: 3000 });
+  };
+
+  const filterAffiliates = affiliates.filter(affiliate =>
+    `${affiliate.nombres} ${affiliate.apellidos}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const actionsTemplatePR = (rowData) => (
-    <div className='flex gap-2'>
-         <Button 
-            // className="bg-white border-none shadow-none" 
-            // style={{ color: "#85C226" }} 
-            severity="success"
-            onClick={() => showTemplatePR()}
-            label='Activo'
-        />
+  const statusChangeButton = (rowData) => (
+    <div className="flex gap-2">
+      <Button
+        severity={rowData.Estado === 'Activo' ? 'success' : 'danger'}
+        onClick={() => showConfirmDialog(rowData.id)}
+        label={rowData.Estado}
+      />
     </div>
-);
+  );
 
-const showTemplate = () => {
-  confirmDialog({
+  const statusChangeButtonPR = (rowData) => (
+    <div className="flex gap-2">
+      <Button
+        severity={rowData.EstadoPr === 'Activo' ? 'success' : 'danger'}
+        onClick={() => showConfirmDialogPR(rowData.id)}
+        label={rowData.EstadoPr}
+      />
+    </div>
+  );
+
+  const showConfirmDialog = (id) => {
+    setSelectedAffiliateId(id);
+    confirmDialog({
       group: 'templating',
       header: 'Confirmation',
       message: (
-          <div className="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border">
-              <i className="pi pi-exclamation-circle text-6xl text-primary-500"></i>
-              <span>¿Desea Cambiar de estado?</span>
-          </div>
+        <div className="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border">
+          <i className="pi pi-exclamation-circle text-6xl text-primary-500"></i>
+          <span>¿Desea cambiar de estado?</span>
+        </div>
       ),
-      accept,
-      reject
-  });
-};
+      accept: handleStatusChange,
+      reject: rejectAction,
+    });
+  };
 
-const showTemplatePR = () => {
-  confirmDialog({
+  const showConfirmDialogPR = (id) => {
+    setSelectedAffiliateId(id);
+    confirmDialog({
       group: 'templating',
       header: 'Confirmation',
       message: (
-          <div className="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border">
-              <i className="pi pi-exclamation-circle text-6xl text-primary-500"></i>
-              <span>¿Desea Cambiar de estado?</span>
-          </div>
+        <div className="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border">
+          <i className="pi pi-exclamation-circle text-6xl text-primary-500"></i>
+          <span>¿Desea cambiar de estado?</span>
+        </div>
       ),
-      accept,
-      reject
-  });
-};
+      accept: handlePRStatusChange,
+      reject: rejectAction,
+    });
+  };
+
+  // Define the columns for the CustomDataTable
+  const columns = [
+    {
+      header: 'Nº',
+      body: (row, { rowIndex }) => rowIndex + 1,  // Mostrar el número de la fila
+    },
+    { header: 'Nombres', field: 'nombres' },
+    { header: 'Apellidos', field: 'apellidos' },
+    { header: 'Telefono', field: 'telefono' },
+    { header: 'DNI', field: 'dni' },
+    { header: 'Rol', field: 'rol_id' },
+    { header: 'Estado Usuario', body: statusChangeButton },
+    { header: 'Estado Promotor', body: statusChangeButtonPR },
+  ];
 
   return (
     <>
-      <Toast ref={toast} />
-        <div className='flex'>
-            <div className='flex-1 p-2'>
-            <h1>Lista de Usuarios</h1>
-            <Divider />
-            </div>
+      <Toast ref={toastRef} />
+      <div className="admin-panel-header flex">
+        <div className="flex-1 p-2">
+          <h1 className="admin-title">Affiliate List</h1>
+          <Divider />
         </div>
-        <div className='flex justify-content-center'>
-            <Card style={{ width: '80%', height: '7rem'}}>
-            <InputText
-                placeholder='Buscar nombre de afiliados...'
-                style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+      </div>
+      <div className="flex justify-content-center">
+        <Card className="admin-card">
+          <InputText
+            placeholder="Buscar usuario..."
+            className="admin-search-input"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </Card>
+      </div>
+      {loadingState ? (
+        <div className="flex justify-content-center" style={{ marginTop: '50px' }}>
+          <ProgressSpinner />
+        </div>
+      ) : (
+        <div className="flex justify-content-center">
+          <Card className="admin-card" style={{ marginTop: '15px' }}>
+          <CustomDataTable
+              columns={columns}
+              value={filterAffiliates}
+              paginator={true}
+              rows={5}  // Número de filas por página
+              rowsPerPageOptions={[5, 10, 25, 50]}  // Opciones de filas por página
             />
-            </Card>
-        </div> 
-        {loading ? (
-            <div className="flex justify-content-center" style={{ marginTop: '50px' }}>
-            <ProgressSpinner />
-            </div>
-        ) : (
-        <div className='flex justify-content-center'>
-            <Card style={{ width: '80%', marginTop:'15px' }}>
-                <DataTable value={filteredAfiliadores} rowClassName="my-2" dataKey="id" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
-                    <Column header="Nº" body={(rowData, { rowIndex }) => rowIndex + 1} />
-                    <Column field="nombres" header="Nombre" />
-                    <Column field="apellidos" header="Apellidos" />
-                    <Column field="telefono" header="Télefono" />
-                    <Column field="dni" header="DNI" />
-                    <Column field="rol" header="Rol" />
-                    <Column header="Estado Usuario" body={actionsTemplate}/>
-                    <Column header="Estado Usuario" body={actionsTemplatePR}/>
-                </DataTable>
-            </Card>
+          </Card>
         </div>
-        )}
-        <ConfirmDialog group="templating" />
+      )}
+      <ConfirmDialog group="templating" />
     </>
-  )
+  );
 }

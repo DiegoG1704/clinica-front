@@ -12,64 +12,77 @@ import EditSubAdmin from './Components/Dialogs/EditSubAdmin';
 import DeleteSubAdmin from './Components/Dialogs/DeleteSubAdmin';
 import { apiAdapter } from '../../../../core/adapters/apiAdapter';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import { useAdminPloc } from '../../../context/SubAdministradores/SubAdministradorContext';
+import { usePlocState } from '../../../hooks/ploc/usePlocState';
 
 export default function SubAdmin() {
-  const {user} = useAuth()
-  const[subAdmin,setSubAdmin]=useState([])
-  const [create,setCreate]=useState(false)
+  const { user } = useAuth()
+  const [subAdmin, setSubAdmin] = useState([])
+  const [create, setCreate] = useState(false)
   const [edit, setEdit] = useState(false);  // Para controlar si estamos en modo edición
   const [editData, setEditData] = useState(null);  // Para almacenar los datos del subadministrador que estamos editando
-  const [delet , setDelete] = useState(false)
+  const [delet, setDelete] = useState(false)
   const [loading, setLoading] = useState(true);
 
+  const ploc = useAdminPloc()
+  const state = usePlocState(ploc)
+
+  useEffect(() => {
+
+    if (user?.clinica_id) {
+      ploc.loadUsers(user.clinica_id);
+      ploc.loadLocales(user.clinica_id)
+    }
+  }, [user?.clinica_id, ploc]);
+
   const [searchTerm, setSearchTerm] = useState(''); // Estado para la búsqueda
-    const filteredData = subAdmin.filter(data => {
-        const lowercasedSearchTerm = searchTerm.toLowerCase();
-        return (
-            data.nombres.toLowerCase().includes(lowercasedSearchTerm) ||
-            data.apellidos.toLowerCase().includes(lowercasedSearchTerm)
-        );
-    });
-    const fetchSubAdmin = async () => {
-      try {
-        setLoading(true)
-          const response = await apiAdapter.get(`GetSubAdministrador/${user?.clinica_id}`);
-          setSubAdmin(response);
-          setLoading(false)
-      } catch (error) {
-          console.error('Error fetching subadmins:', error);
-          setLoading(false)
-      }
-    };
-    useEffect(() => {
-      fetchSubAdmin();
-  }, [user?.clinica_id]);  // Asegúrate de que esta dependencia sea correcta
+  // const filteredData = subAdmin.filter(data => {
+  //   const lowercasedSearchTerm = searchTerm.toLowerCase();
+  //   return (
+  //     data.nombres.toLowerCase().includes(lowercasedSearchTerm) ||
+  //     data.apellidos.toLowerCase().includes(lowercasedSearchTerm)
+  //   );
+  // });
+  // const fetchSubAdmin = async () => {
+  //   try {
+  //     setLoading(true)
+  //     const response = await apiAdapter.get(`GetSubAdministrador/${user?.clinica_id}`);
+  //     setSubAdmin(response);
+  //     setLoading(false)
+  //   } catch (error) {
+  //     console.error('Error fetching subadmins:', error);
+  //     setLoading(false)
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchSubAdmin();
+  // }, [user?.clinica_id]);  // Asegúrate de que esta dependencia sea correcta
 
-      const actionsTemplate = (rowData) => (
-        <div className='flex gap-2'>
-             <Button 
-                icon="pi pi-pencil" 
-                className="bg-white border-none shadow-none" 
-                style={{ color: "#85C226" }} 
-                onClick={() => {
-                    setEdit(true);      // Cambiar el estado de edición
-                    setEditData(rowData);  // Guardar los datos del subadministrador en el estado
-                }} 
-            />
-            <Button 
-              icon="pi pi-trash" 
-              className="bg-white  border-none shadow-none" 
-              style={{ color: "#85C226" }} 
-              onClick={()=>{
-                setEditData(rowData);
-                setDelete(true)
-              }}
-              />
-        </div>
-    );
+  const actionsTemplate = (rowData) => (
+    <div className='flex gap-2'>
+      <Button
+        icon="pi pi-pencil"
+        className="bg-white border-none shadow-none"
+        style={{ color: "#85C226" }}
+        onClick={() => {
+          ploc.openDialogEdit(rowData)
+          setEditData(rowData);  // Guardar los datos del subadministrador en el estado
+        }}
+      />
+      <Button
+        icon="pi pi-trash"
+        className="bg-white  border-none shadow-none"
+        style={{ color: "#85C226" }}
+        onClick={() => {
+          ploc.openDialogConfirmDelete(rowData)
 
-    const handleSearchChange = (e) => {
-      setSearchTerm(e.target.value);
+        }}
+      />
+    </div>
+  );
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
   };
   return (
     <div>
@@ -82,58 +95,73 @@ export default function SubAdmin() {
           <Button label='Añadir SubAdministradores' className='' style={{
             backgroundColor: "#85C226",
             borderColor: "#85C226", height: "60px", borderRadius: "6px"
-          }} 
-          onClick={()=>setCreate(true)}
-          icon="pi pi-plus" />
+          }}
+            onClick={ploc.openDialogCreate}
+            icon="pi pi-plus" />
         </div>
       </header>
       <main>
-      <div className='flex justify-content-center'>
-        <Card style={{ width: '80%', height: '7rem'}}>
-          <InputText
-            placeholder='Buscar sub-Administrador...'
-            style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
-        </Card>
-      </div>
-      {loading ? (
-        <div className="flex justify-content-center" style={{ marginTop: '50px' }}>
-          <ProgressSpinner />
+        <div className='flex justify-content-center'>
+          {/* <Card style={{ width: '80%', height: '7rem' }}>
+            <InputText
+              placeholder='Buscar sub-Administrador...'
+              style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+          </Card> */}
         </div>
-      ) : (
-      <div className='flex justify-content-center'>
-        <Card style={{ width: '80%', marginTop:'15px' }}>
-          <DataTable value={filteredData} rowClassName="my-2" dataKey="id" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
-          <Column header="Nº" body={(rowData, { rowIndex }) => rowIndex + 1} />
-            <Column field="nombres" header="Nombre" />
-            <Column field="apellidos" header="Apellidos" />
-            <Column field="telefono" header="Télefono" />
-            <Column field="dni" header="DNI" />
-            <Column header="Cambios" body={actionsTemplate}/>
-          </DataTable>
-        </Card>
-      </div>
-    )}
+        {state?.loading ? (
+          <div className="flex justify-content-center" style={{ marginTop: '50px' }}>
+            <ProgressSpinner />
+          </div>
+        ) : (
+          <div className='flex justify-content-center'>
+            <Card style={{ width: '80%', marginTop: '15px' }}>
+              <DataTable value={state?.usuarios} rowClassName="my-2" dataKey="id" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
+                <Column header="Nº" body={(rowData, { rowIndex }) => rowIndex + 1} />
+                <Column field="nombres" header="Nombre" />
+                <Column field="apellidos" header="Apellidos" />
+                <Column field="telefono" header="Télefono" />
+                <Column field="dni" header="DNI" />
+                <Column header="Cambios" body={actionsTemplate} />
+              </DataTable>
+            </Card>
+          </div>
+        )}
+
+
       </main>
-      <CreateSubAdmin 
-        visible={create} 
-        close={()=>setCreate(false)} 
-        actualizar={fetchSubAdmin}
+
+      <CreateSubAdmin
+        visible={state.openDialogCreate}
+        close={ploc.closeDialogCreate}
+        // actualizar={fetchSubAdmin}
+        fnCreate={ploc.createUser}
+        handleChange={ploc.handlechange}
+        dataLocales={state?.locales}
+        subAdminData={state?.subAdmin}
+        findDoc={ploc.findDoc}
+
+
       />
-      <EditSubAdmin 
-        visible={edit} 
-        close={() => setEdit(false)}  // Cerrar el modal
-        actualizar={fetchSubAdmin}  // Función para actualizar la lista de subadministradores
-        editData={editData}
+      <EditSubAdmin
+        visible={state.openDialogEdit}
+        close={ploc.closeDialogEdit}
+        // actualizar={fetchSubAdmin}
+        fnCreate={ploc.updateSubAdmin}
+        handleChange={ploc.handlechange}
+        dataLocales={state?.locales}
+        subAdminData={state?.subAdmin}
+        findDoc={ploc.findDoc}
+      // editData={editData}
       />
       <DeleteSubAdmin
-        visible={delet}
-        close={()=>setDelete(false)}
-        actualizar={fetchSubAdmin}
+        visibles={state.openDialogDelete}
+        close={()=>{  ploc.closeDialogDelete();}}
+        // actualizar={fetchSubAdmin}
         Data={editData}
-      />
+      ></DeleteSubAdmin>
     </div>
   )
 }

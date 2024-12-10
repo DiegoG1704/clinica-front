@@ -80,7 +80,7 @@ export default function Afiliados() {
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
             </div>
-            <ClinicaCards Ancho={'80%'} Alto={'320px'} Margen={'2rem'} Promociones={IsoTipo} Admin={false} />
+            <ClinicaCards Ancho={'80%'} Alto={'320px'} Margen={'0px'} Promociones={IsoTipo} Admin={false} />
             <div className='Barra'>
                 <div className='Informacion'>
                     <h2>Sobre Nosotros</h2>

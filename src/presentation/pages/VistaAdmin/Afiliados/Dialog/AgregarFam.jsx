@@ -6,14 +6,18 @@ import { Dropdown } from 'primereact/dropdown';
 import { Stepper } from 'primereact/stepper';
 import { StepperPanel } from 'primereact/stepperpanel';
 import TermYCond from '../Componentes/TermYCond';
+import { apiAdapter } from '../../../../../core/adapters/apiAdapter';
+import { useAuth } from '../../../../context/AuthContext/AuthContext';
 
-export default function AgregarFam({ Open, Close }) {
+export default function AgregarFam({ Open, Close, Actualizar }) {
+  const {user} = useAuth();
   const stepperRef = useRef(null);
   const [familiar, setFamiliar] = useState({
     nombres: '',
     apellidos: '',
     dni: '',
-    unionFamiliar: ''
+    parentesco: '',
+    familiar_id:user?.id
   });
 
   const [isFormValid, setIsFormValid] = useState(false); // Estado para validar el formulario
@@ -32,32 +36,30 @@ export default function AgregarFam({ Open, Close }) {
     });
   };
 
-  // Función para verificar si el formulario está completo
-  const validateForm = () => {
-    const { nombres, apellidos, dni, unionFamiliar } = familiar;
-    // Si todos los campos están completos, el formulario es válido
-    if (nombres && apellidos && dni && unionFamiliar) {
-      setIsFormValid(true);
-    } else {
-      setIsFormValid(false);
-    }
+  const handleLocalChange = (e) => {
+    setFamiliar({ ...familiar, parentesco: e.value }); // Guardar solo el id del local
   };
 
-  // Usar un hook useEffect para validar cuando los valores cambien
-  useEffect(() => {
-    validateForm();
-  }, [familiar]); // Se vuelve a ejecutar cuando alguno de los valores del formulario cambie
+
 
   // Función para manejar el envío del formulario
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log(familiar);
-    setFamiliar({
-      nombres: '',
-      apellidos: '',
-      dni: '',
-      unionFamiliar: ''
-    });
-    Close(); // Cerrar el modal después de guardar
+    try {
+      const response = await apiAdapter.post('/createFam', familiar);
+      console.log('Datos ingresados', response);
+      setFamiliar({
+        nombres: '',
+        apellidos: '',
+        dni: '',
+        parentesco: ''
+      });
+      Close();
+      Actualizar();
+    } catch (error) {
+      console.log('Problemas al crear la promoción', error);
+    }
+     // Cerrar el modal después de guardar
   };
 
   return (
@@ -103,9 +105,9 @@ export default function AgregarFam({ Open, Close }) {
               <Dropdown
                 id="unionFamiliar"
                 name="unionFamiliar"
-                value={familiar.unionFamiliar}
+                value={familiar.parentesco}
                 options={unionOptions}
-                onChange={handleChange}
+                onChange={handleLocalChange}
                 placeholder="Selecciona una opción"
                 required
               />
@@ -117,7 +119,7 @@ export default function AgregarFam({ Open, Close }) {
               icon="pi pi-arrow-right"
               iconPos="right"
               onClick={() => stepperRef.current.nextCallback()}
-              disabled={!isFormValid} // Deshabilitar el botón si el formulario no es válido
+              
             />
           </div>
         </StepperPanel>

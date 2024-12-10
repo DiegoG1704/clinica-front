@@ -5,6 +5,7 @@ import { Button } from 'primereact/button'; // Componente de botón
 import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast'; // Importar el componente Toast
 import { apiAdapter } from '../../../../../core/adapters/apiAdapter';
+import CustomDialog from '../../../../components/Dialog/CustomDialog';
 
 export default function DialogImage({ visible, close, recarga, datos }) {
     const [selectedImage, setSelectedImage] = useState(null);  // Estado para la imagen seleccionada
@@ -23,7 +24,11 @@ export default function DialogImage({ visible, close, recarga, datos }) {
             setFotoPerfilTipo(datos.imagenTipo);
         }
     }, [datos]);
-
+    const handleCloseDialog = () => {
+        close()
+        setSelectedImage(null)
+        setSelectedImageTipo(null)
+    }
     // Función para seleccionar la imagen de perfil (vista previa)
     const handleImageSelect = (e) => {
         const file = e.files && e.files[0];
@@ -52,38 +57,63 @@ export default function DialogImage({ visible, close, recarga, datos }) {
         }
     };
 
-    // Subir ambas imágenes con un solo botón
     const handleImageUpload = async () => {
-        const formData = new FormData();
+        // Validar si ambas imágenes están seleccionadas y son archivos válidos
+        if (
+            !selectedImage ||
+            !(selectedImage instanceof File) ||
+            !selectedImageTipo ||
+            !(selectedImageTipo instanceof File)
+        ) {
+            toast.current.show({
+                severity: 'warn',
+                summary: 'Advertencia',
+                detail: 'Debe seleccionar ambas imágenes válidas.',
+                life: 3000,
+            });
+            return;
+        }
 
-        // Añadir ambas imágenes al formData
-        if (selectedImage) {
-            formData.append('ImagoTipo', selectedImage);  // Imagen de perfil
-        }
-        if (selectedImageTipo) {
-            formData.append('IsoTipo', selectedImageTipo);  // Imagen tipo
-        }
+        // Crear FormData
+        const formData = new FormData();
+        formData.append('ImagoTipo', selectedImage); // Imagen de perfil
+        formData.append('IsoTipo', selectedImageTipo); // Imagen tipo
 
         try {
-            // Realiza la llamada a la API para subir ambas imágenes
+            // Realizar la llamada a la API
             const response = await apiAdapter.post(
-                `Clinica/${datos?.id}/SubirImagenes`, // Endpoint para subir ambas imágenes
+                `Clinica/${datos?.id}/SubirImagenes`,
                 formData,
                 {
                     headers: {
-                        'Content-Type': 'multipart/form-data', // Especifica que es multipart
+                        'Content-Type': 'multipart/form-data',
                     },
                 }
             );
 
-            toast.current.show({ severity: 'success', summary: 'Éxito', detail: 'Imágenes subidas con éxito', life: 3000 }); // Mostrar Toast de éxito
-            recarga(); // Recargar la página o los datos
-            close();  // Cerrar el diálogo
+            // Limpiar imágenes seleccionadas y mostrar éxito
+            setSelectedImage(null);
+            setSelectedImageTipo(null);
+
+            toast.current.show({
+                severity: 'success',
+                summary: 'Éxito',
+                detail: 'Imágenes subidas con éxito',
+                life: 3000,
+            });
+            recarga(); // Recargar datos
+            close(); // Cerrar diálogo
         } catch (error) {
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error al subir las imágenes', life: 3000 }); // Mostrar Toast de error
+            toast.current.show({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Error al subir las imágenes',
+                life: 3000,
+            });
             console.error('Error al subir las imágenes:', error);
         }
     };
+
 
     // Función para generar una URL para la vista previa solo si el archivo existe
     const createObjectURLIfFile = (file) => {
@@ -94,98 +124,97 @@ export default function DialogImage({ visible, close, recarga, datos }) {
         }
     };
 
-    const headerTemplate = () => {
-        return (
-            <div className='flex flex-row gap-2'>
-                <span className="pi pi-building" style={{fontSize:"40px",fontWeight:"500",color:"#85C226"}}></span>
-                <span style={{fontSize:"24px",fontWeight:"700"}}>Subir imágenes</span>
-            </div>
-        )
-    }
+
+    const footerTemplate = () => (<div style={{ marginTop: '20px', display: 'flex', justifyContent: 'end' }}>
+        {/* Botón para subir las dos imágenes */}
+        <Button
+            style={{ margin: '5px', background: '#85C226', borderColor: '#85C226' }}
+            label="Subir imágenes" onClick={handleImageUpload} />
+        <Button
+            style={{ margin: '5px', background: '#85C226', borderColor: '#85C226' }}
+            label="Cerrar" onClick={handleCloseDialog} />
+    </div>)
 
     return (
-        <Dialog visible={visible} onHide={close} header={headerTemplate}>
+        <CustomDialog visible={visible} onhide={handleCloseDialog} footer={footerTemplate} title={"Subir imágenes"} iconClassName={"pi pi-camera"}>
             <Toast ref={toast} /> {/* Componente Toast */}
-
-            <div style={{ display: 'inline-block', margin: '10px',textAlign:'center' }}>
-                {/* Imagen de perfil */}
-                <div
-                    style={{
-                        width: '220px',
-                        height: '220px',
-                        borderRadius: '50%',
-                        overflow: 'hidden',
-                        border: '2px dashed #ccc',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <img
-                        src={createObjectURLIfFile(selectedImage) || fotoPerfil || fotoUser}
-                        alt="Imagen de perfil"
+            <div className='flex p'>
+                <div className='flex flex-column align-items-center' >
+                    {/* Imagen de perfil */}
+                    <div
                         style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
+                            width: '220px',
+                            height: '220px',
+                            borderRadius: '50%',
+                            overflow: 'hidden',
+                            border: '2px dashed #ccc',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
                         }}
+                    >
+                        <img
+                            src={createObjectURLIfFile(selectedImage) || fotoPerfil || fotoUser}
+                            alt="Imagen de perfil"
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                            }}
+                        />
+                    </div>
+                    <FileUpload
+                        mode="basic"
+                        customUpload
+                        uploadHandler={() => { }} // No hace falta un manejador aquí, se sube con el botón
+                        accept="image/*"
+                        maxFileSize={1000000}
+                        onSelect={handleImageSelect}
+                        chooseLabel={imageName ? imageName : "Cargar ImagoTipo"} // Etiqueta personalizada con el nombre recortado
                     />
                 </div>
-                <FileUpload
-                    mode="basic"
-                    customUpload
-                    uploadHandler={() => {}} // No hace falta un manejador aquí, se sube con el botón
-                    accept="image/*"
-                    maxFileSize={1000000}
-                    onSelect={handleImageSelect}
-                    chooseLabel={imageName ? imageName : "Cargar ImagoTipo"} // Etiqueta personalizada con el nombre recortado
-                />
-            </div>
 
-            <div style={{ display: 'inline-block',textAlign:'center',margin:'10px' }}>
-                {/* Imagen tipo */}
-                <div
-                    style={{
-                        width: '220px',
-                        height: '220px',
-                        borderRadius: '50%',
-                        overflow: 'hidden',
-                        border: '2px dashed #ccc',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <img
-                        src={createObjectURLIfFile(selectedImageTipo) || fotoPerfilTipo || fotoUser}
-                        alt="Imagen tipo"
+                <div className='flex flex-column align-items-center' >
+                    {/* Imagen tipo */}
+                    <div
                         style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
+                            width: '220px',
+                            height: '220px',
+                            borderRadius: '50%',
+                            overflow: 'hidden',
+                            border: '2px dashed #ccc',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
                         }}
-                    />
+                    >
+                        <img
+                            src={createObjectURLIfFile(selectedImageTipo) || fotoPerfilTipo || fotoUser}
+                            alt="Imagen tipo"
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                            }}
+                        />
+                    </div>
+                    <div className='flex'>
+                        <FileUpload
+                            mode="basic"
+                            customUpload
+                            uploadHandler={() => { }} // No hace falta un manejador aquí, se sube con el botón
+                            accept="image/*"
+                            maxFileSize={1000000}
+                            onSelect={handleImageSelectTipo}
+                            chooseLabel={imageNameTipo ? imageNameTipo : "Cargar IsoTipo"} // Etiqueta personalizada con el nombre recortado
+                        />
+                    </div>
+
                 </div>
-                <FileUpload
-                    mode="basic"
-                    customUpload
-                    uploadHandler={() => {}} // No hace falta un manejador aquí, se sube con el botón
-                    accept="image/*"
-                    maxFileSize={1000000}
-                    onSelect={handleImageSelectTipo}
-                    chooseLabel={imageNameTipo ? imageNameTipo : "Cargar IsoTipo"} // Etiqueta personalizada con el nombre recortado
-                />
             </div>
 
-            <div style={{marginTop: '20px',display:'flex',justifyContent:'end' }}>
-                {/* Botón para subir las dos imágenes */}
-                <Button 
-                style={{margin:'5px',background:'#85C226',borderColor:'#85C226'}}
-                label="Subir imágenes" onClick={handleImageUpload} />
-                <Button
-                style={{margin:'5px',background:'#85C226',borderColor:'#85C226'}}
-                label="Cerrar" onClick={close} />
-            </div>
-        </Dialog>
+
+
+        </CustomDialog>
     );
 }

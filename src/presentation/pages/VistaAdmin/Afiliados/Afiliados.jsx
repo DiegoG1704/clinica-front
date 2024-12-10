@@ -1,79 +1,75 @@
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
+import React, { useState, useEffect } from 'react';
 import { Tag } from 'primereact/tag';
-import React, { useState } from 'react';
+import { apiAdapter } from '../../../../core/adapters/apiAdapter';
+import { useAuth } from '../../../context/AuthContext/AuthContext';
 import AgregarFam from './Dialog/AgregarFam';
-
+import CustomDataTable from '../Autorizaciones/Componente/CustomDataTable';
+import '../Autorizaciones/css/Administracion.css'
 
 export default function UserAfiliados() {
-  const[visible,setVisible]=useState(false)
-  const DatosFamiliares = [
-    {
-      "id": "1",
-      "dni": "12345678A",
-      "nombres": "Juan",
-      "apellidos": "Pérez García",
-      "parentesco": "Esposo",
-      "estado": "Activo"
-    },
-    {
-      "id": "2",
-      "dni": "23456789B",
-      "nombres": "Ana",
-      "apellidos": "López Martínez",
-      "parentesco": "Esposa",
-      "estado": "Activo"
-    },
-    {
-      "id": "3",
-      "dni": "34567890C",
-      "nombres": "Carlos",
-      "apellidos": "Fernández Sánchez",
-      "parentesco": "Hijo",
-      "estado": "Inactivo"
-    },
-    {
-      "id": "4",
-      "dni": "45678901D",
-      "nombres": "María",
-      "apellidos": "González Pérez",
-      "parentesco": "Hija",
-      "estado": "Activo"
-    },
-    {
-      "id": "5",
-      "dni": "56789012E",
-      "nombres": "José",
-      "apellidos": "Rodríguez Ruiz",
-      "parentesco": "Hijo",
-      "estado": "Activo"
+  const [visible, setVisible] = useState(false);
+  const [afiliadores, setAfiliadores] = useState([]);
+  const [loading, setLoading] = useState(true); // Estado de carga
+  const { user } = useAuth();
+
+  const fetchAfiliadores = async () => {
+    try {
+      setLoading(true);
+      const response = await apiAdapter.get(`GetFamiliares/${user?.id}`);
+      console.log('Afiliadores cargados:', response);  // Verifica la respuesta de la API
+      setAfiliadores(response);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching afiliadores:', error);
+      setLoading(false);
     }
-  ];
+  };
+
+  useEffect(() => {
+    fetchAfiliadores();
+  }, []);
 
   // Función para mostrar etiquetas con colores dependiendo del estado
   const estadoTemplate = (rowData) => {
     return (
-      <Tag value={rowData.estado} 
-           severity={rowData.estado === 'Activo' ? 'success' : 'danger'} 
+      <Tag value={rowData.estado}
+           severity={rowData.estado === 'Activo' ? 'success' : 'danger'}
            className="mr-2" />
     );
   };
 
   // Función para mostrar etiquetas con colores dependiendo de la unión familiar
   const unionFamiliarTemplate = (rowData) => {
-    let severity = 'info'; // Valor por defecto
-    if (rowData.parentesco === 'Esposo' || rowData.parentesco === 'Esposa') {
-      severity = 'info';
-    } else if (rowData.parentesco === 'Hijo' || rowData.parentesco === 'Hija') {
-      severity = 'Primary';
+    let parentescoLabel = '';  // Etiqueta de parentesco por defecto
+    let severity = 'info';     // Valor por defecto para el color
+
+    // Traducción de los valores de parentesco
+    if (rowData.parentesco === '1') {
+      parentescoLabel = 'Esposo(a)';
+      severity = 'info';  // Puedes elegir otro color si lo prefieres
+    } else if (rowData.parentesco === '2') {
+      parentescoLabel = 'Hijo(a)';
+      severity = 'primary';  // Color para "Hijo(a)"
+    } else {
+      parentescoLabel = 'Desconocido';  // Si el valor es algo distinto de '1' o '2'
+      severity = 'warning';  // Un color de advertencia para valores desconocidos
     }
 
     return (
-      <Tag icon="pi pi-user" value={rowData.parentesco} severity={severity} />
+      <Tag icon="pi pi-user" value={parentescoLabel} severity={severity} />
     );
   };
+
+  const columns = [
+    { header: 'Nº', body: (rowData, { rowIndex }) => rowIndex + 1 },
+    { field: 'dni', header: 'DNI' },
+    { field: 'nombres', header: 'Nombres' },
+    { field: 'apellidos', header: 'Apellidos' },
+    { header: 'Parentesco', body: unionFamiliarTemplate },
+    { header: 'Estado', body: estadoTemplate },
+  ];
 
   return (
     <>
@@ -92,21 +88,20 @@ export default function UserAfiliados() {
               color: "#fff",
             }}
             icon="pi pi-plus"
-            onClick={()=>setVisible(true)}
+            onClick={() => setVisible(true)}
           />
         </div>
-        
-        {/* DataTable displaying the user data */}
-        <DataTable value={DatosFamiliares} paginator rows={5} className="mt-4">
-          <Column header="Nº" body={(rowData, { rowIndex }) => rowIndex + 1} />
-          <Column field="dni" header="DNI" />
-          <Column field="nombres" header="Nombres" />
-          <Column field="apellidos" header="Apellidos" />
-          <Column header="Parentesco" body={unionFamiliarTemplate} />
-          <Column header="Estado" body={estadoTemplate} />
-        </DataTable>
+
+        {/* CustomDataTable displaying the user data */}
+        <CustomDataTable
+          columns={columns}
+          value={afiliadores}
+          paginator
+          rows={5}
+          className="mt-4"
+        />
       </div>
-      <AgregarFam Open={visible} Close={()=>setVisible(false)}/>
+      <AgregarFam Open={visible} Close={() => setVisible(false)} Actualizar={fetchAfiliadores} />
     </>
   );
 }

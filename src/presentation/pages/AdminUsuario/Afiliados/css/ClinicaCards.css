@@ -57,3 +57,16 @@
     bottom: 10px;
     right: 10px;
 }
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .reseña {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .reseña {
+        display: none;
+    }
+}

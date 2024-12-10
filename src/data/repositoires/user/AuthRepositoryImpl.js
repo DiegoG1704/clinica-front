@@ -6,9 +6,9 @@ export class AuthRepositoryImpl extends AuthRepository {
         super();
         this.adapter = adapter;
     }
-    async login(correo, contraseña) {
+    async login(data) {
         try {
-            const response = await this.adapter.post('/login', { correo, contraseña });
+            const response = await this.adapter.post('/login', data);
             if (response.success) {
               
                 let user=UserMapper.toDomain(response?.usuario)
