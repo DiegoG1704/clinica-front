@@ -110,7 +110,7 @@ export default function Tarifario() {
                 <p><strong>BCP: ADB CONSULTING SAC</strong></p>
                 <p><i className="pi pi-credit-card" style={{ fontSize: '1rem' }}></i> Cuenta Corriente SOLES: <strong>194-2659964-0-21</strong></p>
                 <p><i className="pi pi-credit-card" style={{ fontSize: '1rem' }}></i> CCI Moneda Nacional: <strong>002-19400265996402191</strong></p>
-                <p><i className="pi pi-mobile" style={{ fontSize: '1rem' }}></i> Yape: <strong>920517220</strong></p>
+                {/* <p><i className="pi pi-mobile" style={{ fontSize: '1rem' }}></i> Yape: <strong>920517220</strong></p> */}
 
                 <div className="flex justify-content-center my-4">
                     <Checkbox

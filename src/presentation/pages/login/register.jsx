@@ -47,21 +47,6 @@ export default function Register({ onNext }) {
     rol_id: 2,
   })
 
-  // useEffect(() => {
-  //   // Clear the form when the component mounts
-  //   setCorreo("");
-  //   setContraseña("");
-  //   setConfirmarContraseña("");
-  //   setTelefono("");
-  //   setChecked(false);
-
-  // }, []);
-  // useEffect(() => {
-  //   if (Object.keys(userData).length === 0) {
-  //     navigate("/home")
-  //   }
-  // })
-
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -71,66 +56,14 @@ export default function Register({ onNext }) {
     setDataRegister({ ...dataRegister, acceptTermns: true })
   };
 
-  // const handleRegister = async () => {
-  //   const newUser = {
-  //     ...userData,
-  //     correo,
-  //     contraseña,
-  //     telefono,
-  //     rol_id: 4,
-  //     fotoPerfil: null,
-  //     clinica_id: 1,
-  //     aceptarPoliticas: checked,
-  //     confirmarContraseña: confirmarContraseña
-  //   };
-  //   try {
-  //     const response = await RegisterUser(newUser)
-  //     console.log("respon", response)
-  //     if (response?.success) {
-  //       showToast("success", "Éxito", 'Usuario creado correctamente', toast)
-  //       navigate('/login'); // Navigate to the next page
-  //     } else {
-  //       showToastWithErrors("error", "Error al registrar usuario", response?.error, toast)
-
-  //     }
-
-  //   } catch (error) {
-
-  //   }
-
-  // };
   const estadoCivilOptions = [
     { label: 'Soltero(a)', value: 'soltero' },
     { label: 'Casado(a)', value: 'casado' },
     { label: 'Divorciado(a)', value: 'divorciado' },
     { label: 'Viudo(a)', value: 'viudo' },
   ];
-  // const handleValidateDni = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const dataPerson = await FindPersonWithDni(dni)
-  //     console.log("pe", dataPerson)
-  //     if (dataPerson.success) {
-  //       const { nombres, apellidos } = dataPerson.data;
-  //       setnombres(nombres);
-  //       setapellidos(apellidos);
-  //       showToast("success", 'Éxito', 'Datos encontrados', toast)
-  //     }
-  //     else {
-  //       showToastWithErrors("error", 'Advertencia', dataPerson?.error, toast)
-  //     }
-  //   } catch (error) {
-  //     console.log("enre", error)
-  //     showToastWithErrors("error", 'Advertencia', error, toast)
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
 
   const handleSubmit = async () => {
-    // const response = validateGeneralData({ dni, nombres, apellidos, direccion, estadoCivil, fechNac })
-    // console.log("estas", response)
 
     const response = await RegisterUser(dataRegister)
     if (response?.success) {
