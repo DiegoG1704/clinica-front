@@ -11,6 +11,7 @@ import "./registerU.css";
 import { useAuth } from '../../context/AuthContext/AuthContext';
 import { showToast, showToastWithErrors } from '../../utils/showToast';
 import AxiosAdapter from '../../../core/adapters/http/axios.adapter';
+import TerminosyCond from './Dialog/TerminosyCond';
 
 export default function Registro({ userData }) {
     const toast = useRef(null);
@@ -21,6 +22,7 @@ export default function Registro({ userData }) {
     const [showPassword, setShowPassword] = useState(false);
     const [codigo2, setCodigo2] = useState("");
     const [checked, setChecked] = useState(false);
+    const [checkedN, setCheckedN] = useState(false);
     const [visible, setVisible] = useState(false);
     const [showPromoterCode, setShowPromoterCode] = useState(false);
     const navigate = useNavigate();
@@ -72,8 +74,12 @@ export default function Registro({ userData }) {
             showToast("error", "Error", "Debe aceptar los términos y condiciones", toast);
             return false;
         }
+        if (checkedN) {
+            showToast("error", "Error", "No puedes crear una cuenta si no aceptas los términos y condiciones", toast);
+            return false;
+        }
         return true;
-    };
+    };    
     
     const handleRegister = async () => {
         if (!validateForm()) return;
@@ -188,8 +194,8 @@ export default function Registro({ userData }) {
                         />
                     </div>
                 </div>
-                <span onClick={() => setShowPromoterCode(!showPromoterCode)}>
-                    ¿Tiene Codigo de algún Promotor?
+                <span onClick={() => setShowPromoterCode(!showPromoterCode)} style={{ fontWeight:'bold' }}>
+                <i className="pi pi-chevron-circle-right" style={{ fontSize: '1rem' }}></i> ¿Tiene Codigo de algún Promotor?
                 </span>
                 {showPromoterCode && (
                     <div className="input-group">
@@ -212,8 +218,19 @@ export default function Registro({ userData }) {
                     />
                     <p>
                         Al registrarte aceptas haber leído y estar de acuerdo con la
-                        <span onClick={() => setVisible(true)} className="terminosLink"> Política
+                        <span onClick={() => setVisible(true)} className="terminosLink" style={{ fontWeight:'bold' }}> Política
                             de Privacidad y los Términos y condiciones</span>
+                    </p>
+                </div>
+
+                <div className="checkbox-custom">
+                    <Checkbox
+                        onChange={e => setCheckedN(e.checked)}
+                        checked={checkedN}
+                        className="custom-checkbox"
+                    />
+                    <p>
+                        No acepto los terminos y condiciones
                     </p>
                 </div>
 
@@ -223,12 +240,7 @@ export default function Registro({ userData }) {
                     onClick={handleRegister}
                     className="login-button"
                 />
-
-                {/* Diálogo de términos y condiciones */}
-                <Dialog header="Términos y Condiciones" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
-                    <p>Contenido de los términos y condiciones...</p>
-                    <Button label="Aceptar" onClick={handleTermsAccept} />
-                </Dialog>
+                <TerminosyCond visible={visible} Close={() => setVisible(false)} Aceptar={handleTermsAccept} PDF={'TERMINOS Y CONDICIONES.pdf'}/>
             </div>
         </div>
     );

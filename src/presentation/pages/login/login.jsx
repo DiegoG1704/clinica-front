@@ -47,10 +47,10 @@ export default function Login({ onLogin }) {
                 <h1 className="tituloLogin">Inicia Sesión</h1>
                 {/* Input de correo */}
                 <div className="input-group">
-                    <label htmlFor="id">Correo</label>
+                    <label htmlFor="id">DNI</label>
                     <InputText
                         id="id"
-                        placeholder="Ingresar correo"
+                        placeholder="Ingresar dni ..."
                         value={correo}
                         onChange={(e) => setCorreo(e.target.value)}
                         disabled={loading}
@@ -72,7 +72,7 @@ export default function Login({ onLogin }) {
                         <Button
                             icon={showPassword ? "pi pi-eye-slash" : "pi pi-eye"}
                             onClick={toggleShowPassword}
-                            className="p-button-secondary"
+                            className="p-button-secondary-Login"
                             disabled={loading}
                         />
                     </div>

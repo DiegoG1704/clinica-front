@@ -23,7 +23,8 @@ export default function ClinicaCards({ Ancho, Alto, Margen, Display, Promociones
                     <Card
                         key={clinica.id}
                         title={clinica.area}
-                        style={{ width: Ancho, height: Alto, marginRight: Margen }}
+                        style={{ width: Ancho, height: Alto, marginRight: Margen}}
+                        className='CardTarifario'
                         header={
                             <div className='flex'>
                                 <img 
@@ -35,10 +36,11 @@ export default function ClinicaCards({ Ancho, Alto, Margen, Display, Promociones
                                         objectFit: 'cover',  // Mantiene la imagen dentro del contenedor sin distorsionarse
                                         objectPosition: 'center', // Asegura que la imagen esté centrada si se recorta
                                     }} 
+                                    className ='logotipo'
                                 />
                                 <div style={{display: 'flex', flexDirection: 'column', margin:'20px'}}>
                                     <span style={{color:'#C4DD26', fontSize:'23px', fontWeight:'bold'}}>{clinica.nombre}</span>
-                                    <p>Somos la red de salud más grande del país y te ofrecemos productos de salud según tu estilo de vida y necesidades.</p>
+                                    <p className='reseña'>Somos la red de salud más grande del país y te ofrecemos productos de salud según tu estilo de vida y necesidades.</p>
                                     <div style={{margin:'10px',display:'flex',flexDirection:'column'}}>
                                         <span style={{fontWeight:'bold', fontSize:'15px'}}>Telefono:</span>
                                         <span>{clinica.telefonos}</span>

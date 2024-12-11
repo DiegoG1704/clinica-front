@@ -1,0 +1,124 @@
+/* src/css/AdminPanel.css */
+
+/* General layout */
+.admin-panel-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .admin-title {
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .admin-card {
+    padding: 20px;
+    margin: 10px;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .admin-search-input {
+    width: 50%;
+    height: 4rem;
+    border-radius: 15px;
+  }
+  
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .affiliate-row {
+    margin: 10px 0;
+  }
+  
+  .p-datatable .p-datatable-tbody > tr > td > .p-column-title {
+    display: none;
+    font-weight: 600;
+  }
+  
+  @media screen and (max-width: 960px) {
+    .p-datatable .p-datatable-thead > tr > th,
+    .p-datatable .p-datatable-tfoot > tr > td {
+      display: none !important;
+    }
+  
+    .p-datatable .p-datatable-tbody > tr > td:not(:last-child) {
+      border: 0 none;
+    }
+  
+    .p-datatable .p-datatable-tbody > tr > td {
+      display: flex;
+      width: 100% !important;
+      align-items: center;
+      justify-content: space-between !important;
+    }
+  
+    .p-datatable .p-datatable-tbody > tr > td > .p-column-title {
+      display: block;
+    }
+  }
+
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .admin-search-input {
+      width: 100%;
+    }
+    .admin-card {
+      width: 90%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .admin-search-input {
+      width: 100%;
+      height: 3rem;
+    }
+    .admin-card {
+      width: 95%;
+    }
+  
+    /* Adjust table columns for smaller screens */
+    .p-datatable {
+      font-size: 14px;
+    }
+  
+    .p-datatable .p-column {
+      white-space: nowrap;
+      padding: 8px;
+    }
+  
+    .p-datatable-header {
+      font-size: 1rem;
+    }
+  }
+  
+  .p-datatable .p-datatable-tbody > tr > td > .p-column-title {
+  display: none;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 960px) {
+  .p-datatable .p-datatable-thead > tr > th,
+  .p-datatable .p-datatable-tfoot > tr > td {
+    display: none !important;
+  }
+
+  .p-datatable .p-datatable-tbody > tr > td:not(:last-child) {
+    border: 0 none;
+  }
+
+  .p-datatable .p-datatable-tbody > tr > td {
+    display: flex;
+    width: 100% !important;
+    align-items: center;
+    justify-content: space-between !important;
+  }
+
+  .p-datatable .p-datatable-tbody > tr > td > .p-column-title {
+    display: block;
+  }
+}
