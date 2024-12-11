@@ -14,7 +14,7 @@ class CreateUser {
                     const user = await this.userRepository.createUser(userData);
                     return { success: true, data: user };
                 }
-                return { success: false, error: isValidPassword?.errors };
+                return { success: false, otherError: isValidPassword?.errors };
 
             } else {
                 return { success: false, error: isValid?.errors };
@@ -22,9 +22,9 @@ class CreateUser {
         } catch (error) {
             console.error("error",error)
             if(error?.status){
-                return { success: false, error: [error?.response?.data] };
+                return { success: false, otherError: [error?.response?.data] };
             }
-            return { success: false, error: [error] };
+            return { success: false, otherError: [error] };
         }
     }
 }

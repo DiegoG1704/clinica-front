@@ -34,14 +34,15 @@ class UserMapper {
             nombres: user.nombres,
             apellidos: user.apellidos,
             direccion: user.direccion,
-            estadoCivil: user.estadoCivil,
+            estado_civil: user.estadoCivil,
             fechNac: fechaNacimiento,
             correo: user.correo,
             contraseña: user.contraseña,
             telefono: user.telefono,
             rol_id: user.rol_id, // Asegúrate de usar el nombre correcto aquí
             fotoPerfil: user.fotoPerfil,
-            clinica_id: user.clinica_id // Asegúrate de usar el nombre correcto aquí
+            clinica_id: user.clinica_id, // Asegúrate de usar el nombre correcto aquí
+            "codigo2":user?.codigoPromotor
         };
     }
 }

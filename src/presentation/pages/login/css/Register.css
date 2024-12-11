@@ -3,9 +3,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+   
     background-color: #f7f7f7;
-    padding: 0 20px; /* Añadir un poco de padding lateral */
+    padding: 30px 20px; /* Añadir un poco de padding lateral */
     position: relative;
 }
 
@@ -14,9 +14,10 @@
     max-width: 700px; /* Limitar el ancho máximo */
     padding: 30px;
     background-color: white;
-    border-radius: 8px;
+    border-radius: 28px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    height: auto;
 }
 
 .register-title {
@@ -133,6 +134,42 @@ background-color: black; /* Color de fondo cuando está seleccionado */
     position: relative;
     right: 4px;
     border-radius: 0px 9px 9px 0px;
+}
+.message-document{
+    background-color: #d1f09e;
+    color: #4e780c;
+    margin-top: 5px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+.message-document span{
+    color: #3e5519;
+    font-weight: 600;
+}
+.terminosLink{
+    font-weight: 500;
+    cursor: pointer;
+}
+.terminosLink:hover{
+    
+    text-decoration: underline black;
+}
+.message-error{
+    margin: 5px 0px 2px 9px;
+    color:rgb(243, 18, 96);
+    font-size: 14px;
+} 
+.input-error {
+    border-color:rgb(243, 18, 96)!important;
+  
+}
+.input-error input  {
+    border-color:rgb(243, 18, 96)!important;
+  
+}
+.label-error{
+    color: rgb(243, 18, 96);;
 }
 /* Media Queries para Responsividad */
 @media (max-width: 768px) {

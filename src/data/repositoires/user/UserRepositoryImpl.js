@@ -18,7 +18,7 @@ class UserRepositoryImpl extends UserRepository {
     async createUser(user) {
         const userData = UserMapper.toData(user); // Convierte el User a formato de datos
         console.log("to-dat", userData)
-        const createdUserData = await this.adapter.post('CreateUsuario', userData); // Llama a la API
+        const createdUserData = await this.adapter.post('UserCode', userData); // Llama a la API
         return UserMapper.toDomain(createdUserData);
     }
 
