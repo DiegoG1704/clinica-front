@@ -10,22 +10,22 @@ import { Toast } from 'primereact/toast';
 import "./registerU.css";
 import { useAuth } from '../../context/AuthContext/AuthContext';
 import { showToast, showToastWithErrors } from '../../utils/showToast';
+import AxiosAdapter from '../../../core/adapters/http/axios.adapter';
 
 export default function Registro({ userData }) {
     const toast = useRef(null);
-    const [nombreUsuario, setNombreUsuario] = useState("");
     const [correo, setCorreo] = useState("");
     const [telefono, setTelefono] = useState("");
     const [contraseña, setContraseña] = useState("");
     const [confirmarContraseña, setConfirmarContraseña] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const [civilStatus, setCivilStatus] = useState(null);
+    const [codigo2, setCodigo2] = useState("");
     const [checked, setChecked] = useState(false);
     const [visible, setVisible] = useState(false);
     const [showPromoterCode, setShowPromoterCode] = useState(false);
     const navigate = useNavigate();
     const { RegisterUser } = useAuth()
-
+    console.log('usuario',userData);
     useEffect(() => {
         // Clear the form when the component mounts
         setCorreo("");
@@ -50,33 +50,57 @@ export default function Registro({ userData }) {
         setVisible(false);
     };
 
+    const validateForm = () => {
+        if (!correo || !telefono || !contraseña || !confirmarContraseña) {
+            showToast("error", "Error", "Todos los campos son obligatorios", toast);
+            return false;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(correo)) {
+            showToast("error", "Error", "Ingrese un correo válido", toast);
+            return false;
+        }
+        if (contraseña.length < 8) {
+            showToast("error", "Error", "La contraseña debe tener al menos 8 caracteres", toast);
+            return false;
+        }
+        if (contraseña !== confirmarContraseña) {
+            showToast("error", "Error", "Las contraseñas no coinciden", toast);
+            return false;
+        }
+        if (!checked) {
+            showToast("error", "Error", "Debe aceptar los términos y condiciones", toast);
+            return false;
+        }
+        return true;
+    };
+    
     const handleRegister = async () => {
+        if (!validateForm()) return;
         const newUser = {
             ...userData,
             correo,
             contraseña,
             telefono,
-            rol_id: 4,
-            fotoPerfil: null,
-            clinica_id: 1,
-            aceptarPoliticas: checked,
-            confirmarContraseña: confirmarContraseña
+            rol_id: 6,
+            codigo2
         };
         try {
-            const response = await RegisterUser(newUser)
+            //const response = await RegisterUser(newUser)
+            const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}UserCode`,newUser)
             console.log("respon", response)
-            if (response?.success) {
-                showToast("success","Éxito",'Usuario creado correctamente',toast)
-                navigate('/login'); // Navigate to the next page
-            }else{
-                showToastWithErrors("error","Error al registrar usuario",response?.error,toast)
-
-            }
-
+            showToast("success","Éxito",'Usuario creado correctamente',toast)
+            navigate('/login'); // Navigate to the next page
+            // if (response?.success) {
+            //     showToast("success","Éxito",'Usuario creado correctamente',toast)
+            //     navigate('/login'); // Navigate to the next page
+            // }else{
+            //     showToastWithErrors("error","Error al registrar usuario",response?.error,toast)
+            // }
         } catch (error) {
-
+            showToast("error", "Error", "No se pudo registrar el usuario", toast);
+            console.error(error);
         }
-
     };
 
     return (
@@ -172,13 +196,12 @@ export default function Registro({ userData }) {
                         <label htmlFor="codigoPromotor">Código de Promotor</label>
                         <InputText
                             id="codigoPromotor"
-                            value={telefono} // Puedes cambiar esto por el estado adecuado
-                            onChange={(e) => setTelefono(e.target.value)} // Puedes usar otro estado para el código del promotor si lo prefieres
+                            value={codigo2} // Puedes cambiar esto por el estado adecuado
+                            onChange={(e) => setCodigo2(e.target.value)} // Puedes usar otro estado para el código del promotor si lo prefieres
                             placeholder="Ingresa Codigo de Promotor..."
                         />
                     </div>
                 )}
-
 
                 {/* Checkbox para aceptar términos */}
                 <div className="checkbox-custom">

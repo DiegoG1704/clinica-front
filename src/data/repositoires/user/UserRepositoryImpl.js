@@ -50,8 +50,8 @@ class UserRepositoryImpl extends UserRepository {
         let response = { success: false, data: {}, error: [] }
         try {
             const usersData = await this.adapter.get(`me`);
-        
-           
+
+
             response = { success: true, data: UserMapper.toDomain(usersData), error: [] }
 
         } catch (error) {
@@ -66,8 +66,8 @@ class UserRepositoryImpl extends UserRepository {
         let response = { success: false, data: {}, error: [] }
         try {
             const data = await this.adapter.post(`logout`);
-        
-            response = { success: true, data:{message:"Saliendo"}, error: [] }
+
+            response = { success: true, data: { message: "Saliendo" }, error: [] }
 
         } catch (error) {
             response = { ...response, error: [error?.response?.message] }
@@ -77,6 +77,36 @@ class UserRepositoryImpl extends UserRepository {
 
 
     }
+    async changePassword(datos, id) {
+        let response = { success: false, data: {}, error: [] }
+        try {
+            const data = await this.adapter.put(`NewPasword/${id}`, datos);
+            console.log("staabaa", data)
+            response = { success: true, data: { message: "success" }, error: [] }
+
+        } catch (error) {
+            console.log("esto es", error)
+            response = { ...response, error: [{ message: error?.response?.data?.message }] }
+
+        }
+        return response
+
+    }
+    async updateGeneralData(datos, id) {
+        const userData = UserMapper.toData(datos);
+        try {
+            const updatedUserData = await this.adapter.put(`configUser/${id}`, userData);
+            return { success: true }
+
+        } catch (error) {
+
+            return { success: false, error: error?.response?.data }
+
+        }
+
+    }
+
+
 }
 
 export default UserRepositoryImpl;

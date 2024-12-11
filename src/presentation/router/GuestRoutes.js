@@ -9,7 +9,6 @@ export const GuestRoutes = ({ onLogin, handleDatos, user, setUser, Datos }) => {
             <Routes>
                 <Route path="/login" element={<Login onLogin={onLogin} />} />
                 <Route path="/Register" element={<Register onNext={handleDatos} />} />
-                <Route path="/DatosU" element={<RegisterU userData={Datos} />} />
                 <Route path='/' element={<Afiliados idUsuario={user} setIdUsuario={setUser} />} />
                 <Route path='*' element={<Navigate to="/" />} />
             </Routes>

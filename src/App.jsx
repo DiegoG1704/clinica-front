@@ -19,6 +19,7 @@ function App() {
     history.location = useLocation();
     history.backHome = () => {
         setIsAuthenticated(false)
+        setUser(null)
         // history.navigate("/login")
     }
     const toggleSidebar = () => {

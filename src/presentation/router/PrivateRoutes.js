@@ -16,19 +16,25 @@ import SubAdmin from '../pages/VistaAdmin/SubLocales/SubAdmin';
 import Login from '../pages/login/login';
 import PromocionesAdmin from '../pages/VistaAdmin/Promociones/PromocionesAdmin';
 import { PromocionProvider } from '../context/PromocionesContext/PromocionContext';
-
+import { ConfiguracionProvider } from '../context/ConfiguracionContext/ConfiguracionContext';
+import RestringedPage from '../pages/Restringed/RestringedPage';
+import Tarifario from '../components/Afiliados/Tarifario';
+import { SubAdminProvider} from '../context/SubAdministradores/SubAdministradorContext';
 const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin }) => {
     console.log('problem', router)
 
     const componentMap = {
         "Home": <Home />,
         "Admin": <Admin />,
-        "Afiliados": <Admin />,
-        "SubAdmin": <SubAdmin />,
+        "Usuarios": <Admin />,
+        "Afiliados": <SubAfiliados/>,
+        "SubAdmin": <SubAdminProvider><SubAdmin /></SubAdminProvider>,
         "SubAfiliados": <SubAfiliados UserId={idUsuario} />,
         "SubLocal": <SubLocalProvider><SubLocales /></SubLocalProvider>,
-        "Promos": <PromocionProvider><PromocionesAdmin /></PromocionProvider>,
-        "PromocionesLocales": <PromocionesLocales />,
+        "Tarifarios": <PromocionProvider><PromocionesAdmin /></PromocionProvider>,
+        "Tarifas": <PromocionesLocales />,
+        "RestrictedAccess":<RestringedPage/>,
+        "TarifasClinicas": <Tarifario/>,
         "Configuraciones": <Configuraciones />,
         "Clinicas": <ClinicaProvider><ClinicaPage /></ClinicaProvider>,
     };
@@ -52,7 +58,7 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
                             element={componentMap[route.nombre] || null}
                         />
                     ))}
-                    <Route path='/Configuraciones' element={<Configuraciones />} />
+                    <Route path='/Configuraciones' element={ <ConfiguracionProvider><Configuraciones /></ConfiguracionProvider>} />
                     {!isAuthenticated ? (
                         <Route path="/login" element={<Login onLogin={onLogin} />} />
                     ) : <Route

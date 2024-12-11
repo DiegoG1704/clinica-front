@@ -8,7 +8,7 @@ export default class ZodUserAdminValidator extends UserValidator {
         // Esquema de Zod para validar todos los datos del usuario
         this.userSchema = z.object({
             correo: z.string().email({ message: 'Correo no es válido' }),
-            contraseña: z.string().min(8, { message: 'La contraseña debe tener al menos 8 caracteres' }),
+            contraseña: z.string({ message: 'Ingresar contraseña' }).min(8, { message: 'La contraseña debe tener al menos 8 caracteres' }),
             nombres: z.string().min(3, { message: 'El nombre debe tener al menos 3 caracteres' }),
             apellidos: z.string().min(3, { message: 'El apellido debe tener al menos 3 caracteres' }),
             dni: z.string().length(8, { message: 'El DNI debe tener 8 dígitos' }),

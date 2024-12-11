@@ -8,7 +8,7 @@ import { Toast } from 'primereact/toast';
 import { showToast, showToastWithErrors } from '../../utils/showToast';
 
 export default function Login({ onLogin }) {
-    const [correo, setCorreo] = useState("");   
+    const [correo, setCorreo] = useState("");
     const [contraseña, setContraseña] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -22,11 +22,9 @@ export default function Login({ onLogin }) {
         try {
             const response = await onLogin(correo, contraseña);
             if (response?.success) {
-                
                 navigate(response?.data?.rutas?.[0]?.ruta);
-                
             } else {
-                 showToastWithErrors("error","Error al iniciar Sesión",response?.error,toastRef)
+                showToastWithErrors("error", "Error al iniciar Sesión", response?.error, toastRef)
             }
         } catch (error) {
             console.log(error)
@@ -34,18 +32,17 @@ export default function Login({ onLogin }) {
             setLoading(false);
         }
     };
-
     return (
         <div className="login-container">
             <Toast ref={toastRef} />
-                <Button
-                    icon="pi pi-chevron-left"
-                    className="back-button"
-                    onClick={() => navigate('/')}
-                    aria-label="Retroceder"
-                />
+            <Button
+                icon="pi pi-chevron-left"
+                className="back-button"
+                onClick={() => navigate('/')}
+                aria-label="Retroceder"
+            />
             <div className="login-left">
-                
+
                 {/* Columna izquierda con el formulario */}
                 <h1 className="tituloLogin">Inicia Sesión</h1>
                 {/* Input de correo */}

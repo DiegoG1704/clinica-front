@@ -70,6 +70,7 @@ export default function ClinicaCards({ Ancho, Alto, Margen, Display, Promociones
                 Visible={open} 
                 Close={() => setOpen(false)} 
                 clinica={selectedClinica} // Pasar la clínica seleccionada al componente Tarifas
+                datos={Promociones}
             />
         </div>
     );

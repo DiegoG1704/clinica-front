@@ -28,15 +28,17 @@ export default function Sidebar({ isOpen, toggleSidebar, onLogout }) {
       <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
         <h1><span className='sidebar__logo-icon'>|</span>MAS SALUD</h1>
         <img src={user.fotoPerfil ? `${process.env.REACT_APP_API_BASE_URL}uploads/${user.fotoPerfil}` : fotoperfil} alt='' />
-        <h2>{user.nombres}</h2>
-        <h3>{user.rolId}</h3>
+        <h2>{user?.nombres}</h2>
+        <h3>{user?.rol}</h3>
         <ul className="sidebar-menu">
-          {user.rutas.map((rut, index) => (
-            <li key={index} onClick={() => navigate(rut.ruta)}>
-              <i className={rut.logo} style={{ fontSize: '20px' }} />
-              {isOpen && <span style={{ fontSize: '14px' }}>{rut.nombre}</span>}
-            </li>
-          ))}
+          {user.rutas.map((rut, index) =>
+            rut.ruta !== '/RestrictedAccess' ? ( // Excluye solo la ruta deseada
+              <li key={index} onClick={() => navigate(rut.ruta)}>
+                <i className={rut.logo} style={{ fontSize: '20px' }} />
+                {isOpen && <span style={{ fontSize: '14px' }}>{rut?.nombre}</span>}
+              </li>
+            ) : null // Si coincide, no se renderiza nada
+          )}
           <li onClick={() => navigate('/Configuraciones')}>
             <i className="pi pi-cog" style={{ fontSize: '20px' }} />
             {isOpen && <span style={{ fontSize: '14px' }}>Configuración</span>}

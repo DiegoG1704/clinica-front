@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { User } from "../../../domain/entities/user";
 import FechaValueObject from "../../../domain/ValueObjects/FechaValueObject";
 
@@ -6,8 +7,10 @@ import FechaValueObject from "../../../domain/ValueObjects/FechaValueObject";
 
 class UserMapper {
     static toDomain(data) {
-        console.log("data-en",data)
-        const fechaNacimiento = data.fechNac
+        console.log("data-en", data)
+        const fechaNacimiento = new Date(data.fechNac)
+        console.log("newDate", fechaNacimiento)
+        const rol = Number(data?.rol_id)
         return new User(
             data.id,
             data.correo,
@@ -16,19 +19,30 @@ class UserMapper {
             data.apellidos,
             data.dni,
             data.estadoCivil,
-            data.rol,
+            rol,
             data.afiliadorId,
             data.clinica_id,
             fechaNacimiento,
             data.telefono,
             data.fotoPerfil,
             data.direccion,
-            data.vistas
+            data.vistas,
+            data.estado,
+            data.estadoPr,
+            data.codigo,
+            data.local_id,
+            data.rol
+
         );
     }
     static toData(user) {
-        console.log("dat",user)
-        const fechaNacimiento = new FechaValueObject(user.fechNac).convertirATexto();
+        console.log("dat", user)
+        let fechaNacimiento = user.fechNac
+        if (user.fechNac) {
+            fechaNacimiento = new FechaValueObject(user.fechNac).convertirATexto();
+        }
+
+        // const fechaNacimiento =user.fechNac
         return {
             dni: user.dni,
             nombres: user.nombres,
@@ -42,7 +56,12 @@ class UserMapper {
             rol_id: user.rol_id, // Asegúrate de usar el nombre correcto aquí
             fotoPerfil: user.fotoPerfil,
             clinica_id: user.clinica_id, // Asegúrate de usar el nombre correcto aquí
+<<<<<<< HEAD
             "codigo2":user?.codigoPromotor
+=======
+            local_id: user.local_id,
+
+>>>>>>> fdc669d180a7d0e8398bb475341825fcdee276ee
         };
     }
 }

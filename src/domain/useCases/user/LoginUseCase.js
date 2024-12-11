@@ -3,12 +3,12 @@ export class LoginUseCase {
         this.authRepository = authRepository;
         this.authValidator = authValidator;
     }
-    async execute({ correo, contraseña }) {
+    async execute(data) {
         try {
-            let isValid = this.authValidator?.validateUserData({ correo, contraseña })
+            let isValid = this.authValidator?.validateUserData(data)
             if (isValid?.success) {
-                const user = await this.authRepository.login(correo, contraseña);
-                return { success: true, data: user?.user ,token:user?.token};
+                const user = await this.authRepository.login({dni:data?.dni,contraseña:data?.contraseña});
+                return { success: true, data: user?.user, token: user?.token };
             } else {
                 return { success: false, error: isValid?.errors };
             }
