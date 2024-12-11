@@ -17,7 +17,6 @@ const agruparErrores = (error) => {
   }));
 };
 export default class ZodUserValidator extends UserValidator {
-<<<<<<< HEAD
   constructor() {
     super();
     // Esquema de Zod para validar todos los datos del usuario
@@ -61,31 +60,6 @@ export default class ZodUserValidator extends UserValidator {
       }
       throw error;
 
-=======
-    constructor() {
-        super();
-        // Esquema de Zod para validar todos los datos del usuario
-        
-        this.userSchema = z.object({
-            correo: z.string().email({ message: 'Correo no es válido' }),
-            contraseña: z.string().min(8, { message: 'La contraseña debe tener al menos 8 caracteres' }),
-            nombres: z.string().min(3, { message: 'El nombre debe tener al menos 3 caracteres' }),
-            apellidos: z.string().min(3, { message: 'El apellido debe tener al menos 3 caracteres' }),
-            dni: z.string().length(8, { message: 'El DNI debe tener 8 dígitos' }),
-            estadoCivil: z.string().min(1, { message: "Seleccionar estado civil" }),
-            rol_id: z.number().int({ message: 'El rolId debe ser un número entero' }),
-            afiliadorId: z.number().int().optional(),
-            clinicaId: z.number().int().optional(),
-            fechNac: z.date({ message: 'La fecha de nacimiento debe ser válida' }),
-            telefono: z.string().optional(),
-            direccion: z.string().optional(),
-            rutas: z.array(z.string()).optional(),
-            confirmarContraseña: z.string().min(8, { message: 'Ingresar contraseña de confirmación' }),
-            aceptarPoliticas: z.boolean().refine((value) => value === true, {
-                message: 'Debe aceptar las políticas',
-            })
-        });
->>>>>>> fdc669d180a7d0e8398bb475341825fcdee276ee
     }
 
     // Si hay un error de validación, Zod lanza una excepción
