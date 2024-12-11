@@ -56,7 +56,7 @@ class UserMapper {
             rol_id: user.rol_id, // Asegúrate de usar el nombre correcto aquí
             fotoPerfil: user.fotoPerfil,
             clinica_id: user.clinica_id, // Asegúrate de usar el nombre correcto aquí
-            "codigo2":user?.codigoPromotor
+            "codigo":user?.codigoPromotor
         };
     }
 }
