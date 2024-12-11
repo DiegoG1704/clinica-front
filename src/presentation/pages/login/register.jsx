@@ -44,7 +44,7 @@ export default function Register({ onNext }) {
     confirmarContraseña: "",
     codigoPromotor: "",
     acceptTermns: false,
-    rol_id: 2,
+    rol_id: 5,
   })
 
   const toggleShowPassword = () => {
