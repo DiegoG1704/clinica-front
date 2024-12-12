@@ -77,34 +77,6 @@ export default function Register({ onNext }) {
     setDataRegister({ ...dataRegister, acceptTermns: true })
   };
 
-  // const handleRegister = async () => {
-  //   const newUser = {
-  //     ...userData,
-  //     correo,
-  //     contraseña,
-  //     telefono,
-  //     rol_id: 4,
-  //     fotoPerfil: null,
-  //     clinica_id: 1,
-  //     aceptarPoliticas: checked,
-  //     confirmarContraseña: confirmarContraseña
-  //   };
-  //   try {
-  //     const response = await RegisterUser(newUser)
-  //     console.log("respon", response)
-  //     if (response?.success) {
-  //       showToast("success", "Éxito", 'Usuario creado correctamente', toast)
-  //       navigate('/login'); // Navigate to the next page
-  //     } else {
-  //       showToastWithErrors("error", "Error al registrar usuario", response?.error, toast)
-
-  //     }
-
-  //   } catch (error) {
-
-  //   }
-
-  // };
   const estadoCivilOptions = [
     { label: 'Soltero(a)', value: 'soltero' },
     { label: 'Casado(a)', value: 'casado' },

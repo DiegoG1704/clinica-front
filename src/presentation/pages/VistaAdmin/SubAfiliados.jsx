@@ -12,6 +12,7 @@ import GenerarPDF from '../../components/PDF/GenerarPDF'; // Importamos GenerarP
 
 export default function SubAfiliados({ UserId }) {
   const [afiliados, setAfiliados] = useState([]);
+  const [link, setLink] = useState([]);
   const [filteredAfiliados, setFilteredAfiliados] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [gananciaTotal, setGananciaTotal] = useState(0);
@@ -45,6 +46,15 @@ export default function SubAfiliados({ UserId }) {
     };
   };
 
+  const fetchLink = async () => {
+    try {
+      const response = await apiAdapter.get(`${process.env.REACT_APP_API_BASE_URL}LinkCodigo/${user?.id}`);
+      setLink(response?.link); // Asegurarte de que extraes el enlace correctamente
+    } catch (error) {
+      console.error('Error al obtener el link:', error);
+    }
+  };
+
   useEffect(() => {
     const fetchAfiliados = async () => {
       try {
@@ -60,6 +70,7 @@ export default function SubAfiliados({ UserId }) {
       }
     };
 
+    fetchLink();
     fetchAfiliados();
   }, [UserId]);
 
@@ -92,6 +103,20 @@ export default function SubAfiliados({ UserId }) {
     }
   };
 
+  const copiarLink = async () => {
+    try {
+      if (link) {
+        await navigator.clipboard.writeText(link); // Copiar el link al portapapeles
+        toast.current.show({ severity: 'success', summary: 'Éxito', detail: 'Link copiado exitosamente', life: 3000 });
+      } else {
+        toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'No hay un link para copiar', life: 3000 });
+      }
+    } catch (err) {
+      console.error('Error al copiar el link:', err);
+      toast.current.show({ severity: 'error', summary: 'Error', detail: 'No se pudo copiar el link', life: 3000 });
+    }
+  };
+
   return (
     <>
       <Toast ref={toast} />
@@ -103,8 +128,14 @@ export default function SubAfiliados({ UserId }) {
         <div className="flex justify-content-end align-items-center">
           <Button
             label={user?.codigo}
-            style={{ backgroundColor: "#85C226", borderColor: "#85C226", width: "200px", height: "60px" }}
+            style={{ backgroundColor: "#85C226", borderColor: "#85C226", width: "160px", height: "50px" }}
             onClick={copiarCodigo}
+          />
+          <Button
+            label='Link'
+            icon='pi pi-link'
+            style={{ backgroundColor: "#1A76D1", borderColor: "#1A76D1", width: "160px", height: "50px"}}
+            onClick={copiarLink}
           />
         </div>
       </div>

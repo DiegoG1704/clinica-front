@@ -78,7 +78,7 @@ export default function UserAfiliados() {
         <Divider />
         <div className="flex justify-content-end align-items-center mt-4">
           <Button
-            label="Mejorar Plan"
+            label="Agregar Familiar"
             style={{
               backgroundColor: "#85C226",
               borderColor: "#85C226",
