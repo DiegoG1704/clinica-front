@@ -1,9 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { Toast } from 'primereact/toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import './css/Register.css';
 import { useAuth } from '../../context/AuthContext/AuthContext';
 import { showToast, showToastWithErrors } from '../../utils/showToast';
@@ -13,16 +13,12 @@ import { Dialog } from 'primereact/dialog';
 import TerminosCondiciones from './Register/TerminosCondiciones';
 import CustomDialog from '../../components/Dialog/CustomDialog';
 import InputInteger from '../../components/Inputs/InputNumberInteger/InputInteger';
+import { history } from '../../utils/history';
 
 export default function Register({ onNext }) {
-  const { FindPersonWithDni, validateGeneralData } = useAuth()
+  const { FindPersonWithDni, validateGeneralData, validateCode } = useAuth()
   const toast = useRef(null);
-  const [dni, setDni] = useState('');
-  const [nombres, setnombres] = useState('');
-  const [apellidos, setapellidos] = useState('');
-  const [direccion, setdireccion] = useState('');
-  const [estadoCivil, setestadoCivil] = useState('');
-  const [fechNac, setfechNac] = useState('');
+
 
   const [showPassword, setShowPassword] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -30,6 +26,10 @@ export default function Register({ onNext }) {
   const navigate = useNavigate();
   const { RegisterUser } = useAuth()
   const [errors, setErrors] = useState([])
+  const [searchParams] = useSearchParams();
+  const referralCode = searchParams.get('ref'); // Captura el código de la URL
+  const [disableCode, setDisabledCode] = useState(false)
+  console.log("code", referralCode)
 
   const [dataRegister, setDataRegister] = useState({
     dni: "",
@@ -44,18 +44,24 @@ export default function Register({ onNext }) {
     confirmarContraseña: "",
     codigoPromotor: "",
     acceptTermns: false,
-    rol_id: 5,
+    rol_id: 6,
   })
+  const validateCodeUser = async () => {
+    const response = await validateCode({codigo:referralCode})
+    console.log("response",response)
+    if (response?.success) {
+      setDisabledCode(true)
+      setDataRegister({ ...dataRegister, codigoPromotor: referralCode })
+    } else {
+      history.navigate("/login")
+    }
+  }
+  useEffect(() => {
+    if (referralCode) {
+      validateCodeUser()
+    }
 
-  // useEffect(() => {
-  //   // Clear the form when the component mounts
-  //   setCorreo("");
-  //   setContraseña("");
-  //   setConfirmarContraseña("");
-  //   setTelefono("");
-  //   setChecked(false);
-
-  // }, []);
+  }, []);
   // useEffect(() => {
   //   if (Object.keys(userData).length === 0) {
   //     navigate("/home")
@@ -105,33 +111,10 @@ export default function Register({ onNext }) {
     { label: 'Divorciado(a)', value: 'divorciado' },
     { label: 'Viudo(a)', value: 'viudo' },
   ];
-  // const handleValidateDni = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const dataPerson = await FindPersonWithDni(dni)
-  //     console.log("pe", dataPerson)
-  //     if (dataPerson.success) {
-  //       const { nombres, apellidos } = dataPerson.data;
-  //       setnombres(nombres);
-  //       setapellidos(apellidos);
-  //       showToast("success", 'Éxito', 'Datos encontrados', toast)
-  //     }
-  //     else {
-  //       showToastWithErrors("error", 'Advertencia', dataPerson?.error, toast)
-  //     }
-  //   } catch (error) {
-  //     console.log("enre", error)
-  //     showToastWithErrors("error", 'Advertencia', error, toast)
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+
 
 
   const handleSubmit = async () => {
-    // const response = validateGeneralData({ dni, nombres, apellidos, direccion, estadoCivil, fechNac })
-    // console.log("estas", response)
-
     const response = await RegisterUser(dataRegister)
     if (response?.success) {
       showToast("success", "Usuario correctamente", "Se ha creado el usuario correctamente", toast)
@@ -142,7 +125,7 @@ export default function Register({ onNext }) {
       if (response?.otherError?.length > 0) {
         showToastWithErrors("error", 'Error al crear usuario', response?.otherError, toast)
       } else {
-        if (response?.error?.[0]?.campo==="acceptTermns") {
+        if (response?.error?.[0]?.campo === "acceptTermns") {
           showToastWithErrors("error", 'Error al crear usuario', response?.error, toast)
         }
       }
@@ -364,6 +347,7 @@ export default function Register({ onNext }) {
               name='codigoPromotor'
               value={dataRegister?.codigoPromotor} // Puedes cambiar esto por el estado adecuado
               onChange={handleChange} // Puedes usar otro estado para el código del promotor si lo prefieres
+              disabled={disableCode}
               className={`w-full ${hasError("codigoPromotor") ? "input-error" : ""}`}
 
             />

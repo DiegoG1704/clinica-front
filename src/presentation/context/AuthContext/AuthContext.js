@@ -17,6 +17,8 @@ import CreateUser from '../../../domain/useCases/user/CreateUser';
 import getUserByToken from '../../../domain/useCases/user/getUserByToken';
 import Loader from '../../components/Loader/Loader';
 import { LogoutUser } from '../../../domain/useCases/user/LogoutUser';
+import { VerifyCodeUser } from '../../../domain/useCases/user/VerifyCodeUser';
+import ZodValidateUserCode from '../../../data/validators/user/ZodValidateUserCode';
 
 
 // Crear el contexto
@@ -56,7 +58,9 @@ export const AuthProvider = ({ children }) => {
     const [panel, setPanel] = useState(true)
     // LogOut
     const userLogoutUseCase = new LogoutUser(userRepository)
-
+    //Validate code
+    const validateUserCode = new ZodValidateUserCode()
+    const validateUserCodeUseCase = new VerifyCodeUser(userRepository, validateUserCode)
     const login = async (correo, contraseña) => {
         try {
             const loggedInUser = await loginUseCase.execute({ "dni": correo, "contraseña": contraseña });
@@ -169,6 +173,12 @@ export const AuthProvider = ({ children }) => {
         }
 
     }
+    const validateCode = async (data) => {
+        const response = await validateUserCodeUseCase.execute(data)
+        return response
+    }
+
+
     // const getAllVistas = () => {
     //     getAllVistasUseCase.execute(user?.id)
     // }
@@ -190,7 +200,7 @@ export const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider value={{
             user, setUser, login, logout, isAuthenticated, Datos, setDatos, FindPersonWithDni,
-            validateGeneralData, RegisterUser, setIsAuthenticated, isUserAuthenticated, getUser
+            validateGeneralData, RegisterUser, setIsAuthenticated, isUserAuthenticated, getUser,validateCode
 
         }}>
             {children}

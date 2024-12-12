@@ -105,6 +105,16 @@ class UserRepositoryImpl extends UserRepository {
         }
 
     }
+    async verifyCodeUser(code) {
+        try {
+            const response = await this.adapter.post(`verificarCodigo`, code);
+            console.log("res",response)
+            return { success: response?.success }
+        } catch (error) {
+            return { success: false, error: error?.response?.data }
+        }
+
+    }
 
 
 }
