@@ -130,7 +130,6 @@ export default function SubAdmin() {
           </div>
         )}
 
-
       </main>
 
       <CreateSubAdmin
@@ -142,8 +141,6 @@ export default function SubAdmin() {
         dataLocales={state?.locales}
         subAdminData={state?.subAdmin}
         findDoc={ploc.findDoc}
-
-
       />
       <EditSubAdmin
         visible={state.openDialogEdit}
@@ -158,7 +155,7 @@ export default function SubAdmin() {
       />
       <DeleteSubAdmin
         visibles={state.openDialogDelete}
-        close={()=>{  ploc.closeDialogDelete();}}
+        close={() => { ploc.closeDialogDelete(); }}
         // actualizar={fetchSubAdmin}
         Data={editData}
       ></DeleteSubAdmin>

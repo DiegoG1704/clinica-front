@@ -15,9 +15,9 @@ export default class ZodSubAdminValidator extends UserValidator {
             dni: z.string().length(8, { message: 'El DNI debe tener 8 dígitos' }),
             // rol_id: z.number({ message: 'Seleccionar rol' }).int({ message: 'Seleccionar rol' }),
             clinicaId: z.number().int().optional(),
-            fechNac: z.date({ message: 'La fecha de nacimiento debe ser válida' }),
-            telefono: z.string().optional(),
-            direccion: z.string().optional(),
+            // fechNac: z.date({ message: 'La fecha de nacimiento debe ser válida' }),
+            // telefono: z.string().optional(),
+            // direccion: z.string().optional(),
             confirmPassword: z.string({message:"Confirmar contraseña"}).min(8, { message: 'Ingresar contraseña de confirmación' }),
             local_id: z.number({ message: 'Seleccionar local' }).int({ message: 'Seleccionar local' })
         });

@@ -129,7 +129,7 @@ export default function CreateSubAdmin({ visible, close, actualizar, fnCreate, h
             </div>
 
             {/* Teléfono */}
-            <div className="input-group">
+            {/* <div className="input-group">
               <label htmlFor="telefono">Teléfono</label>
 
               <div className="input-button-group">
@@ -145,9 +145,9 @@ export default function CreateSubAdmin({ visible, close, actualizar, fnCreate, h
                 />
 
               </div>
-            </div>
+            </div> */}
             {/* Fecha de Nacimiento */}
-            <div className="input-group">
+            {/* <div className="input-group">
               <label htmlFor="fechNac">Fecha de Nacimiento</label>
               <div className="input-button-group">
                 <Calendar
@@ -163,11 +163,11 @@ export default function CreateSubAdmin({ visible, close, actualizar, fnCreate, h
 
                 />
               </div>
-            </div>
+            </div> */}
 
 
             {/* Dirección */}
-            <div className="input-group">
+            {/* <div className="input-group">
               <label htmlFor="direccion">Dirección</label>
               <div className="input-button-group">
                 <InputText
@@ -178,7 +178,7 @@ export default function CreateSubAdmin({ visible, close, actualizar, fnCreate, h
                   onChange={handleChange}
                 />
               </div>
-            </div>
+            </div> */}
 
           </div>
         </div>
