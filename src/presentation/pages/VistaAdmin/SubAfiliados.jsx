@@ -122,7 +122,7 @@ export default function SubAfiliados({ UserId }) {
       <Toast ref={toast} />
       <div className="flex">
         <div className="flex-1 p-2">
-          <h1>Lista de Afiliados</h1>
+          <h1>Lista de promotores</h1>
           <Divider />
         </div>
         <div className="flex justify-content-end align-items-center">

@@ -124,7 +124,8 @@ export const ClinicaProvider = ({ children }) => {
 
     const findDataByRuc = async () => {
         const response = await FindDataByDocUseCase.execute(clinica?.ruc)
-        console.log("")
+        
+        console.log("daa",response)
         if (response?.success) {
             setClinica({ ...clinica, nombre: response?.data?.nombres, direccion: response?.data?.direccion,distrito:response?.data?.distrito })
         }

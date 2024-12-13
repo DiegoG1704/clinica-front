@@ -68,7 +68,7 @@ export default function Tarifario() {
                 {user?.rol === "Usuario" && (
                     <div className="flex justify-content-end align-items-center mt-4">
                         <Button
-                            label="Mejorar Plan"
+                            label="Convertirme Promotor"
                             style={{
                                 backgroundColor: "#85C226",
                                 borderColor: "#85C226",

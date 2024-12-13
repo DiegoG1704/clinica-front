@@ -6,13 +6,14 @@ export default class ApisPeruAdapter   {
         this.token=token
     }
     async get(dni) {
-        let uriRequest=`dni/${dni}?token=${this.token}`
+        // dni/simple?document={document}&key={cGVydWRldnMucHJvZHVjdGlvbi5maXRjb2RlcnMuNjc1OWM1MWU5ZmE0MTczZjYxMzIwNTY0}
+        let uriRequest=`dni/simple?document=${dni}&key=${this.token}`
         const response = await this.fetcher.get(uriRequest);
       
         return response;
     }
     async getRUC(ruc) {
-        let uriRequest=`ruc/${ruc}?token=${this.token}`
+        let uriRequest=`ruc?document=${ruc}&key=${this.token}`
         const response = await this.fetcher.get(uriRequest);
         return response;
     }

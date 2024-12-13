@@ -1,9 +1,11 @@
-export default class PersonByRucMapper{
+export default class PersonByRucMapper {
     static toData(data) {
+        console.log("asasa", data)
         return {
-            ruc:data?.ruc,
-            nombres:data?.razonSocial,
-            direccion:data?.direccion
+            ruc: data?.id,
+            nombres: data?.razon_social,
+            direccion: data?.direccion,
+            distrito: data?.distrito
         };
     }
 }
