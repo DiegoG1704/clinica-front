@@ -11,6 +11,7 @@ import { useAuth } from './presentation/context/AuthContext/AuthContext';
 import PrivateRoutes from './presentation/router/PrivateRoutes';
 import { GuestRoutes } from './presentation/router/GuestRoutes';
 import { history } from './presentation/utils/history';
+import configurePrimeReact from './presentation/config/local';
 
 
 function App() {
@@ -28,9 +29,11 @@ function App() {
     };
 
 
+
     useEffect(() => {
         console.log("isAuthenticated in App.jsx:", isAuthenticated); // Para depurar el estado
     }, [isAuthenticated]);
+    configurePrimeReact()
 
 
     // // Function to handle the login and update the user state

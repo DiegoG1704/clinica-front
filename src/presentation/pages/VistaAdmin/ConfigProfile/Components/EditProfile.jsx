@@ -130,7 +130,7 @@ const EditProfile = ({ user ,getUser}) => {
                         <label htmlFor="telefono">Teléfono</label>
 
                         <div className="input-button-group">
-                            <InputInteger
+                            <InputText
                                 id="telefono"
                                 name="telefono"
                                 placeholder='Ingresa telefono...'
@@ -139,7 +139,7 @@ const EditProfile = ({ user ,getUser}) => {
 
                                 maxLength={11}
                                 className={"w-full"}
-                                containerClass={"w-full"}
+                                keyfilter="int"
                             />
 
                         </div>

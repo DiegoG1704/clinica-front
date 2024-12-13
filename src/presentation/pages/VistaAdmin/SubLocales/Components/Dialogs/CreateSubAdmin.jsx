@@ -30,18 +30,18 @@ export default function CreateSubAdmin({ visible, close, actualizar, fnCreate, h
     } else {
       showToast("success", "Busqueda correcta", "Datos encontrados correctamente", toast)
     }
-   
+
   };
 
   const handleSubmit = async () => {
-    const response=await fnCreate()
-    console.log("res",response)
-    if(!response?.success){
-      showToastWithErrors("error","Error al crear usuario",response?.error,toast)
-    }else{
-      showToast("success","Usuario creado correctamente","Se ha creado el usuario correctamente",toast)
+    const response = await fnCreate()
+    console.log("res", response)
+    if (!response?.success) {
+      showToastWithErrors("error", "Error al crear usuario", response?.error, toast)
+    } else {
+      showToast("success", "Usuario creado correctamente", "Se ha creado el usuario correctamente", toast)
     }
-  
+
   };
 
   const today = new Date();
@@ -77,7 +77,7 @@ export default function CreateSubAdmin({ visible, close, actualizar, fnCreate, h
             <div className="input-group">
               <label htmlFor="dni">DNI</label>
               <div className="input-button-group">
-                <InputInteger
+                <InputText
                   id="dni"
                   name="dni"
                   value={subAdminData.dni}
@@ -85,7 +85,8 @@ export default function CreateSubAdmin({ visible, close, actualizar, fnCreate, h
                   placeholder="Ingresa el DNI ..."
                   maxLength={8}
                   className={"w-full"}
-                  containerClass={"w-full"}
+                  keyfilter="int"
+                  // containerClass={"w-full"}
                 />
                 <Button
                   label={loading ? 'Validando...' : 'Validar'}

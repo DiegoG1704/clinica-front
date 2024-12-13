@@ -22,8 +22,11 @@ const ClinicaItem = ({ Next }) => {
                             placeholder="Ingresar  RUC"
                             maxLength={11}
                         /> */}
-                        <InputInteger placeholder={"Ingresar RUC"} className="w-full" containerClass="w-full"
-                            onChange={(e)=>{e.target.name="ruc";;handleChangeClinica(e)}} maxLength={11} minLength={1} value={clinica?.ruc} />
+                        <InputText
+                            placeholder={"Ingresar RUC"} className="w-full" keyfilter="int"
+                            onChange={(e) => { e.target.name = "ruc";; handleChangeClinica(e) }} maxLength={11} minLength={1} value={clinica?.ruc}
+                        />
+                        {/* <InputInteger /> */}
                         <Button
                             className="validate-button"
                             label='Buscar'
@@ -68,7 +71,7 @@ const ClinicaItem = ({ Next }) => {
                             value={clinica?.ubicacion}
                             name="ubicacion"
                             placeholder="Ingresar ubicación"
-                            
+
                             onChange={handleChangeClinica}
                         />
                     </div>
@@ -78,15 +81,16 @@ const ClinicaItem = ({ Next }) => {
                 <div className="input-group">
                     <label htmlFor="ruc">Télefono</label>
                     <div className="input-button-group">
-                        <InputInteger
+                        <InputText
                             value={clinica?.telefono}
                             id="ruc"
                             name="telefono"
                             placeholder="Ingresar télefono"
-                            onChange={(e)=>{e.target.name="telefono";handleChangeClinica(e)}}
-                             className="w-full" containerClass="w-full"
-                             maxLength={9}
-                           
+                            onChange={(e) => { e.target.name = "telefono"; handleChangeClinica(e) }}
+                            className="w-full" 
+                            maxLength={9}
+                            keyfilter="int"
+
                         />
 
                     </div>

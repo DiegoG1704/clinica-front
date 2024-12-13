@@ -28,16 +28,15 @@ export default function CreateAdmin({ Next, Prev, idClinica, onNext, formData })
       <div className="input-group">
         <label htmlFor="dni">DNI</label>
         <div className="input-button-group">
-          <InputInteger
+          <InputText
             value={clinicaAdministrador?.dni}
             name="dni"
             placeholder="Ingresa el DNI"
             maxLength={8}
-            onChange={(e)=>{e.target.name="dni";handleChangeUserAdmin(e)}}
+            onChange={(e) => { e.target.name = "dni"; handleChangeUserAdmin(e) }}
             className={"w-full"}
-            containerClass={"w-full"}
-          
           />
+        
           <Button
             className="validate-button"
             label='Buscar'
@@ -70,7 +69,7 @@ export default function CreateAdmin({ Next, Prev, idClinica, onNext, formData })
             onChange={handleChangeUserAdmin}
 
             placeholder="Ingresa apellidos"
-            
+
           />
         </div>
 

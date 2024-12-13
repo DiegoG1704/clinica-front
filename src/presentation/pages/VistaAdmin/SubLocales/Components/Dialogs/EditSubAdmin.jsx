@@ -75,7 +75,7 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
             <div className="input-group">
               <label htmlFor="dni">DNI</label>
               <div className="input-button-group">
-                <InputInteger
+                <InputText
                   id="dni"
                   name="dni"
                   value={subAdminData.dni}
@@ -83,7 +83,7 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
                   placeholder="Ingresa el DNI ..."
                   maxLength={8}
                   className={"w-full"}
-                  containerClass={"w-full"}
+                  // containerClass={"w-full"}
                 />
                 <Button
                   label={loading ? 'Validando...' : 'Validar'}
@@ -130,7 +130,7 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
               <label htmlFor="telefono">Teléfono</label>
 
               <div className="input-button-group">
-                <InputInteger
+                <InputText
                   id="telefono"
                   name="telefono"
                   placeholder='Ingresa telefono...'
@@ -138,7 +138,8 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
                   onChange={(e) => { e.target.name = "telefono"; handleChange(e) }}
                   maxLength={11}
                   className={"w-full"}
-                  containerClass={"w-full"}
+                  keyfilter="int"
+                  // containerClass={"w-full"}
                 />
 
               </div>
