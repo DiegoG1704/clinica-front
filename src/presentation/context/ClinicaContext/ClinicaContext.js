@@ -118,21 +118,21 @@ export const ClinicaProvider = ({ children }) => {
     }
 
     const handleChangeUserAdmin = (e) => {
-        console.log("e", clinicaAdministrador)
+     
         setClinicaAdministrador({ ...clinicaAdministrador, [e.target.name]: e.target.value })
     }
 
     const findDataByRuc = async () => {
         const response = await FindDataByDocUseCase.execute(clinica?.ruc)
         
-        console.log("daa",response)
+       
         if (response?.success) {
             setClinica({ ...clinica, nombre: response?.data?.nombres, direccion: response?.data?.direccion,distrito:response?.data?.distrito })
         }
     }
     const createClinica = async () => {
         const response = await createClinicaUseCase.execute({ ...clinica, clinicaAdministrador })
-        console.log("response", response)
+        
         if (response?.success) {
             // setClinica({ ...clinica, id: response?.data })
             cleanData()
@@ -147,7 +147,7 @@ export const ClinicaProvider = ({ children }) => {
     }
     const findDataByDni = async () => {
         const response = await FindDataByDNIUseCase.execute(clinicaAdministrador?.dni)
-        console.log("wwww", response)
+   
         if (response?.success) {
             setClinicaAdministrador({ ...clinicaAdministrador, nombres: response?.data?.nombres, apellidos: response?.data?.apellidos })
         }
@@ -180,13 +180,13 @@ export const ClinicaProvider = ({ children }) => {
         } else {
             isValid = validateUserData(); // Último paso
         }
-        console.log("cur", isValid)
+        // console.log("cur", isValid)
         if (isValid?.success && currentStep < 3) { // Solo avanza si no es el último paso
 
             if (currentStep === 2) {
                 // Llamamos a createClinicaWithAdmin después de la validación de usuario
                 const result = await createClinicaWithAdmin();
-                console.log("holaaasaasas", result)
+
                 if (result?.success) {
                     // Si la creación de la clínica y el usuario fue exitosa, avanzar al siguiente paso
                     hideDialogCreate()
@@ -218,13 +218,13 @@ export const ClinicaProvider = ({ children }) => {
 
     }
     const handleClickEditClinica = (rowData) => {
-        console.log("data", rowData)
+
         setClinica(rowData)
     }
 
     const validateAdminData = () => {
         const response = verifyGeneralData.execute(clinicaAdministrador)
-        console.log("xxx", response)
+
         return response
     }
     const validateUserData = () => {
@@ -283,9 +283,9 @@ export const ClinicaProvider = ({ children }) => {
         cleanDataClinica()
     }
     const handleCLickAdminUser=async(id)=>{
-        console.log("esta",id)
+
         const response=await getUserByClinicaIdUseCase.execute(id)
-        console.log("esta es la respuesta",response)
+
         if(response?.success){
             setCurrentUser(response?.data)
         }

@@ -79,9 +79,9 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         let response = await userLogoutUseCase.execute()
-        console.log("entre2")
+   
         if (response?.success) {
-            console.log("entre")
+    
             // history.navigate("/Configuraciones")
             // window.location.reload();
             // setIsLoggingOut(true);
