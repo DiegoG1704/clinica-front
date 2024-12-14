@@ -56,7 +56,7 @@ export default function Carrousel() {
                     <Button label={product.buttonLabel} className="custom-button" />
                 </div>
                 <div className="image-section">
-                    <img src={product.image} alt={product.highlight} className="doctor-image" />
+                    <img src={product.image} alt={`Imagen destacada de ${product.highlight}`} className="doctor-image" loading="lazy" />
                 </div>
             </div>
         );
