@@ -32,9 +32,13 @@
     margin-bottom: 20px;
 }
 
+.Gruppo{
+    display: flex;
+}
+
 .input-group {
     text-align: left;
-    margin-bottom: 1rem;
+    margin: 1rem;
 }
 
 .input-group label {
@@ -187,5 +191,15 @@ background-color: black; /* Color de fondo cuando está seleccionado */
 
     .validate-button {
         min-width: 80px; /* Ajustar el ancho mínimo del botón */
+    }
+
+    .input-group {
+        text-align: left;
+        margin: 0;
+    }
+
+    .Gruppo{
+        display: flex;
+        flex-direction: column;
     }
 }

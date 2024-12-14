@@ -14,7 +14,6 @@ import TerminosCondiciones from './Register/TerminosCondiciones';
 import CustomDialog from '../../components/Dialog/CustomDialog';
 import InputInteger from '../../components/Inputs/InputNumberInteger/InputInteger';
 import { history } from '../../utils/history';
-import CustomCalendar from '../../components/Calendar/CustomCalendar';
 
 export default function Register({ onNext }) {
   const { FindPersonWithDni, validateGeneralData, validateCode } = useAuth()
@@ -48,8 +47,8 @@ export default function Register({ onNext }) {
     rol_id: 6,
   })
   const validateCodeUser = async () => {
-    const response = await validateCode({ codigo: referralCode })
-    console.log("response", response)
+    const response = await validateCode({codigo:referralCode})
+    console.log("response",response)
     if (response?.success) {
       setDisabledCode(true)
       setDataRegister({ ...dataRegister, codigoPromotor: referralCode })
@@ -142,16 +141,7 @@ export default function Register({ onNext }) {
         <div className="input-group">
           <label htmlFor="dni" className={`${hasError("dni") ? "label-error" : ""}`}>DNI</label>
           <div className="input-button-group">
-            <InputText keyfilter="int" id="dni"
-              name='dni'
-              value={dataRegister?.dni}
-              onChange={(e) => { e.target.name = "dni"; handleChange(e) }}
-              placeholder="Ingresa tu DNI"
-              maxLength={8}
-              className={`w-full ${hasError("dni") ? "input-error" : ""}`}
-              
-               />
-            {/* <InputInteger
+            <InputInteger
               id="dni"
               name='dni'
               value={dataRegister?.dni}
@@ -161,7 +151,7 @@ export default function Register({ onNext }) {
               className={`w-full ${hasError("dni") ? "input-error" : ""}`}
               containerClass={"w-full"}
 
-            /> */}
+            />
 
 
           </div>
@@ -169,7 +159,7 @@ export default function Register({ onNext }) {
           <div className='flex align-items-center message-document'>
             <i className='pi pi-exclamation-circle'></i><p>Ingresa tus <span>nombres</span> y <span>apellidos</span> exactamente como se muestran en tu <span>documento</span>.</p></div>
         </div>
-        <div className="flex">
+        <div className="Gruppo">
           <div className="input-group">
             <label className={`${hasError("nombres") ? "label-error" : ""}`}>Nombres</label>
             <InputText
@@ -210,7 +200,7 @@ export default function Register({ onNext }) {
           />
           <span className='block message-error '>{getMessageError("direccion")}</span>
         </div>
-        <div className="flex">
+        <div className="Gruppo">
           <div className="input-group">
             <label htmlFor="estadoCivil" className={`${hasError("estadoCivil") ? "label-error" : ""}`}>Estado Civil</label>
             <Dropdown
@@ -228,27 +218,18 @@ export default function Register({ onNext }) {
 
           <div className="input-group">
             <label htmlFor="fechNac" className={`${hasError("fechNac") ? "label-error" : ""}`}>Fecha de nacimiento</label>
-            <CustomCalendar
-              showIcon id="fecha_mantenimiento"
+            <Calendar showIcon id="fecha_mantenimiento"
               name='fechNac'
               value={dataRegister?.fechNac}
               onChange={handleChange}
               className={`input-calendar w-full ${hasError("fechNac") ? "input-error" : ""}`}
               placeholder='00/00/0000'
-
             />
-            {/* <Calendar showIcon id="fecha_mantenimiento"
-              name='fechNac'
-              value={dataRegister?.fechNac}
-              onChange={handleChange}
-              className={`input-calendar w-full ${hasError("fechNac") ? "input-error" : ""}`}
-              placeholder='00/00/0000'
-            /> */}
             <span className='block message-error '>{getMessageError("fechNac")}</span>
           </div>
         </div>
 
-        <div className="flex">
+        <div className="Gruppo">
           {/* Correo */}
           <div className="input-group">
             <label className={`${hasError("correo") ? "label-error" : ""}`} htmlFor="correo">Correo</label>
@@ -266,21 +247,20 @@ export default function Register({ onNext }) {
           {/* Teléfono */}
           <div className="input-group">
             <label htmlFor="telefono" className={`${hasError("telefono") ? "label-error" : ""}`}>Teléfono</label>
-            <InputText
+            <InputInteger
               id="telefono"
               value={dataRegister?.telefono}
               name={"telefono"}
               onChange={(e) => { e.target.name = "telefono"; handleChange(e) }}
               placeholder="Ingresa tu teléfono"
               className={`w-full ${hasError("telefono") ? "input-error" : ""}`}
-              keyfilter="int"
             />
             <span className='block message-error '>{getMessageError("telefono")}</span>
             {/* <span>Recomendamos incluír un número telefónico, esto permitira verificar tu cuenta y
                     mantenerte a salvo.</span> */}
           </div>
         </div>
-        <div className="flex">
+        <div className="Gruppo">
           <div className="input-group">
             <label htmlFor="password" className={`${hasError("contraseña") ? "label-error" : ""}`}>Contraseña</label>
             <div className="p-inputgroup">
@@ -297,7 +277,7 @@ export default function Register({ onNext }) {
               <Button
                 icon={showPassword ? "pi pi-eye-slash" : "pi pi-eye"}
                 onClick={toggleShowPassword}
-                className="p-button-secondary"
+                className="p-button-secondary-Login"
               />
             </div>
             <span className='block message-error '>{getMessageError("contraseña")}</span>
@@ -319,7 +299,7 @@ export default function Register({ onNext }) {
               <Button
                 icon={showPassword ? "pi pi-eye-slash" : "pi pi-eye"}
                 onClick={toggleShowPassword}
-                className="p-button-secondary"
+                className="p-button-secondary-Login"
               />
 
             </div>
