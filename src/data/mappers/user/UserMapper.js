@@ -1,4 +1,4 @@
-import { DateTime } from "luxon";
+// import { DateTime } from "luxon";
 import { User } from "../../../domain/entities/user";
 import FechaValueObject from "../../../domain/ValueObjects/FechaValueObject";
 
@@ -41,12 +41,15 @@ class UserMapper {
         if (user.fechNac) {
             fechaNacimiento = new FechaValueObject(user.fechNac).convertirATexto();
         }
+        
+        const nombresLimpios = user.nombres.trim().toUpperCase().replace(/\s+/g, ' ');
+        const apellidosLimpios = user.apellidos.trim().toUpperCase().replace(/\s+/g, ' ');
 
         // const fechaNacimiento =user.fechNac
         return {
             dni: user.dni,
-            nombres: user.nombres,
-            apellidos: user.apellidos,
+            nombres:  nombresLimpios ,
+            apellidos: apellidosLimpios,
             direccion: user.direccion,
             estado_civil: user.estadoCivil,
             fechNac: fechaNacimiento,
