@@ -169,7 +169,7 @@ export default function Register({ onNext }) {
           <div className='flex align-items-center message-document'>
             <i className='pi pi-exclamation-circle'></i><p>Ingresa tus <span>nombres</span> y <span>apellidos</span> exactamente como se muestran en tu <span>documento</span>.</p></div>
         </div>
-        <div className="flex">
+        <div className="Gruppo">
           <div className="input-group">
             <label className={`${hasError("nombres") ? "label-error" : ""}`}>Nombres</label>
             <InputText
@@ -210,7 +210,7 @@ export default function Register({ onNext }) {
           />
           <span className='block message-error '>{getMessageError("direccion")}</span>
         </div>
-        <div className="flex">
+        <div className="Gruppo">
           <div className="input-group">
             <label htmlFor="estadoCivil" className={`${hasError("estadoCivil") ? "label-error" : ""}`}>Estado Civil</label>
             <Dropdown
@@ -248,7 +248,7 @@ export default function Register({ onNext }) {
           </div>
         </div>
 
-        <div className="flex">
+        <div className="Gruppo">
           {/* Correo */}
           <div className="input-group">
             <label className={`${hasError("correo") ? "label-error" : ""}`} htmlFor="correo">Correo</label>
@@ -280,7 +280,7 @@ export default function Register({ onNext }) {
                     mantenerte a salvo.</span> */}
           </div>
         </div>
-        <div className="flex">
+        <div className="Gruppo">
           <div className="input-group">
             <label htmlFor="password" className={`${hasError("contraseña") ? "label-error" : ""}`}>Contraseña</label>
             <div className="p-inputgroup">
@@ -297,7 +297,7 @@ export default function Register({ onNext }) {
               <Button
                 icon={showPassword ? "pi pi-eye-slash" : "pi pi-eye"}
                 onClick={toggleShowPassword}
-                className="p-button-secondary"
+                className="p-button-secondary-Login"
               />
             </div>
             <span className='block message-error '>{getMessageError("contraseña")}</span>
@@ -319,7 +319,7 @@ export default function Register({ onNext }) {
               <Button
                 icon={showPassword ? "pi pi-eye-slash" : "pi pi-eye"}
                 onClick={toggleShowPassword}
-                className="p-button-secondary"
+                className="p-button-secondary-Login"
               />
 
             </div>
