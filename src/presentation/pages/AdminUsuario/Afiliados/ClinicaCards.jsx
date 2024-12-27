@@ -5,9 +5,11 @@ import '../Afiliados/css/ClinicaCards.css';
 import user from '../../../img/sinLogo.png';
 import img from '../../../img/sinImg.png';
 import Tarifas from './Dialog/Tarifas';
+import { useAuth } from '../../../context/AuthContext/AuthContext';
 
 export default function ClinicaCards({ Ancho, Alto, Margen, Display, Promociones, Admin }) {
     const [admin, setAdmin] = useState(Admin); // Estado para admin
+    const {user} = useAuth();
     const [open, setOpen] = useState(false);
     const [selectedClinica, setSelectedClinica] = useState(null); // Estado para almacenar la clínica seleccionada
 
@@ -51,18 +53,20 @@ export default function ClinicaCards({ Ancho, Alto, Margen, Display, Promociones
                             </div>
                         }
                     >
-                        <div className="button-container">
-                            <Button 
-                                label='Tarifas' 
-                                style={{
-                                    width: '200px', 
-                                    background: '#176ABC', 
-                                    borderColor: '#176ABC', 
-                                    color: 'white'
-                                }} 
-                                onClick={() => handleButtonClick(clinica)} // Actualizar clínica seleccionada
-                            />
-                        </div>
+                        {(user?.rol === "Usuario" || user?.rol === "Promotor" || user?.rol === "Sub-Administrador" || user?.rol === "Administrador Local") && (
+                            <div className="button-container">
+                                <Button 
+                                    label='Tarifas' 
+                                    style={{
+                                        width: '200px', 
+                                        background: '#176ABC', 
+                                        borderColor: '#176ABC', 
+                                        color: 'white'
+                                    }} 
+                                    onClick={() => handleButtonClick(clinica)} // Actualizar clínica seleccionada
+                                />
+                            </div>
+                        )}
                     </Card>
                 ))
             ) : (

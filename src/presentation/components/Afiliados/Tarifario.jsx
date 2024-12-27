@@ -65,7 +65,7 @@ export default function Tarifario() {
             <div className="flex flex-column p-4 bg-white shadow-md rounded-lg">
                 <h1 className="text-2xl font-bold text-gray-800 mb-4">Tarifario de las Clínicas</h1>
                 <Divider />
-                {user?.rol === "Usuario" && (
+                {user?.rol === "Usuario" && user?.codigo === null && (
                     <div className="flex justify-content-end align-items-center mt-4">
                         <Button
                             label="Convertirme Promotor"
@@ -110,7 +110,7 @@ export default function Tarifario() {
                 <p><strong>BCP: ADB CONSULTING SAC</strong></p>
                 <p><i className="pi pi-credit-card" style={{ fontSize: '1rem' }}></i> Cuenta Corriente SOLES: <strong>194-2659964-0-21</strong></p>
                 <p><i className="pi pi-credit-card" style={{ fontSize: '1rem' }}></i> CCI Moneda Nacional: <strong>002-19400265996402191</strong></p>
-                {/* <p><i className="pi pi-mobile" style={{ fontSize: '1rem' }}></i> Yape: <strong>920517220</strong></p> */}
+                <p><i className="pi pi-mobile" style={{ fontSize: '1rem' }}></i> Yape: <strong>920517220</strong></p>
 
                 <div className="flex justify-content-center my-4">
                     <Checkbox

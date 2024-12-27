@@ -161,6 +161,7 @@ export default function AdminPanel() {
     { header: 'DNI', field: 'dni' },
     { header: 'Rol', field: 'rol_nombre' },
     { header: 'fecha_inscripcion', field: 'fecha_inscripcion' },
+    { header: 'Codigo', field: 'codigo' },
     { header: 'Estado Usuario', body: statusChangeButton },
     { header: 'Estado Promotor', body: statusChangeButtonPR },
   ];
