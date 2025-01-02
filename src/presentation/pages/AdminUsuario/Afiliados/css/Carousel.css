@@ -66,8 +66,41 @@
     border-radius: 1rem;
 }
 
+.social-buttons {
+    position: absolute;
+    top: 500px; /* Ajusta según la distancia deseada desde la parte superior */
+    right: 20px; /* Ajusta según la distancia deseada desde la derecha */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10; /* Asegura que los botones estén encima del carrusel */
+  }
+  
+  .social-buttons .EnlacesClin {
+    background-color: #1A76D1;
+    border: none;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .social-buttons .EnlacesClin:hover {
+    background-color: #1A76D1; /* Color más oscuro al pasar el cursor */
+    transition: background-color 0.3s ease;
+  }
+  
+
 /* Responsive adjustments */
 @media (max-width: 1024px) {
+    .social-buttons{
+        top: 300px;
+        right: 10px; 
+    }
+
     .custom-carousel-content {
         grid-template-columns: 1fr;  /* Stack text and image in one column */
         height: auto;  /* Remove fixed height to allow more flexibility */
@@ -109,6 +142,11 @@
         width: 100%;
     }
 
+    .social-buttons{
+        top: 400px;
+        right: 10px; 
+    }
+
     .custom-carousel-content {
         grid-template-columns: 1fr;  /* Stack items vertically */
         height: auto;
@@ -147,6 +185,11 @@
 @media (max-width: 480px) {
     .custom-carousel-content {
         grid-template-columns: 1fr;  /* Stack content vertically */
+    }
+
+    .social-buttons{
+        top: 450px;
+        right: 1px; 
     }
 
     .title {

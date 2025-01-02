@@ -8,6 +8,9 @@ import ClinicaCards from './ClinicaCards';
 import axios from 'axios';
 import '../Afiliados/css/Afiliados.css';
 import logo from '../../../img/logo-inicio.png';
+import clinica from '../../../img/clinica.png';
+import arrows from '../../../img/arrows.png';
+import ClinicasCarousel from './componentes/ClinicasCarousel';
 
 export default function Afiliados() {
     const navigate = useNavigate();
@@ -72,14 +75,18 @@ export default function Afiliados() {
                     />
                     <div className="header-actions">
                         <div className="links-container">
+                        <h1><a href='/' className="link">Inicio</a></h1>
+                        <h1><a href='/ConoceMas' className="link">Nosotros</a></h1>
+                        <h1><a href='/Contacto' className="link">Contacto</a></h1>
                             <Button label="Iniciar Sesión" onClick={() => navigate('/login')} className='loguear' />
                         </div>
                     </div>
                 </header>
 
+
                 <Carrousel />
 
-                <section className='buscador'>
+                {/* <section className='buscador'>
                     <p className='text'>Encuentra los mejores descuentos y promociones médicas en un solo lugar</p>
                     <InputText
                         placeholder="Buscar..."
@@ -91,7 +98,70 @@ export default function Afiliados() {
 
                 <section>
                     <ClinicaCards Ancho={'80%'} Alto={'320px'} Margen={'0px'} Promociones={IsoTipo} Admin={false} />
+                </section> */}
+                <ClinicasCarousel datos={IsoTipo}/>
+                <div className="mas-salud-container">
+                {/* Sección superior - slides*/}
+                <section className="hero-section">
+                    <div className="hero-content">
+                        <span className='RedClin'>MásSalud,<br></br> al alcance de todos...</span><br></br>
+                        <Button label='¡Únete ahora!' className='Invitacion'/><br></br>
+                        <span className='oracion'>Conoce cómo se forma la iniciativa MásSalud y nuestra meta con la comunidad</span>
+                    </div>
+                    <div className="hero-video">
+                        <iframe
+                            src="https://www.youtube.com/embed/pKOWVHCfVUk" // Reemplaza [VIDEO_ID] con el ID del video
+                            title="MásSalud Video"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
+                    </div>
                 </section>
+
+                {/* Sección de opciones de usuario */}
+                <section className="options-section">
+                    <span className='title4'>¿Quieres unirte a MásSalud?</span>
+                    <span className="title1">conviértete en...</span>
+                    <div className="options-container">
+                        <div className="option">
+                            <h2>Afiliado</h2>
+                            <p>
+                            Como Afiliado tendrás acceso exclusivo a los <span className="highlight1">precios más competitivos</span> del
+                            mercado de salud privada. Contarás con una red de clínicas a tu respaldo para cualquier emergencia y/o consulta.
+                            </p>
+                        </div>
+                    <div className="option arrows">
+                        <img src={arrows} alt="Flechas" />
+                    </div>
+                    <div className="option">
+                        <h2>Promotor</h2>
+                        <p>
+                        Si eres Promotor de MásSalud podrás acceder al <span className="highlight1">modelo de negocio</span> que está
+                        revolucionando el mercado, no solo precios y servicios exclusivos, además, podrás afiliar a todos tus amigos y
+                        cuidar de su salud.
+                        </p>
+                    </div>
+                    </div>
+                </section>
+
+                {/* Sección de clínicas */}
+                <section className="clinics-section">
+                    <div className="clinics-content">
+                        <div>
+                            <img src={clinica} alt="Clínica" />
+                        </div>
+                        <div className="clinics-info">
+                            <h4>¿Eres una clínica?</h4>
+                            <p>
+                            En MásSalud tenemos espacio para todos y, como parte de nuestra iniciativa estamos siempre en busca de ampliar
+                            nuestra <span className="highlight1">red de clínicas</span>.
+                            </p>
+                            <Button label='¡Únete aqui!' className='Invitacion'/><br></br>
+                        </div>
+                    </div>
+                </section>
+                </div>
 
                 <footer className='Barra'>
                     <div className='Informacion'>
