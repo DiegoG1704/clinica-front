@@ -40,7 +40,7 @@ export default function Informacion() {
                 <span className='oracion'>MásSalud ofrece acceso a precios exclusivos del sector de salud privada. Conectándote con una red de clínicas especializadas y de alta calidad a precios competitivos.
                 <br></br><br></br>Únete a MásSalud y cuida de tú salud y la de tu familia.</span>
                 <br></br>
-                <Button label='¡Únete a MásSalud!' className='Invitacion'/>
+                <Button label='¡Únete a MásSalud!' className='Invitacion' onClick={() => navigate('/Register')}/>
             </div>
         </div>
         <div className='Section2'>
@@ -71,7 +71,7 @@ export default function Informacion() {
                     <span className='oracion'>En MásSalud, nos dedicamos a ofrecerte una plataforma integral donde puedes suscribirte para acceder a descuentos exclusivos en una amplia red de clínicas y centros médicos en todo el país. Además, brindamos la oportunidad a nuestros usuarios de convertirse en Promotores, un rol que les permite ganar comisiones al invitar a otros a unirse a la plataforma. Nos encargamos de todo el proceso, desde la afiliación hasta la gestión de comisiones, asegurando que nuestros usuarios puedan disfrutar de una experiencia sin complicaciones.</span>
                 </div>
             </div>
-            <Button label='¡Únete ahora!' className='Invitacion'/>
+            <Button label='¡Únete ahora!' className='Invitacion' onClick={() => navigate('/Register')}/>
         </div>
         <div className='Section6'>
             <div className='titles'>
@@ -92,7 +92,7 @@ export default function Informacion() {
                             <span className='oracion'>Elige entre cientos de servicios de calidad a precios exclusivos.</span>
                             <span className='oracion'>Selecciona con facilidad la cita y asiste a tu consulta sin ningún problema.</span>
                         </div>
-                        <Button className='Invitacion' label='Únete Ya'/>
+                        <Button className='Invitacion' label='Únete Ya' onClick={() => navigate('/Register')}/>
                     </Card>
 
                     <Card className='card-clinicas'>
@@ -105,7 +105,7 @@ export default function Informacion() {
                             <span className='oracion'>Mayor flujo de usuarios interesados en sus servicios.</span>
                             <span className='oracion'>Reducción de costos de promoción para captar usuarios de los servicios de la Clínica.</span>
                         </div>
-                        <Button className='Invitacion2' label='Únete Ya'/>
+                        <Button className='Invitacion2' label='Únete Ya' onClick={() => navigate('/Contacto')}/>
                     </Card>
 
             </div>

@@ -4,9 +4,12 @@ import { Button } from 'primereact/button';
 import '../Afiliados/css/Carousel.css';                            // Custom styling
 import portada from '../../../img/img.png'
 import portada2 from '../../../img/pixelcut.png'
+import { useNavigate } from 'react-router-dom';
 
 export default function Carrousel() {
     const [products, setProducts] = useState([]);
+    const navigate = useNavigate();
+    
 
     const responsiveOptions = [
         {
@@ -54,7 +57,7 @@ export default function Carrousel() {
                     </span>
                     <span className="highlight">{product.highlight}</span>
                     <p className="description">{product.description}</p>
-                    <Button label={product.buttonLabel} className="custom-button" />
+                    <Button label={product.buttonLabel} className="custom-button" onClick={() => navigate('/ConoceMas')}/>
                 </div>
                 <div className="image-section">
                     <img src={product.image} alt={`Imagen destacada de ${product.highlight}`} className="doctor-image" loading="lazy" />
