@@ -11,7 +11,7 @@ export default function DialogUser({ visible, close, idClinica }) {
 
   const [clinica, setClinica] = useState(null);
   const { currentUser } = useClinica()
-  console.log("current", currentUser)
+ 
 
 
   //   const fetchClinicas = async () => {
@@ -160,14 +160,14 @@ export default function DialogUser({ visible, close, idClinica }) {
             </div>
 
             {/* Fecha de Nacimiento */}
-            <div className="flex flex-column gap-2">
+            {/* <div className="flex flex-column gap-2">
               <div className="input-group">
                 <label htmlFor="fechNac">Fecha de Nacimiento</label>
                 <div className="input-button-group">
                   <InputText
                     id="fechNac"
                     name="fechNac"
-                    value={currentUser?.fechNac ? currentUser?.fechNac.split('T')[0] : ''}
+                    // value={currentUser ? currentUser?.fechNac?.split('T')[0] : ''}
                     disabled={true}
                     style={{backgroundColor:"#5b7626", color:"#fff"}}
                   />
@@ -175,7 +175,7 @@ export default function DialogUser({ visible, close, idClinica }) {
 
               </div>
 
-            </div>
+            </div> */}
 
 
 

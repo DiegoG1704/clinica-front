@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 
@@ -11,12 +11,12 @@ import { showToast, showToastWithErrors } from '../../../../../utils/showToast';
 import CustomDialog from '../../../../../components/Dialog/CustomDialog';
 import InputInteger from '../../../../../components/Inputs/InputNumberInteger/InputInteger';
 import { Password } from 'primereact/password';
-        
+
 
 export default function EditSubAdmin({ visible, close, actualizar, fnCreate, handleChange, dataLocales, subAdminData, findDoc }) {
   const [loading, setLoading] = useState(false);
   const toast = React.useRef(null);
-  console.log("data-now",subAdminData)
+  console.log("data-now", subAdminData)
 
   // Manejo de cambio en el dropdown de Local
 
@@ -28,18 +28,18 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
     } else {
       showToast("success", "Busqueda correcta", "Datos encontrados correctamente", toast)
     }
-   
+
   };
 
   const handleSubmit = async () => {
-    const response=await fnCreate()
-    console.log("res",response)
-    if(!response?.success){
-      showToastWithErrors("error","Error al crear usuario",response?.error,toast)
-    }else{
-      showToast("success","Usuario creado correctamente","Se ha creado el usuario correctamente",toast)
+    const response = await fnCreate()
+    console.log("res", response)
+    if (!response?.success) {
+      showToastWithErrors("error", "Error al crear usuario", response?.error, toast)
+    } else {
+      showToast("success", "Usuario creado correctamente", "Se ha creado el usuario correctamente", toast)
     }
-  
+
   };
 
   const today = new Date();
@@ -83,7 +83,7 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
                   placeholder="Ingresa el DNI ..."
                   maxLength={8}
                   className={"w-full"}
-                  // containerClass={"w-full"}
+                // containerClass={"w-full"}
                 />
                 <Button
                   label={loading ? 'Validando...' : 'Validar'}
@@ -161,7 +161,7 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
 
                 />
               </div>
-            </div>  */}
+            </div> */}
             {/* Dropdown de Local */}
             <div className="input-group">
               <label htmlFor="Local_id">Local</label>
@@ -259,7 +259,6 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
             </div>
 
 
-           
 
 
           </div>

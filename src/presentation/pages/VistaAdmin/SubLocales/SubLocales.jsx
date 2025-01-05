@@ -28,7 +28,7 @@ export default function SubLocales() {
     <div>
       <header className='flex'>
         <div className='flex-1 p-2'>
-          <h1>Bienvenido  a Sublocales</h1>
+          <h1>Bienvenido a Sublocales</h1>
           <Divider />
         </div>
         <div className='flex justify-content-end align-items-center'>

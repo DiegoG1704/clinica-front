@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet'; // Importar react-helmet
 import { Button } from 'primereact/button';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Carrousel from './Carousel ';
 import { InputText } from 'primereact/inputtext';
 import ClinicaCards from './ClinicaCards';
@@ -11,6 +11,9 @@ import logo from '../../../img/logo-inicio.png';
 import clinica from '../../../img/clinica.png';
 import arrows from '../../../img/arrows.png';
 import ClinicasCarousel from './componentes/ClinicasCarousel';
+import Footer from './componentes/home/footer';
+import Header from './componentes/home/header';
+
 
 export default function Afiliados() {
     const navigate = useNavigate();
@@ -66,23 +69,8 @@ export default function Afiliados() {
             </Helmet>
 
 
-            <div className="afiliados-wrapper">
-                <header className="afiliados-container">
-                    <img
-                        src='https://www.massalud.com.pe/img/logo-inicio3.png'
-                        alt="Logo de MásSalud"
-                        className="logo"
-                    />
-                    <div className="header-actions">
-                        <div className="links-container">
-                        <h1><a href='/' className="link">Inicio</a></h1>
-                        <h1><a href='/ConoceMas' className="link">Nosotros</a></h1>
-                        <h1><a href='/Contacto' className="link">Contacto</a></h1>
-                            <Button label="Iniciar Sesión" onClick={() => navigate('/login')} className='loguear' />
-                        </div>
-                    </div>
-                </header>
-
+            <div className="">
+                <Header />
 
                 <Carrousel />
 
@@ -99,79 +87,79 @@ export default function Afiliados() {
                 <section>
                     <ClinicaCards Ancho={'80%'} Alto={'320px'} Margen={'0px'} Promociones={IsoTipo} Admin={false} />
                 </section> */}
-                <ClinicasCarousel datos={IsoTipo}/>
+                <ClinicasCarousel datos={IsoTipo} />
                 <div className="mas-salud-container">
-                {/* Sección superior - slides*/}
-                <section className="hero-section">
-                    <div className="hero-content">
-                        <span className='RedClin'>MásSalud,<br></br> al alcance de todos...</span><br></br>
-                        <Button label='¡Únete ahora!' className='Invitacion' onClick={() => navigate('/Register')}/><br></br>
-                        <span className='oracion'>Conoce cómo se forma la iniciativa MásSalud y nuestra meta con la comunidad</span>
-                    </div>
-                    <div className="hero-video">
-                        <iframe
-                            src="https://www.youtube.com/embed/pKOWVHCfVUk" // Reemplaza [VIDEO_ID] con el ID del video
-                            title="MásSalud Video"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                        ></iframe>
-                    </div>
-                </section>
+                    {/* Sección superior - slides*/}
+                    <section className="hero-section">
+                        <div className="hero-content">
+                            <span className='RedClin'>MásSalud,<br></br> al alcance de todos...</span><br></br>
+                            <Button label='¡Únete ahora!' className='Invitacion' /><br></br>
+                            <span className='oracion'>Conoce cómo se forma la iniciativa MásSalud y nuestra meta con la comunidad</span>
+                        </div>
+                        <div className="hero-video">
+                            <iframe
+                                src="https://www.youtube.com/embed/pKOWVHCfVUk" // Reemplaza [VIDEO_ID] con el ID del video
+                                title="MásSalud Video"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+                    </section>
 
-                {/* Sección de opciones de usuario */}
-                <section className="options-section">
-                    <span className='title4'>¿Quieres unirte a MásSalud?</span>
-                    <span className="title1">conviértete en...</span>
-                    <div className="options-container">
-                        <div className="option">
-                            <h2>Afiliado</h2>
-                            <p>
-                            Como Afiliado tendrás acceso exclusivo a los <span className="highlight1">precios más competitivos</span> del
-                            mercado de salud privada. Contarás con una red de clínicas a tu respaldo para cualquier emergencia y/o consulta.
-                            </p>
+                    {/* Sección de opciones de usuario */}
+                    <section className="options-section">
+                        <span className='title4'>¿Quieres unirte a MásSalud?</span>
+                        <span className="title1">conviértete en...</span>
+                        <div className="options-container">
+                            <div className="option">
+                                <h2>Afiliado</h2>
+                                <p>
+                                    Como Afiliado tendrás acceso exclusivo a los <span className="highlight1">precios más competitivos</span> del
+                                    mercado de salud privada. Contarás con una red de clínicas a tu respaldo para cualquier emergencia y/o consulta.
+                                </p>
+                            </div>
+                            <div className="option arrows">
+                                <img src={arrows} alt="Flechas" />
+                            </div>
+                            <div className="option">
+                                <h2>Promotor</h2>
+                                <p>
+                                    Si eres Promotor de MásSalud podrás acceder al <span className="highlight1">modelo de negocio</span> que está
+                                    revolucionando el mercado, no solo precios y servicios exclusivos, además, podrás afiliar a todos tus amigos y
+                                    cuidar de su salud.
+                                </p>
+                            </div>
                         </div>
-                    <div className="option arrows">
-                        <img src={arrows} alt="Flechas" />
-                    </div>
-                    <div className="option">
-                        <h2>Promotor</h2>
-                        <p>
-                        Si eres Promotor de MásSalud podrás acceder al <span className="highlight1">modelo de negocio</span> que está
-                        revolucionando el mercado, no solo precios y servicios exclusivos, además, podrás afiliar a todos tus amigos y
-                        cuidar de su salud.
-                        </p>
-                    </div>
-                    </div>
-                </section>
+                    </section>
 
-                {/* Sección de clínicas */}
-                <section className="clinics-section">
-                    <div className="clinics-content">
-                        <div>
-                            <img src={clinica} alt="Clínica" />
+                    {/* Sección de clínicas */}
+                    <section className="clinics-section">
+                        <div className="clinics-content">
+                            <div>
+                                <img src={clinica} alt="Clínica" />
+                            </div>
+                            <div className="clinics-info">
+                                <h4>¿Eres una clínica?</h4>
+                                <p>
+                                    En MásSalud tenemos espacio para todos y, como parte de nuestra iniciativa estamos siempre en busca de ampliar
+                                    nuestra <span className="highlight1">red de clínicas</span>.
+                                </p>
+                                <Button label='¡Únete aqui!' className='Invitacion' /><br></br>
+                            </div>
                         </div>
-                        <div className="clinics-info">
-                            <h4>¿Eres una clínica?</h4>
-                            <p>
-                            En MásSalud tenemos espacio para todos y, como parte de nuestra iniciativa estamos siempre en busca de ampliar
-                            nuestra <span className="highlight1">red de clínicas</span>.
-                            </p>
-                            <Button label='¡Únete aqui!' className='Invitacion' onClick={() => navigate('/Contacto')}/><br></br>
-                        </div>
-                    </div>
-                </section>
+                    </section>
                 </div>
 
-                <footer className='Barra'>
+                {/* <footer className='Barra'>
                     <div className='Informacion'>
                         <h2>Sobre Nosotros</h2>
                         <p>Conoce el porqué de nuestra iniciativa y quién la crea. Conoce nuestras redes sociales. Mantente conectado.</p>
                         <div className='iconos'>
-                            <p><i className="pi pi-facebook" style={{ color: 'white'}}></i></p>
-                            <p><i className="pi pi-instagram" style={{ color: 'white'}}></i></p>
-                            <p><i className="pi pi-youtube" style={{ color: 'white'}}></i></p>
-                            <p><i className="pi pi-linkedin" style={{ color: 'white'}}></i></p>
+                            <p><i className="pi pi-facebook" style={{ color: 'white' }}></i></p>
+                            <p><i className="pi pi-instagram" style={{ color: 'white' }}></i></p>
+                            <p><i className="pi pi-youtube" style={{ color: 'white' }}></i></p>
+                            <p><i className="pi pi-linkedin" style={{ color: 'white' }}></i></p>
                         </div>
                     </div>
                     <div className='Link'>
@@ -181,7 +169,8 @@ export default function Afiliados() {
                         <p><i className="pi pi-play" style={{ color: 'white' }}></i>Contacto</p>
                         <p><i className="pi pi-play" style={{ color: 'white' }}></i>Conócenos</p>
                     </div>
-                </footer>
+                </footer> */}
+                <Footer />
             </div>
         </>
     );

@@ -21,9 +21,9 @@
     object-fit: cover; /* Asegura que las imágenes mantengan su proporción */
 }
 .RedClin{
-    font-size: 3rem;
+    font-size: 2.8rem;
     color: #1B4B73;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .carousel-item-overlay {

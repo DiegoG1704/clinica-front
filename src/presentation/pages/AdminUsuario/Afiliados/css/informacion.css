@@ -7,12 +7,14 @@
 
 .title1 {
     font-size: 2.8rem;
+    font-weight: 700;
     color: #85C226;
 }
 
 .title2 {
-    font-size: 3.5rem;
-    font-weight: bold;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #16617c;
 }
 
 .Section1 {
@@ -61,7 +63,9 @@
 }
 
 .title5 {
-    font-size: 2rem;
+    font-size: 2.8rem;
+    font-weight: 700;
+
     color: #85C226;
 }
 
@@ -140,7 +144,6 @@
 .Section7 {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
     gap: 2rem;
 }
 
@@ -154,30 +157,14 @@
 /* Estilo para los cards */
 .card-afiliados,
 .card-clinicas {
-    width: 100%;
-    max-width: 400px;
+    width:80%;
     border-radius: 20px;
     margin: 20px auto;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    margin-left: 15rem;
-    margin-right: 15rem;
 }
-@media (max-width: 1650px) {
-    .card-afiliados, .card-clinicas {
-        width: 100%;
-        margin-left: 10rem;
-        margin-right: 10rem;
-    }
-}
-@media (max-width: 1550px) {
-    .card-afiliados, .card-clinicas {
-        width: 100%;
-        margin-left: 7rem;
-        margin-right: 7rem;
-    }
-}
+
 
 @media (max-width: 1350px) {
     .card-afiliados, .card-clinicas {
@@ -192,7 +179,7 @@
         font-size: 1.8rem;
     }
 
-    .Section1, .Section3, .Section4, .Section7 {
+    .Section1, .Section3, .Section4 {
         flex-direction: column;
         text-align: center;
         align-items: center;
@@ -216,10 +203,8 @@
     }
 }
 
-@media (max-width: 768px) {
-    .title1, .title2, .title3, .title4, .title5 {
-        font-size: 1.4rem;
-    }
+@media (max-width: 850px) {
+
 
     .Section1, .Section3, .Section4, .Section7 {
         flex-direction: column;
@@ -243,18 +228,11 @@
         margin-right: 1rem;
     }
 
-    .oracion {
-        font-size: 15px;
-        width: 100%;
-        margin: 0;
-        line-height: 1.5;
-    }
+
 }
 
 @media (max-width: 480px) {
-    .title1, .title2, .title3, .title4, .title5 {
-        font-size: 1.2rem;
-    }
+
 
     .Section1, .Section3, .Section4, .Section7 {
         flex-direction: column;
@@ -277,9 +255,6 @@
         margin-right: 0;
     }
 
-    .oracion {
-        font-size: 14px;
-    }
 
     .titles1 {
         padding: 1.5rem;
