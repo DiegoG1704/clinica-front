@@ -56,13 +56,13 @@ export default function CreateSubAdmin({ visible, close, actualizar, fnCreate, h
   const footerTemplate = () => (
     <div className="dialog-footer flex justify-content-end" style={{ marginTop: '5px' }}>
       <Button
-        style={{ margin: '5px', background: '#85C226', borderColor: '#85C226', }}
-        label="Cerrar"
+        className="bg-white border-none shadow-none" style={{ color: "#85C226" }}
+        label="Cancelar"
         onClick={close} />
       <Button
-        label="Crear"
+        label="Crear SubAdmin"
         onClick={handleSubmit}
-        style={{ margin: '5px', background: '#85C226', borderColor: '#85C226' }}
+        className=" border-none shadow-none" style={{ color: "#fff", backgroundColor: "#85C226" }}
         disabled={loading} />
     </div>
   )
@@ -125,6 +125,26 @@ export default function CreateSubAdmin({ visible, close, actualizar, fnCreate, h
                   required
                 />
 
+              </div>
+            </div> 
+            
+            {/* Dropdown de Local */}
+            <div className="input-group">
+              <label htmlFor="Local_id">Local</label>
+
+              <div className="input-button-group">
+                <Dropdown
+                  id="Local_id"
+                  name="local_id"
+                  value={subAdminData.local_id}
+                  onChange={handleChange}
+                  options={dataLocales.map((local) => ({
+                    label: local.nombre,  // Muestra el nombre
+                    value: local.id // Solo envía el ID
+                  }))}
+                  placeholder="Seleccionar Local..."
+                  className='w-full'
+                />
               </div>
             </div>
 
@@ -241,25 +261,7 @@ export default function CreateSubAdmin({ visible, close, actualizar, fnCreate, h
             </div>
 
 
-            {/* Dropdown de Local */}
-            <div className="input-group">
-              <label htmlFor="Local_id">Local</label>
-
-              <div className="input-button-group">
-                <Dropdown
-                  id="Local_id"
-                  name="local_id"
-                  value={subAdminData.local_id}
-                  onChange={handleChange}
-                  options={dataLocales.map((local) => ({
-                    label: local.nombre,  // Muestra el nombre
-                    value: local.id // Solo envía el ID
-                  }))}
-                  placeholder="Seleccionar Local..."
-                  className='w-full'
-                />
-              </div>
-            </div>
+           
 
 
           </div>

@@ -29,7 +29,7 @@ export default function DeleteSubAdmin({ visibles, close, actualizar, Data }) {
     const messageTemplate = (
         <div className="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border">
             <i className="pi pi-exclamation-circle text-6xl text-primary-500"></i>
-            <span>Please confirm to proceed moving forward.</span>
+            <span>¿Desea eliminar este Sub-Administrador?</span>
         </div>
     )
 

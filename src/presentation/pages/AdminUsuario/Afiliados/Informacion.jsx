@@ -64,7 +64,7 @@ export default function Informacion() {
             <div className='Section4'>
                 <div className='Presentacion2'>
                     <span className='title3'>¿Quienes somos?</span><br></br><br></br>
-                    <span className='oracion'>Somos un equipo comprometido con la mejora del acceso a servicios de salud en Perú. AppSalud nace de la necesidad de conectar a las personas con clínicas y centros médicos que ofrezcan tratamientos de calidad a precios accesibles. A través de nuestra plataforma, no solo te ayudamos a cuidar tu salud, sino que también te ofrecemos una manera de contribuir a la comunidad y generar ingresos adicionales como parte de nuestra red de Afiliadores.</span>
+                    <span className='oracion'>Somos un equipo comprometido con la mejora del acceso a servicios de salud en Perú. MasSalud nace de la necesidad de conectar a las personas con clínicas y centros médicos que ofrezcan tratamientos de calidad a precios accesibles. A través de nuestra plataforma, no solo te ayudamos a cuidar tu salud, sino que también te ofrecemos una manera de contribuir a la comunidad y generar ingresos adicionales como parte de nuestra red de Afiliadores.</span>
                 </div>
                 <div className='Presentacion2'>
                     <span className='title3'>¿Que hacemos?</span><br></br><br></br>
@@ -90,7 +90,7 @@ export default function Informacion() {
                             <br></br>
                             <span className='oracion'>Busca en un solo lugar entre muchas clínicas el servicio que necesitas</span>
                             <span className='oracion'>Elige entre cientos de servicios de calidad a precios exclusivos.</span>
-                            <span className='oracion'>Selecciona con facilidad la cita y asiste a tu consulta sin ningún problema.</span>
+                            <span className='oracion'>Observa la información del servicio que necesites y acércate a la clínica correspondiente</span>
                         </div>
                         <Button className='Invitacion' label='Únete Ya' onClick={() => navigate('/Register')}/>
                     </Card>

@@ -54,20 +54,20 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
   const footerTemplate = () => (
     <div className="dialog-footer flex justify-content-end" style={{ marginTop: '5px' }}>
       <Button
-        style={{ margin: '5px', background: '#85C226', borderColor: '#85C226', }}
-        label="Cerrar"
+         className="bg-white border-none shadow-none" style={{ color: "#85C226" }}
+        label="Cancelar"
         onClick={close} />
       <Button
-        label="Crear"
+        label="Guardar Cambios"
         onClick={handleSubmit}
-        style={{ margin: '5px', background: '#85C226', borderColor: '#85C226' }}
+        className=" border-none shadow-none" style={{ color: "#fff", backgroundColor: "#85C226" }}
         disabled={loading} />
     </div>
   )
 
 
   return (
-    <CustomDialog visible={visible} onhide={close} title={"Crear Sub-Administrador"} iconClassName={"pi pi-building"} width='auto' footer={footerTemplate} >
+    <CustomDialog visible={visible} onhide={close} title={"Editar Sub-Administrador"} iconClassName={"pi pi-building"} width='auto' footer={footerTemplate} >
       <Toast ref={toast} />
       <div className="flex  "> {/* Contenedor principal con `flex` y espacio entre las columnas */}
         <div className="flex-1"> {/* La columna de Datos Personales ocupa el 50% */}
@@ -126,7 +126,7 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
             </div>
 
             {/* Teléfono */}
-            <div className="input-group">
+            {/* <div className="input-group">
               <label htmlFor="telefono">Teléfono</label>
 
               <div className="input-button-group">
@@ -143,9 +143,9 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
                 />
 
               </div>
-            </div>
+            </div> */}
             {/* Fecha de Nacimiento */}
-            <div className="input-group">
+            {/* <div className="input-group">
               <label htmlFor="fechNac">Fecha de Nacimiento</label>
               <div className="input-button-group">
                 <Calendar
@@ -161,11 +161,30 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
 
                 />
               </div>
+            </div>  */}
+            {/* Dropdown de Local */}
+            <div className="input-group">
+              <label htmlFor="Local_id">Local</label>
+
+              <div className="input-button-group">
+                <Dropdown
+                  id="Local_id"
+                  name="local_id"
+                  value={subAdminData.local_id}
+                  onChange={handleChange}
+                  options={dataLocales.map((local) => ({
+                    label: local.nombre,  // Muestra el nombre
+                    value: local.id // Solo envía el ID
+                  }))}
+                  placeholder="Seleccionar Local..."
+                  className='w-full'
+                />
+              </div>
             </div>
 
 
             {/* Dirección */}
-            <div className="input-group">
+            {/* <div className="input-group">
               <label htmlFor="direccion">Dirección</label>
               <div className="input-button-group">
                 <InputText
@@ -176,7 +195,7 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
                   onChange={handleChange}
                 />
               </div>
-            </div>
+            </div> */}
 
           </div>
         </div>
@@ -196,6 +215,7 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
                   value={subAdminData.correo}
                   onChange={handleChange}
                   placeholder="Ingresa tu correo..."
+                  className='w-full'
                 />
               </div>
             </div>
@@ -239,25 +259,7 @@ export default function EditSubAdmin({ visible, close, actualizar, fnCreate, han
             </div>
 
 
-            {/* Dropdown de Local */}
-            <div className="input-group">
-              <label htmlFor="Local_id">Local</label>
-
-              <div className="input-button-group">
-                <Dropdown
-                  id="Local_id"
-                  name="local_id"
-                  value={subAdminData.local_id}
-                  onChange={handleChange}
-                  options={dataLocales.map((local) => ({
-                    label: local.nombre,  // Muestra el nombre
-                    value: local.id // Solo envía el ID
-                  }))}
-                  placeholder="Seleccionar Local..."
-                  className='w-full'
-                />
-              </div>
-            </div>
+           
 
 
           </div>

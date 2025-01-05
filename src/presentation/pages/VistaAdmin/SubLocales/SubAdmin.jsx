@@ -36,13 +36,13 @@ export default function SubAdmin() {
   }, [user?.clinica_id, ploc]);
 
   const [searchTerm, setSearchTerm] = useState(''); // Estado para la búsqueda
-  // const filteredData = subAdmin.filter(data => {
-  //   const lowercasedSearchTerm = searchTerm.toLowerCase();
-  //   return (
-  //     data.nombres.toLowerCase().includes(lowercasedSearchTerm) ||
-  //     data.apellidos.toLowerCase().includes(lowercasedSearchTerm)
-  //   );
-  // });
+  const filteredData = state?.usuarios.filter(data => {
+    const lowercasedSearchTerm = searchTerm.toLowerCase();
+    return (
+      data.nombres.toLowerCase().includes(lowercasedSearchTerm) ||
+      data.apellidos.toLowerCase().includes(lowercasedSearchTerm)
+    );
+  });
   // const fetchSubAdmin = async () => {
   //   try {
   //     setLoading(true)
@@ -62,8 +62,7 @@ export default function SubAdmin() {
     <div className='flex gap-2'>
       <Button
         icon="pi pi-pencil"
-        className="bg-white border-none shadow-none"
-        style={{ color: "#85C226" }}
+        className="bg-white border-none shadow-none" style={{ color: "#85C226" }}
         onClick={() => {
           ploc.openDialogEdit(rowData)
           setEditData(rowData);  // Guardar los datos del subadministrador en el estado
@@ -71,8 +70,7 @@ export default function SubAdmin() {
       />
       <Button
         icon="pi pi-trash"
-        className="bg-white  border-none shadow-none"
-        style={{ color: "#85C226" }}
+        className="bg-white border-none shadow-none" style={{ color: "red" }}
         onClick={() => {
           ploc.openDialogConfirmDelete(rowData)
 
@@ -102,14 +100,14 @@ export default function SubAdmin() {
       </header>
       <main>
         <div className='flex justify-content-center'>
-          {/* <Card style={{ width: '80%', height: '7rem' }}>
+          <Card style={{ width: '80%', height: '7rem' }}>
             <InputText
               placeholder='Buscar sub-Administrador...'
               style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
               value={searchTerm}
               onChange={handleSearchChange}
             />
-          </Card> */}
+          </Card>
         </div>
         {state?.loading ? (
           <div className="flex justify-content-center" style={{ marginTop: '50px' }}>
@@ -118,11 +116,10 @@ export default function SubAdmin() {
         ) : (
           <div className='flex justify-content-center'>
             <Card style={{ width: '80%', marginTop: '15px' }}>
-              <DataTable value={state?.usuarios} rowClassName="my-2" dataKey="id" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
+              <DataTable value={filteredData} rowClassName="my-2" dataKey="id" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}>
                 <Column header="Nº" body={(rowData, { rowIndex }) => rowIndex + 1} />
                 <Column field="nombres" header="Nombre" />
                 <Column field="apellidos" header="Apellidos" />
-                <Column field="telefono" header="Télefono" />
                 <Column field="dni" header="DNI" />
                 <Column header="Cambios" body={actionsTemplate} />
               </DataTable>
