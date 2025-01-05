@@ -1,3 +1,8 @@
+.footer{
+  background-color: #0056b3;
+ overflow: hidden;
+  margin: 0;
+}
 .afiliados-wrapper {
     position: relative; /* Permite que los hijos posicionados sean relativos a este contenedor */
 }
@@ -33,9 +38,9 @@
 .link {
     position: relative; /* Necesario para que la línea se posicione correctamente */
     margin: 0 20px; /* Espacio entre los enlaces */
-    font-size: 20px; /* Tamaño de fuente */
+    font-size: 16px; /* Tamaño de fuente */
     text-decoration: none; /* Eliminar el subrayado predeterminado de los enlaces */
-    color: inherit; /* Mantener el color del enlace igual que el texto por defecto */
+    color:#4d4c4c;
     flex: 1 1 auto; /* Deja que los enlaces se adapten al espacio disponible */
 }
 
@@ -60,10 +65,15 @@
     background-color: #176ABC;
     border-color: #176ABC;
     color: #fff;
-    width: 140px;
-    height: 50px;
-    margin-top: 20px;
+    width: 120px;
+    height: 35px;
+    display: flex;
+    justify-content: center;    
     border-radius: 40px;
+    font-size: 1em;
+    font-weight: 600!important;
+    
+    
 }
 
 .buscador {
@@ -317,7 +327,51 @@ p {
     color: #85C226;
     font-weight: bold;
   }
+  .container{
+    max-width: 1200px;
+    margin: auto;
+  }
+  .advice{
+    background-color: #f1f5e2;
+    color: #b0c802;
+    padding: 5px 16px;
+    width: max-content;
   
+    font-size: 0.9em;
+  }
+  /* Footer */ 
+  .p-button.p-button-text:enabled:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.p-button.p-button-text:enabled:active {
+    background: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 960px) {
+  .footer{
+   padding: 15px;
+  }
+    .p-button.p-button-text {
+        width: 2.5rem !important;
+        height: 2.5rem !important;
+    }
+
+    .p-button.p-button-text .p-button-icon {
+        font-size: 1.2rem !important;
+    }
+   
+    .link{
+      display: none;
+    }
+    .logo-header{
+      padding: 6px;
+    }
+}
+
 /* Media Query para pantallas de 768px o menos */
 @media (max-width: 768px) {
     .afiliados-container {
@@ -334,7 +388,7 @@ p {
         display: flex;
         justify-content: center;
         width: 100%;
-        margin-top: 20px;
+      
     }
 
     /* Links Container */
@@ -343,7 +397,7 @@ p {
         flex-direction: row; /* Los enlaces se mantienen en fila */
         justify-content: center; /* Centra los enlaces */
         align-items: center; /* Centra verticalmente */
-        margin-top: 20px; /* Separación entre el logo y los enlaces */
+        
         width: 100%; /* Asegura que los enlaces ocupen todo el ancho */
     }
 
@@ -358,7 +412,7 @@ p {
     .loguear {
         width: 140px; /* Mantener el tamaño del botón */
         margin-top: 0; /* Eliminar espacio arriba del botón */
-        margin-left: 20px; /* Separación entre los enlaces y el botón */
+        
     }
     .Informacion, .Link {
         width: 100%; /* Ambos ocupan todo el ancho */

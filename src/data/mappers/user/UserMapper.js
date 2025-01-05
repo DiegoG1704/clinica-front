@@ -6,10 +6,8 @@ import FechaValueObject from "../../../domain/ValueObjects/FechaValueObject";
 
 
 class UserMapper {
-    static toDomain(data) {
-        console.log("data-en", data)
+    static toDomain(data) {  
         const fechaNacimiento = new Date(data.fechNac)
-        console.log("newDate", fechaNacimiento)
         const rol = Number(data?.rol_id)
         return new User(
             data.id,
@@ -32,11 +30,10 @@ class UserMapper {
             data.codigo,
             data.local_id,
             data.rol
-
         );
     }
     static toData(user) {
-        console.log("dat", user)
+ 
         let fechaNacimiento = user.fechNac
         if (user.fechNac) {
             fechaNacimiento = new FechaValueObject(user.fechNac).convertirATexto();
@@ -59,7 +56,8 @@ class UserMapper {
             rol_id: user.rol_id, // Asegúrate de usar el nombre correcto aquí
             fotoPerfil: user.fotoPerfil,
             clinica_id: user.clinica_id, // Asegúrate de usar el nombre correcto aquí
-            "codigo2":user?.codigoPromotor
+            "codigo2":user?.codigoPromotor,
+            "Local_id":user?.local_id
         };
     }
 }

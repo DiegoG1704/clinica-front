@@ -16,16 +16,16 @@ export default class ZodUpdateSubAdminValidator extends UserValidator {
             dni: z.string().length(8, { message: 'El DNI debe tener 8 dígitos' }),
             // rol_id: z.number({ message: 'Seleccionar rol' }).int({ message: 'Seleccionar rol' }),
             clinicaId: z.number().int().optional(),
-            fechNac: z.date({ message: 'La fecha de nacimiento debe ser válida' }),
-            telefono: z.string().optional(),
-            direccion: z.string().optional(),
+            // fechNac: z.date({ message: 'La fecha de nacimiento debe ser válida' }),
+            // telefono: z.string().optional(),
+            // direccion: z.string().optional(),
             local_id: z.number({ message: 'Seleccionar local' }).int({ message: 'Seleccionar local' })
         });
     }
 
     // Método que valida todos los datos del usuario
     validateUserData(data) {
-        console.log("data-2", data)
+        // console.log("data-2", data)
         try {
             let resultvalidate = this.userSchema.parse(data);
             if (resultvalidate) {

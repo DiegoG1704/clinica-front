@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Carousel } from 'primereact/carousel';
 import { Button } from 'primereact/button';
 import '../Afiliados/css/Carousel.css';                            // Custom styling
-import portada from '../../../img/img.png'
-import portada2 from '../../../img/pixelcut.png'
-
+import portada from '../../../img/Frame.png'
+import portada2 from '../../../img/doc-slider.png'
+import BackgroundImage from '../../../img/back-slider.png'
+import Elipse from '../../../img/Ellipse.png'
 export default function Carrousel() {
     const [products, setProducts] = useState([]);
 
@@ -33,7 +34,8 @@ export default function Carrousel() {
             highlight: 'MásSalud',
             description: 'Conoce más sobre nuestra iniciativa dando click abajo y entérate de las últimas novedades y beneficios que te ofrecemos',
             buttonLabel: 'Conoce más',
-            image: portada
+            mainImage: portada,
+            background: Elipse
         },
         {
             id: 2,
@@ -41,24 +43,31 @@ export default function Carrousel() {
             highlight: 'MásSalud',
             description: 'La única plataforma en el Perú que te ofrece la mayor calidad y atención en salud a los mejores precios.Conoce más sobre nuestra iniciativa',
             buttonLabel: 'Conoce más',
-            image: portada2
+            mainImage: portada2,
+            background: BackgroundImage
+
         }
     ];
 
     const productTemplate = (product) => {
         return (
-            <div className="custom-carousel-content">
-                <div className="text-section">
-                    <span className="title">
-                        {product.name} 
+            <div className="custom-carousel-content container ">
+                <div className="text-section  h-full flex flex-column justify-content-center w-full">
+                    <span className='advice'>Programa de Afiliación Exclusivo</span>
+                    <span className="title my-3 ">
+                        {product.name}
+                        <span className="highlight ">{product.highlight}</span>
                     </span>
-                    <span className="highlight">{product.highlight}</span>
-                    <p className="description">{product.description}</p>
-                    <Button label={product.buttonLabel} className="custom-button" />
+
+                    <p className="description ">{product.description}</p>
+                    {/* <Button label={product.buttonLabel} className="custom-button" /> */}
                 </div>
-                <div className="image-section">
-                    <img src={product.image} alt={`Imagen destacada de ${product.highlight}`} className="doctor-image" loading="lazy" />
+                <div className="image-section relative  h-full w-full">
+
+                    <img src={product.mainImage} alt={`Imagen destacada de ${product.highlight}`} className="background-image z-2" loading="lazy" />
+                    <img src={product.background} alt={`Imagen destacada de ${product.highlight}`} className="doctor-image absolute " loading="lazy" />
                 </div>
+
             </div>
         );
     };
@@ -69,20 +78,19 @@ export default function Carrousel() {
 
     return (
         <div className="carousel-demo">
-             <div className="social-buttons">
-             <Button 
-                icon="pi pi-instagram" 
-                className="EnlacesClin" 
-                onClick={() => window.open("https://www.instagram.com/massalud_adb/", "_blank")} 
-            />
-            <Button 
-                icon="pi pi-youtube" 
-                className="EnlacesClin" 
-                onClick={() => window.open("https://www.youtube.com/@info_M%C3%A1sSalud", "_blank")} 
-            />
+            {/* <div className="social-buttons">
+                <Button
+                    icon="pi pi-instagram"
+                    className="EnlacesClin"
+                    onClick={() => window.open("https://www.instagram.com/massalud_adb/", "_blank")}
+                />
+                <Button
+                    icon="pi pi-youtube"
+                    className="EnlacesClin"
+                    onClick={() => window.open("https://www.youtube.com/@info_M%C3%A1sSalud", "_blank")}
+                />
 
-                {/* <Button icon="pi pi-linkedin" className="EnlacesClin" /> */}
-            </div>
+            </div> */}
             <Carousel value={products} numVisible={1} numScroll={1} responsiveOptions={responsiveOptions} circular autoplayInterval={5000} itemTemplate={productTemplate} />
         </div>
     );

@@ -7,12 +7,14 @@
 
 .title1 {
     font-size: 2.8rem;
+    font-weight: 700;
     color: #85C226;
 }
 
 .title2 {
-    font-size: 3.5rem;
-    font-weight: bold;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #16617c;
 }
 
 .Section1 {
@@ -61,7 +63,9 @@
 }
 
 .title5 {
-    font-size: 2rem;
+    font-size: 2.8rem;
+    font-weight: 700;
+
     color: #85C226;
 }
 

@@ -61,7 +61,7 @@ const ClinicasList = ({ data }) => {
                 className="bg-blue-600 border-none shadow-none"
                 style={{ color: "white", borderRadius: '40px' }}
                 onClick={() => {
-                    console.log("ddaaa", rowData?.id)
+                    
                     handleCLickAdminUser(rowData?.id)
                     setSubAdmin(true); // Mostrar el diálogo
                 }}
@@ -123,9 +123,9 @@ const ClinicasList = ({ data }) => {
                         <Column header="RUC" field='ruc' />
                         <Column header="Razón Social" field='nombre' />
                         <Column header="Dirección" body={(rowData) => truncateAddress(rowData.direccion)} />
-                        <Column header="Telefono" field='telefono' />
+                        <Column header="Teléfono" field='telefono' />
                         <Column header="Sub-Admin" body={UserTemplate} />
-                        <Column header="Agregaar Imagen" body={ImageTemplate} />
+                        <Column header="Agregar Imagen" body={ImageTemplate} />
                         <Column body={actionsTemplate} />
                     </CustomTable>
                 </Card>
