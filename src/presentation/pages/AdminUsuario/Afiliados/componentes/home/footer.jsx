@@ -13,21 +13,21 @@ const contactInfo = [
     {
         icon: 'pi pi-phone',
         label: 'Teléfono',
-        value: '+51 500 517 523',
-        href: 'tel:+51500517523'
+        value: '+51 920 517 220',
+        href: 'tel:+51 920 517 220'
     },
     {
         icon: 'pi pi-envelope',
         label: 'Email',
-        value: 'contacto@massalud.org.pe',
-        href: 'mailto:contacto@massalud.org.pe'
+        value: 'info@massalud.org.pe',
+        href: 'mailto:info@massalud.org.pe'
     },
-    {
-        icon: 'pi pi-map-marker',
-        label: 'Dirección',
-        value: 'Lima, Perú',
-        href: 'https://maps.google.com'
-    }
+    // {
+    //     icon: 'pi pi-map-marker',
+    //     label: 'Dirección',
+    //     value: 'Lima, Perú',
+    //     href: 'https://maps.google.com'
+    // }
 ];
 
 const socialLinks = [

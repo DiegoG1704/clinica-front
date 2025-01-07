@@ -81,17 +81,11 @@
 }
 
 .social-buttons {
-    position: absolute;
-    top: 0px; /* Ajusta según la distancia deseada desde la parte superior */
-    right: 0px; /* Ajusta según la distancia deseada desde la derecha */
     display: flex;
-    flex-direction: column;
-
     gap: 10px;
-    z-index: 100; /* Asegura que los botones estén encima del carrusel */
-    justify-content: center;
-   right: 10px;
+    right: 10px;
     height: 100%;
+    margin-top: 20px;
   }
   
   .social-buttons .EnlacesClin {

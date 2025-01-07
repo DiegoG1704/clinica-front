@@ -1,4 +1,5 @@
 /* src/css/Navbar.css */
+
 .navbar {
   top: 0;
   width: 100%;
@@ -21,30 +22,54 @@
   margin: 0;
 }
 
-.navbar-links li a {
-  color: rgb(158, 14, 14);
-  text-decoration: none;
-}
-
-.navbar-links li a:hover {
-  text-decoration: underline;
-}
-
-.navbar-links li a i {
-  font-size: 25px; /* Establece el tamaño del icono */
-  line-height: 70px; /* Centra verticalmente el icono en el navbar */
+.button-notifications {
   color: #85C226;
   margin-right: 15px;
+  background-color: #ffffff;
+  border-color: #ffffff;
 }
 
-.navbar-search {
-  position: relative;
-  display: flex;
-  align-items: center;
+.button-notifications .pi {
+  font-size: 1.7rem;
 }
 
-.buscadorNavar{
-  margin-top: 15px;
-  width: 264.18px;
-  border-radius: 10px;
+/* src/css/Navbar.css */
+
+/* Menú de notificaciones */
+.p-menu {
+  max-height: 180px;  /* Limita la altura del menú */
+  overflow-y: auto;   /* Habilita el desplazamiento vertical */
+  width: 300px;
+  background-color: #85C226;  /* Color de fondo verde */
+  border-radius: 8px;  /* Bordes redondeados */
 }
+
+/* Estilo para cada item dentro del menú de notificaciones */
+.p-menuitem {
+  background-color: #85C226;  /* Fondo verde */
+  color: white;               /* Texto blanco */
+  border-radius: 4px;         /* Bordes redondeados */
+  margin: 5px 0;              /* Espacio entre notificaciones */
+  padding: 10px;
+  font-weight: 500;
+}
+
+/* Estilo cuando el ratón pasa sobre la notificación */
+.p-menuitem:hover {
+  background-color: #85C226;  /* Color más oscuro de verde */
+}
+
+.p-menu:hover {
+  background-color: #85C226;  /* Color de fondo verde */
+}
+
+/* Cuando el icono del menú es un icono de información */
+.p-menuitem .pi-info-circle {
+  color: white; /* Icono blanco */
+}
+
+/* Asegura que el fondo del menú no sea blanco cuando se abre */
+.p-menu.p-menu-overlay {
+  background-color: #85C226 !important;  /* Fondo verde cuando el menú se muestra */
+}
+

@@ -30,7 +30,7 @@ export default function Informacion() {
                         <span className='oracion'>MásSalud ofrece acceso a precios exclusivos del sector de salud privada. Conectándote con una red de clínicas especializadas y de alta calidad a precios competitivos.
                             <br></br><br></br>Únete a MásSalud y cuida de tú salud y la de tu familia.</span>
                         <br></br>
-                        <Button label='¡Únete a MásSalud!' className='Invitacion' />
+                        <Button label='¡Únete a MásSalud!' className='Invitacion' onClick={()=>navigate('/Register')} />
                     </div>
                 </div>
                 <div className='Section2'>
@@ -39,7 +39,7 @@ export default function Informacion() {
                         <span className='title4'>¿Que es MasSalud?</span>
                     </div>
                     <span style={{ margin: '20px' }}>Descubre quienes somos, qué hacemos y cómo estamos seguros que podemos ayudarte a ti y a tu familia</span>
-                    <Button label='Descubrir' className='Invitacion' />
+                    <Button label='Descubrir' className='Invitacion' onClick={() => window.location.href = 'https://massalud.com.pe'} />
                 </div>
                 <div className='Section3'>
                     <div className='Presentacion1'>
@@ -54,14 +54,14 @@ export default function Informacion() {
                     <div className='Section4'>
                         <div className='Presentacion2'>
                             <span className='title3'>¿Quienes somos?</span><br></br><br></br>
-                            <span className='oracion'>Somos un equipo comprometido con la mejora del acceso a servicios de salud en Perú. AppSalud nace de la necesidad de conectar a las personas con clínicas y centros médicos que ofrezcan tratamientos de calidad a precios accesibles. A través de nuestra plataforma, no solo te ayudamos a cuidar tu salud, sino que también te ofrecemos una manera de contribuir a la comunidad y generar ingresos adicionales como parte de nuestra red de Afiliadores.</span>
+                            <span className='oracion'>Somos un equipo comprometido con la mejora del acceso a servicios de salud en Perú. MásSalud nace de la necesidad de conectar a las personas con clínicas y centros médicos que ofrezcan tratamientos de calidad a precios accesibles. A través de nuestra plataforma, no solo te ayudamos a cuidar tu salud, sino que también te ofrecemos una manera de contribuir a la comunidad y generar ingresos adicionales como parte de nuestra red de Afiliadores.</span>
                         </div>
                         <div className='Presentacion2'>
                             <span className='title3'>¿Que hacemos?</span><br></br><br></br>
                             <span className='oracion'>En MásSalud, nos dedicamos a ofrecerte una plataforma integral donde puedes suscribirte para acceder a descuentos exclusivos en una amplia red de clínicas y centros médicos en todo el país. Además, brindamos la oportunidad a nuestros usuarios de convertirse en Promotores, un rol que les permite ganar comisiones al invitar a otros a unirse a la plataforma. Nos encargamos de todo el proceso, desde la afiliación hasta la gestión de comisiones, asegurando que nuestros usuarios puedan disfrutar de una experiencia sin complicaciones.</span>
                         </div>
                     </div>
-                    <Button label='¡Únete ahora!' className='Invitacion' />
+                    <Button label='¡Únete ahora!' className='Invitacion' onClick={()=>navigate('/Register')}/>
                 </div>
                 <div className='Section6'>
                     <div className='titles'>
@@ -75,14 +75,14 @@ export default function Informacion() {
                             <div className='titles1'>
                                 <div style={{ textAlign: 'center' }}>
                                     <span style={{ fontSize: '25px', color: 'Black' }}>Beneficios para</span><br></br>
-                                    <span style={{ fontSize: '25px', color: '#85C226' }}>AFILIADOS</span>
+                                    <span style={{ fontSize: '25px', color: '#85C226' }}>Usuarios</span>
                                 </div>
                                 <br></br>
                                 <span className='oracion'>Busca en un solo lugar entre muchas clínicas el servicio que necesitas</span>
                                 <span className='oracion'>Elige entre cientos de servicios de calidad a precios exclusivos.</span>
                                 <span className='oracion'>Selecciona con facilidad la cita y asiste a tu consulta sin ningún problema.</span>
                             </div>
-                            <Button className='Invitacion' label='Únete Ya' />
+                            <Button className='Invitacion2' label='Únete Ya' onClick={()=>navigate('/Register')}/>
                         </Card>
 
                         <Card className='card-clinicas'>
@@ -95,7 +95,7 @@ export default function Informacion() {
                                 <span className='oracion'>Mayor flujo de usuarios interesados en sus servicios.</span>
                                 <span className='oracion'>Reducción de costos de promoción para captar usuarios de los servicios de la Clínica.</span>
                             </div>
-                            <Button className='Invitacion2' label='Únete Ya' />
+                            <Button className='Invitacion' label='Únete Ya' onClick={()=>navigate('/Contacto')}/>
                         </Card>
 
                     </div>

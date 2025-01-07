@@ -1,16 +1,17 @@
 import { Button } from 'primereact/button'
 import React from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import '../../css/Header.css'
 
 const Header = () => {
     const navigate = useNavigate();
     return (
-        <header className="  fixed top-0 left-0 w-full z-5 bg-white-alpha-80 backdrop-blur-sm border-bottom-1 border-gray-100  ">
+        <>
+        <header className="fixed top-0 left-0 w-full z-5 bg-white-alpha-80 backdrop-blur-sm border-bottom-1 border-gray-100 ">
             <div className="container mx-auto">
                 <div className="flex align-items-center justify-content-between h-4.5rem">
                     <Link href="/" className="flex align-items-center gap-2 no-underline logo-header">
                         <img src="https://www.massalud.com.pe/img/logo-inicio3.png" alt="Más Salud Logo" width={115} height={"auto"} />
-
                     </Link>
                     <nav className="hidden flex  md:flex align-items-center gap-4 text-sm font-medium navigation ">
                         <div className="header-actions">
@@ -25,12 +26,26 @@ const Header = () => {
                             </div>
                         </div>
                     </nav>
-
                 </div>
             </div>
         </header>
-
+        
+        <div className="fixed-container">
+            <Button
+                icon="pi pi-instagram"
+                className="EnlacesClin"
+                onClick={() => window.open("https://www.instagram.com/massalud_adb/", "_blank")}
+                style={{ borderRadius: '50px', backgroundColor: '#1A76D1', borderColor: '#1A76D1' }}
+            />
+            <Button
+                icon="pi pi-youtube"
+                className="EnlacesClin"
+                onClick={() => window.open("https://www.youtube.com/@info_M%C3%A1sSalud", "_blank")}
+                style={{ borderRadius: '50px', backgroundColor: '#1A76D1', borderColor: '#1A76D1' }}
+            />
+        </div>
+        </>
     )
 }
 
-export default Header
+export default Header;

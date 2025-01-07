@@ -68,7 +68,6 @@ export default function Afiliados() {
                 <meta property="og:url" content="hhttps://massalud.org.pe" />
             </Helmet>
 
-
             <div className="">
                 <Header />
 
@@ -93,7 +92,7 @@ export default function Afiliados() {
                     <section className="hero-section">
                         <div className="hero-content">
                             <span className='RedClin'>MásSalud,<br></br> al alcance de todos...</span><br></br>
-                            <Button label='¡Únete ahora!' className='Invitacion' /><br></br>
+                            <Button label='¡Únete ahora!' className='Invitacion' onClick={()=>navigate('/Register')}/><br></br>
                             <span className='oracion'>Conoce cómo se forma la iniciativa MásSalud y nuestra meta con la comunidad</span>
                         </div>
                         <div className="hero-video">
@@ -113,9 +112,9 @@ export default function Afiliados() {
                         <span className="title1">conviértete en...</span>
                         <div className="options-container">
                             <div className="option">
-                                <h2>Afiliado</h2>
+                                <h2>Usuarios</h2>
                                 <p>
-                                    Como Afiliado tendrás acceso exclusivo a los <span className="highlight1">precios más competitivos</span> del
+                                    Como Usuario tendrás acceso exclusivo a los <span className="highlight1">precios más competitivos</span> del
                                     mercado de salud privada. Contarás con una red de clínicas a tu respaldo para cualquier emergencia y/o consulta.
                                 </p>
                             </div>
@@ -145,7 +144,7 @@ export default function Afiliados() {
                                     En MásSalud tenemos espacio para todos y, como parte de nuestra iniciativa estamos siempre en busca de ampliar
                                     nuestra <span className="highlight1">red de clínicas</span>.
                                 </p>
-                                <Button label='¡Únete aqui!' className='Invitacion' /><br></br>
+                                <Button label='¡Únete aqui!' className='Invitacion' onClick={()=>navigate('/Contacto')}/><br></br>
                             </div>
                         </div>
                     </section>
