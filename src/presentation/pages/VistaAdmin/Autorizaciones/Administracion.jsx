@@ -98,6 +98,8 @@ export default function AdminPanel() {
         severity={rowData.Estado === 'Activo' ? 'success' : 'danger'}
         onClick={() => showConfirmDialog(rowData.id)}
         label={rowData.Estado}
+        disabled={rowData.Estado === 'Activo'}
+        className={rowData.Estado === 'Activo' ? 'green-button' : ''}
       />
     </div>
   );
@@ -108,6 +110,8 @@ export default function AdminPanel() {
         severity={rowData.EstadoPr === 'Activo' ? 'success' : 'danger'}
         onClick={() => showConfirmDialogPR(rowData.id)}
         label={rowData.EstadoPr}
+        disabled={rowData.EstadoPr === 'Activo'}
+        className={rowData.EstadoPr === 'Activo' ? 'green-button' : ''}
       />
     </div>
   );

@@ -38,6 +38,21 @@
     display: none;
     font-weight: 600;
   }
+
+  /* Administracion.css */
+
+.green-button {
+  background-color: #28a745 !important; /* Verde, o el color que desees */
+  border-color: #28a745 !important;
+}
+
+.green-button:disabled {
+  background-color: #28a745 !important; /* Mantén el color verde cuando esté deshabilitado */
+  border-color: #28a745 !important;
+  opacity: 0.6; /* Mantén un poco de transparencia para indicar que está deshabilitado */
+  cursor: not-allowed; /* Cambia el cursor para mostrar que el botón está deshabilitado */
+}
+
   
   @media screen and (max-width: 960px) {
     .p-datatable .p-datatable-thead > tr > th,

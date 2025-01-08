@@ -18,19 +18,31 @@
   gap: 15px;
 }
 
+/* Estilo para el contenedor de las notificaciones */
 .navbar-links li {
-  margin: 0;
+  position: relative; /* Necesario para posicionar el Badge relativo a este li */
 }
 
+/* Posicionar el badge en la esquina inferior derecha del botón */
 .button-notifications {
   color: #85C226;
   margin-right: 15px;
   background-color: #ffffff;
   border-color: #ffffff;
+  position: relative;  /* Necesario para posicionar el Badge respecto a este botón */
 }
 
 .button-notifications .pi {
-  font-size: 1.7rem;
+  font-size: 2rem;
+}
+
+/* Estilo para el Badge */
+.p-badge {
+  position: absolute;
+  bottom: 0px;  /* Ajusta según sea necesario para estar justo debajo del botón */
+  right: 7px;   /* Ajusta según sea necesario para estar justo debajo del botón */
+  background-color: #ff6f61;  /* Color de fondo (puedes cambiarlo) */
+  color: white;   /* Color del texto del badge */
 }
 
 /* src/css/Navbar.css */
@@ -40,36 +52,70 @@
   max-height: 180px;  /* Limita la altura del menú */
   overflow-y: auto;   /* Habilita el desplazamiento vertical */
   width: 300px;
-  background-color: #85C226;  /* Color de fondo verde */
+  background-color: #b5d4e9;  /* Color de fondo verde */
   border-radius: 8px;  /* Bordes redondeados */
 }
 
 /* Estilo para cada item dentro del menú de notificaciones */
 .p-menuitem {
-  background-color: #85C226;  /* Fondo verde */
+  background-color: #b5d4e9;  /* Fondo verde */
   color: white;               /* Texto blanco */
   border-radius: 4px;         /* Bordes redondeados */
   margin: 5px 0;              /* Espacio entre notificaciones */
   padding: 10px;
   font-weight: 500;
+  border-bottom: 2px solid white; /* Línea blanca entre los mensajes */
+}
+
+/* Eliminar la línea de abajo en el último item del menú */
+.p-menuitem:last-child {
+  border-bottom: none; /* El último ítem no tendrá borde inferior */
 }
 
 /* Estilo cuando el ratón pasa sobre la notificación */
 .p-menuitem:hover {
-  background-color: #85C226;  /* Color más oscuro de verde */
+  background-color: #b5d4e9;  /* Color más oscuro de verde */
 }
 
 .p-menu:hover {
-  background-color: #85C226;  /* Color de fondo verde */
+  background-color: #b5d4e9;  /* Color de fondo verde */
 }
 
 /* Cuando el icono del menú es un icono de información */
 .p-menuitem .pi-info-circle {
   color: white; /* Icono blanco */
+  width: 20px;
 }
 
 /* Asegura que el fondo del menú no sea blanco cuando se abre */
 .p-menu.p-menu-overlay {
-  background-color: #85C226 !important;  /* Fondo verde cuando el menú se muestra */
+  background-color: #b5d4e9 !important;  /* Fondo verde cuando el menú se muestra */
 }
 
+/* Contenedor de los botones flotantes */
+.ButtonMensagge {
+  position: fixed;
+  bottom: 0px;
+  right: 30px; /* Pegado a la derecha */
+  transform: translateY(-50%); /* Centrado vertical */
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Espacio entre los botones */
+  z-index: 1000; /* Asegúrate de que los botones estén encima de otros elementos */
+}
+
+/* Estilos de los botones */
+.ButtonMsg {
+  width: 60px; /* Ajusta el tamaño del botón según lo necesites */
+  height: 60px; /* Ajusta el tamaño del botón según lo necesites */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-Color: #1A76D1;
+  border-Color: #1A76D1;
+}
+
+.ButtonMsg .pi-comment {
+  font-size: 1.7rem; /* Ajusta el tamaño de los íconos en pantallas pequeñas */
+}
