@@ -119,3 +119,34 @@
 .ButtonMsg .pi-comment {
   font-size: 1.7rem; /* Ajusta el tamaño de los íconos en pantallas pequeñas */
 }
+
+/* Estilos para hacer el Dialog responsivo */
+.responsive-dialog .p-dialog {
+  max-width: 90vw; /* Esto asegura que el modal nunca sea mayor al 90% del ancho de la pantalla */
+  width: 500px; /* Establece un ancho máximo por defecto */
+  margin: auto; /* Centra el modal en la pantalla */
+}
+
+@media (max-width: 768px) {
+  .responsive-dialog .p-dialog {
+    width: 80vw; /* En pantallas pequeñas, el modal ocupará el 80% del ancho */
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-dialog .p-dialog {
+    width: 90vw; /* En dispositivos aún más pequeños, el modal ocupará el 90% del ancho */
+  }
+}
+
+/* Esto ajusta la altura del modal en pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .responsive-dialog .p-dialog .p-fluid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .responsive-dialog .p-dialog .p-field {
+    margin-bottom: 1rem;
+  }
+}

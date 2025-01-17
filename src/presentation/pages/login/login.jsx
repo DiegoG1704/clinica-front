@@ -87,7 +87,8 @@ export default function Login({ onLogin }) {
                 />
                 <div className="register-link">
                     <label>¿Aún no tienes una cuenta?</label>
-                    <a href="/Register"> Regístrate</a>
+                    <a href="/Register"> Regístrate</a><br></br>
+                    <a href="/Solicitud">¿Olvidaste tu contraseña?</a>
                 </div>
             </div>
 

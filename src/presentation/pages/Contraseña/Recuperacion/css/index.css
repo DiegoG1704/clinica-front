@@ -1,0 +1,89 @@
+/* Centrado y estructura básica */
+.containerRC {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    height: 100vh;
+    background-color: #f9f9f9;
+    font-family: 'Roboto', sans-serif;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.titleRC1 {
+    font-size: 2rem;
+    color: #4caf50;
+}
+
+.titleRC2 {
+    font-size: 1.5rem;
+    color: #009688;
+}
+
+.section-formRC {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+.input-groupRC {
+    margin-bottom: 1.5rem;
+}
+
+.input-fieldRC {
+    width: 100%;
+    margin-top: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input-fieldRC:focus {
+    border-color: #4caf50;
+    outline: none;
+}
+
+.error-messageRC {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.submit-buttonRC {
+    width: 100%;
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit-buttonRC:hover {
+    background-color: #45a049;
+}
+
+.submit-buttonRC:disabled {
+    background-color: #9e9e9e;
+    cursor: not-allowed;
+}
+
+/* Animación de transición al pasar el mouse */
+.submit-buttonRC:active {
+    transform: scale(0.98);
+}
+

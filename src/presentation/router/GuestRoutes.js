@@ -5,6 +5,10 @@ import RegisterU from '../pages/login/RegisterU';
 import Afiliados from "../pages/AdminUsuario/Afiliados/Afiliados";
 import Informacion from "../pages/AdminUsuario/Afiliados/Informacion";
 import Contacto from "../pages/AdminUsuario/Afiliados/componentes/Contacto";
+import Index from "../pages/Contraseña/Recuperacion/Index";
+import SolicitudRecuperacion from "../pages/Contraseña/Recuperacion/Solicitud";
+import NuevaContrasena from "../pages/Contraseña/Recuperacion/NuevaContraseña";
+import Exito from "../pages/Contraseña/Recuperacion/Confirmación";
 export const GuestRoutes = ({ onLogin, handleDatos, user, setUser, Datos }) => {
     return (
         <>
@@ -15,6 +19,10 @@ export const GuestRoutes = ({ onLogin, handleDatos, user, setUser, Datos }) => {
                 <Route path="/ConoceMas" element={<Informacion/>}/>
                 <Route path="/Contacto" element={<Contacto/>}/>
                 <Route path='*' element={<Navigate to="/" />} />
+                <Route path="/Recuperacion" element={<Index/>}/>
+                <Route path="/Solicitud" element={<SolicitudRecuperacion/>}/>
+                <Route path="/NuevaContrasena" element={<NuevaContrasena/>}/>
+                <Route path="/Confirmacion" element={<Exito/>}/>
             </Routes>
         </>
     );

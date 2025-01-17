@@ -16,6 +16,7 @@ import { usePlocState } from '../../../hooks/ploc/usePlocState';
 import { Toast } from 'primereact/toast';
 import { showToast, showToastWithErrors } from '../../../utils/showToast';
 import EditProfile from './Components/EditProfile';
+import ConfirmacionCorreo from './Components/ConfirmacionCorreo';
 
 export default function Configuraciones() {
   const { user, setUser, getUser } = useAuth();
@@ -24,9 +25,7 @@ export default function Configuraciones() {
   const ploc = useConfiguracionPloc()
   const state = usePlocState(ploc)
   console.log("ss", ploc)
-
-
-
+  const [confirmar,setConfirmar] = useState(false)
   const [selectedImage, setSelectedImage] = useState(user?.fotoPerfil ? `${process.env.REACT_APP_API_BASE_URL}uploads/${user.fotoPerfil}` : null);
   // Estado para la imagen seleccionada
   const [fotoPerfil, setFotoPerfil] = useState(user?.fotoPerfil);  // Estado local para la foto de perfil
@@ -186,49 +185,6 @@ export default function Configuraciones() {
 
             <main>
               <div className="user-form__general-info">
-                {/* <div className='flex gap-4'>
-                  <div className="flex flex-column gap-2 flex-1">
-                    <label htmlFor="username">Nombres</label>
-                    <InputText
-                      id="nombre"
-                      name='nombre'
-                      value={datos.nombres}
-                      onChange={handleChange}
-                      aria-describedby="username-help"
-                      className='input-config'
-                    />
-                  </div>
-                  <div className="flex flex-column gap-2 flex-1">
-                    <label htmlFor="username">Apellidos</label>
-                    <InputText
-                      id="apellidos"
-                      name='apellidos'
-                      value={datos.apellidos}
-                      onChange={handleChange}
-                      aria-describedby="username-help"
-                      className='input-config'
-                    />
-                  </div>
-                </div>
-
-                <div className="flex flex-column gap-2 mt-3">
-                  <label htmlFor="cargo">Cargo</label>
-                  <InputText value={user?.rolId} id="cargo"
-                    className='input-config'
-                  />
-                </div>
-
-                <div className="flex flex-column gap-2 mt-3">
-                  <label htmlFor="email">Correo Electrónico</label>
-                  <InputText
-                    id="correo"
-                    name='correo'
-                    value={datos.correo}
-                    onChange={handleChange}
-                    className='input-config'
-                  />
-                </div> */}
-
                 <div className='flex gap-4'>
                   <div className="flex flex-column gap-2 flex-1 general-info">
                     <label htmlFor="username"> <i className='pi pi-id-card general-info__icon'></i>Nombre Completo</label>
@@ -244,7 +200,10 @@ export default function Configuraciones() {
                 <div className='flex gap-4 mt-4'>
                   <div className="flex flex-column gap-2 flex-1 general-info">
                     <label htmlFor="username"> <i className='pi pi-envelope general-info__icon'></i>Correo</label>
-                    <p className='general-info__data'>{user?.correo}</p>
+                    <div className='flex'>
+                      <p className='general-info__data'>{user?.correo}</p>
+                      <Button label='Confirmar correo' onClick={()=>setConfirmar(true)} style={{background:'#85C226',color:'white', borderColor:'#85C226'}}/>
+                    </div>
                   </div>
                   <div className="flex flex-column gap-2 flex-1 general-info">
                     <label htmlFor="cargo"><i className='pi pi-phone general-info__icon'></i>Télefono</label>
@@ -272,6 +231,10 @@ export default function Configuraciones() {
       >
 
       </EditProfile>
+      <ConfirmacionCorreo
+      Cerrar={()=>setConfirmar(false)}
+      Abrir={confirmar}
+      />
     </div>
   );
 }

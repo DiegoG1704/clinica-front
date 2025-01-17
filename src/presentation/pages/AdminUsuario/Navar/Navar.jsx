@@ -8,7 +8,7 @@ import { useAuth } from '../../../context/AuthContext/AuthContext';
 import '../Navar/navar.css';
 import { Badge } from 'primereact/badge';
 
-function Navbar({ usuarioId }) {
+function Navbar() {
   const [notifications, setNotifications] = useState([]); // Estado para las notificaciones
   const [unreadCount, setUnreadCount] = useState(0); // Estado para la cantidad de notificaciones no vistas
   const [visibleMessageModal, setVisibleMessageModal] = useState(false); // Estado para controlar la visibilidad del modal
@@ -118,13 +118,12 @@ function Navbar({ usuarioId }) {
         </div>
       )}
 
-      {/* Modal para el mensaje */}
       <Dialog
         header="Enviar Mensaje"
         visible={visibleMessageModal}
         onHide={closeMessageModal}
         modal
-        style={{ width: '30vw' }}  // Establece el tamaño del modal
+        className="responsive-dialog"  // Nueva clase para hacer que sea responsivo
       >
         <div className="p-fluid">
           <div className="p-field">
@@ -139,22 +138,23 @@ function Navbar({ usuarioId }) {
             />
           </div>
           <div className="flex mt-2">
-            <Button 
-              label="Enviar" 
-              icon="pi pi-send" 
-              className="p-button-success" 
+            <Button
+              label="Enviar"
+              icon="pi pi-send"
+              className="p-button-success"
               onClick={handleSubmit}  // Enviar mensaje
               disabled={loading}  // Deshabilitar mientras se envía
             />
-            <Button 
-              label="Cancelar" 
-              icon="pi pi-times" 
-              className="p-button-secondary p-ml-2" 
+            <Button
+              label="Cancelar"
+              icon="pi pi-times"
+              className="p-button-secondary p-ml-2"
               onClick={closeMessageModal}  // Cerrar el modal sin enviar
             />
           </div>
         </div>
       </Dialog>
+
     </>
   );
 }
