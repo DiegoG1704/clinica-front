@@ -11,8 +11,8 @@
     gap: 2rem;
     width: 100%;
     margin: 0 auto;
-    height: 855px;
-    margin-top: 27px!important;
+    height: calc(100vh);
+ 
     justify-content: center;
 }
 

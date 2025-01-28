@@ -63,21 +63,16 @@ export default function Carrousel() {
                         <span className="highlight">{product.highlight}</span>
                     </span>
                     <p className="description">{product.description}</p>
-                    <Button 
-                        label={product.buttonLabel} 
-                        className="custom-button" 
-                        onClick={() => {
-                            if (product.link.startsWith('http')) {
-                                window.location.href = product.link; // Redirección externa
-                            } else {
-                                navigate(product.link); // Redirección interna
-                            }
-                        }}
-                    />
+
                 </div>
                 <div className="image-section relative h-full w-full">
+                    {product?.id === 2 && (
+                        <img src={product.background} alt={`Imagen destacada de ${product.highlight}`} className="doctor-image absolute" loading="lazy" />
+
+                    )}
                     <img src={product.mainImage} alt={`Imagen destacada de ${product.highlight}`} className="background-image z-2" loading="lazy" />
-                    <img src={product.background} alt={`Imagen destacada de ${product.highlight}`} className="doctor-image absolute" loading="lazy" />
+
+
                 </div>
             </div>
         );
@@ -89,14 +84,14 @@ export default function Carrousel() {
 
     return (
         <div className="carousel-demo">
-            <Carousel 
-                value={products} 
-                numVisible={1} 
-                numScroll={1} 
-                responsiveOptions={responsiveOptions} 
-                circular 
-                autoplayInterval={5000} 
-                itemTemplate={productTemplate} 
+            <Carousel
+                value={products}
+                numVisible={1}
+                numScroll={1}
+                responsiveOptions={responsiveOptions}
+                circular
+                autoplayInterval={5000}
+                itemTemplate={productTemplate}
             />
         </div>
     );

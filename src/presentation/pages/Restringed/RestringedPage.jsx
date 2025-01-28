@@ -1,44 +1,113 @@
-import React from 'react';
-import character from "../../img/marciano_restringed.png";
-import "./RestringedPage.css";
-import { Button } from 'primereact/button';
-import { Divider } from 'primereact/divider';
-        
+import React, { useRef, useState } from 'react';
+import styles from "./restringed-page.module.css";
+import { useAuth } from '../../context/AuthContext/AuthContext';
+import { history } from '../../utils/history';
+import { apiAdapter } from '../../../core/adapters/apiAdapter';
+import { Toast } from 'primereact/toast';
+
 
 const RestringedPage = () => {
+
+
+
+    const [loading, setLoading] = useState(false);
+    const { logout, user } = useAuth();
+    const toast = useRef(null);
+
+    const handleLogout = async () => {
+        const response = await logout();
+        if (response) {
+            history.navigate('/login', { replace: true });
+        }
+    };
+
+    const handleStatusChange = async () => {
+        try {
+            console.log("Changing status for affiliate ID:", user?.id); // Verifica el ID
+            const response = await apiAdapter.put(`/CambioEstado/${user?.id}`);
+            setLoading(true);
+            console.log('API Response:', response); // Verifica la respuesta de la API
+            toast.current.show({
+                severity: 'success',
+                summary: 'Status Updated',
+                detail: 'The affiliate status has been updated to Active',
+                life: 3000,
+            });
+            await handleLogout();
+            setLoading(false);
+        } catch (error) {
+            console.error('Error updating status:', error);
+            toast.current.show({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Unable to update the affiliate status',
+                life: 3000,
+            });
+            setLoading(false);
+        }
+    };
+
     return (
-        <div className="restringed-page-container">
-            <div className="container-message flex-column gap-4">
-                <header>
-                    <p className="message__title">Cuenta Inactiva</p>
-                </header>
-                <div>
-                    <p className="message__description">Tu cuenta está pendiente de activación. Para más detalles, contáctanos.</p>
-                    <div className="bank-info">
-                        <Divider align="center" >
-                            <div className="inline-flex align-items-center" >
-                                <i className="pi pi-lightbulb mr-2"></i>
-                                <p><strong>INDICACIONES</strong></p>
+        <div className={styles.dashboard}>
+            <Toast ref={toast} />
+            <main className={styles.mainContent}>
+                <div className={styles.card}>
+                    <div className={styles.cardHeader}>
+                        <h2>Cuenta Inactiva</h2>
+                    </div>
+
+                    <div className={styles.cardBody}>
+                        <p className={styles.description}>
+                            Tu cuenta está pendiente de activación. Para más detalles, contáctanos.
+                        </p>
+
+                        <section className={styles.instructions}>
+                            <h3>
+                                <span className={styles.icon}>📍</span>
+                                INDICACIONES
+                            </h3>
+                            <ul>
+                                <li>
+                                    Depositar la cantidad de <span className={styles.highlight}>S/. 118</span>
+                                </li>
+                                <li>
+                                    Enviar el comprobante a este numero <span className={styles.highlight}>920517220</span>
+                                </li>
+                            </ul>
+                            <p className={styles.note}>
+                                La cuenta se activará hasta 24h después de la transferencia o 48h de la transferencia interbancaria
+                            </p>
+                        </section>
+
+                        <section className={styles.payment}>
+                            <h3>PAGOS</h3>
+                            <div className={styles.bankDetails}>
+                                <h4>BCP: ADB CONSULTING SAC</h4>
+                                <div className={styles.accountInfo}>
+                                    <div className={styles.accountRow}>
+                                        <span className={styles.label}>Cuenta Corriente SOLES:</span>
+                                        <span className={styles.value}>194-2659964-0-21</span>
+                                    </div>
+                                    <div className={styles.accountRow}>
+                                        <span className={styles.label}>CCI Moneda Nacional:</span>
+                                        <span className={styles.value}>002-19400265996402191</span>
+                                    </div>
+                                    <div className={styles.accountRow}>
+                                        <span className={styles.label}>Yape:</span>
+                                        <span className={styles.value}>920517220</span>
+                                    </div>
+                                </div>
                             </div>
-                        </Divider>
-                        <p>Depositar la cantidad de  <strong>S/. 118</strong></p>
-                        <p>Enviar el comprobante a este numero <strong>920517220</strong></p>
-                        <p>La cuenta se activará hasta 24h después de la transferencia o 48h de la transferencia interbancaria </p>
-                        <Divider align="center" >
-                            <div className="inline-flex align-items-center" >
-                                <p><strong>PAGOS</strong></p>
-                            </div>
-                        </Divider>
-                        <p><strong>BCP: ADB CONSULTING SAC</strong></p>   
-                        <p><i className="pi pi-credit-card" style={{ fontSize: '1rem' }}></i> Cuenta Corriente SOLES: <strong>194-2659964-0-21</strong></p>
-                        <p><i className="pi pi-credit-card" style={{ fontSize: '1rem' }}></i> CCI Moneda Nacional: <strong>002-19400265996402191</strong></p>
-                        <p><i className="pi pi-mobile" style={{ fontSize: '1rem' }}></i> Yape: <strong>920517220</strong></p>
+                        </section>
+                        <div className={styles["container-buttons-actions"]}>
+                    
+                            <button className={styles.actionButton} onClick={handleLogout}>Cerrar Sesión</button>
+                            <button className={styles.actionButton} onClick={handleStatusChange} disabled={loading} > Cambiar Rol</button>
+                        </div>
+
                     </div>
                 </div>
-                <div>
-                    <Button label="Cerrar Sesión" className="message__btn" onClick={() => { /* Aquí agregar lógica para cerrar sesión */ }} />
-                </div>
-            </div>
+            </main>
         </div>
     );
 }
