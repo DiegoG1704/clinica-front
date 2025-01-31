@@ -44,6 +44,31 @@ export default function Tarifario() {
         setChecked(true);
         setOpenTC(false);
     };
+    const handleStatusChange = async () => {
+        try {
+            console.log("Changing status for affiliate ID:", user?.id); // Verifica el ID
+            const response = await apiAdapter.put(`/CambioEstadoPr/${user?.id}`);
+            setLoading(true);
+            console.log('API Response:', response); // Verifica la respuesta de la API
+            toast.current.show({
+                severity: 'success',
+                summary: 'Status Updated',
+                detail: 'The affiliate status has been updated to Active',
+                life: 3000,
+            });
+
+            setLoading(false);
+        } catch (error) {
+            console.error('Error updating status:', error);
+            toast.current.show({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Unable to update the affiliate status',
+                life: 3000,
+            });
+            setLoading(false);
+        }
+    };
 
     const submit = async () => {
         if (!checked) {
@@ -54,7 +79,10 @@ export default function Tarifario() {
         try {
             const response = await apiAdapter.post(`${process.env.REACT_APP_API_BASE_URL}CodeGenered/${user?.id}`, datos);
             console.log('Datos enviados:', response);
+            await handleStatusChange();
             await logout();
+
+
         } catch (error) {
             console.log('Error en el envío:', error);
         }
@@ -88,7 +116,7 @@ export default function Tarifario() {
                 <ClinicaCards Promociones={tarifario} Ancho="600px" Alto="300px" />
             </div>
 
-            <Dialog visible={open} onHide={() => setOpen(false)} className="p-2 max-w-lg mx-auto">
+            <Dialog visible={open} onHide={() => setOpen(false)} className=" max-w-lg mx-auto">
                 <Toast ref={toast} />
                 <p className="message__title">Cambio de rol a Promotor</p>
                 <p className="text-lg font-semibold mb-3 text-gray-700">Para cambiar de rol a Promotor debe seguir los pasos</p>
