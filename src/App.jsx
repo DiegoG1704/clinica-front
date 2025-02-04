@@ -15,7 +15,10 @@ import configurePrimeReact from './presentation/config/local';
 
 
 function App() {
-    const { user, Datos, logout, setDatos, setUser, login, isAuthenticated, setIsAuthenticated } = useAuth();
+    const { user, Datos, logout, setDatos, setUser,
+        login, isAuthenticated, setIsAuthenticated, loading,
+        setLoading
+    } = useAuth();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     history.navigate = useNavigate();
     history.location = useLocation();
@@ -30,9 +33,9 @@ function App() {
 
 
 
-    useEffect(() => {
-        console.log("isAuthenticated in App.jsx:", isAuthenticated); // Para depurar el estado
-    }, [isAuthenticated]);
+    // useEffect(() => {
+    //     console.log("isAuthenticated in App.jsx:", isAuthenticated); // Para depurar el estado
+    // }, [isAuthenticated]);
     configurePrimeReact()
 
 
@@ -58,6 +61,8 @@ function App() {
                     router={user?.rutas}
                     isAuthenticated={isAuthenticated}
                     onLogin={login}
+                    loading={loading} 
+                    setLoading={setLoading}
                 />
             ) : (
                 <GuestRoutes
@@ -66,6 +71,8 @@ function App() {
                     user={user}
                     setUser={setUser}
                     Datos={Datos}
+                    loading={loading} 
+                    setLoading={setLoading}
                 />
             )}
         </>

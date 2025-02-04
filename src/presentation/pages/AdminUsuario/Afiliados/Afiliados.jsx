@@ -49,12 +49,7 @@ export default function Afiliados() {
         return () => clearTimeout(timeout);
     }, []);
 
-    const [searchTerm, setSearchTerm] = useState(''); // Estado para almacenar promociones
 
-    // Filtrar promociones según el término de búsqueda
-    const filteredPromociones = promociones.filter(promocion =>
-        promocion.area.toLowerCase().includes(searchTerm.toLowerCase())
-    );
 
     return (
         <>

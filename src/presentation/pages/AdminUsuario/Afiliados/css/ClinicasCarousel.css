@@ -5,9 +5,9 @@
     margin: 0 auto; /* Centra cada contenedor dentro del carrusel */
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s, box-shadow 0.3s;
-    margin-right: 1rem; /* Espacio entre elementos */
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
 }
 
 .carousel-item-container:hover {
@@ -31,17 +31,15 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    background: linear-gradient(to top, rgba(27, 54, 93, 0.9), rgba(27, 54, 93, 0.7));
     color: white;
     padding: 1rem;
-    text-align: center;
-    transition: opacity 0.3s;
-    opacity: 0;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
 }
 
 .carousel-item-container:hover .carousel-item-overlay {
-    opacity: 3;
-    background-color: #5aa5e7c9;
+    transform: translateY(0);
 }
 
 .carousel-title {
@@ -55,6 +53,8 @@
     margin: 0;
 }
 
+
+
 @media (max-width: 1024px) {
     .carousel-item-container {
         margin-right: 0.5rem; /* Reduce espacio entre elementos */
@@ -66,3 +66,178 @@
         margin-right: 0; /* Quita espacios para pantallas pequeñas */
     }
 }
+.clinicas-section {
+  width: 100%;
+  padding: 48px 0;
+  background-color: #f8f9fa;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+
+
+.RedClin {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1b3c69;
+  display: block;
+  letter-spacing: -0.5px;
+}
+
+.card-container {
+  padding: 10px;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .card-image {
+  transform: scale(1.1);
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(27, 60, 105, 0.2), rgba(27, 60, 105, 0.9));
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 25px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card:hover .card-overlay {
+  opacity: 1;
+}
+
+.card-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.card:hover .card-title {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.card-description {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 12px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.4s ease 0.1s, opacity 0.4s ease 0.1s;
+}
+
+.card:hover .card-description {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.card-phone {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.4s ease 0.2s, opacity 0.4s ease 0.2s;
+}
+
+.card:hover .card-phone {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.custom-carousel .p-carousel-container {
+  padding: 20px 0;
+}
+
+.custom-carousel .p-carousel-items-container {
+  margin: 0 -10px;
+}
+
+.custom-carousel .p-carousel-item {
+  padding: 0 10px;
+}
+
+@media (max-width: 1024px) {
+  .card {
+    height: 280px;
+  }
+
+  .card-title {
+    font-size: 22px;
+  }
+
+  .card-description {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    height: 240px;
+  }
+
+  .title1 {
+    font-size: 24px;
+  }
+
+  .RedClin {
+    font-size: 30px;
+  }
+
+  .card-title {
+    font-size: 20px;
+  }
+
+  .card-description {
+    font-size: 13px;
+  }
+
+  .card-phone {
+    font-size: 13px;
+  }
+}
+

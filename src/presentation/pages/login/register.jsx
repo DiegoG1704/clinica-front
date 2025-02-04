@@ -16,7 +16,7 @@ import InputInteger from '../../components/Inputs/InputNumberInteger/InputIntege
 import { history } from '../../utils/history';
 import CustomCalendar from '../../components/Calendar/CustomCalendar';
 
-export default function Register({ onNext }) {
+export default function Register({ onNext, loading, setLoading }) {
   const { FindPersonWithDni, validateGeneralData, validateCode } = useAuth()
   const toast = useRef(null);
 
@@ -30,7 +30,7 @@ export default function Register({ onNext }) {
   const [searchParams] = useSearchParams();
   const referralCode = searchParams.get('ref'); // Captura el código de la URL
   const [disableCode, setDisabledCode] = useState(false)
-  console.log("code", referralCode)
+
 
   const [dataRegister, setDataRegister] = useState({
     dni: "",
@@ -49,16 +49,17 @@ export default function Register({ onNext }) {
   })
   const validateCodeUser = async () => {
     const response = await validateCode({ codigo: referralCode })
-    console.log("response", response)
     if (response?.success) {
       setDisabledCode(true)
       setDataRegister({ ...dataRegister, codigoPromotor: referralCode })
+      setLoading(false);
     } else {
       history.navigate("/login")
     }
   }
   useEffect(() => {
     if (referralCode) {
+      
       validateCodeUser()
     }
 

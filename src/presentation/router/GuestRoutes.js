@@ -9,12 +9,12 @@ import Index from "../pages/Contraseña/Recuperacion/Index";
 import SolicitudRecuperacion from "../pages/Contraseña/Recuperacion/Solicitud";
 import NuevaContrasena from "../pages/Contraseña/Recuperacion/NuevaContraseña";
 import Exito from "../pages/Contraseña/Recuperacion/Confirmación";
-export const GuestRoutes = ({ onLogin, handleDatos, user, setUser, Datos }) => {
+export const GuestRoutes = ({ onLogin, handleDatos, user, setUser, Datos, loading ,setLoading }) => {
     return (
         <>
             <Routes>
                 <Route path="/login" element={<Login onLogin={onLogin} />} />
-                <Route path="/Register" element={<Register onNext={handleDatos} />} />
+                <Route path="/Register" element={<Register onNext={handleDatos}  loading={loading}  setLoading={setLoading}/>} />
                 <Route path='/' element={<Afiliados idUsuario={user} setIdUsuario={setUser} />} />
                 <Route path="/ConoceMas" element={<Informacion/>}/>
                 <Route path="/Contacto" element={<Contacto/>}/>
