@@ -73,7 +73,7 @@ export default function ClinicasCarousel({ datos }) {
             alt: "Clínica Javier Prado",
             width: 500,
             height: 500,
-            telefono: '997 819 568',
+            telefono: '(01) 211 – 4141 ',
             title: "Clínica Javier Prado",
             description: "Ofrecemos un servicio de calidad en todo momento"
         }

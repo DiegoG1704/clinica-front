@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Carousel } from 'primereact/carousel';
-import { Button } from 'primereact/button';
 import '../Afiliados/css/Carousel.css';                            // Custom styling
 import portada from '../../../img/img.png'
 import portada2 from '../../../img/pixelcut.png'
 import { useNavigate } from 'react-router-dom';
 import Elipse from '../../../img/Ellipse.png'
-import BackgroundImage from '../../../img/sistemCarrusel.png'
-import { classNames } from 'primereact/utils';
+
 
 export default function Carrousel() {
     const [products, setProducts] = useState([]);
-    const navigate = useNavigate();
-
     const responsiveOptions = [
         {
             breakpoint: '1024px',
@@ -30,7 +26,6 @@ export default function Carrousel() {
             numScroll: 1,
         },
     ];
-
     const sampleProducts = [
         {
             id: 1,
