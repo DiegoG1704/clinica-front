@@ -7,6 +7,7 @@ import portada2 from '../../../img/pixelcut.png'
 import { useNavigate } from 'react-router-dom';
 import Elipse from '../../../img/Ellipse.png'
 import BackgroundImage from '../../../img/sistemCarrusel.png'
+import { classNames } from 'primereact/utils';
 
 export default function Carrousel() {
     const [products, setProducts] = useState([]);
@@ -40,6 +41,7 @@ export default function Carrousel() {
             mainImage: portada,
             background: Elipse,
             link: '/ConoceMas',  // Ruta interna
+            className:"background-image__first-slider z-2"
         },
         {
             id: 2,
@@ -50,6 +52,7 @@ export default function Carrousel() {
             mainImage: portada2,
             background: Elipse,
             link: 'https://massalud.com.pe',  // Enlace externo
+            className:"background-image z-2"
         }
     ];
 
@@ -70,7 +73,7 @@ export default function Carrousel() {
                         <img src={product.background} alt={`Imagen destacada de ${product.highlight}`} className="doctor-image absolute" loading="lazy" />
 
                     )}
-                    <img src={product.mainImage} alt={`Imagen destacada de ${product.highlight}`} className="background-image z-2" loading="lazy" />
+                    <img src={product.mainImage} alt={`Imagen destacada de ${product.highlight}`} className={product.className} loading="lazy" />
 
 
                 </div>
