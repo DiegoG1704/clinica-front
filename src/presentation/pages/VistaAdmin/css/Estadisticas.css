@@ -1,0 +1,96 @@
+/* Base styles */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    padding: 0 15px;
+  }
+  
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .card-container .p-card {
+    margin: 15px;
+  }
+  
+  .chart-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .chart-container .p-card {
+    margin: 15px;
+  }
+  
+  .chart-container .p-card:nth-child(2) {
+    flex: 1 1 30%;
+  }
+  
+  .chart-container .p-card:nth-child(1) {
+    flex: 1 1 65%;
+  }
+  
+  /* Responsive for smaller screens */
+  @media (max-width: 1200px) {
+    .chart-container .p-card:nth-child(2) {
+      flex: 1 1 45%; /* More space for the donut chart */
+    }
+  
+    .chart-container .p-card:nth-child(1) {
+      flex: 1 1 50%; /* Adjust main chart size */
+    }
+  
+    .card-container .p-card {
+      width: 100%; /* Make cards full width for better mobile layout */
+    }
+  
+    .card-container {
+      justify-content: center;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .home-container {
+      padding: 10px; /* Reduce padding on smaller screens */
+    }
+  
+    .card-container .p-card {
+      width: 100%; /* Cards should take full width */
+      margin-bottom: 20px;
+    }
+  
+    .chart-container .p-card:nth-child(2) {
+      flex: 1 1 100%; /* Make donut chart full width */
+    }
+  
+    .chart-container .p-card:nth-child(1) {
+      flex: 1 1 100%; /* Make line chart full width */
+    }
+  
+    .button-container {
+      text-align: center;
+    }
+  }
+  
+  @media (max-width: 500px) {
+    .card-container .p-card {
+      width: 100%;
+    }
+  
+    .chart-container .p-card {
+      flex: 1 1 100%; /* Stack charts vertically on very small screens */
+    }
+  
+    .chart-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  

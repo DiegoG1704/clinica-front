@@ -1,0 +1,36 @@
+/* Contenedor de los botones flotantes */
+.fixed-container {
+  position: fixed;
+  top: 50%;
+  right: 0; /* Pegado a la derecha */
+  transform: translateY(-50%); /* Centrado vertical */
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Espacio entre los botones */
+  z-index: 200; /* Asegúrate de que los botones estén encima de otros elementos */
+}
+
+/* Estilos de los botones */
+.EnlacesClin {
+  width: 60px; /* Ajusta el tamaño del botón según lo necesites */
+  height: 60px; /* Ajusta el tamaño del botón según lo necesites */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.EnlacesClin .pi {
+  font-size: 1.7rem; /* Ajusta el tamaño de los íconos en pantallas pequeñas */
+}
+
+/* Cambiar el tamaño de los íconos cuando la pantalla sea menor a 960px */
+@media screen and (max-width: 960px) {
+  .EnlacesClin {
+      width: 50px; /* Ajusta el tamaño del botón para pantallas pequeñas */
+      height: 50px; /* Ajusta el tamaño del botón para pantallas pequeñas */
+      font-size: 1rem; /* Cambia el tamaño de los íconos a 1rem en pantallas pequeñas */
+  }
+  .EnlacesClin .pi {
+    font-size: 1.2rem; /* Ajusta el tamaño de los íconos en pantallas pequeñas */
+  }
+}

@@ -1,0 +1,121 @@
+/* General container styling */
+.contact-container {
+    padding: 20px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Section titles */
+.contact-section-title {
+    font-size: 25px;
+    color: #85C226;
+}
+
+.contact-section{
+    display: flex;
+    text-align: left;
+    margin-top: 3rem;
+    width: 60%;
+}
+
+.contactSection{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+/* Contact details card */
+.contact-card {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    margin-top: 24px;
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin: 16px;
+}
+
+.contact-details span {
+    font-size: 1.1rem;
+    color: #1B4B73;
+    margin: 8px 0;
+}
+
+
+/* Image section */
+.imageSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    padding: 10px;
+}
+
+.imageSection img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+}
+
+/* Responsive styles for small screens */
+@media (max-width: 1200px) {
+
+    .contactSection{
+        width: 100%;
+    }
+
+    .imageSection {
+        display: none;
+    }
+}
+
+/* Responsive styles for small screens */
+@media (max-width: 768px) {
+
+    /* Ensure content is centered and stacked vertically on small screens */
+    .contact-container {
+        padding: 10px;
+    }
+
+    .contact-section-title {
+        font-size: 25px;
+    }
+
+    .contact-card {
+        margin: 10px 0;
+    }
+
+    .contact-section{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 60%;
+    }
+
+    .contact-details{
+        margin: 0px;
+    }
+
+    .contactSection{
+        width: 100%;
+    }
+
+    .imageSection {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-section{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+    }
+}

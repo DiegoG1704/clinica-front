@@ -1,0 +1,262 @@
+/* Estructura general de títulos */
+.titles {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.title1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #85C226;
+}
+
+.title2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #16617c;
+}
+
+.Section1 {
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centra contenido si se adapta a pantallas pequeñas */
+    padding: 2rem;
+}
+
+.SaludCost {
+    width: 35rem;
+    margin-left: 5rem;
+    max-width: 100%; /* Evita que la imagen sobrepase el contenedor en pantallas pequeñas */
+}
+
+.Presentacion {
+    padding: 4rem 3rem; /* Ajuste en padding */
+    width: 50%;
+    max-width: 100%; /* Ajuste responsive */
+    box-sizing: border-box;
+}
+
+.Presentacion1 {
+    padding: 4rem 3rem;
+    width: 50%;
+    max-width: 100%; /* Ajuste responsive */
+    box-sizing: border-box;
+}
+
+.Presentacion2 {
+    padding: 5rem 4rem;
+    width: 50%;
+    max-width: 100%; /* Ajuste responsive */
+    box-sizing: border-box;
+}
+
+.title3 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.title4 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.title5 {
+    font-size: 2.8rem;
+    font-weight: 700;
+
+    color: #85C226;
+}
+
+.oracion {
+    font-size: 20px;
+    color: black;
+    line-height: 1.6; /* Mejor separación entre líneas */
+}
+
+.Invitacion,
+.Invitacion2 {
+    border-radius: 40px;
+    width: 200px;
+    height: 50px;
+    margin: 15px;
+    font-size: 18px;
+}
+
+.Invitacion {
+    background-color: #176ABC;
+    border-color: #176ABC;
+    color: #fff;
+}
+
+.Invitacion2 {
+    background-color: #85C226;
+    border-color: #85C226;
+    color: #fff;
+}
+
+.Section2,
+.Section6 {
+    text-align: center;
+    align-items: center;
+    background-color: #F5FCFF;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.Section3 {
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.Section4 {
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.Image {
+    width: 50%;
+    max-width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.Logo {
+    width: 25rem;
+    max-width: 100%; /* Hace que la imagen sea más flexible */
+    margin-top: 5rem;
+}
+
+.Section5 {
+    align-items: center;
+    text-align: center;
+    background-color: #F5FCFF;
+    padding: 3rem;
+}
+
+.Section7 {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.titles1 {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 3rem;
+}
+
+/* Estilo para los cards */
+.card-afiliados,
+.card-clinicas {
+    width:80%;
+    border-radius: 20px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+
+@media (max-width: 1350px) {
+    .card-afiliados, .card-clinicas {
+        width: 100%;
+        margin-left: 4rem;
+        margin-right: 4rem;
+    }
+}
+/* Media Queries para ajustar la visualización en pantallas pequeñas */
+@media (max-width: 1200px) {
+    .title1, .title2, .title3, .title4, .title5 {
+        font-size: 1.8rem;
+    }
+
+    .Section1, .Section3, .Section4 {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    .SaludCost, .Logo, .Presentacion, .Presentacion1, .Presentacion2 {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .Invitacion, .Invitacion2 {
+        width: 80%;
+        max-width: 300px;
+        margin: 10px 0;
+    }
+
+    .card-afiliados, .card-clinicas {
+        width: 100%;
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+}
+
+@media (max-width: 850px) {
+
+
+    .Section1, .Section3, .Section4, .Section7 {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    .SaludCost, .Logo, .Presentacion, .Presentacion1, .Presentacion2 {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .Invitacion, .Invitacion2 {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .card-afiliados, .card-clinicas {
+        width: 100%;
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+
+
+}
+
+@media (max-width: 480px) {
+
+
+    .Section1, .Section3, .Section4, .Section7 {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    .SaludCost, .Logo, .Presentacion, .Presentacion1, .Presentacion2 {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .Invitacion, .Invitacion2 {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .card-afiliados, .card-clinicas {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+
+    .titles1 {
+        padding: 1.5rem;
+    }
+}

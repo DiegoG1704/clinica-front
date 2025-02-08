@@ -1,0 +1,170 @@
+.dashboard {
+    display: grid;
+    grid-template-columns:100%;
+    min-height: 100%;
+    background-color: #f5f8fa;
+  }
+  
+
+
+  
+
+  .mainContent {
+    width: 100%;
+   
+    display: grid;
+    place-items: center;
+    justify-content: center;
+  }
+  
+  .card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    width: 500px;    
+    max-width: 600px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-2px);
+  }
+  
+  .cardHeader {
+    background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+    padding: 1.5rem;
+    color: white;
+  }
+  
+  .cardHeader h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .cardBody {
+    padding: 2rem;
+  }
+  
+  .description {
+    text-align: center;
+    color: #4a5568;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  
+  .instructions {
+    margin-bottom: 2rem;
+  }
+  
+  .instructions h3,
+  .payment h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #2e7d32;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+  
+  .instructions ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .instructions li {
+    margin-bottom: 0.75rem;
+    color: #4a5568;
+  }
+  
+  .highlight {
+    color: #2e7d32;
+    font-weight: 600;
+  }
+  
+  .note {
+    font-size: 0.875rem;
+    color: #666;
+    margin-top: 1rem;
+    line-height: 1.5;
+  }
+  
+  .bankDetails {
+    background: #f8faf8;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+  }
+  
+  .bankDetails h4 {
+    color: #1a1a1a;
+    margin: 0 0 1rem 0;
+    font-size: 1rem;
+  }
+  
+  .accountInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .accountRow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .label {
+    color: #666;
+    font-size: 0.875rem;
+  }
+  
+  .value {
+    color: #1a1a1a;
+    font-family: monospace;
+    font-size: 1.025rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .actionButton {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 0.875rem;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .actionButton:hover {
+    background: #2e7d32;
+  }
+  
+  .container-buttons-actions{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .dashboard {
+      grid-template-columns: 1fr;
+    }
+  
+    .sidebar {
+      display: none;
+    }
+  
+    .card {
+      margin: 1rem;
+    }
+  }
+  
+  

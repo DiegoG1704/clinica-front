@@ -1,0 +1,65 @@
+// import { DateTime } from "luxon";
+import { User } from "../../../domain/entities/user";
+import FechaValueObject from "../../../domain/ValueObjects/FechaValueObject";
+
+
+
+
+class UserMapper {
+    static toDomain(data) {  
+        const fechaNacimiento = new Date(data.fechNac)
+        const rol = Number(data?.rol_id)
+        return new User(
+            data.id,
+            data.correo,
+            data.contraseña,
+            data.nombres,
+            data.apellidos,
+            data.dni,
+            data.estadoCivil,
+            rol,
+            data.afiliadorId,
+            data.clinica_id,
+            fechaNacimiento,
+            data.telefono,
+            data.fotoPerfil,
+            data.direccion,
+            data.vistas,
+            data.estado,
+            data.estadoPr,
+            data.codigo,
+            data.local_id,
+            data.rol
+        );
+    }
+    static toData(user) {
+ 
+        let fechaNacimiento = user.fechNac
+        if (user.fechNac) {
+            fechaNacimiento = new FechaValueObject(user.fechNac).convertirATexto();
+        }
+        
+        const nombresLimpios = user.nombres.trim().toUpperCase().replace(/\s+/g, ' ');
+        const apellidosLimpios = user.apellidos.trim().toUpperCase().replace(/\s+/g, ' ');
+
+        // const fechaNacimiento =user.fechNac
+        return {
+            dni: user.dni,
+            nombres:  nombresLimpios ,
+            apellidos: apellidosLimpios,
+            direccion: user.direccion,
+            estado_civil: user.estadoCivil,
+            fechNac: fechaNacimiento,
+            correo: user.correo,
+            contraseña: user.contraseña,
+            telefono: user.telefono,
+            rol_id: user.rol_id, // Asegúrate de usar el nombre correcto aquí
+            fotoPerfil: user.fotoPerfil,
+            clinica_id: user.clinica_id, // Asegúrate de usar el nombre correcto aquí
+            "codigo2":user?.codigoPromotor,
+            "Local_id":user?.local_id
+        };
+    }
+}
+
+export default UserMapper;

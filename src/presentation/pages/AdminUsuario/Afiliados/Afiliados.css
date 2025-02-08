@@ -1,0 +1,37 @@
+.afiliados-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.afiliados-container.sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.landing-content {
+    min-height: 100vh;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    height: auto;
+}
