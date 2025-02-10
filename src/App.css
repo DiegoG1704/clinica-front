@@ -64,3 +64,27 @@ body:has(.container-page){
     transform: rotate(360deg);
   }
 }
+.title-module{
+  color: #15803D;
+  font-weight: 660;
+  font-size: 2.2rem;
+}
+.description-module{
+  color: #56b580;
+  font-weight: 500;
+  font-size: 1.2rem;
+  position: relative;
+  top:-10px
+}
+.header-module{
+  border-radius: 20px;
+  background: linear-gradient(
+    to bottom right,
+    white,
+    #f0fdf4, /* green-50 */
+    rgba(220, 252, 231, 0.5) /* green-100 con 50% de opacidad */
+  );
+  padding: 20px;
+  margin: 10px;
+}
+

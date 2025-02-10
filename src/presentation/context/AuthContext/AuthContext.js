@@ -19,6 +19,7 @@ import Loader from '../../components/Loader/Loader';
 import { LogoutUser } from '../../../domain/useCases/user/LogoutUser';
 import { VerifyCodeUser } from '../../../domain/useCases/user/VerifyCodeUser';
 import ZodValidateUserCode from '../../../data/validators/user/ZodValidateUserCode';
+import { set } from 'zod';
 
 
 // Crear el contexto
@@ -30,6 +31,9 @@ export const useAuth = () => useContext(AuthContext);
 
 // Proveedor del contexto
 export const AuthProvider = ({ children }) => {
+    // STATE PRIVATE ROUTES
+    const [LoaderPrivate, setLoaderPrivate] = useState(false)
+    const [LoaderGuest, setLoaderGuest] = useState(false)
     //STATES PARA EL LOGIN
 
     const [user, setUser] = useState(null);
@@ -127,11 +131,18 @@ export const AuthProvider = ({ children }) => {
     };
 
     // Llamamos checkAuthStatus al montar la app
+
     useEffect(() => {
+
         checkAuthStatus();
     }, []);
 
-  
+    if (loading) {
+        return <Loader isLoading={loading} />
+    }
+
+
+
 
 
 
@@ -174,9 +185,9 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             user, setUser, login, logout, isAuthenticated, Datos, setDatos, FindPersonWithDni,
             validateGeneralData, RegisterUser, setIsAuthenticated, getUser, validateCode,
-            loading, setLoading
+            loading, setLoading, LoaderPrivate, setLoaderPrivate, LoaderGuest, setLoaderGuest
         }}>
-            {loading && <Loader isLoading={loading} />} {/* El loader estará siempre disponible */}
+
             {children}
         </AuthContext.Provider>
     );

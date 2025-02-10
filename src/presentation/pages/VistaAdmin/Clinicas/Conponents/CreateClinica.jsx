@@ -57,7 +57,7 @@ export default function CreateClinica({ Next, onNext }) {
 
   return (
     <CustomDialog visible={visibleDialogCreate} title={"Crear Clínica"} iconClassName={"pi pi-building"} footer={footerTemplate} onhide={hideDialogCreate} width='700px' className="overflow-y-hidden" >
-      <div className="card flex justify-content-center  ">
+      <div className="flex justify-content-center  ">
         <Toast ref={toast} />
         <Stepper style={{ flexBasis: '50rem' }} ref={stepperRef} className="" linear>
 

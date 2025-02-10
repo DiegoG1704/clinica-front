@@ -1,67 +1,52 @@
 import { Button } from 'primereact/button'
 import { Divider } from 'primereact/divider'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, } from 'react'
 import ClinicasList from './Conponents/ClinicasList'
 import { useClinica } from '../../../context/ClinicaContext/ClinicaContext'
-import { Dialog } from 'primereact/dialog'
-import { Stepper } from 'primereact/stepper';
-import { StepperPanel } from 'primereact/stepperpanel';
+
 import CreateClinica from './Conponents/CreateClinica'
-import CreateAdmin from './Conponents/CreateAdmin'
-import CreateUsuario from './Conponents/CreateUsuario'
-import CustomDialog from '../../../components/Dialog/CustomDialog'
-import { history } from '../../../utils/history'
+import styles from "@/presentation/features/admin/admin-general/clinica/pages/main/styles/ClinicaPage.module.css"
+
 
 const ClinicaPage = () => {
-    const { clinicas, getAllClinicas,
-      showDialogCreate } = useClinica();
-    useEffect(() => {
-      getAllClinicas();
-    }, []);
-    
-    const [visible, setVisible] = useState(false);
-    const [idClinica, setIdClinica] = useState(null);
-    const [datosPer, setDatosPer] = useState(null);
-    const stepperRef = useRef(null);
-  
-    const handleDatos = (idClinica) => {
-        setIdClinica(idClinica); 
-      };
-      
-  
-    const handleDatosPer = (userData) => {
-      setDatosPer(userData);
-    };
-  
-    return (
+  const { clinicas, getAllClinicas,
+    showDialogCreate } = useClinica();
+  useEffect(() => {
+    getAllClinicas();
+  }, []);
+
+
+
+  return (
+    <div>
       <div>
-        <div>
-          <header className="flex">
-            <div className="flex-1 p-2">
-              <h1>Lista de Clínicas</h1>
-              <Divider />
-            </div>
-            <div className="flex justify-content-end align-items-center">
-              <Button
-                label="Añadir clínica"
-                style={{ backgroundColor: "#85C226", borderColor: "#85C226", height: "60px", borderRadius: "6px" }}
-                icon="pi pi-plus"
-                onClick={showDialogCreate}
-              />
-            </div>
-          </header>
-  
-          <main>
-            <ClinicasList data={clinicas} />
-            <CreateClinica/>
-            
-          </main>
-          
-        </div>
+        <header className={`flex header-module`}>
+          <div className="flex-1 py-2 gap-0">
+            <h1 className={"title-module "}>Lista de Clínicas</h1>
+            <p className={"description-module "}>Gestiona y administra tus centros médicos</p>
+            {/* <Divider /> */}
+          </div>
+          <div className="flex justify-content-end align-items-center">
+            <Button
+              label="Añadir clínica"
+              icon="pi pi-plus"
+              onClick={showDialogCreate}
+              className={`${styles?.["button-create"]} `}
+            />
+          </div>
+        </header>
+
+        <main>
+          <ClinicasList data={clinicas} />
+          <CreateClinica />
+
+        </main>
 
       </div>
-    );
-  };
-  
-  export default ClinicaPage;
-  
+
+    </div>
+  );
+};
+
+export default ClinicaPage;
+

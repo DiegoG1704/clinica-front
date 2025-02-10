@@ -3,10 +3,10 @@ import Home from '../pages/VistaAdmin/tabla';
 import Admin from '../pages/VistaAdmin/Admin';
 import SubAfiliados from '../pages/VistaAdmin/SubAfiliados';
 import SubLocales from '../pages/VistaAdmin/SubLocales/SubLocales';
-import Promociones from '../pages/VistaAdmin/Promociones';
+
 import Configuraciones from '../pages/VistaAdmin/ConfigProfile/Configuraciones';
 import ClinicaPage from '../pages/VistaAdmin/Clinicas/ClinicaPage';
-import { ClinicaProvider} from '../context/ClinicaContext/ClinicaContext';
+import { ClinicaProvider } from '../context/ClinicaContext/ClinicaContext';
 import Sidebar from '../pages/AdminUsuario/Navar';
 import Navbar from '../pages/AdminUsuario/Navar/Navar';
 
@@ -22,38 +22,42 @@ import Tarifario from '../components/Afiliados/Tarifario';
 import UserAfiliados from '../pages/VistaAdmin/Afiliados/Afiliados';
 import Administracion from '../pages/VistaAdmin/Autorizaciones/Administracion';
 
-import { SubAdminProvider} from '../context/SubAdministradores/SubAdministradorContext';
+import { SubAdminProvider } from '../context/SubAdministradores/SubAdministradorContext';
 import AutorizacionFam from '../pages/VistaAdmin/AutoFamiliares/AutorizacionFam';
 import Pagos from '../pages/VistaAdmin/Pagos/Pagos';
-const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin }) => {
-    console.log('problem', router)
+import Loader from '../components/Loader/Loader';
+const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin, LoaderPrivate, setLoaderPrivate }) => {
 
     const componentMap = {
         "Home": <Home />,
         "Admin": <Admin />,
         "Usuarios": <Admin />,
-        "Afiliados": <SubAfiliados/>,
+        "Afiliados": <SubAfiliados />,
         "SubAdmin": <SubAdminProvider><SubAdmin /></SubAdminProvider>,
         "SubAfiliados": <SubAfiliados UserId={idUsuario} />,
         "SubLocal": <SubLocalProvider><SubLocales /></SubLocalProvider>,
         "Tarifarios": <PromocionProvider><PromocionesAdmin /></PromocionProvider>,
         "Tarifas": <PromocionesLocales />,
-        "RestrictedAccess":<RestringedPage/>,
-        "TarifasClinicas": <Tarifario/>,
+        "RestrictedAccess": <RestringedPage />,
+        "TarifasClinicas": <Tarifario />,
         "Configuraciones": <Configuraciones />,
         "Clinicas": <ClinicaProvider><ClinicaPage /></ClinicaProvider>,
-        "Familiares":<UserAfiliados/>,
-        "Autorizacion":<Administracion/>,
-        "AutorizacionFam":<AutorizacionFam/>,
-        "PagosMensuales":<Pagos/>
+        "Familiares": <UserAfiliados />,
+        "Autorizacion": <Administracion />,
+        "AutorizacionFam": <AutorizacionFam />,
+        "PagosMensuales": <Pagos />
     };
-  
+
+
 
     if (!router || router.length === 0) {
         return <Navigate to="/login" replace />;
     }
     return (
         <>
+            {LoaderPrivate && <div className={`container-page ${LoaderPrivate ? 'loading' : ''}`}>
+                {LoaderPrivate && <Loader isLoading={LoaderPrivate} />}
+            </div>}
             <Navbar />
             <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} onLogout={logout} idUsuario={idUsuario} />
             <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
@@ -67,20 +71,17 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
                             element={componentMap[route.nombre] || null}
                         />
                     ))}
-                    <Route path='/Configuraciones' element={ <ConfiguracionProvider><Configuraciones /></ConfiguracionProvider>} />
+                    <Route path='/Configuraciones' element={<ConfiguracionProvider><Configuraciones /></ConfiguracionProvider>} />
                     {!isAuthenticated ? (
                         <Route path="/login" element={<Login onLogin={onLogin} />} />
                     ) : <Route
                         path="*"
                         element={<Navigate to={idUsuario?.rutas?.[0]?.ruta} />}
                     />}
-
-
-
-
                 </Routes>
 
             </div>
+
 
         </>
 

@@ -18,7 +18,7 @@ import Loader from './presentation/components/Loader/Loader';
 function App() {
     const { user, Datos, logout, setDatos, setUser,
         login, isAuthenticated, setIsAuthenticated, loading,
-        setLoading
+        setLoading, LoaderPrivate, setLoaderPrivate, LoaderGuest, setLoaderGuest
     } = useAuth();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     history.navigate = useNavigate();
@@ -48,10 +48,7 @@ function App() {
 
 
     return (
-
-        <div className={`${loading ? 'container-page' : ''}`}>
-            {/* <Route path="/logout" element={<LogoutPage />} /> */}
-            {loading && <Loader isLoading={loading} />} {/* El loader estará siempre disponible */}
+        <>
             {isAuthenticated ? (
                 <PrivateRoutes
                     isSidebarOpen={isSidebarOpen}
@@ -61,8 +58,10 @@ function App() {
                     router={user?.rutas}
                     isAuthenticated={isAuthenticated}
                     onLogin={login}
-                    loading={loading} 
+                    loading={loading}
                     setLoading={setLoading}
+                    LoaderPrivate={LoaderPrivate}
+                    setLoaderPrivate={setLoaderPrivate}
                 />
             ) : (
                 <GuestRoutes
@@ -71,12 +70,16 @@ function App() {
                     user={user}
                     setUser={setUser}
                     Datos={Datos}
-                    loading={loading} 
+                    loading={loading}
                     setLoading={setLoading}
+                    LoaderGuest={LoaderGuest}
+                    setLoaderGuest={setLoaderGuest}
                 />
             )}
-        </div>
-    )
+
+        </>
+    );
+
 
 }
 

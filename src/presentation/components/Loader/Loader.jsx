@@ -9,7 +9,7 @@ const Loader = ({ isLoading }) => {
         if (isLoading) {
             setShowLoader(true); // Muestra inmediatamente cuando isLoading es true
         } else {
-            const timeout = setTimeout(() => setShowLoader(false), 500); // Retraso antes de ocultar (500ms)
+            const timeout = setTimeout(() => setShowLoader(false), 1000); // Retraso antes de ocultar (500ms)
             return () => clearTimeout(timeout); // Limpia el timeout si isLoading cambia antes de completarse
         }
     }, [isLoading]);

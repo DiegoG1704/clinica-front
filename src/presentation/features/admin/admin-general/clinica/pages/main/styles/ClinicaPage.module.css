@@ -1,0 +1,14 @@
+.button-create{
+    background:  #85C226;
+    border-color: #85C226;
+    border-radius: 12px;
+
+}
+.searchInput{
+    height: 45px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    min-width: 200px;
+
+}

@@ -15,8 +15,9 @@ import CustomDialog from '../../components/Dialog/CustomDialog';
 
 import { history } from '../../utils/history';
 import CustomCalendar from '../../components/Calendar/CustomCalendar';
+import { set } from 'zod';
 
-export default function Register({ onNext, loading, setLoading }) {
+export default function Register({ onNext, loading, setLoading, LoaderGuest, setLoaderGuest }) {
   const { validateCode, isAuthenticated } = useAuth()
   const toast = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -43,18 +44,20 @@ export default function Register({ onNext, loading, setLoading }) {
     rol_id: 6,
   })
   const validateCodeUser = async () => {
-    setLoading(true);
+    setLoaderGuest(true);
 
     const response = await validateCode({ codigo: referralCode });
 
     if (response?.success) {
-      setDataRegister({...dataRegister, codigoPromotor: referralCode});
+      setDataRegister({ ...dataRegister, codigoPromotor: referralCode });
       setDisabledCode(true);
+      setLoaderGuest(false);
     } else {
+      setLoaderGuest(false);
       history.navigate("/login");
     }
 
-    setLoading(false);
+
   };
 
   useEffect(() => {

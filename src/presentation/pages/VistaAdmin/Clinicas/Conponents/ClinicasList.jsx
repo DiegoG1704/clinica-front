@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import CustomTable from '../../../../components/Table/CustomTable'
 import { Column } from 'primereact/column'
 import { Button } from 'primereact/button'
-import { Dialog } from 'primereact/dialog'
 import DialogUser from './DialogUser'
 import DialogEditarClinica from './DialogEditar'
 import { useClinica } from '../../../../context/ClinicaContext/ClinicaContext'
@@ -10,6 +9,10 @@ import { ConfirmDialog } from 'primereact/confirmdialog'
 import DialogImage from './DialogImage'
 import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
+import { IconField } from "primereact/iconfield";
+import { InputIcon } from 'primereact/inputicon';
+
+import style from '@/presentation/features/admin/admin-general/clinica/pages/main/styles/ClinicaPage.module.css'
 
 const ClinicasList = ({ data }) => {
     const [subAdmin, setSubAdmin] = useState(false)
@@ -33,7 +36,7 @@ const ClinicasList = ({ data }) => {
             clinica.telefono.toLowerCase().includes(lowercasedSearchTerm)
         );
     }) : [];
-    
+
 
     const LogoRowTemplate = (rowData) => {
         return (<img src={rowData.logo} alt={rowData.nombre} width="60" className='border-round-sm' />)
@@ -61,7 +64,7 @@ const ClinicasList = ({ data }) => {
                 className="bg-blue-600 border-none shadow-none"
                 style={{ color: "white", borderRadius: '40px' }}
                 onClick={() => {
-                    
+
                     handleCLickAdminUser(rowData?.id)
                     setSubAdmin(true); // Mostrar el diálogo
                 }}
@@ -102,18 +105,22 @@ const ClinicasList = ({ data }) => {
 
     return (
         <div>
-            <div className='flex justify-content-center'>
-                <Card style={{ width: '80%', height: '7rem' }}>
-                    <InputText
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                        placeholder='Buscar clinicas afiliadas...'
-                        style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
-                    />
-                </Card>
-            </div>
-            <div className='flex justify-content-center'>
-                <Card style={{ width: '80%', marginTop: '15px' }}>
+
+            <div className='flex justify-content-center w-full' >
+                <Card style={{ width: '100%', marginTop: '15px' }}>
+                    <div className='mb-4'>
+                        <IconField iconPosition="left">
+                            <InputIcon className="pi pi-search"/>
+                            <InputText
+                                value={searchTerm}
+                                onChange={handleSearchChange}
+                                placeholder='Buscar clinicas afiliadas...'
+                                className={style.searchInput}
+
+                            />
+                        </IconField>
+                    </div>
+
                     <CustomTable data={filteredData}>
                         <Column header="Nº" body={(rowData, { rowIndex }) => rowIndex + 1} />
                         <Column
