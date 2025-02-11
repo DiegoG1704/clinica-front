@@ -1,13 +1,23 @@
 .cards-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    width: 90%;
-    margin: 0 auto; /* Centra el contenedor horizontalmente */
-    text-align: left;
-    margin-top: 50px;
+  display: grid;
+  grid-template-columns:minmax(300px, 750px) minmax(300px, 750px) ;
+  gap: 30px;
+  padding: 10px;
+  justify-content: center;
+
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
 }
 
 .p-card .p-card-title {
@@ -52,11 +62,7 @@
 }
 
 /* Estilos para el botón en la esquina inferior izquierda */
-.button-container {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-}
+
 
 /* Responsividad */
 @media (max-width: 768px) {

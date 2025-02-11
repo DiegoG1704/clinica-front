@@ -21,7 +21,8 @@ export default class AxiosAdapter {
         const status = error.response?.status;
 
         // Caso: refresh token falló y el usuario debe iniciar sesión nuevamente
-        if (status === 401 && this.isCriticalError(error)) {
+        if (status === 401 ) {
+     
             history.backHome()
             // history.navigate("/login")
             // window.location.reload();

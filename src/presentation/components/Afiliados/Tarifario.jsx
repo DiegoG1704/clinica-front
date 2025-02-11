@@ -60,13 +60,19 @@ export default function Tarifario() {
         }
     };
 
+
     return (
         <>
-            <div className="flex flex-column p-4 bg-white shadow-md rounded-lg">
-                <h1 className="text-2xl font-bold text-gray-800 mb-4">Tarifario de las Clínicas</h1>
-                <Divider />
-                {user?.rol === "Usuario" && user?.codigo === null && (
-                    <div className="flex justify-content-end align-items-center mt-4">
+            <header className={`flex header-module`}>
+                <div className="flex-1 py-2 gap-0">
+                    <h1 className={"title-module "}>Tarifario de las Clínicas</h1>
+                    <p className={"description-module "}>Gestiona y administra tus centros médicos</p>
+                    {/* <Divider /> */}
+
+
+                </div>
+                <div className="flex justify-content-end align-items-center">
+                    <div className="flex justify-content-end align-items-center ">
                         <Button
                             label="Convertirme Promotor"
                             style={{
@@ -80,9 +86,11 @@ export default function Tarifario() {
                             icon="pi pi-plus"
                             onClick={() => setOpen(true)}
                         />
+
                     </div>
-                )}
-            </div>
+                </div>
+
+            </header>
 
             <div className="mt-6">
                 <ClinicaCards Promociones={tarifario} Ancho="600px" Alto="300px" />

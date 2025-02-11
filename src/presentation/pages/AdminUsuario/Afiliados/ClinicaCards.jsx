@@ -6,6 +6,7 @@ import user from '../../../img/sinLogo.png';
 import img from '../../../img/sinImg.png';
 import Tarifas from './Dialog/Tarifas';
 import { useAuth } from '../../../context/AuthContext/AuthContext';
+import ClinicaCard from '@/presentation/features/admin/admin-usuario/afiliado/components/clinica-card/ClinicaCard';
 
 export default function ClinicaCards({ Ancho, Alto, Margen, Display, Promociones, Admin }) {
     const [admin, setAdmin] = useState(Admin); // Estado para admin
@@ -21,53 +22,8 @@ export default function ClinicaCards({ Ancho, Alto, Margen, Display, Promociones
     return (
         <div className="cards-container">
             {Promociones.length > 0 ? (
-                Promociones.map((clinica) => (
-                    <Card
-                        key={clinica.id}
-                        title={clinica.area}
-                        style={{ width: Ancho, height: Alto, marginRight: Margen}}
-                        className='CardTarifario'
-                        header={
-                            <div className='flex'>
-                                <img 
-                                    src={clinica.IsoTipo ? `${process.env.REACT_APP_API_BASE_URL}uploads/${clinica.IsoTipo}` : img} 
-                                    alt="Logo de la clínica"
-                                    style={{
-                                        width: '40%', 
-                                        height: '300px', 
-                                        objectFit: 'cover',  // Mantiene la imagen dentro del contenedor sin distorsionarse
-                                        objectPosition: 'center', // Asegura que la imagen esté centrada si se recorta
-                                    }} 
-                                    className ='logotipo'
-                                />
-                                <div style={{display: 'flex', flexDirection: 'column', margin:'20px'}}>
-                                    <span style={{color:'#C4DD26', fontSize:'23px', fontWeight:'bold'}}>{clinica.nombre}</span>
-                                    <p className='reseña'>Somos la red de salud más grande del país y te ofrecemos productos de salud según tu estilo de vida y necesidades.</p>
-                                    <div style={{margin:'10px',display:'flex',flexDirection:'column'}}>
-                                        <span style={{fontWeight:'bold', fontSize:'15px'}}>Telefono:</span>
-                                        <span>{clinica.telefonos}</span>
-                                        <span style={{fontWeight:'bold', fontSize:'15px'}}>Direccion:</span>
-                                        <span>{clinica.direccion}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    >
-                        {(user?.rol === "Usuario" || user?.rol === "Promotor" || user?.rol === "Sub-Administrador" || user?.rol === "Administrador Local") && (
-                            <div className="button-container">
-                                <Button 
-                                    label='Tarifas' 
-                                    style={{
-                                        width: '200px', 
-                                        background: '#176ABC', 
-                                        borderColor: '#176ABC', 
-                                        color: 'white'
-                                    }} 
-                                    onClick={() => handleButtonClick(clinica)} // Actualizar clínica seleccionada
-                                />
-                            </div>
-                        )}
-                    </Card>
+                Promociones.map((clinica,index) => (
+                   <ClinicaCard key={clinica?.index} clinica={clinica} fnTarifas={() => handleButtonClick(clinica)} defImage={ img} />
                 ))
             ) : (
                 <p>No se encontraron promociones.</p> // Mensaje si no hay resultados

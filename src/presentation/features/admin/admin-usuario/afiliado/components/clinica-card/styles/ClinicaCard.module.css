@@ -1,0 +1,128 @@
+.CardTarifario {
+    height: 100%;
+    max-height: 300px;
+    width: 100%;
+    position: relative;
+    padding: 20px;
+    border: 1px solid #e8e9ed;
+    
+    /* Asegúrate de que la transición incluya 'border' */
+    transition: border 0.1s ease;
+    box-shadow: none;
+}
+
+.CardTarifario:hover {
+    border: 1px solid #3ccc9e;
+}
+
+.button-container {
+    /* position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 100%;
+    background-color: aqua; */
+}
+.button-container button{
+    
+    background: #059669;
+    border-color:  #059669;
+    color: 'white';
+    border-radius: 7px;
+    padding: 10px;
+}
+.logotipo-container{
+    width: 100%;
+    max-width: 260px;
+    min-width: 200px;
+    padding: 10px 20px;
+   
+}
+.logotipo-container div {
+    
+
+ 
+  border: 2px solid #e8e9ed;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 200px;
+ 
+
+  
+}
+.CardTarifario:hover .logotipo-container div  {
+    border: 0.5px solid #3ccc9e;
+}
+
+.card-header {
+    display: flex;
+    flex-direction: row;
+  
+    
+  
+}
+
+.logotipo-container img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* Mantiene la imagen dentro del contenedor sin distorsionarse */
+    object-position: center; /* Asegura que la imagen esté centrada si se recorta */
+    overflow: hidden; 
+    transition: transform .5s ease;
+    
+}
+.CardTarifario:hover .logotipo-container img  {
+    transform: scale(1.05);
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    
+}
+
+.clinica-nombre {
+    color: #444;
+    font-size: 26px;
+    font-weight: 600;
+
+}
+
+.clinica-detalles {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.clinica-detalle-titulo{
+    font-size: 18px;
+    font-weight:400 ;
+}
+.clinica-detalle-titulo-icon {
+    
+    font-size: 18px;
+    margin-right: 10px;
+    color: #059669;
+
+}
+
+/* Responsividad para ClinicaCard */
+@media (max-width: 768px) {
+    .card-header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logotipo {
+        width: 100%;
+        height: auto;
+    }
+
+    .card-info {
+        margin: 10px 0;
+    }
+
+    .CardTarifario {
+        min-height: auto; /* Ajusta la altura mínima al contenido */
+        max-height: none; /* Elimina la altura máxima */
+    }
+}

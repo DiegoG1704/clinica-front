@@ -9,9 +9,12 @@ import raimondi from '../../../../img/Clinicas/raimondi.jpg';
 import sanJuan from '../../../../img/Clinicas/sanJuan.jpg';
 import medicals from '../../../../img/Clinicas/Medical.jpeg';
 import JP from '../../../../img/Clinicas/clinica-javierPrado.jpg'
+import AltSalud from '../../../../img/Clinicas/AltaSalud.jpeg'
+import Opeluce from '../../../../img/Clinicas/clinica-opeluce-local.jpg'
 
 export default function ClinicasCarousel({ datos }) {
     const [products, setProducts] = useState([]);
+    
 
     const clinicas = [
         {
@@ -30,7 +33,7 @@ export default function ClinicasCarousel({ datos }) {
             height: 500,
             telefono: '908 885 371',
             title: "HolaDoc",
-            description: "Laboratorios avanzados para servicios médicos."
+            
         },
         {
             src: artroSalud,
@@ -39,7 +42,7 @@ export default function ClinicasCarousel({ datos }) {
             height: 500,
             telefono: '960 080 073',
             title: "ArtroSalud",
-            description: "Especialistas en salud articular."
+            
         },
         {
             src: raimondi,
@@ -48,7 +51,7 @@ export default function ClinicasCarousel({ datos }) {
             height: 500,
             telefono: '915 214 053',
             title: "Raimondi",
-            description: "Tecnología avanzada en diagnóstico."
+            
         },
         {
             src: sanJuan,
@@ -66,7 +69,7 @@ export default function ClinicasCarousel({ datos }) {
             height: 500,
             telefono: '997 819 568',
             title: "Medical San Miguel",
-            description: "Ofrecemos un servicio de calidad en todo momento"
+            
         },
         {
             src: JP,
@@ -75,7 +78,25 @@ export default function ClinicasCarousel({ datos }) {
             height: 500,
             telefono: '(01) 211 – 4141 ',
             title: "Clínica Javier Prado",
-            description: "Ofrecemos un servicio de calidad en todo momento"
+            
+        },
+        {
+            src: AltSalud,
+            alt: "Clínica AltaSalud",
+            width: 500,
+            height: 500,
+            telefono: '944247167 ',
+            title: "Clínica AltaSalud",
+            
+        },
+        {
+            src: Opeluce,
+            alt: "Clínica de Ojos D' Opeluce",
+            width: 500,
+            height: 500,
+            telefono: '(01) 206 -4700',
+            title: "Clínica de Ojos D' Opeluce",
+            
         }
     ];
 
