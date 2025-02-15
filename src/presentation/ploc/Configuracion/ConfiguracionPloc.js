@@ -18,7 +18,10 @@ const configuracionInitialState = {
         direccion: "",
         rol_id: 5,
     },
-    visibleDialogGeneralInfo: false
+    visibleDialogGeneralInfo: false,
+    configSectionIndexActive: 1,
+    configListSection: [{ "id": 1, label: "General" }, { "id": 2, label: "Seguridad" }]
+
     // user_id:0
 };
 
@@ -103,7 +106,7 @@ export class ConfiguracionPloc extends Ploc {
         console.log("entssa")
         this.changeState({
             ...this.state, visibleDialogGeneralInfo: true,
-            general_info:{correo:data?.correo,direccion:data?.direccion,telefono:data?.telefono}
+            general_info: { correo: data?.correo, direccion: data?.direccion, telefono: data?.telefono }
         })
     }
     closeDialogGeneralInfo() {
@@ -112,6 +115,15 @@ export class ConfiguracionPloc extends Ploc {
         })
         this.cleanFields()
     }
+    handleChangeSectionIndex(index) {
+        console.log("index",index)
+        this.changeState({
+            ...this.state, configSectionIndexActive: index
+        })
+        console.log("estado",this.state)
+
+    }
+
 
 
 
