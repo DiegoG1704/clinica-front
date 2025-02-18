@@ -87,4 +87,18 @@ body:has(.container-page){
   padding: 20px;
   margin: 10px;
 }
+.input-group{
+  margin: 0px!important;
 
+  
+}
+.input-group input{
+  font-size: 16px;
+
+  
+}
+.p-inputtext:focus-visible{
+   border: 3px solid #15803D;
+   outline: none;
+   box-shadow: none;
+}

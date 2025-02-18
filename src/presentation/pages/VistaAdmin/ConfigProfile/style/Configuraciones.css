@@ -1,22 +1,57 @@
+.container-module{
+   
+        background: linear-gradient(
+            to top,
+            white,
+            #f0fdf4, /* green-50 */
+            rgba(220, 252, 231, 0.5) /* green-100 con 50% de opacidad */
+        );
+        padding: 20px;
+        height: calc(100vh - 90px);
+    
+    
+}
+
+.user-profile__image .user-profile-shadow{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom right, #34d399, #059669); 
+  border-radius: 9999px; 
+  filter: blur(24px); 
+  opacity: 0.2;
+
+}
+
+
 .user-profile__image img{
     border: 6px solid #ffffff;
     width: 180px;
     height: 180px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 .user-profile__info__name{
     font-weight: 700;
     font-size: 1.6em;
-    color: #fff;
+    /* color: #fff; */
 }
 .user-profile__info__role{
     margin-top: -20px;
     text-align: center;
-    color: #ffffff;
+    color: #059669;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+.user-profile__info__address{
+    margin-top: -20px;
+    text-align: center;
+    color: #059669;
     font-weight: 400;
+    font-size: 1.1em;
 }
 .user_profile__record__id p:first-child{
     font-size: 1.6em;
     font-weight: 500;
+    font-size: 1.1em;
 
 }
 .user_profile__record__quantity-locals p:first-child{
@@ -46,10 +81,14 @@
     border: 2px solid #a5a58d;
 }
 .user-form__btn-save{
-    background-color:#a5a58d!important;
-    color: #fff;
-
-    border: 2px solid #a5a58d;
+    background-color:#fff;
+    color: #333;
+   
+    font-size: 20px!important;
+    border: 1px solid #d9d9c3;
+    font-weight: 500!important;
+    border-radius: 6px;
+    padding: 8px 15px;
 }
 .container-card-config-user{
     width: 80%;
@@ -64,7 +103,7 @@
     color: #6C6C6C;
 }
 .header__title{
-    font-size: 2em;
+    font-size: 2.3em;
     font-weight: 700;
 }
 .input-config{
@@ -73,32 +112,62 @@
 }
 
 .header-profile{
-    background: linear-gradient(90deg, #5e8b22, #8ec534);
-    padding: 20px 0px;
-
+    background-color: #fff;
+    padding: 20px 50px;
+    min-width: 300px;
+    height: 100%;
     width: 100%;
-
    border-radius: 20px;
+   /* border: 2px solid #edede6; */
+   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+
 }
 .user-form-profile{
     border-radius: 20px;
     background-color: #fff;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    height: 550px;
+
+    /* border: 2px solid #edede6; */
 }
+.user-form-password{
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    height: min-content;
+
+}
+
+
+
 .title-general-info{
-    color: #8ec534;
+    color: #111;
+    font-weight: 500;
+}
+.general-info__row{
+    border-radius: 10px;
+}
+.general-info__row:hover{
+    background-color: #e6fff8;
 }
 .general-info__icon{
-    background-color:#aeee48;
+    
     padding: 7px;
     border-radius: 5px;
-    color: #81b233; ;
+    color: #059669;
     margin-right: 5px;
+    font-weight: 500;
+    font-size: 1.4em;
 }
 .general-info__data{
-   color: #000;
+    font-size: 18px;
+    color:#059669;
+    font-weight: normal;
 }
 .general-info{
-    color: #81b233; 
+    color: #111 ;
+    font-size: 18px;
 }
 .edit-photo{
     width: 35px;
@@ -128,4 +197,41 @@
 }
 .p-icon-field{
     width: 100%;
+}
+.user-profile__container-action-button{
+    width: 100%;
+    display: flex;
+}
+.user-profile__action-button{
+    display: flex;
+    
+    width: 100%;
+}
+.user-profile__action-button {
+    padding: 5px;
+    background-color: #eee;
+    border-radius: 10px;
+}
+.user-profile__action-button .p-button {
+    flex:1;
+    background-color:#eee ;
+    border-color: transparent;
+    border-radius: 5px;
+  
+  
+    
+}
+.user-profile__action-button .p-highlight{
+    background-color: #ecfdf5;
+    border-color: #d9e9bf;  
+    color: #064e3b;
+
+}
+
+.profile label {
+    font-size: 1.1em;
+}
+.input-group label{
+    font-size: 17px!important;
+    font-weight: 600;
 }
