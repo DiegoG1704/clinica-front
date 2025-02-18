@@ -4,6 +4,8 @@ import { useAuth } from '../../context/AuthContext/AuthContext';
 import { history } from '../../utils/history';
 import { apiAdapter } from '../../../core/adapters/apiAdapter';
 import { Toast } from 'primereact/toast';
+import { ConfirmDialog } from 'primereact/confirmdialog';
+import ConfirmSolicitudDialog from '@/presentation/features/admin/admin-usuario/components/ConfirmSolicitudDialog/ConfirmSolicitudDialog';
 
 
 const RestringedPage = () => {
@@ -11,8 +13,19 @@ const RestringedPage = () => {
 
 
     const [loading, setLoading] = useState(false);
-    const { logout, user } = useAuth();
+    const { logout, user, me} = useAuth();
     const toast = useRef(null);
+    const [visibleConfirmDialog,setVisibleConfirmDialog]=useState(false)
+    const toggleDialog=(value)=>{
+        setVisibleConfirmDialog(value)
+    }
+    const hideDialog=()=>{
+        toggleDialog(false)
+    }
+    const showDialog=()=>{
+        toggleDialog(true)
+    }
+   
 
     const handleLogout = async () => {
         const response = await logout();
@@ -20,20 +33,33 @@ const RestringedPage = () => {
             history.navigate('/login', { replace: true });
         }
     };
+    const submit = async () => {
+
+
+        try {
+            const response = await apiAdapter.post(`${process.env.REACT_APP_API_BASE_URL}SolicitudUsuario/${user?.id}`);
+            console.log('Datos enviados:', response);
+            // await logout();
+        } catch (error) {
+            console.log('Error en el envío:', error);
+        }
+    };
 
     const handleStatusChange = async () => {
         try {
-            console.log("Changing status for affiliate ID:", user?.id); // Verifica el ID
-            const response = await apiAdapter.put(`/CambioEstado/${user?.id}`);
+
+            const response = await submit()
+            await me()
             setLoading(true);
+
             console.log('API Response:', response); // Verifica la respuesta de la API
             toast.current.show({
                 severity: 'success',
-                summary: 'Status Updated',
-                detail: 'The affiliate status has been updated to Active',
+                summary: 'Solicitud enviada',
+                detail: 'Tu solicitud se ha enviado exitosamente',
                 life: 3000,
             });
-            await handleLogout();
+            // await handleLogout();
             setLoading(false);
         } catch (error) {
             console.error('Error updating status:', error);
@@ -100,10 +126,17 @@ const RestringedPage = () => {
                             </div>
                         </section>
                         <div className={styles["container-buttons-actions"]}>
-                    
+
                             <button className={styles.actionButton} onClick={handleLogout}>Cerrar Sesión</button>
-                            {/* <button className={styles.actionButton} onClick={handleStatusChange} disabled={loading} > Cambiar Rol</button> */}
+
+                            {(user?.estado_solicitud !== 2 && user?.estado_solicitud == "1") && (
+                                <button className={styles.actionButton} onClick={showDialog} disabled={loading} >Enviar solicitud </button>
+                            )}
+                            <ConfirmSolicitudDialog onConfirm={handleStatusChange} onCancel={hideDialog} visible={visibleConfirmDialog} setVisible={toggleDialog} />
+
                         </div>
+
+
 
                     </div>
                 </div>

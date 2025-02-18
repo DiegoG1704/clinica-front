@@ -1,7 +1,7 @@
 import { Dialog } from 'primereact/dialog'
 import "./CustomDialog.css"
 
-const CustomDialog = ({footer,visible,onhide,children,title,iconClassName,width="500px",height}) => {
+const CustomDialog = ({footer,visible,onhide,children,title,iconClassName,width="500px",height="auto",header}) => {
     const headerTemplate = () => {
         return (
             <div className='flex flex-row gap-2'>
@@ -11,7 +11,7 @@ const CustomDialog = ({footer,visible,onhide,children,title,iconClassName,width=
         )
     }
     return (
-        <Dialog visible={visible} style={{ width: width,height:height}} header={headerTemplate} onHide={onhide}footer={footer} key={1}>
+        <Dialog visible={visible} style={{ width: width,height:height}} header={header?header:headerTemplate} onHide={onhide}footer={footer} key={1}>
             {children}
         </Dialog>
     )

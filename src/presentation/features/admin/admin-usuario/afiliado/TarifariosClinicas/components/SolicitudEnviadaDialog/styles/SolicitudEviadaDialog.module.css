@@ -1,0 +1,59 @@
+.dialogContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  .iconContainer {
+    background-color: #ecfdf5;
+ 
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  
+
+
+  .dialogTitle {
+    font-size: 1.5rem;
+    color: #047857;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .dialogText {
+    font-size: 1rem;
+    color: #374151;
+    margin-bottom: 1rem;
+    text-align: center;
+    line-height: 1.5;
+  }
+  
+  .dialogNote {
+    font-size: 0.9rem;
+    color: #6b7280;
+    font-style: italic;
+    text-align: center;
+  }
+  
+  .dialogFooter {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+  }
+  
+  .closeButton {
+    background-color: #10b981;
+    border-color: #10b981;
+  }
+  
+  .closeButton:hover {
+    background-color: #059669;
+    border-color: #059669;
+  }

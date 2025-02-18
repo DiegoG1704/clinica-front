@@ -42,7 +42,7 @@ class ClinicaAdminMapper {
         };
     }
     static toUpdateData(data) {
-        console.log("data-entrea",data)
+     
         
         return {
             
@@ -58,7 +58,7 @@ class ClinicaAdminMapper {
     static toDomainArray(dataArray) {
       
         const list= dataArray.map(data => this.toDomain(data));
-        console.log("dataaa",list)
+      
         
         return dataArray.map(data => this.toDomain(data));
     }

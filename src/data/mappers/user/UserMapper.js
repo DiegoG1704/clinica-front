@@ -9,6 +9,7 @@ class UserMapper {
     static toDomain(data) {  
         const fechaNacimiento = new Date(data.fechNac)
         const rol = Number(data?.rol_id)
+       
         return new User(
             data.id,
             data.correo,
@@ -29,7 +30,8 @@ class UserMapper {
             data.estadoPr,
             data.codigo,
             data.local_id,
-            data.rol
+            data.rol,
+            data.estado_solicitud
         );
     }
     static toData(user) {
