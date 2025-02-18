@@ -35,14 +35,15 @@ class UserMapper {
         );
     }
     static toData(user) {
+        console.log("trim",user)
  
         let fechaNacimiento = user.fechNac
         if (user.fechNac) {
             fechaNacimiento = new FechaValueObject(user.fechNac).convertirATexto();
         }
         
-        const nombresLimpios = user.nombres.trim().toUpperCase().replace(/\s+/g, ' ');
-        const apellidosLimpios = user.apellidos.trim().toUpperCase().replace(/\s+/g, ' ');
+        const nombresLimpios = user?.nombres?.trim().toUpperCase().replace(/\s+/g, ' ');
+        const apellidosLimpios = user?.apellidos?.trim().toUpperCase().replace(/\s+/g, ' ');
 
         // const fechaNacimiento =user.fechNac
         return {

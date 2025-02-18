@@ -17,6 +17,7 @@ import { Toast } from 'primereact/toast';
 import { showToast, showToastWithErrors } from '../../../utils/showToast';
 import EditProfile from './Components/EditProfile';
 import ConfirmacionCorreo from './Components/ConfirmacionCorreo';
+import { SelectButton } from 'primereact/selectbutton';
 
 export default function Configuraciones() {
   const { user, setUser, getUser } = useAuth();
@@ -24,8 +25,8 @@ export default function Configuraciones() {
   const [visibleChangePassword, setVisibleChangePassword] = useState(false)
   const ploc = useConfiguracionPloc()
   const state = usePlocState(ploc)
-  console.log("ss", ploc)
-  const [confirmar,setConfirmar] = useState(false)
+
+  const [confirmar, setConfirmar] = useState(false)
   const [selectedImage, setSelectedImage] = useState(user?.fotoPerfil ? `${process.env.REACT_APP_API_BASE_URL}uploads/${user.fotoPerfil}` : null);
   // Estado para la imagen seleccionada
   const [fotoPerfil, setFotoPerfil] = useState(user?.fotoPerfil);  // Estado local para la foto de perfil
@@ -124,101 +125,196 @@ export default function Configuraciones() {
   return (
     <div className="container-page">
       <Toast ref={toast} />
-      <header>
-        <h2 className='header__title'>Configuraciones</h2>
-
-      </header>
-      <main className='flex justify-content-center'>
-        <div className='container-card-config-user flex  flex-column justify-content-between gap-4'>
-          <div className="user-profile flex flex-column align-items-center " >
-            <header className='flex  justify-content-center align-items-center header-profile  flex-column'>
-              <div className="user-profile__info text-center  ">
-                <p className="user-profile__info__name">{user?.nombres}</p>
-                <p className="user-profile__info__role mt-2">{user?.rol}</p>
-              </div>
-              <div className="user-profile__image mb-3 ">
-                {/* Mostrar la imagen seleccionada o la imagen de perfil predeterminada */}
-
-                <div className='flex align-items-center flex-column relative '>
-                  <img
-                    src={selectedImage || (fotoPerfil ? fotoPerfil : photoDefault)}
-                    alt="Imagen de perfil"
-                    className='border-circle'
-                  />
-
-                  <FileUpload
-                    mode="basic"
-                    customUpload
-                    uploadHandler={handleImageUpload}
-                    accept="image/*"
-                    className='edit-photo  absolute bottom-0 right-0'
-                    maxFileSize={1000000}
-                    onSelect={handleImageSelect}
-                    onUpload={handleImageUploadReset}  // Restablecer la opción de seleccionar otra imagen
-                    chooseOptions={chooseOptions}
-
-
-                  />
-                </div>
-
-
-              </div>
-              <div className="user-profile__info text-center  ">
-
-                <p className="user-profile__info__role mt-2"> <span className='pi pi-map-marker'></span>{user?.direccion}</p>
-              </div>
-
-            </header>
+      <div className={` container-module`}>
+        <header className="flex">
+          <div className="flex-1 py-2 gap-0">
+            <h1 className='header__title'>Configuracion de Perfil</h1>
+            {/* <p className={"description-module "}>Gestiona la información del usuario</p> */}
 
 
           </div>
+        </header>
 
-          {/* Columna derecha: Formulario */}
-          <div className="user-form-profile p-4 flex-1">
-            <header className='flex justify-content-between align-items-center mb-3'>
-              <h2 className='title-general-info'>Información general</h2>
-              <div className='flex gap-2'>
-                <Button tooltip='Cambiar contraseña' icon="pi pi-key" rounded className='user-form__btn-cancel' onClick={ploc.showDialogChangePassword} />
-                <Button tooltip='Editar datos generales' icon=' pi pi-pencil' className='user-form__btn-save' rounded onClick={() => { ploc.openDialogGeneralInfo(user) }} />
-              </div>
-            </header>
 
-            <main>
-              <div className="user-form__general-info">
-                <div className='flex gap-4'>
-                  <div className="flex flex-column gap-2 flex-1 general-info">
-                    <label htmlFor="username"> <i className='pi pi-id-card general-info__icon'></i>Nombre Completo</label>
-                    <p className='general-info__data'>{datos.nombres}{" "}{datos.apellidos}</p>
+        <main className='flex justify-content-center profile '>
+          <div className='container-card-config-user flex sm:flex-column lg:flex-row   justify-content-between gap-4  flex-1 p-3'>
+            <div className="user-profile flex flex-column align-items-center px-2  lg:w-4" >
+              <header className='flex  justify-content-center align-items-center header-profile  flex-column'>
+
+                <div className="user-profile__image mb-3 relative ">
+                  {/* Mostrar la imagen seleccionada o la imagen de perfil predeterminada */}
+                  <div className='user-profile-shadow'></div>
+                  <div className='flex align-items-center flex-column relative  '>
+                    <img
+                      src={selectedImage || (fotoPerfil ? fotoPerfil : photoDefault)}
+                      alt="Imagen de perfil"
+                      className='border-circle'
+                    />
+
+                    <FileUpload
+                      mode="basic"
+                      customUpload
+                      uploadHandler={handleImageUpload}
+                      accept="image/*"
+                      className='edit-photo  absolute bottom-0 right-0'
+                      maxFileSize={1000000}
+                      onSelect={handleImageSelect}
+                      onUpload={handleImageUploadReset}  // Restablecer la opción de seleccionar otra imagen
+                      chooseOptions={chooseOptions}
+
+
+                    />
                   </div>
-                  <div className="flex flex-column gap-2 flex-1 general-info">
-                    <label htmlFor="cargo"><i className='pi pi-user general-info__icon'></i>Cargo</label>
-                    <p className='general-info__data'>{user?.rol}</p>
-                  </div>
+
+
+                </div>
+                <div className="user-profile__info text-center  ">
+                  <p className="user-profile__info__name">{user?.nombres}</p>
+                  <p className="user-profile__info__role mt-2">{user?.rol}</p>
+                </div>
+                <div className="user-profile__info text-center  ">
+                  <p className="user-profile__info__address mt-2"> <span className='pi pi-map-marker'></span>{user?.direccion}</p>
+                </div>
+                <div className="user-profile__container-action-button">
+                  <SelectButton options={state?.configListSection} className='user-profile__action-button' value={ploc.state?.configSectionIndexActive} optionValue='id' onChange={(e) => { ploc?.handleChangeSectionIndex(e.value) }} />
                 </div>
 
+              </header>
 
-                <div className='flex gap-4 mt-4'>
-                  <div className="flex flex-column gap-2 flex-1 general-info">
-                    <label htmlFor="username"> <i className='pi pi-envelope general-info__icon'></i>Correo</label>
-                    <div className='flex'>
-                      <p className='general-info__data'>{user?.correo}</p>
-                      <Button label='Confirmar correo' onClick={()=>setConfirmar(true)} style={{background:'#85C226',color:'white', borderColor:'#85C226'}}/>
+
+            </div>
+
+            {state?.configSectionIndexActive == 1 ? (
+              <div className="user-form-profile p-4 flex flex-column lg:w-8">
+                <header className='mb-3'>
+                  <div className='flex justify-content-between align-items-center '>
+                    <h2 className='title-general-info'>Información Personal</h2>
+                    <div className='flex gap-2'>
+                      {/* <Button tooltip='Cambiar contraseña' icon="pi pi-key" rounded className='user-form__btn-cancel' onClick={ploc.showDialogChangePassword} /> */}
+                      {/* <Button tooltip='Editar datos generales' icon=' pi pi-pencil' className='user-form__btn-save' rounded onClick={() => { ploc.openDialogGeneralInfo(user) }} /> */}
+                      <Button className='user-form__btn-save' onClick={() => { ploc.openDialogGeneralInfo(user) }} ><span>Editar</span></Button>
+
                     </div>
                   </div>
-                  <div className="flex flex-column gap-2 flex-1 general-info">
-                    <label htmlFor="cargo"><i className='pi pi-phone general-info__icon'></i>Télefono</label>
-                    <p className='general-info__data'>{user?.telefono}</p>
+                  <Divider />
+
+                </header>
+
+
+                <main className='h-full'>
+                  <div className="user-form__general-info h-full  ">
+                    <div className='flex flex-column  h-full'>
+                      <div className="flex flex-column gap-2 flex-1 general-info ">
+
+                        <div className="flex align-items-center  py-2 general-info__row">
+                          <div>
+                            <i className='pi pi-id-card general-info__icon '></i>
+                          </div>
+                          <div>
+                            <label htmlFor="username"> Nombre Completo</label>
+                            <p className='general-info__data'>{datos.nombres}{" "}{datos.apellidos}</p>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div className="flex flex-column gap-2 flex-1 general-info">
+                        <div className="flex general-info__row py-2">
+                          <div className="flex align-items-center">
+                            <div><i className='pi pi-building general-info__icon'></i></div>
+                          </div>
+                          <div>
+                            <label htmlFor="cargo">Cargo</label>
+                            <p className='general-info__data'>{user?.rol}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-column gap-2 flex-1 general-info">
+                        <div className="flex general-info__row py-2">
+                          <div className="flex align-items-center">
+                            <i className='pi pi-envelope general-info__icon'></i>
+                          </div>
+                          <div>
+                            <label htmlFor="username"> Correo</label>
+                            <div className='flex'>
+                              <p className='general-info__data'>{user?.correo}</p>
+                              {/* <Button label='Confirmar correo' onClick={()=>setConfirmar(true)} style={{background:'#85C226',color:'white', borderColor:'#85C226'}}/> */}
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div className="flex flex-column gap-2 flex-1 general-info">
+                        <div className="flex general-info__row py-2">
+                          <div className="flex align-items-center">
+                            <i className='pi pi-phone general-info__icon'></i>
+                          </div>
+                          <div>
+                            <label htmlFor="cargo">Télefono</label>
+                            <p className='general-info__data'>{user?.telefono}</p>
+                          </div>
+                        </div>
+
+
+
+                      </div>
+                    </div>
                   </div>
+                  <div>
+
+
+                  </div>
+
+
+                </main>
+              </div>
+            ) : (<div className="user-form-password p-4 flex flex-column lg:w-8">
+              <header className='mb-3'>
+                <div className='flex justify-content-between align-items-center '>
+                  <h2 className='title-general-info'>Seguridad de la Cuenta</h2>
+                  <div className='flex gap-2'>
+                    {/* <Button tooltip='Cambiar contraseña' icon="pi pi-key" rounded className='user-form__btn-cancel' onClick={ploc.showDialogChangePassword} /> */}
+                    {/* <Button tooltip='Editar datos generales' icon=' pi pi-pencil' className='user-form__btn-save' rounded onClick={() => { ploc.openDialogGeneralInfo(user) }} /> */}
+                    <Button className='user-form__btn-save' onClick={ploc.showDialogChangePassword} ><span>Cambiar Contraseña</span></Button>
+
+                  </div>
+                </div>
+                <Divider />
+
+              </header>
+              <main >
+                <div className="user-form__general-info">
+                  <div className='flex flex-column  '>
+                    <div className="flex flex-column gap-2  general-info ">
+
+                      <div className="flex align-items-center  py-2 general-info__row">
+                        <div>
+                          <i className='pi pi-lock general-info__icon '></i>
+                        </div>
+                        <div>
+                          <label htmlFor="username"> Contraseña</label>
+                          <p className='general-info__data'>Última actualización hace -</p>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+                <div>
+
+
                 </div>
 
 
-              </div>
+              </main>
+            </div>)}
 
 
-            </main>
           </div>
-        </div>
-      </main>
+        </main>
+
+      </div>
+
       <ChangePassword visibleChangePassword={state?.visibleDialogChangePassword}
         setVisibleChangePassword={ploc.hideDialogChangePassword}
         showDialogChangePassword={ploc.showDialogChangePassword}
@@ -232,8 +328,8 @@ export default function Configuraciones() {
 
       </EditProfile>
       <ConfirmacionCorreo
-      Cerrar={()=>setConfirmar(false)}
-      Abrir={confirmar}
+        Cerrar={() => setConfirmar(false)}
+        Abrir={confirmar}
       />
     </div>
   );
