@@ -35,8 +35,7 @@ class UserMapper {
         );
     }
     static toData(user) {
-        console.log("trim",user)
- 
+       
         let fechaNacimiento = user.fechNac
         if (user.fechNac) {
             fechaNacimiento = new FechaValueObject(user.fechNac).convertirATexto();
