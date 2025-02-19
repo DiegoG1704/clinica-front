@@ -52,6 +52,18 @@
   opacity: 0.6; /* Mantén un poco de transparencia para indicar que está deshabilitado */
   cursor: not-allowed; /* Cambia el cursor para mostrar que el botón está deshabilitado */
 }
+.orange-button {
+  background-color:#ee672d !important;
+  border-color:#ee672d !important;
+}
+
+.orange-button:disabled {
+  background-color: #b8572e !important;
+  border-color: #b8572e !important;
+  opacity: 0.6; /* Mantén un poco de transparencia para indicar que está deshabilitado */
+  cursor: not-allowed; /* Cambia el cursor para mostrar que el botón está deshabilitado */
+}
+
 
   
   @media screen and (max-width: 960px) {

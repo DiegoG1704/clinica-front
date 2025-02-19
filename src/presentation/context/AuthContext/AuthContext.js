@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
     const userRepository = new UserRepositoryImpl(apiAdapter)
     const getUserByTokenUseCase = new getUserByToken(userRepository)
     const [loading, setLoading] = useState(true);
-    const [panel, setPanel] = useState(true)
+
     // LogOut
     const userLogoutUseCase = new LogoutUser(userRepository)
     //Validate code
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const loggedInUser = await loginUseCase.execute({ "dni": correo, "contraseña": contraseña });
             if (loggedInUser.success) {
-                console.log("data", loggedInUser)
+
                 setUser(loggedInUser?.data);
                 // localStorage.setItem('user', JSON.stringify(loggedInUser?.data));
                 // localStorage.setItem('token', (loggedInUser?.token));
@@ -120,6 +120,17 @@ export const AuthProvider = ({ children }) => {
     };
     const checkAuthStatus = async () => {
         setLoading(true);
+        let response = await getUserByTokenUseCase.execute();
+        if (response?.success) {
+            setUser(response?.data);
+            setIsAuthenticated(true);
+        } else {
+            setIsAuthenticated(false);
+        }
+        setLoading(false);
+    };
+    const me = async () => {
+
         let response = await getUserByTokenUseCase.execute();
         if (response?.success) {
             setUser(response?.data);
@@ -185,7 +196,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             user, setUser, login, logout, isAuthenticated, Datos, setDatos, FindPersonWithDni,
             validateGeneralData, RegisterUser, setIsAuthenticated, getUser, validateCode,
-            loading, setLoading, LoaderPrivate, setLoaderPrivate, LoaderGuest, setLoaderGuest
+            loading, setLoading, LoaderPrivate, setLoaderPrivate, LoaderGuest, setLoaderGuest,me
         }}>
 
             {children}

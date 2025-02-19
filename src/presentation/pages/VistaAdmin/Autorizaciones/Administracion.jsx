@@ -37,13 +37,13 @@ export default function AdminPanel() {
   const handleStatusChange = async () => {
     if (selectedAffiliateId) {
       try {
-        console.log("Changing status for affiliate ID:", selectedAffiliateId); // Verifica el ID
+        
         const response = await apiAdapter.put(`/CambioEstado/${selectedAffiliateId}`);
         console.log('API Response:', response); // Verifica la respuesta de la API
         toastRef.current.show({
           severity: 'success',
-          summary: 'Status Updated',
-          detail: 'The affiliate status has been updated to Active',
+          summary: 'Usuario actualizado ',
+          detail: 'Se ha actualizado el rol del usuario correctamente',
           life: 3000,
         });
         await fetchAffiliatesData(); // Actualiza la lista después de cambiar el estado
@@ -51,14 +51,14 @@ export default function AdminPanel() {
         console.error('Error updating status:', error);
         toastRef.current.show({
           severity: 'error',
-          summary: 'Error',
-          detail: 'Unable to update the affiliate status',
+          summary: 'Error al actualizar usuario',
+          detail: 'Hubo un error al actualizar el rol del usuario',
           life: 3000,
         });
       }
     }
   };
-  
+
   const handlePRStatusChange = async () => {
     if (selectedAffiliateId) {
       try {
@@ -82,7 +82,7 @@ export default function AdminPanel() {
         });
       }
     }
-  };  
+  };
 
   const rejectAction = () => {
     toastRef.current.show({ severity: 'warn', summary: 'Rejected', detail: 'Status has not been changed', life: 3000 });
@@ -93,13 +93,15 @@ export default function AdminPanel() {
   );
 
   const statusChangeButton = (rowData) => (
+
     <div className="flex gap-2">
       <Button
         severity={rowData.Estado === 'Activo' ? 'success' : 'danger'}
         onClick={() => showConfirmDialog(rowData.id)}
         label={rowData.Estado}
-        disabled={rowData.Estado === 'Activo'}
-        className={rowData.Estado === 'Activo' ? 'green-button' : ''}
+        disabled={rowData.Estado === 'Activo' || rowData.estado_solicitud !== "2"}
+        className={rowData.Estado === 'Activo' ? 'green-button' :
+          rowData.estado_solicitud === "2" ? "orange-button" : ""}
       />
     </div>
   );
@@ -110,14 +112,14 @@ export default function AdminPanel() {
         severity={rowData.EstadoPr === 'Activo' ? 'success' : 'danger'}
         onClick={() => showConfirmDialogPR(rowData.id)}
         label={rowData.EstadoPr}
-        disabled={rowData.EstadoPr === 'Activo'}
-        className={rowData.EstadoPr === 'Activo' ? 'green-button' : ''}
+        disabled={rowData.EstadoPr === 'Activo' || rowData.estado_solicitud !== "3"}
+        className={rowData.EstadoPr === 'Activo' ? 'green-button' : rowData.estado_solicitud === "3" ? "orange-button" : ""}
       />
     </div>
   );
 
   const showConfirmDialog = (id) => {
-    console.log("Affiliate ID selected:", id); // Verifica el ID
+    
     setSelectedAffiliateId(id);
     confirmDialog({
       group: 'templating',
@@ -152,7 +154,7 @@ export default function AdminPanel() {
       reject: rejectAction,
     });
   };
-  
+
 
   // Define the columns for the CustomDataTable
   const columns = [
@@ -196,7 +198,7 @@ export default function AdminPanel() {
       ) : (
         <div className="flex justify-content-center">
           <Card className="admin-card" style={{ marginTop: '15px' }}>
-          <CustomDataTable
+            <CustomDataTable
               columns={columns}
               value={filterAffiliates}
               paginator={true}

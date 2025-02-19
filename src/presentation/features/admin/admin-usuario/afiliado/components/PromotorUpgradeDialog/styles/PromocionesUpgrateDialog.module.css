@@ -1,0 +1,181 @@
+.promotor-content {
+
+  
+   
+   
+
+  }
+
+  .promotor-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #0f766e;
+    margin: 0 0 8px 0;
+  }
+
+  .promotor-subtitle {
+    font-size: 16px;
+    color: #475569;
+    margin: 0 0 2px 0;
+  }
+
+  .steps-section {
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+  }
+
+  .steps-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #0f766e;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .steps-header::before {
+    content: "💡";
+  }
+
+  .step-item {
+    margin-bottom: 12px;
+    color: #334155;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+
+  .step-item::before {
+    content: "•";
+    color: #0f766e;
+    font-weight: bold;
+  }
+
+  .amount {
+    font-weight: 600;
+    color: #0f766e;
+  }
+
+  .payment-section {
+    background: #f0fdfa;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 1px solid #99f6e4;
+  }
+
+  .payment-title {
+    font-weight: 600;
+    color: #0f766e;
+    margin-bottom: 16px;
+  }
+
+  .account-info {
+    display: grid;
+    gap: 12px;
+  }
+
+  .account-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: #475569;
+  }
+
+  .account-label {
+    min-width: 140px;
+    font-weight: 500;
+    color: #0f766e;
+  }
+
+  .account-value {
+    font-family: monospace;
+    background: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #99f6e4;
+    color: #0f766e;
+  }
+
+  .notice {
+    background: #ecfdf5;
+    color: #065f46;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 1px solid #6ee7b7;
+  }
+
+  .terms {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 24px;
+    color: #475569;
+
+  }
+
+  .terms input[type="checkbox"] {
+    margin-top: 4px;
+    accent-color: #0f766e;
+  }
+
+  .terms a {
+    color: #0f766e;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .terms a:hover {
+    text-decoration: underline;
+  }
+
+  .actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+
+  }
+
+  /* Optional: If you want to style PrimeReact buttons to match the design */
+  .p-button.p-button-primary {
+    background: #0f766e;
+    border-color: #0f766e;
+  }
+
+  .p-button.p-button-primary:hover {
+    background: #115e59;
+    border-color: #115e59;
+  }
+
+  .p-button.p-button-secondary {
+    background: #f1f5f9;
+    border-color: #f1f5f9;
+    color: #475569;
+  }
+
+  .p-button.p-button-secondary:hover {
+    background: #e2e8f0;
+    border-color: #e2e8f0;
+  }
+
+  @media (max-width: 640px) {
+    .account-row {
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .account-label {
+      min-width: auto;
+    }
+
+    .actions {
+      flex-direction: column;
+    }
+
+    .p-button {
+      width: 100%;
+    }
+  }

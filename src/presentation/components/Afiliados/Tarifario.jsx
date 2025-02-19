@@ -10,6 +10,8 @@ import TerminosyCond from '../../pages/login/Dialog/TerminosyCond';
 import { Checkbox } from 'primereact/checkbox';
 import { Toast } from 'primereact/toast';
 import { showToast } from '../../utils/showToast';
+import PromotorUpgradeDialog from '@/presentation/features/admin/admin-usuario/afiliado/components/PromotorUpgradeDialog/PromotorUpgradeDialog';
+import SolicitudEnviadaDialog from '@/presentation/features/admin/admin-usuario/afiliado/TarifariosClinicas/components/SolicitudEnviadaDialog/SolicitudEnviadaDialog';
 
 export default function Tarifario() {
     const { user, logout } = useAuth();
@@ -18,12 +20,20 @@ export default function Tarifario() {
     const toast = useRef(null);
     const [openTC, setOpenTC] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [codigo, setCodigo] = useState('');
     const [checked, setChecked] = useState(false);
     const [datos, setDatos] = useState({
         rol_id: 4,
     });
-    const [isCodigoFetched, setIsCodigoFetched] = useState(false);
+    const [visibleSolicitudEnviadaDialog, setVisibleSolicitudEnviadaDialog] = useState()
+    const toggleSolicitudDialog = (value) => {
+        setVisibleSolicitudEnviadaDialog(value)
+    }
+    const showSolicitudDialog = () => {
+        toggleSolicitudDialog(true)
+    }
+    const hideSolicitudDialog = () => {
+        toggleSolicitudDialog(false)
+    }
 
     useEffect(() => {
         const fetchIsoTipo = async () => {
@@ -50,15 +60,22 @@ export default function Tarifario() {
             showToast("error", "Error", "Debe aceptar los términos y condiciones", toast);
             return false;
         }
-
         try {
-            const response = await apiAdapter.post(`${process.env.REACT_APP_API_BASE_URL}CodeGenered/${user?.id}`, datos);
+            const response = await apiAdapter.post(`${process.env.REACT_APP_API_BASE_URL}SolicitudPromotor/${user?.id}`, datos);
             console.log('Datos enviados:', response);
-            await logout();
+            // await logout();
         } catch (error) {
             console.log('Error en el envío:', error);
         }
     };
+    const handleClickButtonSolicitud = () => {
+
+        if (user?.estado_solicitud === "3") {
+            setVisibleSolicitudEnviadaDialog(true)
+        } else {
+            setOpen(true)
+        }
+    }
 
 
     return (
@@ -71,9 +88,10 @@ export default function Tarifario() {
 
 
                 </div>
+                {/* ({user}) */}
                 <div className="flex justify-content-end align-items-center">
                     <div className="flex justify-content-end align-items-center ">
-                        <Button
+                        {user?.rol !== "Promotor" && (<Button
                             label="Convertirme Promotor"
                             style={{
                                 backgroundColor: "#85C226",
@@ -83,9 +101,11 @@ export default function Tarifario() {
                                 fontWeight: "bold",
                                 color: "#fff",
                             }}
-                            icon="pi pi-plus"
-                            onClick={() => setOpen(true)}
-                        />
+
+                            onClick={handleClickButtonSolicitud}
+                        />)}
+
+
 
                     </div>
                 </div>
@@ -95,47 +115,8 @@ export default function Tarifario() {
             <div className="mt-6">
                 <ClinicaCards Promociones={tarifario} Ancho="600px" Alto="300px" />
             </div>
-
-            <Dialog visible={open} onHide={() => setOpen(false)} className="p-2 max-w-lg mx-auto">
-                <Toast ref={toast} />
-                <p className="message__title">Cambio de rol a Promotor</p>
-                <p className="text-lg font-semibold mb-3 text-gray-700">Para cambiar de rol a Promotor debe seguir los pasos</p>
-                <Divider align="center" className="mb-4">
-                    <div className="inline-flex align-items-center">
-                        <i className="pi pi-lightbulb mr-2 text-yellow-500" />
-                        <p><strong>PASOS</strong></p>
-                    </div>
-                </Divider>
-                <p>Depositar la cantidad de <strong>S/. 59</strong></p>
-                <p>Enviar el comprobante a este número <strong>920517220</strong></p>
-                <p>La cuenta se activará hasta 24h después de la transferencia o 48h de la transferencia interbancaria</p>
-
-                <Divider align="center" className="my-4">
-                    <div className="inline-flex align-items-center">
-                        <p><strong>PAGOS</strong></p>
-                    </div>
-                </Divider>
-                <p><strong>BCP: ADB CONSULTING SAC</strong></p>
-                <p><i className="pi pi-credit-card" style={{ fontSize: '1rem' }}></i> Cuenta Corriente SOLES: <strong>194-2659964-0-21</strong></p>
-                <p><i className="pi pi-credit-card" style={{ fontSize: '1rem' }}></i> CCI Moneda Nacional: <strong>002-19400265996402191</strong></p>
-                <p><i className="pi pi-mobile" style={{ fontSize: '1rem' }}></i> Yape: <strong>920517220</strong></p>
-
-                <div className="flex justify-content-center my-4">
-                    <Checkbox
-                        onChange={e => { setChecked(e.checked) }}
-                        checked={checked}
-                        className="mr-2"
-                    />
-                    <p className="text-sm">
-                        Al registrarte aceptas haber leído y estar de acuerdo con la
-                        <span onClick={() => setOpenTC(true)} className="text-blue-600 font-bold cursor-pointer"> Política de Privacidad y los Términos y Condiciones</span>
-                    </p>
-                </div>
-                <div className="flex justify-content-end">
-                    <Button label="Aceptar" onClick={submit} className="p-button-success" />
-                </div>
-            </Dialog>
-
+            <SolicitudEnviadaDialog visible={visibleSolicitudEnviadaDialog} onHide={hideSolicitudDialog} />
+            <PromotorUpgradeDialog visible={open} setVisible={() => setOpen(false)} setChecked={setChecked} setOpenTC={setOpenTC} submit={submit} checked={checked} />
             <TerminosyCond visible={openTC} Close={() => setOpenTC(false)} Aceptar={handleTermsAccept} PDF={'PROMOTOR.pdf'} />
         </>
     );

@@ -1,0 +1,109 @@
+.customDialog {
+    max-width: 450px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dialogContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  .iconContainer {
+    background-color: #f0f7ff;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .envelopeIcon {
+    font-size: 2.5rem;
+    color: #3b82f6;
+  }
+  
+  .dialogTitle {
+    font-size: 1.5rem;
+    color: #1e293b;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .dialogText {
+    font-size: 1rem;
+    color: #64748b;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .checkList {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 1.5rem;
+  }
+  
+  .checkList li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    color: #334155;
+  }
+  
+  .checkList li i {
+    color: #22c55e;
+    margin-right: 0.5rem;
+  }
+  
+  .dialogNote {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    font-style: italic;
+    text-align: center;
+  }
+  
+  .dialogFooter {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
+  
+  .sendButton {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+  }
+  
+  .sendButton:hover {
+    background-color: #2563eb;
+    border-color: #2563eb;
+  }
+  
+  .confirmButton {
+    background-color: #22c55e;
+    border-color: #22c55e;
+  }
+  
+  .confirmButton:hover {
+    background-color: #16a34a;
+    border-color: #16a34a;
+  }
+  
+  .cancelButton {
+    background-color: #f1f5f9;
+    border-color: #f1f5f9;
+    color: #64748b;
+  }
+  
+  .cancelButton:hover {
+    background-color: #e2e8f0;
+    border-color: #e2e8f0;
+    color: #475569;
+  }
+  
+  
