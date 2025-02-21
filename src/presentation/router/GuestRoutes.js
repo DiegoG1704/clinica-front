@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Login from "../pages/login/login";
+import Login from "@/presentation/features/user/auth/login/login";
 import Register from "../pages/login/register";
 import RegisterU from '../pages/login/RegisterU';
 import Afiliados from "../pages/AdminUsuario/Afiliados/Afiliados";
@@ -11,6 +11,7 @@ import NuevaContrasena from "../pages/Contraseña/Recuperacion/NuevaContraseña"
 import Exito from "../pages/Contraseña/Recuperacion/Confirmación";
 import HomePage from "../features/user/home/pages/main/HomePage";
 import Loader from "../components/Loader/Loader";
+
 
 export const GuestRoutes = ({ onLogin, handleDatos, user, setUser, Datos, loading, setLoading, LoaderGuest, setLoaderGuest }) => {
     return (
