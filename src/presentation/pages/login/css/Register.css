@@ -21,6 +21,10 @@
     text-align: center;
     height: auto;
 }
+.register-box .input-group label{
+    font-size: 16px!important;
+
+}
 
 .register-title {
     font-size: 1.75rem;
@@ -36,6 +40,7 @@
 
 .Gruppo{
     display: flex;
+    gap: 30px;
 }
 
 .input-group {

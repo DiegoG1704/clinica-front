@@ -126,11 +126,11 @@ export default function Register({ onNext, loading, setLoading, LoaderGuest, set
         aria-label="Retroceder"
       />
       <div className="login-link">
-        <div>
+        {/* <div>
           <label>¿Ya tienes una cuenta?</label>
           <a className='Iniciar' onClick={() => navigate('/login')}>Inicia sesión</a>
-        </div>
-        <a>¿Olvidaste tu ID o contraseña?</a>
+        </div> */}
+        {/* <a>¿Olvidaste tu ID o contraseña?</a> */}
       </div>
       <div className="register-box">
         <h1 className="register-title">Crear Cuenta</h1>
