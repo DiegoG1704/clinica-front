@@ -50,7 +50,7 @@ const Login = ({ onLogin }) => {
                 <div className={styles?.background}>
                     <img src={Hands} alt="" />
                 </div>
-                <div className={`${styles?.["login-info"]} flex-1 sm:hidden lg:flex`}>
+                <div className={`${styles?.["login-info"]} flex-1  sm:hidden lg:flex`}>
                     <div>
                         <header class={styles?.header}>
                             {/* <div className={styles?.logo}>
