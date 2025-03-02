@@ -210,9 +210,18 @@
     
     
 }
-@media (max-width: 576px) {
+@media (max-width: 650px) {
+    .container-login{
+        height: 100%;
+    }
  
     .login-info{
         display: none;
     }
+
+    .login-form{
+        background-color: transparent;
+        padding: 20px;
+    }
+    
   }

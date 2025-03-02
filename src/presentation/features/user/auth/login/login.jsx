@@ -44,7 +44,7 @@ const Login = ({ onLogin }) => {
 
 
     return (
-        <div className={`flex    align-items-center justify-content-center lg:h-screen sm:h-full sm:py-3 ${styles?.["container-login"]} `}>
+        <div className={`flex align-items-center justify-content-center h-screen h-full py-3 ${styles?.["container-login"]} `}>
            <Toast ref={toastRef}/> 
             <div className={`${styles?.["container-form"]} flex sm:flex-column lg:flex-row  `}>
                 <div className={styles?.background}>
