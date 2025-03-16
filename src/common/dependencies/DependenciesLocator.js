@@ -35,6 +35,8 @@ import DeleteClinicaAdminUseCase from "../../domain/useCases/ClinicaAdministrado
 import DeleteClinicaAdmin from "../../domain/useCases/ClinicaAdministrador/DeleteClinicaAdministrador";
 import UpdateGeneralData from "../../domain/useCases/user/UpdateGeneralData";
 import ZodChangeGeneralInfo from "../../data/validators/user/ZodChangeGeneralInfo";
+import ZodPhotoPerfilValidatorImpl from "@/data/validators/user/ZodPhotoPerfilValidator";
+import UpdatePhotoPerfil from "@/domain/useCases/user/UpdatePhotoPerfil";
 
 
 
@@ -96,7 +98,18 @@ function provideConfiguracionPloc(userRepository) {
     const changePasswordUseCase = new changePassword(userRepository, changePasswordValidator)
     const changeGeneralDataValidator= new ZodChangeGeneralInfo()
     const updateGeneralDataUseCase=new UpdateGeneralData(userRepository,changeGeneralDataValidator)
-    const configuracion = new ConfiguracionPloc(changePasswordUseCase,updateGeneralDataUseCase)
+
+    const updatePhotoPerfilValidator=new ZodPhotoPerfilValidatorImpl()
+    const updatePhotoPerfilUseCase= new UpdatePhotoPerfil(userRepository,updatePhotoPerfilValidator)
+    const configuracion = new ConfiguracionPloc(changePasswordUseCase,updateGeneralDataUseCase,updatePhotoPerfilUseCase)
+
+
+   
+
+
+
+
+
 
     return configuracion
 

@@ -4,9 +4,9 @@ import "./CustomDialog.css"
 const CustomDialog = ({footer,visible,onhide,children,title,iconClassName,width="500px",height="auto",header}) => {
     const headerTemplate = () => {
         return (
-            <div className='flex flex-row gap-2'>
-                <span className={iconClassName} style={{fontSize:"40px",fontWeight:"500",color:"#85C226"}}></span>
-                <span style={{fontSize:"28px",fontWeight:"700"}}>{title}</span>
+            <div className='flex flex-row gap-2 align-items-center custom-dialog-header'>
+                <span className={`${iconClassName} header-icon`} style={{fontSize:"22px",fontWeight:"500",color:"#fff"}}></span>
+                <span style={{fontSize:"20px",fontWeight:"600"}}>{title}</span>
             </div>
         )
     }
