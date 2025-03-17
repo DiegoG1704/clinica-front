@@ -1,5 +1,8 @@
 .p-dialog-header{
-    border-radius:30px 30px 0px 0px;
+    border-radius:20px 20px 0px 0px;
+    background: linear-gradient(to right, #4ade80, #16a34a);
+    color: white;
+    padding: 16px;
 }
 .p-dialog{
     border-radius: 30px;
@@ -9,4 +12,8 @@
 }
 .p-dialog-footer{
     border-radius:0px 0px 30px 30px;
+}
+.p-dialog-header-close{
+
+    color:white
 }
