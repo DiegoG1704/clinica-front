@@ -48,10 +48,10 @@ export default function SubAfiliados({ UserId }) {
 
   const fetchLink = async () => {
     try {
-      const response = await apiAdapter.get(`${process.env.REACT_APP_API_BASE_URL}LinkCodigoDemo/${user?.id}`);
+      const response = await apiAdapter.get(`${process.env.REACT_APP_API_BASE_URL}LinkCodigo/${user?.id}`);
       setLink(response?.link); // Asegurarte de que extraes el enlace correctamente
     } catch (error) {
-      console.error('Error al obtener el link:', error);
+      // console.error('Error al obtener el link:', error);
     }
   };
 
