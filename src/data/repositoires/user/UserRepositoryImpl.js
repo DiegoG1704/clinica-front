@@ -1,5 +1,6 @@
 // src/data/repositories/UserRepositoryImpl.js
 
+import UpdatePhotoUserMapper from '@/data/mappers/user/UpdatePhotoUserMapper';
 import UserRepository from '../../../domain/repositories/auth/UserRepository';
 import UserMapper from '../../mappers/user/UserMapper';
 
@@ -110,6 +111,17 @@ class UserRepositoryImpl extends UserRepository {
             const response = await this.adapter.post(`verificarCodigo`, code);
             console.log("res",response)
             return { success: response?.success }
+        } catch (error) {
+            return { success: false, error: error?.response?.data }
+        }
+
+    }
+    async updatePhoto(image,id) {
+   
+        const data = UpdatePhotoUserMapper.toData(image)
+        try {
+            const response = await this.adapter.post(`Usuario/${id}/uploadProfileImage`, data);
+            return { success:response?.message==="Éxito"?true:false,data:response?.fotoPerfil }
         } catch (error) {
             return { success: false, error: error?.response?.data }
         }

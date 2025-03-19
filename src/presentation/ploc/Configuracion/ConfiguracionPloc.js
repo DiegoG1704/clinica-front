@@ -26,7 +26,7 @@ const configuracionInitialState = {
 };
 
 export class ConfiguracionPloc extends Ploc {
-    constructor(changePassword, updateGeneralData) {
+    constructor(changePassword, updateGeneralData, updatePerfil) {
         super(configuracionInitialState);
         this.changePasswordUseCase = changePassword;
         this.changePassword = this.changePassword.bind(this);
@@ -38,6 +38,11 @@ export class ConfiguracionPloc extends Ploc {
 
         this.openDialogGeneralInfo = this.openDialogGeneralInfo.bind(this)
         this.closeDialogGeneralInfo = this.closeDialogGeneralInfo.bind(this)
+
+        this.updatePhotoPerfilUseCase = updatePerfil
+
+
+
         // this.addPromocionUseCase = addPromocionUseCase;
         // this.updatePromocionUseCase = updatePromocionUseCase;
         // this.deletePromocionUseCase = deletePromocionUseCase;
@@ -116,14 +121,20 @@ export class ConfiguracionPloc extends Ploc {
         this.cleanFields()
     }
     handleChangeSectionIndex(index) {
-        console.log("index",index)
+        console.log("index", index)
         this.changeState({
             ...this.state, configSectionIndexActive: index
         })
-        console.log("estado",this.state)
+        console.log("estado", this.state)
 
     }
+    async updatePhoto(id, img) {
+  
+        const response = await this.updatePhotoPerfilUseCase.execute(img,id)
 
+        return response
+
+    }
 
 
 

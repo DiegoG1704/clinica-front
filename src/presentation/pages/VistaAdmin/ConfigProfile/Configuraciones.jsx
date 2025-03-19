@@ -18,11 +18,13 @@ import { showToast, showToastWithErrors } from '../../../utils/showToast';
 import EditProfile from './Components/EditProfile';
 import ConfirmacionCorreo from './Components/ConfirmacionCorreo';
 import { SelectButton } from 'primereact/selectbutton';
+import ChangePhoto from './Components/ChangePhoto/ChangePhoto';
 
 export default function Configuraciones() {
+  const [visibleDialogPhoto, setVisibleDialogPhoto] = useState(false)
   const { user, setUser, getUser } = useAuth();
   const toast = useRef(null)
-  const [visibleChangePassword, setVisibleChangePassword] = useState(false)
+
   const ploc = useConfiguracionPloc()
   const state = usePlocState(ploc)
 
@@ -37,6 +39,8 @@ export default function Configuraciones() {
     correo: user?.correo || '',
   });
 
+  const [image, setImage] = useState(null);
+
   useEffect(() => {
     if (user) {
       setDatos({
@@ -49,41 +53,56 @@ export default function Configuraciones() {
 
 
   // Handler para subir la imagen
-  const handleImageUpload = async ({ files }) => {
-    const file = files[0];
-    const formData = new FormData();
-    formData.append('image', file);
+  const handleImageUpload = async (file) => {
+    const response = await ploc?.updatePhoto(user?.id, file)
+    if (response?.success) {
+      showToast("success", "Foto perfil actualizada", "Se ha actualizado la foto perfil correctamente", toast)
+      setUser(prevState => ({
+        ...prevState,
+        fotoPerfil: response?.data
+      }));
+      setSelectedImage(`${process.env.REACT_APP_API_BASE_URL}uploads/${response?.data}`);
+      
 
-    try {
-      // Llamada a la API para subir la imagen
-      const response = await apiAdapter.post(
-        `Usuario/${user?.id}/uploadProfileImage`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-      );
-
-      // Asumiendo que la respuesta contiene la URL de la nueva foto de perfil
-      const { fotoPerfil: newFotoPerfil } = response;
-      if (typeof newFotoPerfil === 'string') {
-        // Actualiza el estado local con la nueva foto
-        setFotoPerfil(newFotoPerfil);
-        setSelectedImage(`${process.env.REACT_APP_API_BASE_URL}uploads/${newFotoPerfil}`);  // Actualiza la vista previa
-
-        // Actualiza el estado global de 'user' con la nueva foto de perfil
-        setUser(prevState => ({
-          ...prevState,
-          fotoPerfil: newFotoPerfil
-        }));
-      } else {
-        console.error('El valor de fotoPerfil no es una cadena de texto:', newFotoPerfil);
-      }
-    } catch (error) {
-      console.error('Error al subir la imagen:', error);
+    } else {
+      showToast("error", "Error al actulizar", "Hubo un error al actualizar la foto perfil", toast)
     }
+    return response
+    // console.log("file", file)
+    // const formData = new FormData();
+    // formData.append('image', file);
+
+    // try {
+    //   // Llamada a la API para subir la imagen
+    //   const response = await apiAdapter.post(
+    //     `Usuario/${user?.id}/uploadProfileImage`,
+    //     formData,
+    //     {
+    //       headers: {
+    //         'Content-Type': 'multipart/form-data'
+    //       }
+    //     }
+    //   );
+
+    //   // Asumiendo que la respuesta contiene la URL de la nueva foto de perfil
+    //   const { fotoPerfil: newFotoPerfil } = response;
+    //   if (typeof newFotoPerfil === 'string') {
+    //     // Actualiza el estado local con la nueva foto
+    //     setFotoPerfil(newFotoPerfil);
+    //     setSelectedImage(`${process.env.REACT_APP_API_BASE_URL}uploads/${newFotoPerfil}`);  // Actualiza la vista previa
+
+    //     // Actualiza el estado global de 'user' con la nueva foto de perfil
+    //     setUser(prevState => ({
+    //       ...prevState,
+    //       fotoPerfil: newFotoPerfil
+    //     }));
+    //   } else {
+    //     console.error('El valor de fotoPerfil no es una cadena de texto:', newFotoPerfil);
+    //   }
+    // } catch (error) {
+    //   console.error('Error al subir la imagen:', error);
+    // }
+
   };
 
   // Handler para seleccionar la imagen antes de cargarla (solo para vista previa)
@@ -113,13 +132,16 @@ export default function Configuraciones() {
 
   const handleChangePassword = async () => {
     const response = await ploc.changePassword(user?.id);
-    console.log("this-response", response)
     if (!response.success) {
       showToastWithErrors("error", "Error al actualizar", response?.error, toast)
     } else {
       showToast("success", "Actulizado correctamente", "Se ha actualizado su contraseña correctamente", toast)
       ploc.hideDialogChangePassword()
     }
+  }
+  const openDialogEditPhoto = () => {
+    setVisibleDialogPhoto(true)
+    setImage(`${process.env.REACT_APP_API_BASE_URL}uploads/${user.fotoPerfil}`)
   }
 
   return (
@@ -150,20 +172,21 @@ export default function Configuraciones() {
                       alt="Imagen de perfil"
                       className='border-circle'
                     />
+                    <span className='edit-photo  absolute bottom-0 right-0' onClick={openDialogEditPhoto}><i className='pi pi-camera ' style={{ marginLeft: "10px", marginTop: "8px" }}></i></span>
 
-                    <FileUpload
+                    {/* <FileUpload
                       mode="basic"
                       customUpload
                       uploadHandler={handleImageUpload}
                       accept="image/*"
-                      className='edit-photo  absolute bottom-0 right-0'
+                    
                       maxFileSize={1000000}
                       onSelect={handleImageSelect}
                       onUpload={handleImageUploadReset}  // Restablecer la opción de seleccionar otra imagen
                       chooseOptions={chooseOptions}
 
 
-                    />
+                    /> */}
                   </div>
 
 
@@ -331,6 +354,7 @@ export default function Configuraciones() {
         Cerrar={() => setConfirmar(false)}
         Abrir={confirmar}
       />
+      <ChangePhoto fnUpdatePhoto={handleImageUpload} visible={visibleDialogPhoto} setVisible={setVisibleDialogPhoto} image={image} setImage={setImage} />
     </div>
   );
 }

@@ -27,8 +27,12 @@ export default function Sidebar({ isOpen, toggleSidebar, onLogout }) {
     <>
       <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
         <h1><span className='sidebar__logo-icon'>|</span>MAS SALUD</h1>
-        <img src={user.fotoPerfil ? `${process.env.REACT_APP_API_BASE_URL}uploads/${user.fotoPerfil}` : fotoperfil} alt='' />
-        <h2>{user?.nombres}</h2>
+        <div className="flex  justify-content-center ">
+          <img src={user.fotoPerfil ? `${process.env.REACT_APP_API_BASE_URL}uploads/${user.fotoPerfil}` : fotoperfil} alt='' className='image-perfil' />
+        </div>
+
+        <div className="flex justify-content-center"><h2 className="user-name ">{user?.nombres}</h2></div>
+
         <h3>{user?.rol}</h3>
         <ul className="sidebar-menu">
           {user.rutas.map((rut, index) =>
