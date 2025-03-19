@@ -9,6 +9,9 @@ import { Column } from 'primereact/column';
 import { apiAdapter } from '../../../core/adapters/apiAdapter';
 import { useAuth } from '../../context/AuthContext/AuthContext';
 import GenerarPDF from '../../components/PDF/GenerarPDF'; // Importamos GenerarPDF
+import './css/SubAfiliados.css'
+import { Tag } from 'primereact/tag';
+import { classNames } from 'primereact/utils';
 
 export default function SubAfiliados({ UserId }) {
   const [afiliados, setAfiliados] = useState([]);
@@ -19,7 +22,6 @@ export default function SubAfiliados({ UserId }) {
   const toast = useRef(null);
   const { user } = useAuth();
 
-  // Función recursiva para calcular la ganancia total y formatear los afiliados
   const calculateGananciaTotal = (data) => {
     let total = data.ganancia || 0;
     if (data.children && data.children.length > 0) {
@@ -31,7 +33,7 @@ export default function SubAfiliados({ UserId }) {
   const formatAfiliados = (data) => {
     const gananciaTotal = calculateGananciaTotal(data);
     return {
-      key: `key_${data.id}`,  // Clave única para cada afiliado
+      key: `key_${data.id}`,  
       data: {
         nombres: data.nombres || '',
         apellidos: data.apellidos || '',
@@ -39,17 +41,18 @@ export default function SubAfiliados({ UserId }) {
         telefono: data.telefono || '',
         rol: data.rol || '',
         fecha_inscripcion: data.fecha_inscripcion || '',
-        ganancia: data.ganancia || 0,
-        ganancia_total: gananciaTotal,  // Ganancia total calculada
+        nivel: data.nivel,
+        ganancia: data.ganancia,
+        ganancia_total: gananciaTotal,  
       },
-      children: data.children?.map(formatAfiliados) || [], // Recursión para los hijos
+      children: data.children?.map(formatAfiliados) || [],
     };
   };
 
   const fetchLink = async () => {
     try {
       const response = await apiAdapter.get(`${process.env.REACT_APP_API_BASE_URL}LinkCodigo/${user?.id}`);
-      setLink(response?.link); // Asegurarte de que extraes el enlace correctamente
+      setLink(response?.link);
     } catch (error) {
       // console.error('Error al obtener el link:', error);
     }
@@ -74,7 +77,6 @@ export default function SubAfiliados({ UserId }) {
     fetchAfiliados();
   }, [UserId]);
 
-  // Filtrar los afiliados según el término de búsqueda
   const handleSearch = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchTerm(value);
@@ -93,7 +95,6 @@ export default function SubAfiliados({ UserId }) {
     setGananciaTotal(total);
   };
 
-  // Copiar el código del usuario al portapapeles
   const copiarCodigo = async () => {
     try {
       await navigator.clipboard.writeText(user?.codigo);
@@ -106,7 +107,7 @@ export default function SubAfiliados({ UserId }) {
   const copiarLink = async () => {
     try {
       if (link) {
-        await navigator.clipboard.writeText(link); // Copiar el link al portapapeles
+        await navigator.clipboard.writeText(link); 
         toast.current.show({ severity: 'success', summary: 'Éxito', detail: 'Link copiado exitosamente', life: 3000 });
       } else {
         toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'No hay un link para copiar', life: 3000 });
@@ -116,6 +117,52 @@ export default function SubAfiliados({ UserId }) {
       toast.current.show({ severity: 'error', summary: 'Error', detail: 'No se pudo copiar el link', life: 3000 });
     }
   };
+
+  // Función para aplicar estilos condicionales basados en el nivel
+  const getNivelClass = (nivel) => {
+    switch (nivel) {
+      case 'Nivel 1':
+        return 'nivel-1';
+      case 'Nivel 2':
+        return 'nivel-2';
+      case 'Nivel 3':
+        return 'nivel-3';
+      default:
+        return '';
+    }
+  };
+
+  const getNivelEtiqueta = (nivel) => {
+    switch (nivel) {
+      case 'Nivel 1':
+        return (<Tag style={{background:'#2aa87a',fontSize:'15px'}}>nivel-1</Tag> );
+      case 'Nivel 2':
+        return (<Tag style={{background:'#547fa1',fontSize:'15px'}}>nivel-2</Tag> );
+      case 'Nivel 3':
+        return (<Tag style={{background:'#63b2d4',fontSize:'15px'}}>nivel-3</Tag> );
+      default:
+        return '';
+    }
+  };
+  
+  const togglerTemplate = (node, options) => {
+    if (!node) {
+        return;
+    }
+
+    const expanded = options.expanded;
+    const iconClassName = classNames('p-treetable-toggler-icon pi pi-fw', {
+        'pi-caret-right': !expanded,
+        'pi-caret-down': expanded
+    });
+
+    return (
+        <button type="button" className="p-treetable-toggler p-link" style={options.buttonStyle} tabIndex={-1} onClick={options.onClick}>
+            <span style={{color:'#2aa87a',fontWeight:'bold'}} className={iconClassName} aria-hidden="true"></span>
+        </button>
+    );
+};
+
 
   return (
     <>
@@ -169,14 +216,15 @@ export default function SubAfiliados({ UserId }) {
               paginator
               rows={5}
               rowsPerPageOptions={[5, 10, 25, 50]}
+              togglerTemplate={togglerTemplate} 
             >
               <Column field="nombres" header="Nombres" expander></Column>
               <Column field="apellidos" header="Apellidos"></Column>
-              <Column field="dni" header="DNI"></Column>
-              <Column field="telefono" header="Teléfono"></Column>
               <Column field="rol" header="Rol"></Column>
               <Column field="fecha_inscripcion" header="Fecha de Inscripción"></Column>
+              <Column header='Nivel' body={(rowData)=>getNivelEtiqueta(rowData.data.nivel)}/>
               <Column field="ganancia" header="Ganancia"></Column>
+
             </TreeTable>
           )}
         </Card>
