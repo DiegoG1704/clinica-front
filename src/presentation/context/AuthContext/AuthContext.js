@@ -80,25 +80,22 @@ export const AuthProvider = ({ children }) => {
             console.error('Error during login:', error);
         }
     };
-
     const logout = async () => {
-        let response = await userLogoutUseCase.execute()
+        // Espera 500ms antes de continuar, para evitar que se interrumpa la precarga
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        let response = await userLogoutUseCase.execute();
 
         if (response?.success) {
-
-            // history.navigate("/Configuraciones")
-            // window.location.reload();
-            // setIsLoggingOut(true);
             setIsAuthenticated(false);
             setUser(null);
             setDatos(null);
-            return true
+            return true;
         } else {
-            return false
+            return false;
         }
-        // localStorage.removeItem('token');
-        // localStorage.removeItem('user');
     };
+
     // const autenticate = () => {
     //     const storedUser =(localStorage.getItem('token'));
 
@@ -196,7 +193,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             user, setUser, login, logout, isAuthenticated, Datos, setDatos, FindPersonWithDni,
             validateGeneralData, RegisterUser, setIsAuthenticated, getUser, validateCode,
-            loading, setLoading, LoaderPrivate, setLoaderPrivate, LoaderGuest, setLoaderGuest,me
+            loading, setLoading, LoaderPrivate, setLoaderPrivate, LoaderGuest, setLoaderGuest, me
         }}>
 
             {children}

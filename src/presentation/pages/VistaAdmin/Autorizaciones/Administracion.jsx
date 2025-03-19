@@ -34,11 +34,11 @@ export default function AdminPanel() {
     fetchAffiliatesData();
   }, []);
 
-  const handleStatusChange = async () => {
-    if (selectedAffiliateId) {
+  const handleStatusChange = async (id) => {
+    if (id) {
       try {
-        
-        const response = await apiAdapter.put(`/CambioEstado/${selectedAffiliateId}`);
+
+        const response = await apiAdapter.put(`/CambioEstado/${id}`);
         console.log('API Response:', response); // Verifica la respuesta de la API
         toastRef.current.show({
           severity: 'success',
@@ -59,11 +59,11 @@ export default function AdminPanel() {
     }
   };
 
-  const handlePRStatusChange = async () => {
-    if (selectedAffiliateId) {
+  const handlePRStatusChange = async (id) => {
+    if (id) {
       try {
-        console.log("Changing PR status for affiliate ID:", selectedAffiliateId); // Verifica el ID
-        const response = await apiAdapter.put(`/CambioEstadoPr/${selectedAffiliateId}`);
+        console.log("Changing PR status for affiliate ID:", id); // Verifica el ID
+        const response = await apiAdapter.put(`/CambioEstadoPr/${id}`);
         console.log('API Response:', response); // Verifica la respuesta de la API
         toastRef.current.show({
           severity: 'success',
@@ -119,7 +119,7 @@ export default function AdminPanel() {
   );
 
   const showConfirmDialog = (id) => {
-    
+
     setSelectedAffiliateId(id);
     confirmDialog({
       group: 'templating',
@@ -132,7 +132,7 @@ export default function AdminPanel() {
       ),
       accept: () => {
         console.log("Accept clicked, changing status...");
-        handleStatusChange(); // Llama a la función para cambiar el estado
+        handleStatusChange(id); // Llama a la función para cambiar el estado
       },
       reject: rejectAction,
     });
@@ -150,7 +150,7 @@ export default function AdminPanel() {
           <span>¿Desea cambiar de estado?</span>
         </div>
       ),
-      accept: handlePRStatusChange,
+      accept: () => { handlePRStatusChange(id) },
       reject: rejectAction,
     });
   };

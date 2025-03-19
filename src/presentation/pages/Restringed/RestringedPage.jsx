@@ -6,6 +6,7 @@ import { apiAdapter } from '../../../core/adapters/apiAdapter';
 import { Toast } from 'primereact/toast';
 import { ConfirmDialog } from 'primereact/confirmdialog';
 import ConfirmSolicitudDialog from '@/presentation/features/admin/admin-usuario/components/ConfirmSolicitudDialog/ConfirmSolicitudDialog';
+import { showToast } from '@/presentation/utils/showToast';
 
 
 const RestringedPage = () => {
@@ -13,19 +14,36 @@ const RestringedPage = () => {
 
 
     const [loading, setLoading] = useState(false);
-    const { logout, user, me} = useAuth();
+    const { logout, user, me } = useAuth();
     const toast = useRef(null);
-    const [visibleConfirmDialog,setVisibleConfirmDialog]=useState(false)
-    const toggleDialog=(value)=>{
+    const [visibleConfirmDialog, setVisibleConfirmDialog] = useState(false)
+    const toggleDialog = (value) => {
         setVisibleConfirmDialog(value)
     }
-    const hideDialog=()=>{
+    const hideDialog = () => {
         toggleDialog(false)
     }
-    const showDialog=()=>{
+    const showDialog = () => {
         toggleDialog(true)
     }
-   
+    const changeRole = async () => {
+      
+        try {
+            const response = await apiAdapter.put(`${process.env.REACT_APP_API_BASE_URL}CambioEstado/${user?.id}`);
+            if (response?.success) {
+                showToast("success", "Cambio de rol exitoso", "Se ha cambiado tu rol a Promotor", toast)
+                
+                await logout()
+            } else {
+                showToast("error", "Error", "Hubo un error al cambiar tu rol a Promotor", toast)
+            }
+
+        } catch (error) {
+            showToast("error", "Error", "Hubo un error al cambiar tu rol a Promotor", toast)
+
+        }
+    }
+
 
     const handleLogout = async () => {
         const response = await logout();
@@ -130,7 +148,7 @@ const RestringedPage = () => {
                             <button className={styles.actionButton} onClick={handleLogout}>Cerrar Sesión</button>
 
                             {(user?.estado_solicitud !== 2 && user?.estado_solicitud == "1") && (
-                                <button className={styles.actionButton} onClick={showDialog} disabled={loading} >Enviar solicitud </button>
+                                <button className={styles.actionButton} onClick={changeRole} disabled={loading} >Activar Usuario </button>
                             )}
                             <ConfirmSolicitudDialog onConfirm={handleStatusChange} onCancel={hideDialog} visible={visibleConfirmDialog} setVisible={toggleDialog} />
 

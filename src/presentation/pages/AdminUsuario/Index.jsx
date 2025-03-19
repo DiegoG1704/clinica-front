@@ -26,8 +26,8 @@ export default function Index() {
     return (
         <div>
             <Navbar />
-            <div class="flex justify-content-end flex-wrap">
-                <div class="flex align-items-center justify-content-center bg-primary font-bold border-round m-2">
+            <div className="flex justify-content-end flex-wrap">
+                <div className="flex align-items-center justify-content-center bg-primary font-bold border-round m-2">
                     <Button label='Crear Clinica'/>
                 </div>
             </div>

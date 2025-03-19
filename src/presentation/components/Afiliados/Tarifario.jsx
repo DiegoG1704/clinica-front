@@ -2,19 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { apiAdapter } from '../../../core/adapters/apiAdapter';
 import ClinicaCards from '../../pages/AdminUsuario/Afiliados/ClinicaCards';
 import { Button } from 'primereact/button';
-import { Divider } from 'primereact/divider';
-import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
+
 import { useAuth } from '../../context/AuthContext/AuthContext';
 import TerminosyCond from '../../pages/login/Dialog/TerminosyCond';
-import { Checkbox } from 'primereact/checkbox';
-import { Toast } from 'primereact/toast';
 import { showToast } from '../../utils/showToast';
 import PromotorUpgradeDialog from '@/presentation/features/admin/admin-usuario/afiliado/components/PromotorUpgradeDialog/PromotorUpgradeDialog';
 import SolicitudEnviadaDialog from '@/presentation/features/admin/admin-usuario/afiliado/TarifariosClinicas/components/SolicitudEnviadaDialog/SolicitudEnviadaDialog';
+import { Toast } from 'primereact/toast';
 
 export default function Tarifario() {
-    const { user, logout } = useAuth();
+    const { user, logout, me } = useAuth();
     const [tarifario, setTarifario] = useState([]);
     const [open, setOpen] = useState(false);
     const toast = useRef(null);
@@ -24,8 +21,9 @@ export default function Tarifario() {
     const [datos, setDatos] = useState({
         rol_id: 4,
     });
+    
     const [visibleSolicitudEnviadaDialog, setVisibleSolicitudEnviadaDialog] = useState()
-    const toggleSolicitudDialog = (value) => {
+    const toggleSolicitudDialog = (value) => {   
         setVisibleSolicitudEnviadaDialog(value)
     }
     const showSolicitudDialog = () => {
@@ -62,24 +60,43 @@ export default function Tarifario() {
         }
         try {
             const response = await apiAdapter.post(`${process.env.REACT_APP_API_BASE_URL}SolicitudPromotor/${user?.id}`, datos);
-            console.log('Datos enviados:', response);
+            // console.log('Datos enviados:', response);
+            await me()
             // await logout();
         } catch (error) {
             console.log('Error en el envío:', error);
         }
     };
-    const handleClickButtonSolicitud = () => {
+    // const handleClickButtonSolicitud = () => {
 
-        if (user?.estado_solicitud === "3") {
-            setVisibleSolicitudEnviadaDialog(true)
-        } else {
-            setOpen(true)
+    //     if (user?.estado_solicitud === "3") {
+    //         setVisibleSolicitudEnviadaDialog(true)
+    //     } else {
+    //         setOpen(true)
+    //     }
+    // }
+    const handleClickButtonSolicitud = async () => {
+
+        try {
+            const response = await apiAdapter.put(`${process.env.REACT_APP_API_BASE_URL}CambioEstadoPr/${user?.id}`);
+            if (response?.success) {
+                showToast("success", "Cambio de rol exitoso", "Se ha cambiado tu rol a Promotor", toast)
+                await logout()
+            } else {
+                showToast("error", "Error", "Hubo un error al cambiar tu rol a Promotor", toast)
+            }
+
+        } catch (error) {
+            showToast("error", "Error", "Hubo un error al cambiar tu rol a Promotor", toast)
+
         }
+
     }
 
 
     return (
         <>
+        <Toast ref={toast} />
             <header className={`flex header-module`}>
                 <div className="flex-1 py-2 gap-0">
                     <h1 className={"title-module "}>Tarifario de las Clínicas</h1>

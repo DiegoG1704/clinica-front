@@ -23,7 +23,7 @@ export default function ClinicaCards({ Ancho, Alto, Margen, Display, Promociones
         <div className="cards-container">
             {Promociones.length > 0 ? (
                 Promociones.map((clinica,index) => (
-                   <ClinicaCard key={clinica?.index} clinica={clinica} fnTarifas={() => handleButtonClick(clinica)} defImage={ img} />
+                   <ClinicaCard key={index} clinica={clinica} fnTarifas={() => handleButtonClick(clinica)} defImage={ img} />
                 ))
             ) : (
                 <p>No se encontraron promociones.</p> // Mensaje si no hay resultados
