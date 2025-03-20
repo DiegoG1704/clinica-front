@@ -1,25 +1,43 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Toast } from 'primereact/toast';
-import { Button } from 'primereact/button';
+
 import { Card } from 'primereact/card';
-import { Divider } from 'primereact/divider';
+
 import { InputText } from 'primereact/inputtext';
 import { TreeTable } from 'primereact/treetable';
 import { Column } from 'primereact/column';
 import { apiAdapter } from '../../../core/adapters/apiAdapter';
 import { useAuth } from '../../context/AuthContext/AuthContext';
-import GenerarPDF from '../../components/PDF/GenerarPDF'; // Importamos GenerarPDF
+
+import './css/SubAfiliados.css'
+import { Tag } from 'primereact/tag';
+import { classNames } from 'primereact/utils';
+import { IconField } from 'primereact/iconfield';
+import { InputIcon } from 'primereact/inputicon';
+import ProgressBar from '@/presentation/components/ProgressBar/ProgressBar';
 
 export default function SubAfiliados({ UserId }) {
   const [afiliados, setAfiliados] = useState([]);
-  const [link, setLink] = useState([]);
+
   const [filteredAfiliados, setFilteredAfiliados] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+
   const [gananciaTotal, setGananciaTotal] = useState(0);
   const toast = useRef(null);
   const { user } = useAuth();
+  const [globalFilter, setGlobalFilter] = useState('');
+  const [dataCards, setDataCards] = useState({
+    totalAfiliados: 0,
+    totalNivel1: 0,
+    totalNivel2: 0,
+    totalNivel3: 0,
+    totalPromotor: 0,
+    totalUsuario: 0,
+    totalGanancia: 0,
+    totalPorcentajePromotor: 0,
+    totalPorcentajeUsuario: 0,
+  })
 
-  // Función recursiva para calcular la ganancia total y formatear los afiliados
+
   const calculateGananciaTotal = (data) => {
     let total = data.ganancia || 0;
     if (data.children && data.children.length > 0) {
@@ -31,7 +49,7 @@ export default function SubAfiliados({ UserId }) {
   const formatAfiliados = (data) => {
     const gananciaTotal = calculateGananciaTotal(data);
     return {
-      key: `key_${data.id}`,  // Clave única para cada afiliado
+      key: `key_${data.id}`,
       data: {
         nombres: data.nombres || '',
         apellidos: data.apellidos || '',
@@ -39,149 +57,230 @@ export default function SubAfiliados({ UserId }) {
         telefono: data.telefono || '',
         rol: data.rol || '',
         fecha_inscripcion: data.fecha_inscripcion || '',
-        ganancia: data.ganancia || 0,
-        ganancia_total: gananciaTotal,  // Ganancia total calculada
+        nivel: data.nivel,
+        ganancia: data.ganancia,
+        ganancia_total: gananciaTotal,
       },
-      children: data.children?.map(formatAfiliados) || [], // Recursión para los hijos
+      children: data.children?.map(formatAfiliados) || [],
     };
   };
 
-  const fetchLink = async () => {
+  const fetchAfiliados = async () => {
     try {
-      const response = await apiAdapter.get(`${process.env.REACT_APP_API_BASE_URL}LinkCodigo/${user?.id}`);
-      setLink(response?.link); // Asegurarte de que extraes el enlace correctamente
+      const response = await apiAdapter.get(`${process.env.REACT_APP_API_BASE_URL}usuarios/${user?.id}`);
+      const formattedData = response[0]?.children ? response[0].children.map(formatAfiliados) : response.map(formatAfiliados);
+      setAfiliados(formattedData);
+      setFilteredAfiliados(formattedData)
+      mapperDataForCards(response[0])
+
+      const totalGanancia = formattedData.reduce((sum, afiliado) => sum + afiliado.data.ganancia_total, 0);
+      setGananciaTotal(totalGanancia);
     } catch (error) {
-      // console.error('Error al obtener el link:', error);
+      console.error('Error al obtener los afiliados:', error);
     }
   };
+  const mapperDataForCards = (data) => {
+    let totalGanancia = data.ganancia_total.toFixed(2);
+    let porcentajePromotor = ((data.total_promotor * 100) / data.total_afiliados).toFixed(2);
+    let porcentajeUsuario = ((data.total_usuario * 100) / data.total_afiliados).toFixed(2);
+
+
+    setDataCards({
+      totalGanancia: totalGanancia,
+      totalAfiliados: data.total_afiliados,
+      totalNivel1: data.total_nivel_1,
+      totalNivel2: data.total_nivel_2,
+      totalNivel3: data.total_nivel_3,
+      totalPromotor: data.total_promotor,
+      totalUsuario: data.total_usuario,
+      totalPorcentajePromotor: porcentajePromotor,
+      totalPorcentajeUsuario: porcentajeUsuario,
+
+
+    })
+
+  }
+
+
 
   useEffect(() => {
-    const fetchAfiliados = async () => {
-      try {
-        const response = await apiAdapter.get(`${process.env.REACT_APP_API_BASE_URL}usuarios/${user?.id}`);
-        const formattedData = response.map(formatAfiliados);
-        setAfiliados(formattedData);
-        setFilteredAfiliados(formattedData);
-
-        const totalGanancia = formattedData.reduce((sum, afiliado) => sum + afiliado.data.ganancia_total, 0);
-        setGananciaTotal(totalGanancia);
-      } catch (error) {
-        console.error('Error al obtener los afiliados:', error);
-      }
-    };
-
-    fetchLink();
     fetchAfiliados();
-  }, [UserId]);
+  }, [user?.id]);
 
-  // Filtrar los afiliados según el término de búsqueda
-  const handleSearch = (event) => {
-    const value = event.target.value.toLowerCase();
-    setSearchTerm(value);
 
-    const filtered = afiliados.filter(afiliado =>
-      (afiliado.data.nombres?.toLowerCase() || '').includes(value) ||
-      (afiliado.data.apellidos?.toLowerCase() || '').includes(value) ||
-      (afiliado.data.dni?.toLowerCase() || '').includes(value) ||
-      (afiliado.data.telefono?.toString() || '').includes(value) ||
-      (afiliado.data.ganancia?.toString() || '').includes(value)
+
+
+
+  const getNivelEtiqueta = (nivel) => {
+    switch (nivel) {
+      case 'Nivel 1':
+        return (<Tag style={{ background: '#dcfce7', fontSize: '14px', color: "#2b8e74", borderRadius: "15px" }}>nivel-1</Tag>);
+      case 'Nivel 2':
+        return (<Tag style={{ background: '#dbeafe', fontSize: '14px', color: "#5483e3", borderRadius: "15px" }}>nivel-2</Tag>);
+      case 'Nivel 3':
+        return (<Tag style={{ background: '#f3e8ff', fontSize: '14px', color: "#d47ed3", borderRadius: "15px" }}>nivel-3</Tag>);
+      default:
+        return '';
+    }
+  };
+  const getRolEtiqueta = (nivel) => {
+
+    switch (nivel) {
+      case 'Promotor':
+        return (<Tag style={{ background: '#dcfce7', fontSize: '14px', color: "#2b8e74", borderRadius: "15px" }}>Promotor</Tag>);
+      case 'Usuario':
+        return (<Tag style={{ background: '#dbeafe', fontSize: '14px', color: "#5483e3", borderRadius: "15px" }}>Usuario</Tag>);
+      default:
+        return '';
+    }
+  };
+  const getNameTemplate = (name, role) => {
+
+    return (
+      <div className='inline-flex'>
+        <div>
+          <span>
+            {role === 'Promotor' ? <i className='pi pi-user-plus' style={{ color: '#2aa879' }}></i> : <i className='pi pi-user' style={{ color: '#2aa879' }}></i>}
+          </span>
+        </div>
+        <div>
+          <span>{name}</span>
+        </div>
+      </div>
+    )
+  };
+
+  const togglerTemplate = (node, options) => {
+    if (!node) {
+      return;
+    }
+
+    const expanded = options.expanded;
+    const iconClassName = classNames('p-treetable-toggler-icon pi pi-fw', {
+      'pi-caret-right': !expanded,
+      'pi-caret-down': expanded
+    });
+
+    return (
+      <button type="button" className="p-treetable-toggler p-link " style={options.buttonStyle} tabIndex={-1} onClick={options.onClick}>
+        <span style={{ color: '#2aa87a' }} className={iconClassName} aria-hidden="true"></span>
+      </button>
     );
-
-    setFilteredAfiliados(filtered);
-
-    const total = filtered.reduce((sum, item) => sum + item.data.ganancia_total, 0);
-    setGananciaTotal(total);
+  };
+  const getHeader = () => {
+    return (
+      <div className="flex justify-content-end">
+        <IconField iconPosition="left">
+          <InputIcon className="pi pi-search" />
+          <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Global Search" />
+        </IconField>
+      </div>
+    );
   };
 
-  // Copiar el código del usuario al portapapeles
-  const copiarCodigo = async () => {
-    try {
-      await navigator.clipboard.writeText(user?.codigo);
-      toast.current.show({ severity: 'success', summary: 'Éxito', detail: 'Código copiado exitosamente', life: 3000 });
-    } catch (err) {
-      console.error('Error al copiar el código:', err);
-    }
-  };
+  let header = getHeader();
 
-  const copiarLink = async () => {
-    try {
-      if (link) {
-        await navigator.clipboard.writeText(link); // Copiar el link al portapapeles
-        toast.current.show({ severity: 'success', summary: 'Éxito', detail: 'Link copiado exitosamente', life: 3000 });
-      } else {
-        toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'No hay un link para copiar', life: 3000 });
-      }
-    } catch (err) {
-      console.error('Error al copiar el link:', err);
-      toast.current.show({ severity: 'error', summary: 'Error', detail: 'No se pudo copiar el link', life: 3000 });
-    }
-  };
 
   return (
-    <>
+    <div className='flex flex-column w-full'>
       <Toast ref={toast} />
-      <div className="flex">
-        <div className="flex-1 p-2">
-          <h1>Lista de afiliados</h1>
-          <Divider />
-        </div>
-        <div className="flex justify-content-end align-items-center">
-          <Button
-            label={user?.codigo}
-            style={{ backgroundColor: "#85C226", borderColor: "#85C226", width: "160px", height: "50px" }}
-            onClick={copiarCodigo}
-          />
-          <Button
-            label='Link'
-            icon='pi pi-link'
-            style={{ backgroundColor: "#1A76D1", borderColor: "#1A76D1", width: "160px", height: "50px"}}
-            onClick={copiarLink}
-          />
-        </div>
-      </div>
-      <div className="flex justify-content-center">
-        <Card style={{ width: '80%', height: '7rem' }}>
-          <div className="flex align-items-center justify-content-between" style={{ height: '100%' }}>
-            <InputText
-              placeholder="Buscar afiliado..."
-              style={{ width: '50%', height: '4rem', borderRadius: '15px' }}
-              value={searchTerm}
-              onChange={handleSearch}
-            />
-            <div className="flex align-items-center">
-              <span className="mr-2">Ganancia Total:</span>
-              <InputText value={gananciaTotal} disabled style={{ height: '4rem', width: '3rem' }} />
+      <div className="flex p-3 md:flex-column">
+        <div className="flex  w-full justify-content-center gap-3 container-data-afiliados">
+          <div className='data-afiliados flex-1 '>
+            <div className="data-afiliados__header">
+              <h2 className='data-afiliados__header__title'>Total Afiliados</h2>
+              <p className='data-afiliados__header__subtitle'>Todos los niveles</p>
             </div>
+            <main className='data-afiliados__main' >
+              <p>{dataCards?.totalAfiliados}</p>
+            </main>
+            <footer className='flex justify-content-between'>
+              <div className="data-afiliados__quantity data-afiliados__quantity--first">
+                <p>Nivel 1</p>
+                <span>{dataCards?.totalNivel1}</span>
+              </div>
+              <div className="data-afiliados__quantity data-afiliados__quantity--second">
+                <p>Nivel 2</p>
+                <span>{dataCards?.totalNivel2}</span>
+              </div>
+              <div className="data-afiliados__quantity data-afiliados__quantity--third">
+                <p>Nivel 3</p>
+                <span>{dataCards?.totalNivel3}</span>
+              </div>
+            </footer>
+
+
           </div>
-        </Card>
-      </div>
-      <div className="flex justify-content-center">
-        <Card style={{ width: '80%', marginTop: '15px' }}>
-          {filteredAfiliados.length === 0 ? (
-            <div className="text-center">
-              <h5>Los afiliados registrados se agregarán en esta tabla</h5>
+          <div className='data-afiliados data-afiliados--second flex-1'>
+            <div className="data-afiliados__header">
+              <h2 className='data-afiliados__header__title'>Por rol</h2>
+              <p className='data-afiliados__header__subtitle'>Distribución de roles</p>
             </div>
-          ) : (
-            <TreeTable
-              value={filteredAfiliados}
-              tableStyle={{ minWidth: '50rem' }}
-              dataKey="key"
-              paginator
-              rows={5}
-              rowsPerPageOptions={[5, 10, 25, 50]}
-            >
-              <Column field="nombres" header="Nombres" expander></Column>
-              <Column field="apellidos" header="Apellidos"></Column>
-              <Column field="dni" header="DNI"></Column>
-              <Column field="telefono" header="Teléfono"></Column>
-              <Column field="rol" header="Rol"></Column>
-              <Column field="fecha_inscripcion" header="Fecha de Inscripción"></Column>
-              <Column field="ganancia" header="Ganancia"></Column>
-            </TreeTable>
-          )}
+            <main className='data-afiliados__main--second' >
+              <div className='data-afiliados__main--second__item--first'>
+                <p>Promotor</p>
+                <span>{dataCards?.totalPromotor}</span>
+              </div>
+              <div className='data-afiliados__main--second__item--secod'>
+                <p>Usuarios</p>
+                <span>{dataCards?.totalUsuario}</span>
+              </div>
+            </main>
+            <footer className='flex justify-content-between'>
+              <ProgressBar firstPercentage={dataCards?.totalPorcentajePromotor} secondPercentage={dataCards?.totalPorcentajeUsuario} />
+            </footer>
+
+
+          </div>
+          <div className='data-afiliados data-afiliados--third flex-1'>
+            <div className="data-afiliados__header flex-column">
+              <h2>Ganancia Total</h2>
+              <p>Total de ganancia por afiliados</p>
+            </div>
+            <main >
+              <p>S/ {dataCards?.totalGanancia}</p>
+            </main>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div className="flex justify-content-center w-full ">
+        <Card style={{ width: '100%', marginTop: '15px' }}>
+          {/* <div className="flex justify-content-center mb-3 align-items-center">
+            <div className="flex align-items-center justify-content-between  w-full" >
+
+              <div className="flex align-items-center">
+                <span className="mr-2">Ganancia Total:</span>
+                <InputText value={gananciaTotal} disabled style={{ height: '4rem', width: '3rem' }} />
+              </div>
+            </div>
+          </div> */}
+          <TreeTable
+            value={filteredAfiliados}
+      
+            dataKey="key"
+            paginator
+            rows={5}
+            rowsPerPageOptions={[5, 10, 25, 50]}
+            togglerTemplate={togglerTemplate}
+            globalFilter={globalFilter} header={header}
+            responsiveLayout="stack"
+            style={{ width:"100%" }}
+          >
+            <Column field="nombres" header="Nombres"
+               expander style={{width:"200px"}} ></Column>
+            <Column field="apellidos" header="Apellidos" style={{width:"200px"}} ></Column>
+            <Column field="rol" header="Rol" body={(rowData) => getRolEtiqueta(rowData?.data?.rol)} style={{width:"200px"}} ></Column>
+            <Column field="fecha_inscripcion" header="Fecha de Inscripción "style={{width:"200px"}} ></Column>
+            <Column header='Nivel' body={(rowData) => getNivelEtiqueta(rowData.data.nivel)} style={{width:"150px"}} />
+            <Column field="ganancia_total" header="Ganancia" style={{width:"100px"}}  ></Column>
+
+          </TreeTable>
         </Card>
       </div>
-      <GenerarPDF afiliados={filteredAfiliados} gananciaTotal={gananciaTotal} />
-    </>
+      {/* <GenerarPDF afiliados={filteredAfiliados} gananciaTotal={gananciaTotal} /> */}
+    </div>
   );
 }

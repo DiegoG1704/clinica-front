@@ -1,0 +1,34 @@
+.progress-container {
+    width: 100%;
+  }
+  
+  .progress-bar {
+    display: flex;
+    height: 25px;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: #e0e0e0;
+    
+  }
+  
+  .progress-segment {
+    height: 100%;
+  }
+  
+  .firstPercentage {
+    background-color: #22c55e;
+       transition: all 1s ease-in-out ;
+  }
+  
+  .secondPercentage {
+    background-color:#e5e7eb;
+    transition: all 1s ease-in-out ;
+  }
+  
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  

@@ -1,0 +1,118 @@
+.nivel-1 {
+    background-color: #c4e4e9; /* Lavanda pálido */
+  }
+  
+  .nivel-2 {
+    background-color: #b6def5; /* Azul celeste */
+  }
+  
+  .nivel-3 {
+    background-color: #c9ebfd; /* Azul celeste */
+  }
+  
+  .data-afiliados{
+    background-color: #fff;
+    
+    border: 1px solid #e5e5e8;
+    border-radius: 10px;
+    padding: 30px 20px;
+  }
+  .data-afiliados__header__title{
+    line-height: 14px;
+    font-weight: 600;
+    font-size: 25px;
+  }
+  .data-afiliados__header__subtitle{
+  font-size: 17px;
+    color: #6c757d;
+    
+  }
+  .data-afiliados__main p{
+    font-size: 46px;
+    font-weight: 600;
+
+  }
+  .data-afiliados__quantity{
+    flex: 1;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2px;
+    justify-content: center;
+    
+    font-weight: 600;
+  }
+  .data-afiliados__quantity--first{
+   background-color: #f0fdf4;
+  }
+  .data-afiliados__quantity--first p{
+    color: #2b8e74;
+    
+   }
+   
+  .data-afiliados__quantity--second{
+    background-color: #eff6ff
+   }
+   .data-afiliados__quantity--second p{
+    color: #5483e3
+   }
+   .data-afiliados__quantity--third{
+    background-color: #faf5ff
+   }
+   .data-afiliados__quantity--third p{
+    color: #9f30d2
+   }
+   .data-afiliados__main--second{
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+   }
+   .data-afiliados__main--second__item p{
+    font-size: 17px;
+    color: #6c757d;
+
+   }
+   .data-afiliados__main--second__item--secod span{
+   
+    font-size: 32px;
+    color: #2563eb;
+       
+    font-weight: 700;
+    display: block;
+    margin-bottom: 10px;
+ 
+
+   }
+   .data-afiliados__main--second__item--first span{
+    font-size: 32px;
+    color: #16a34a;
+       
+    font-weight: 700;
+    display: block;
+    margin-bottom: 10px;
+   }
+   .data-afiliados--third .data-afiliados__header h2{
+    line-height: 14px;
+    font-weight: 500;
+    font-size: 25px;
+     
+   }
+   .data-afiliados--third .data-afiliados__header p{
+    font-size: 17px;
+    color: #6c757d;
+     
+   }
+   .data-afiliados--third main p{
+   margin-top: 0px;
+   font-size: 45px;
+   font-weight: 600;
+    
+   }
+   @media (max-width: 600px) {
+    .container-data-afiliados{
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
