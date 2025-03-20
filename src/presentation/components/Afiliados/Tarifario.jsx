@@ -14,7 +14,7 @@ import PromotorUpgradeDialog from '@/presentation/features/admin/admin-usuario/a
 import SolicitudEnviadaDialog from '@/presentation/features/admin/admin-usuario/afiliado/TarifariosClinicas/components/SolicitudEnviadaDialog/SolicitudEnviadaDialog';
 
 export default function Tarifario() {
-    const { user, logout } = useAuth();
+    const { user, logout,me } = useAuth();
     const [tarifario, setTarifario] = useState([]);
     const [open, setOpen] = useState(false);
     const toast = useRef(null);
@@ -63,6 +63,7 @@ export default function Tarifario() {
         try {
             const response = await apiAdapter.post(`${process.env.REACT_APP_API_BASE_URL}SolicitudPromotor/${user?.id}`, datos);
             console.log('Datos enviados:', response);
+            await me()
             // await logout();
         } catch (error) {
             console.log('Error en el envío:', error);
