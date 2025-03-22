@@ -41,7 +41,10 @@ export default function Sidebar({ isOpen, toggleSidebar, onLogout }) {
                 <i className={rut.logo} style={{ fontSize: '20px' }} />
                 {isOpen && <span style={{ fontSize: '14px' }}>{rut?.nombre}</span>}
               </li>
-            ) : null // Si coincide, no se renderiza nada
+            ) : <li key={index} onClick={() => navigate('/RestrictedAccess')}>
+              <i className={"pi pi-home"} style={{ fontSize: '20px' }} />
+              {isOpen && <span style={{ fontSize: '14px' }}>Home</span>}
+            </li>
           )}
           <li onClick={() => navigate('/Configuraciones')}>
             <i className="pi pi-cog" style={{ fontSize: '20px' }} />

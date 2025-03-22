@@ -6,8 +6,11 @@ import CustomDialog from '@/presentation/components/Dialog/CustomDialog'
 const PromotorUpgradeDialog = ({ visible, setVisible, submit, checked, setChecked, setOpenTC }) => {
 
     const onSubmit = async () => {
-        await submit()
-        hideDialog()
+        const res = await submit()
+        if (res) {
+            hideDialog()
+        }
+
 
 
     }

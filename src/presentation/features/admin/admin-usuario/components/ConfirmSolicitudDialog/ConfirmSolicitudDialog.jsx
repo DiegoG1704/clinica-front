@@ -8,8 +8,11 @@ import { classNames } from "primereact/utils"
 const ConfirmSolicitudDialog = ({ onConfirm, onCancel, visible, setVisible }) => {
 
     const accept = () => {
-        onConfirm()
-        setVisible(false)
+        const res = onConfirm()
+        if (res?.success) {
+            setVisible(false)
+        }
+
     }
 
     const reject = () => {

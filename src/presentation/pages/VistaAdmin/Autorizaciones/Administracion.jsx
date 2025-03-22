@@ -34,19 +34,22 @@ export default function AdminPanel() {
     fetchAffiliatesData();
   }, []);
 
-  const handleStatusChange = async () => {
-    if (selectedAffiliateId) {
+  const handleStatusChange = async (id) => {
+    if (id) {
       try {
-        
-        const response = await apiAdapter.put(`/CambioEstado/${selectedAffiliateId}`);
+
+        const response = await apiAdapter.put(`/CambioEstado/${id}`);
         console.log('API Response:', response); // Verifica la respuesta de la API
-        toastRef.current.show({
-          severity: 'success',
-          summary: 'Usuario actualizado ',
-          detail: 'Se ha actualizado el rol del usuario correctamente',
-          life: 3000,
-        });
-        await fetchAffiliatesData(); // Actualiza la lista después de cambiar el estado
+        if (response?.success) {
+          toastRef.current.show({
+            severity: 'success',
+            summary: 'Usuario actualizado ',
+            detail: 'Se ha actualizado el rol del usuario correctamente',
+            life: 3000,
+          });
+          await fetchAffiliatesData(); // Actualiza la lista después de cambiar el estado
+        }
+
       } catch (error) {
         console.error('Error updating status:', error);
         toastRef.current.show({
@@ -59,19 +62,22 @@ export default function AdminPanel() {
     }
   };
 
-  const handlePRStatusChange = async () => {
-    if (selectedAffiliateId) {
+  const handlePRStatusChange = async (id) => {
+    if (id) {
       try {
-        console.log("Changing PR status for affiliate ID:", selectedAffiliateId); // Verifica el ID
-        const response = await apiAdapter.put(`/CambioEstadoPr/${selectedAffiliateId}`);
-        console.log('API Response:', response); // Verifica la respuesta de la API
-        toastRef.current.show({
-          severity: 'success',
-          summary: 'Status Updated',
-          detail: 'The affiliate PR status has been updated to Active',
-          life: 3000,
-        });
-        await fetchAffiliatesData(); // Actualiza la lista después de cambiar el estado
+        console.log("Changing PR status for affiliate ID:", id); // Verifica el ID
+        const response = await apiAdapter.put(`/CambioEstadoPr/${id}`);
+        if (response?.success) {
+          console.log('API Response:', response); // Verifica la respuesta de la API
+          toastRef.current.show({
+            severity: 'success',
+            summary: 'Status Updated',
+            detail: 'The affiliate PR status has been updated to Active',
+            life: 3000,
+          });
+          await fetchAffiliatesData(); // Actualiza la lista después de cambiar el estado
+        }
+
       } catch (error) {
         console.error('Error updating PR status:', error);
         toastRef.current.show({
@@ -119,20 +125,20 @@ export default function AdminPanel() {
   );
 
   const showConfirmDialog = (id) => {
-    
+
     setSelectedAffiliateId(id);
     confirmDialog({
       group: 'templating',
-      header: 'Confirmation',
+      header: 'Confirmación',
       message: (
-        <div className="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border">
-          <i className="pi pi-exclamation-circle text-6xl text-primary-500"></i>
+        <div className="flex flex-column align-items-center w-full mt-3  ">
+          <span><i className="pi pi-exclamation-circle text-6xl text-orange-500"></i></span>
           <span>¿Desea cambiar de estado?</span>
         </div>
       ),
       accept: () => {
         console.log("Accept clicked, changing status...");
-        handleStatusChange(); // Llama a la función para cambiar el estado
+        handleStatusChange(id); // Llama a la función para cambiar el estado
       },
       reject: rejectAction,
     });
@@ -143,15 +149,17 @@ export default function AdminPanel() {
     setSelectedAffiliateId(id);
     confirmDialog({
       group: 'templating',
-      header: 'Confirmation',
+      header: 'Confirmación',
       message: (
-        <div className="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border">
-          <i className="pi pi-exclamation-circle text-6xl text-primary-500"></i>
+        <div className="flex flex-column align-items-center w-full mt-3  ">
+          <span><i className="pi pi-exclamation-circle text-6xl text-orange-500"></i></span>
           <span>¿Desea cambiar de estado?</span>
         </div>
       ),
-      accept: handlePRStatusChange,
+      accept: () => { handlePRStatusChange(id) },
       reject: rejectAction,
+      acceptLabel: 'Aceptar',
+      rejectLabel: 'Cancelar',
     });
   };
 

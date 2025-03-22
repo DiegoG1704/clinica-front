@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext/AuthContext';
 import { history } from '../../utils/history';
 import { apiAdapter } from '../../../core/adapters/apiAdapter';
 import { Toast } from 'primereact/toast';
-import { ConfirmDialog } from 'primereact/confirmdialog';
+
 import ConfirmSolicitudDialog from '@/presentation/features/admin/admin-usuario/components/ConfirmSolicitudDialog/ConfirmSolicitudDialog';
 
 
@@ -13,19 +13,19 @@ const RestringedPage = () => {
 
 
     const [loading, setLoading] = useState(false);
-    const { logout, user, me} = useAuth();
+    const { logout, user, me } = useAuth();
     const toast = useRef(null);
-    const [visibleConfirmDialog,setVisibleConfirmDialog]=useState(false)
-    const toggleDialog=(value)=>{
+    const [visibleConfirmDialog, setVisibleConfirmDialog] = useState(false)
+    const toggleDialog = (value) => {
         setVisibleConfirmDialog(value)
     }
-    const hideDialog=()=>{
+    const hideDialog = () => {
         toggleDialog(false)
     }
-    const showDialog=()=>{
+    const showDialog = () => {
         toggleDialog(true)
     }
-   
+
 
     const handleLogout = async () => {
         const response = await logout();
@@ -40,15 +40,17 @@ const RestringedPage = () => {
             const response = await apiAdapter.post(`${process.env.REACT_APP_API_BASE_URL}SolicitudUsuario/${user?.id}`);
             console.log('Datos enviados:', response);
             // await logout();
+            return response
         } catch (error) {
             console.log('Error en el envío:', error);
+            return { success: false }
         }
     };
 
     const handleStatusChange = async () => {
-        try {
+        const response = await submit()
 
-            const response = await submit()
+        if (response?.success) {
             await me()
             setLoading(true);
 
@@ -61,8 +63,9 @@ const RestringedPage = () => {
             });
             // await handleLogout();
             setLoading(false);
-        } catch (error) {
-            console.error('Error updating status:', error);
+            
+        } else {
+            
             toast.current.show({
                 severity: 'error',
                 summary: 'Error',
@@ -70,7 +73,10 @@ const RestringedPage = () => {
                 life: 3000,
             });
             setLoading(false);
+
         }
+        return response
+
     };
 
     return (
