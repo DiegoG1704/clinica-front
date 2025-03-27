@@ -127,6 +127,36 @@
   margin: auto; /* Centra el modal en la pantalla */
 }
 
+.promotor-link{
+  background-color: #fff!important;
+  color: #3a827d;
+  height: 35px;
+
+  font-size: 12px!important;
+  font-weight: 600!important;
+  border-color: #c5dddd;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+
+  width: 70px;
+
+
+
+}
+.codigo-promotor{
+  background-color: #f3f8f8!important;
+  color: #3a827d;
+  height: 30px;
+
+  font-size: 12px!important;
+  font-weight: 600!important;
+  border-color: #c5dddd;
+  border-radius: 30px;
+
+
+}
+
 @media (max-width: 768px) {
   .responsive-dialog .p-dialog {
     width: 80vw; /* En pantallas pequeñas, el modal ocupará el 80% del ancho */

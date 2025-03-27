@@ -126,18 +126,20 @@ function Navbar() {
           {(user?.rol === "Promotor") && (
             <div className="flex justify-content-end align-items-center">
               <Button
-                label={user?.codigo}
-                style={{ backgroundColor: "#85C226", borderColor: "#85C226", width: "160px", height: "50px" }}
+                // label={user?.codigo}
+              
                 onClick={copiarCodigo}
+                className='codigo-promotor'
 
-              />
+              >{user?.codigo}</Button>
               <Button
-                label='Link'
+                // label='Link'
                 icon='pi pi-link'
-                style={{ backgroundColor: "#1A76D1", borderColor: "#1A76D1", width: "160px", height: "50px" }}
+                
                 onClick={copiarLink}
+                className='promotor-link'
 
-              />
+              >Link</Button>
             </div>
           )}
 

@@ -12,7 +12,7 @@
 }
 
 .CardTarifario:hover {
-    border: 1px solid #3ccc9e;
+    border: 1px solid #c3da5f;
 }
 
 .button-container {
@@ -24,8 +24,8 @@
 }
 .button-container button{
     
-    background: #059669;
-    border-color:  #059669;
+    background: #116e6e;
+    border-color:  #116e6e;
     color: 'white';
     border-radius: 7px;
     padding: 10px;
@@ -50,7 +50,7 @@
   
 }
 .CardTarifario:hover .logotipo-container div  {
-    border: 0.5px solid #3ccc9e;
+    border: 0.5px solid #c3da5f;
 }
 
 .card-header {
@@ -82,9 +82,14 @@
 }
 
 .clinica-nombre {
-    color: #444;
+    color: #126f6f;
     font-size: 26px;
     font-weight: 600;
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+  overflow: hidden; /* Oculta el texto que se desborda */
+  text-overflow: ellipsis; /* Agrega "..." cuando el texto es demasiado largo */
+  max-width: 230px; /* Ajusta según el ancho disponible */
+  display: block; /* Asegura que se apliquen correctamente las propiedades */
 
 }
 

@@ -11,6 +11,7 @@ import { GuestRoutes } from './presentation/router/GuestRoutes';
 import { history } from './presentation/utils/history';
 import configurePrimeReact from './presentation/config/local';
 import Loader from './presentation/components/Loader/Loader';
+import Tarifario from './presentation/components/Afiliados/Tarifario';
 
 
 function App() {
@@ -76,6 +77,7 @@ function App() {
             )}
 
         </>
+        // <Tarifario/>
     );
 
 

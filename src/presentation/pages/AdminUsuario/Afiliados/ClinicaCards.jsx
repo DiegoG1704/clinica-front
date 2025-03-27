@@ -1,8 +1,6 @@
 import React, { useState } from 'react'; // Asegúrate de importar useState
-import { Card } from 'primereact/card';
-import { Button } from 'primereact/button';
+
 import '../Afiliados/css/ClinicaCards.css';
-import user from '../../../img/sinLogo.png';
 import img from '../../../img/sinImg.png';
 import Tarifas from './Dialog/Tarifas';
 import { useAuth } from '../../../context/AuthContext/AuthContext';

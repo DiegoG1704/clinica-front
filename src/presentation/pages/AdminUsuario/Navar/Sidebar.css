@@ -15,6 +15,7 @@
   z-index: 100; /* Asegúrate de que el sidebar esté por encima del contenido */
   text-align: center;
   box-shadow: 2px 0 8px rgba(10, 110, 110, 0.05);
+  border-right: 1px solid #e4eaea;
 }
 .sidebar__logo-icon{
   color: #85C226; 
@@ -97,6 +98,10 @@
   background-color: #f3f8dd;
   width: 85%;
   border-radius: 10px;
+
+}
+.sidebar-menu li:hover i{
+  scale: 1.2;
 }
 
 .sidebar-menu li:hover a {
@@ -249,7 +254,7 @@
   align-items: center;
   gap: 10px;
   width: 85%;
-  border:1px solid #fbcfcf!important;
+  border:1px solid #fbcfcf;
   border-radius: 10px;
   
   
@@ -257,4 +262,47 @@
 
 .close-session:hover{
   background-color: rgba(220, 38, 38, 0.1)!important;
+}
+.active{
+ 
+
+  border-radius: 10px;
+  position: relative;
+
+  
+}
+.active:hover{
+ 
+
+  color: #111;
+
+  
+}
+li.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 4px;
+  height: 70%;
+  background-color: #b4d233;
+  border-radius: 5px 20px 30px 5px;
+  transform: translateY(-50%);
+}
+/* syles close  */
+.sidebar.closed .divider{
+  display: none;
+}
+.sidebar.closed .link-perfil{
+  display: none;
+}
+.sidebar.closed  .section-title-links{
+  display: none;
+
+}
+.sidebar.closed .role{
+  display: none;
+}
+.sidebar.closed .close-session{
+border: none;
 }

@@ -8,10 +8,12 @@ import fotoperfil from "../../../img/photo-default.png";
 import { useAuth } from '../../../context/AuthContext/AuthContext';
 import LogoImage from "@/presentation/img/logo-inicio.png";
 import { Divider } from 'primereact/divider';
+import { history } from '@/presentation/utils/history';
 
 export default function Sidebar({ isOpen, toggleSidebar, onLogout }) {
   const navigate = useNavigate();
   const { user } = useAuth();
+  console.log("his",history.location.pathname)
 
 
   const handleLogout = async () => {
@@ -58,18 +60,18 @@ export default function Sidebar({ isOpen, toggleSidebar, onLogout }) {
           <p className='section-title-links'>MENÚ PRINCIPAL</p>
           {user.rutas.map((rut, index) =>
             rut.ruta !== '/RestrictedAccess' ? ( // Excluye solo la ruta deseada
-              <li key={index} onClick={() => navigate(rut.ruta)}>
+              <li key={index} onClick={() => navigate(rut.ruta)} className={ history.location.pathname === rut.ruta ? 'active' : ''}>
                 <i className={rut.logo} style={{ fontSize: '13.7px' }} />
                 {isOpen && <span style={{ fontSize: '14px' }}>{rut?.nombre}</span>}
               </li>
-            ) : <li key={index} onClick={() => navigate('/RestrictedAccess')}>
+            ) : <li key={index} onClick={() => navigate('/RestrictedAccess')}  className={ history.location.pathname === rut.ruta ? 'active' : ''}>
               <i className={"pi pi-home"} style={{ fontSize: '13px' }} />
               {isOpen && <span style={{ fontSize: '14px' }}>Home</span>}
             </li>
           )}
           <div className="divider"></div>
           <p className='section-title-links'>CONFIGURACIÓN</p>
-          <li onClick={() => navigate('/Configuraciones')}>
+          <li onClick={() => navigate('/Configuraciones')}  className={ history.location.pathname === "/RestrictedAccess" ? 'active' : ''}>
             <i className="pi pi-cog" style={{ fontSize: '13.7px' }} />
             {isOpen && <span style={{ fontSize: '14px' }}>Configuración</span>}
           </li>
@@ -87,7 +89,7 @@ export default function Sidebar({ isOpen, toggleSidebar, onLogout }) {
       </div>
       <Button
         rounded
-        icon={isOpen ? 'pi pi-arrow-left' : 'pi pi-arrow-right'}
+        icon={isOpen ? 'pi pi-arrow-left' : 'pi pi-arrow-right'}        
         onClick={toggleSidebar}
         className="toggle-button"
         style={{

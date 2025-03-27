@@ -67,12 +67,12 @@ body:has(.container-page){
   }
 }
 .title-module{
-  color: #15803D;
+  color: #116e6e;
   font-weight: 660;
   font-size: 2.2rem;
 }
 .description-module{
-  color: #56b580;
+  color: #7b7d88;
   font-weight: 500;
   font-size: 1.2rem;
   position: relative;

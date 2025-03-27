@@ -36,7 +36,7 @@ const ClinicaCard = ({ clinica, fnTarifas, defImage }) => {
                             marginTop: '1rem',
                         }}
                         onClick={fnTarifas} // Actualizar clínica seleccionada
-                    />
+                    ></Button>
                 </div>
             </div>
         </div>)

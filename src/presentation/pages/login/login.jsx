@@ -19,18 +19,19 @@ export default function Login({ onLogin }) {
     };
     const handleLogin = async () => {
         setLoading(true);
-        try {
-            const response = await onLogin(correo, contraseña);
-            if (response?.success) {
-                navigate(response?.data?.rutas?.[0]?.ruta);
-            } else {
-                showToastWithErrors("error", "Error al iniciar Sesión", response?.error, toastRef)
-            }
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false);
-        }
+        navigate("/TarifasClinicas");
+        // try {
+        //     const response = await onLogin(correo, contraseña);
+        //     if (response?.success) {
+        //         navigate("/TarifasClinicas");
+        //     } else {
+        //         showToastWithErrors("error", "Error al iniciar Sesión", response?.error, toastRef)
+        //     }
+        // } catch (error) {
+        //     console.log(error)
+        // } finally {
+        //     setLoading(false);
+        // }
     };
     return (
         <div className="login-container">
