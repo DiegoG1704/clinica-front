@@ -38,7 +38,7 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
         "SubLocal": <SubLocalProvider><SubLocales /></SubLocalProvider>,
         "Tarifarios": <PromocionProvider><PromocionesAdmin /></PromocionProvider>,
         "Tarifas": <PromocionesLocales />,
-        "s": <RestringedPage />,
+        "RestrictedAccess": <RestringedPage />,
         "TarifasClinicas": <Tarifario />,
         "Configuraciones": <Configuraciones />,
         "Clinicas": <ClinicaProvider><ClinicaPage /></ClinicaProvider>,
