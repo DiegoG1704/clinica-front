@@ -11,6 +11,7 @@ import medicals from '../../../../img/Clinicas/Medical.jpeg';
 import JP from '../../../../img/Clinicas/clinica-javierPrado.jpg'
 import AltSalud from '../../../../img/Clinicas/AltaSalud.jpeg'
 import Opeluce from '../../../../img/Clinicas/clinica-opeluce-local.jpg'
+import Monteluz from '../../../../img/Clinicas/clinica-monteluz.webp'
 
 export default function ClinicasCarousel({ datos }) {
     const [products, setProducts] = useState([]);
@@ -96,6 +97,15 @@ export default function ClinicasCarousel({ datos }) {
             height: 500,
             telefono: '(01) 206 -4700',
             title: "Clínica de Ojos D' Opeluce",
+            
+        },
+        {
+            src: Monteluz,
+            alt: "Clínica Monteluz",
+            width: 500,
+            height: 500,
+            telefono: '970080096',
+            title: "Clínica Monteluz",
             
         }
     ];
