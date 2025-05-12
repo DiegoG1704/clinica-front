@@ -210,6 +210,18 @@
     
     
 }
+.container-actions-button__forgot p{
+    font-size: 14px;
+    cursor: pointer;
+    color: #344;
+    
+
+}
+.container-actions-button__forgot p:hover{
+
+    color: #111;
+
+}
 @media (max-width: 650px) {
     .container-login{
         height: 100%;

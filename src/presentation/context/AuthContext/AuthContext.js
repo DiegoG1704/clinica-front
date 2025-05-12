@@ -19,7 +19,14 @@ import Loader from '../../components/Loader/Loader';
 import { LogoutUser } from '../../../domain/useCases/user/LogoutUser';
 import { VerifyCodeUser } from '../../../domain/useCases/user/VerifyCodeUser';
 import ZodValidateUserCode from '../../../data/validators/user/ZodValidateUserCode';
-import { set } from 'zod';
+import SendEmailToRecovery from '@/domain/useCases/user/SendEmailToRecovery';
+import ZodEmailValidator from '@/data/validators/auth/recovery-account/ZodEmailValidator';
+import ZodResetPassword from '@/data/validators/auth/recovery-account/ZodResetPassword';
+import { ResetPassword } from '@/domain/useCases/user/ResetPassword';
+import VerifyEmailUser from '@/domain/useCases/user/VerifyEmailUser';
+import { ValidateCodeToResetPassword } from '@/domain/useCases/user/ValidateCodeToResetPassword';
+import ZodCodeToRecoveryValidator from '@/data/validators/auth/recovery-account/ZodCodeToRecoveryValidator';
+
 
 
 // Crear el contexto
@@ -65,6 +72,30 @@ export const AuthProvider = ({ children }) => {
     //Validate code
     const validateUserCode = new ZodValidateUserCode()
     const validateUserCodeUseCase = new VerifyCodeUser(userRepository, validateUserCode)
+
+    //SendEmailToRecovery
+    const emailValidator = new ZodEmailValidator()
+
+    const sendEmailToRecoveryUseCase = new SendEmailToRecovery(authRepository, emailValidator);
+    //Change Password
+
+    const resetPasswordValidator=new ZodResetPassword()
+    const resetPasswordUseCase= new ResetPassword(authRepository,resetPasswordValidator)
+
+ 
+    const  validateEmailUseCase=  new VerifyEmailUser(emailValidator)
+
+    const  ValidateCodeToResetPasswordValidator=new ZodCodeToRecoveryValidator()
+
+    const ValidateCodeToResetPasswordUseCase = new ValidateCodeToResetPassword(authRepository,ValidateCodeToResetPasswordValidator)
+
+    const handlevalidateEmail= (data)=>{
+       return validateEmailUseCase.execute(data)
+    }
+
+
+
+
     const login = async (correo, contraseña) => {
         try {
             const loggedInUser = await loginUseCase.execute({ "dni": correo, "contraseña": contraseña });
@@ -138,7 +169,20 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
     };
 
+    const sendEmailToRecovery = (email) => {
+        console.log("email", email)
+      
+        return sendEmailToRecoveryUseCase.execute(email);
+
+    }
+    const handleResetPassword=async(data)=>{
+       return  await resetPasswordUseCase.execute(data)
+    }
+  
     // Llamamos checkAuthStatus al montar la app
+    const HandleValidateCodeToResetPassword=async (data)=>{
+        return await ValidateCodeToResetPasswordUseCase.execute(data)
+    }
 
     useEffect(() => {
 
@@ -148,6 +192,7 @@ export const AuthProvider = ({ children }) => {
     if (loading) {
         return <Loader isLoading={loading} />
     }
+
 
 
 
@@ -193,7 +238,8 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             user, setUser, login, logout, isAuthenticated, Datos, setDatos, FindPersonWithDni,
             validateGeneralData, RegisterUser, setIsAuthenticated, getUser, validateCode,
-            loading, setLoading, LoaderPrivate, setLoaderPrivate, LoaderGuest, setLoaderGuest, me
+            loading, setLoading, LoaderPrivate, setLoaderPrivate, LoaderGuest, setLoaderGuest, me,sendEmailToRecovery,handleResetPassword,
+            handlevalidateEmail,HandleValidateCodeToResetPassword
         }}>
 
             {children}
