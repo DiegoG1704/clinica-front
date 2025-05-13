@@ -7,26 +7,26 @@ import { InputIcon } from "primereact/inputicon";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/presentation/context/AuthContext/AuthContext";
 import { Toast } from "primereact/toast";
-import { showToastWithErrors } from "@/presentation/utils/showToast";
+import { showToast, showToastWithErrors } from "@/presentation/utils/showToast";
 import { Navigate, useSearchParams } from 'react-router-dom';
 import PasswordValidation from "./components/PasswordValidation/PasswordValidation";
 import { set } from "zod";
 import { history } from "@/presentation/utils/history";
 
-const ResetPasswordPage = ({LoaderGuest,setLoaderGuest}) => {
+const ResetPasswordPage = ({ LoaderGuest, setLoaderGuest }) => {
     const [dataRecovery, setDataRecovery] = useState({
         contraseña: "",
         nuevaContrasena: "",
         token: ""
     });
     const toast = useRef(null)
-    const { handleResetPassword ,HandleValidateCodeToResetPassword} = useAuth()
+    const { handleResetPassword, HandleValidateCodeToResetPassword } = useAuth()
     const [searchParams] = useSearchParams();
     const token = searchParams.get('token');
 
 
     const handleEmailChange = (e) => {
-       
+
         setDataRecovery({
             ...dataRecovery,
             [e.target.name]: e.target.value
@@ -34,30 +34,38 @@ const ResetPasswordPage = ({LoaderGuest,setLoaderGuest}) => {
     }
 
     const handleSubmit = async () => {
-      
+
         const response = await handleResetPassword(dataRecovery)
-        console.log("res", response)
         if (!response?.success) {
             showToastWithErrors("error", "Error al actualizar", response?.error, toast)
+        } else {
+            showToast("success", "Contraseña actualizada", "Tu contraseña ha sido actualizada con éxito", toast)
+            setTimeout(() => {
+                history.navigate("/login")
+            }, 2500)
+            
 
         }
     }
 
-    const validateCodeToResetPassword = async ()=>{
+    const validateCodeToResetPassword = async () => {
         setLoaderGuest(true)
-        const result= await HandleValidateCodeToResetPassword({token:token})
-        console.log("result",result)
-        if(result?.success){
+        const result = await HandleValidateCodeToResetPassword({ token: token })
+
+        if (result?.success) {
             setDataRecovery({ ...dataRecovery, token: token })
-        }else{
+        } else {
             history.navigate("/login")
-            
+
         }
         setLoaderGuest(false)
     }
+    const handleClickReturn = () => {
+        history.navigate("/login")
+    }
     useEffect(() => {
         validateCodeToResetPassword()
-       
+
     }, [token])
 
 
@@ -82,7 +90,7 @@ const ResetPasswordPage = ({LoaderGuest,setLoaderGuest}) => {
                                 <label htmlFor="">Nueva contraseña</label>
                                 <IconField iconPosition="left">
                                     <InputIcon className="pi pi-lock"> </InputIcon>
-                                    <PasswordValidation  placeholder="Ingresa tu nueva contraseña" className="pr-3" value={dataRecovery?.contraseña} onChange={handleEmailChange} name="contraseña" />
+                                    <PasswordValidation placeholder="Ingresa tu nueva contraseña" className="pr-3" value={dataRecovery?.contraseña} onChange={handleEmailChange} name="contraseña" />
                                 </IconField>
 
                             </div>
@@ -90,9 +98,9 @@ const ResetPasswordPage = ({LoaderGuest,setLoaderGuest}) => {
                                 <label htmlFor="">Confirmar contraseña</label>
                                 <IconField iconPosition="left">
                                     <InputIcon className="pi pi-lock"> </InputIcon>
-                                    <PasswordValidation  placeholder="Ingresa confirmación de contraseña" className="pr-3" value={dataRecovery?.nuevaContrasena} onChange={handleEmailChange} name="nuevaContrasena" />
+                                    <PasswordValidation placeholder="Ingresa confirmación de contraseña" className="pr-3" value={dataRecovery?.nuevaContrasena} onChange={handleEmailChange} name="nuevaContrasena" />
                                 </IconField>
-                                
+
 
                             </div>
                         </div>
@@ -101,7 +109,7 @@ const ResetPasswordPage = ({LoaderGuest,setLoaderGuest}) => {
                                 <Button className={styles["btn-send-mail"]} onClick={handleSubmit}>Guardar cambios</Button>
                             </div>
                             <div className={styles["field-inputs"]}>
-                                <Button className={styles["btn-return-home"]}><i className="pi pi-arrow-left mx-2"></i> Volver al inicio de sesión</Button>
+                                <Button className={styles["btn-return-home"]} onClick={handleClickReturn}><i className="pi pi-arrow-left mx-2"></i> Volver al inicio de sesión</Button>
                             </div>
                         </div>
                         <div className={`${styles?.["form-contact"]}`}>

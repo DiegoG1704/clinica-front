@@ -7,12 +7,12 @@ export default class ZodCodeToRecoveryValidator {
         this.userSchema = z.object({
             token: z
               .string()
-              .length(8, "El código debe tener exactamente 8 caracteres")
+              .length(9, "El código debe tener exactamente 9 caracteres")
               
           });
     }
     validateUserData(data) {
-        console.log("dta-1",data)
+       
         try {
             let resultvalidate = this.userSchema.parse(data);
             console.log("result", resultvalidate)

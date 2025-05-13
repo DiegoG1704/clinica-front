@@ -9,6 +9,7 @@ import { useAuth } from "@/presentation/context/AuthContext/AuthContext";
 import Illustration from "@/presentation/img/IllustrationSendEmail.png"
 import { Toast } from "primereact/toast";
 import { showToast, showToastWithErrors } from "@/presentation/utils/showToast";
+import { history } from "@/presentation/utils/history";
 
 
 
@@ -24,10 +25,10 @@ const RecoveryPage = () => {
         setEmail(e.target.value);
 
         const result = handlevalidateEmail({ email: e.target.value })
-        console.log("resut",result)
+
 
         if (!result?.success) {
-            const errorMessage = result?.error|| "";
+            const errorMessage = result?.error || "";
             setEmailError(errorMessage);
         } else {
             setEmailError("");
@@ -65,6 +66,9 @@ const RecoveryPage = () => {
 
 
     };
+    const handleClickReturn = () => {
+        history.navigate("/login")
+    }
 
     return (
         <div className={`flex align-items-center justify-content-center h-screen h-full  ${styles["container-recovery"]}`}>
@@ -117,7 +121,7 @@ const RecoveryPage = () => {
                                 </div>
                                 <div className={styles["field-inputs"]}>
                                     <Button className={styles["btn-return-home"]}
-                                   
+                                        onClick={handleClickReturn}
                                     >
                                         <i className="pi pi-arrow-left mx-2"></i> Volver al inicio de sesión
                                     </Button>
