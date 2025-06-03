@@ -11,6 +11,8 @@ import NuevaContrasena from "../pages/Contraseña/Recuperacion/NuevaContraseña"
 import Exito from "../pages/Contraseña/Recuperacion/Confirmación";
 import HomePage from "../features/user/home/pages/main/HomePage";
 import Loader from "../components/Loader/Loader";
+import RecoveryPage from "../features/user/auth/recovery-user/RecoveryPage";
+import ResetPasswordPage from "../features/user/auth/recovery-user/reset-password/ResetPasswordPage";
 
 
 export const GuestRoutes = ({ onLogin, handleDatos, user, setUser, Datos, loading, setLoading, LoaderGuest, setLoaderGuest }) => {
@@ -26,7 +28,9 @@ export const GuestRoutes = ({ onLogin, handleDatos, user, setUser, Datos, loadin
                 <Route path="/ConoceMas" element={<Informacion />} />
                 <Route path="/Contacto" element={<Contacto />} />
                 <Route path='*' element={<Navigate to="/" />} />
-                <Route path="/Recuperacion" element={<Index />} />
+                <Route path="/Recuperacion" element={<RecoveryPage/>} />
+                <Route path="/recuperar" element={<ResetPasswordPage    LoaderGuest={LoaderGuest}
+                    setLoaderGuest={setLoaderGuest}/>} />
                 <Route path="/Solicitud" element={<SolicitudRecuperacion />} />
                 <Route path="/NuevaContrasena" element={<NuevaContrasena />} />
                 <Route path="/Confirmacion" element={<Exito />} />

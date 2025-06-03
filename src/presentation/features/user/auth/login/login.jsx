@@ -14,11 +14,11 @@ import { Toast } from 'primereact/toast';
 
 
 const Login = ({ onLogin }) => {
-    const [credentials,setCredentials]=useState({correo:"",contraseña:""})
+    const [credentials, setCredentials] = useState({ correo: "", contraseña: "" })
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const toastRef = useRef(null);
- 
+
     const handleLogin = async () => {
         setLoading(true);
         try {
@@ -34,18 +34,21 @@ const Login = ({ onLogin }) => {
             setLoading(false);
         }
     };
-    const handleChangeCredentials=(e)=>{
-        let name=e.target.name
-        setCredentials({...credentials,[name]:e?.target?.value})
+    const handleChangeCredentials = (e) => {
+        let name = e.target.name
+        setCredentials({ ...credentials, [name]: e?.target?.value })
     }
-    const handleClickRegister=(ruta)=>{
+    const handleClickRegister = (ruta) => {
         navigate("/register")
+    }
+    const handleClickForget=()=> {
+        navigate("/Recuperacion")
     }
 
 
     return (
         <div className={`flex align-items-center justify-content-center h-screen h-full py-3 ${styles?.["container-login"]} `}>
-           <Toast ref={toastRef}/> 
+            <Toast ref={toastRef} />
             <div className={`${styles?.["container-form"]} flex sm:flex-column lg:flex-row  `}>
                 <div className={styles?.background}>
                     <img src={Hands} alt="" />
@@ -88,18 +91,23 @@ const Login = ({ onLogin }) => {
                     <div className={`${styles?.["form"]}`}>
                         <div className="input-group">
                             <label htmlFor="">DNI</label>
-                            <IconField iconPosition="left">
-                                <InputIcon className="pi pi-user"> </InputIcon>
-                                <InputText placeholder='Ingresa tu DNI' name='correo' value={credentials?.correo} onChange={handleChangeCredentials} />
-                            </IconField>
+                                <IconField iconPosition="left">
+                                    <InputIcon className="pi pi-user"> </InputIcon>
+                                    <InputText placeholder='Ingresa tu DNI' name='correo' value={credentials?.correo} onChange={handleChangeCredentials} />
+                                </IconField>
 
                         </div>
                         <div className="input-group">
                             <label htmlFor="">Contraseña</label>
                             <IconField iconPosition="left">
                                 <InputIcon className="pi pi-lock"> </InputIcon>
-                                <InputText placeholder='Ingresa tu contraseña' type='password' name='contraseña' className='pl-5' value={credentials?.contraseña} onChange={handleChangeCredentials}/>
+                                <InputText placeholder='Ingresa tu contraseña' type='password' name='contraseña' className='pl-5' value={credentials?.contraseña} onChange={handleChangeCredentials} />
                             </IconField>
+                            <div className={`flex   justify-content-end ${styles?.["container-actions-button__forgot"]}`}>
+
+                            
+                                <p className='text-right text-silver-200 ' onClick={handleClickForget}> ¿Olvidaste tu contraseña?</p>
+                            </div>
 
                         </div>
                         <div className={`${styles?.["container-actions-button"]}`}>
@@ -120,6 +128,7 @@ const Login = ({ onLogin }) => {
                         </div>
 
                     </div>
+
                 </div>
             </div>
 

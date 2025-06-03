@@ -13,6 +13,7 @@
     "dotenv": "^16.4.5",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
+    "lucide-react": "^0.508.0",
     "luxon": "^3.5.0",
     "pdfjs-dist": "^3.4.120",
     "primeflex": "^3.3.1",
