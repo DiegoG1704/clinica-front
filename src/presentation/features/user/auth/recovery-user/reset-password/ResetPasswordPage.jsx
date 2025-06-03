@@ -36,6 +36,7 @@ const ResetPasswordPage = ({ LoaderGuest, setLoaderGuest }) => {
     const handleSubmit = async () => {
 
         const response = await handleResetPassword(dataRecovery)
+        console.log("response",response)
         if (!response?.success) {
             showToastWithErrors("error", "Error al actualizar", response?.error, toast)
         } else {
