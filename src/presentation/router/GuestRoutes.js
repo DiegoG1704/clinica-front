@@ -24,13 +24,13 @@ export const GuestRoutes = ({ onLogin, handleDatos, user, setUser, Datos, loadin
             <Routes>
                 <Route path="/login" element={<Login onLogin={onLogin} />} />
                 <Route path="/Register" element={<Register onNext={handleDatos} loading={loading} setLoading={setLoading} LoaderGuest={LoaderGuest} setLoaderGuest={setLoaderGuest} />} />
-                <Route path='/' element={<HomePage idUsuario={user} setIdUsuario={setUser} />} />
-                <Route path="/ConoceMas" element={<Informacion />} />
-                <Route path="/Contacto" element={<Contacto />} />
-                <Route path='*' element={<Navigate to="/" />} />
-                <Route path="/Recuperacion" element={<RecoveryPage/>} />
-                <Route path="/recuperar" element={<ResetPasswordPage    LoaderGuest={LoaderGuest}
-                    setLoaderGuest={setLoaderGuest}/>} />
+                {/* <Route path='/' element={<HomePage idUsuario={user} setIdUsuario={setUser} />} /> */}
+                {/* <Route path="/ConoceMas" element={<Informacion />} />
+                <Route path="/Contacto" element={<Contacto />} /> */}
+                <Route path='*' element={<Navigate to="/login" />} />
+                <Route path="/Recuperacion" element={<RecoveryPage />} />
+                <Route path="/recuperar" element={<ResetPasswordPage LoaderGuest={LoaderGuest}
+                    setLoaderGuest={setLoaderGuest} />} />
                 <Route path="/Solicitud" element={<SolicitudRecuperacion />} />
                 <Route path="/NuevaContrasena" element={<NuevaContrasena />} />
                 <Route path="/Confirmacion" element={<Exito />} />
