@@ -26,6 +26,9 @@ import { SubAdminProvider } from '../context/SubAdministradores/SubAdministrador
 import AutorizacionFam from '../pages/VistaAdmin/AutoFamiliares/AutorizacionFam';
 import Pagos from '../pages/VistaAdmin/Pagos/Pagos';
 import Loader from '../components/Loader/Loader';
+import Blog from '../pages/VistaAdmin/Blog/BlogPage';
+import CrearBlog from '../pages/VistaAdmin/Blog/Components/CrearBlog';
+import VistaPrevia from '../pages/VistaAdmin/Blog/Components/VistaPrevia';
 const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin, LoaderPrivate, setLoaderPrivate }) => {
 
     const componentMap = {
@@ -45,7 +48,8 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
         "Familiares": <UserAfiliados />,
         "Autorizacion": <Administracion />,
         "AutorizacionFam": <AutorizacionFam />,
-        "PagosMensuales": <Pagos />
+        "PagosMensuales": <Pagos />,
+        "Blog": <Blog/>,
     };
 
 
@@ -71,6 +75,8 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
                             element={componentMap[route.nombre] || null}
                         />
                     ))}
+                    <Route path="/CrearBlog" element={<CrearBlog />} />
+                    <Route path='/VistaPrevia/:id' element={<VistaPrevia />} />
                     <Route path='/Configuraciones' element={<ConfiguracionProvider><Configuraciones /></ConfiguracionProvider>} />
                     {!isAuthenticated ? (
                         <Route path="/login" element={<Login onLogin={onLogin} />} />

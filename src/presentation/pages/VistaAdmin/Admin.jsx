@@ -1,90 +1,184 @@
-import React, { useState } from 'react';
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
-import { apiAdapter } from '@/core/adapters/apiAdapter';
-import { Card } from 'primereact/card';
+import { useState } from "react"
+import { InputText } from "primereact/inputtext"
+import { Button } from "primereact/button"
+import { Card } from "primereact/card"
+import { Badge } from "primereact/badge"
+import { Message } from "primereact/message"
+
+import { Search, User, AlertCircle, CheckCircle2, Loader2, FileText, Shield, MapPin } from "lucide-react"
+import { apiAdapter } from "@/core/adapters/apiAdapter"
 
 export default function Admin() {
-  const [resultado, setResultado] = useState(null);
-  const [datos, setDatos] = useState({ dni: '' });
-  const [mensajeError, setMensajeError] = useState('');
+  const [resultado, setResultado] = useState(null)
+  const [dni, setDni] = useState("")
+  const [mensajeError, setMensajeError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDatos({ ...datos, [name]: value });
-  };
+  const validateDNI = (dni) => /^\d{8}$/.test(dni)
 
-  const Submit = async () => {
-    setMensajeError('');
-    setResultado(null);
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (!dni.trim()) {
+      setMensajeError("Por favor, ingrese un DNI")
+      return
+    }
+
+    if (!validateDNI(dni)) {
+      setMensajeError("El DNI debe tener exactamente 8 dígitos")
+      return
+    }
+
+    setMensajeError("")
+    setResultado(null)
+    setIsLoading(true)
 
     try {
-      const response = await apiAdapter.post('buscarPorDNI', datos);
+      const response = await apiAdapter.post("buscarPorDNI", { dni })
 
-      // Verificar si la API devolvió datos válidos
       if (response && response.datos) {
-        setResultado(response);
+        setResultado(response)
       } else {
-        setMensajeError('No se encontraron datos para el DNI ingresado.');
+        setMensajeError("Afiliado no encontrado o no está activo")
       }
     } catch (error) {
-      console.error('Error al buscar el DNI:', error);
-      setMensajeError('Hubo un error al buscar el DNI.');
+      setMensajeError("Afiliado no encontrado o no está activo")
+    } finally {
+      setIsLoading(false)
     }
-  };
+  }
+
+  const getStatusBadge = (estado) => {
+    const status = estado?.toLowerCase()
+    if (status === "activo") {
+      return (
+        <div className="flex align-items-center gap-2 text-green-600 font-medium">
+          <CheckCircle2 size={16} />
+          <span>Activo</span>
+        </div>
+      )
+    } else if (status === "desactivado") {
+      return (
+        <div className="flex align-items-center gap-2 text-red-600 font-medium">
+          <AlertCircle size={16} />
+          <span>Inactivo</span>
+        </div>
+      )
+    }
+
+    return <span className="text-500">No disponible</span>
+  }
 
   return (
-    <div className="p-6 max-w-lg mx-auto bg-white shadow-md rounded-lg">
-      <h1 className="text-2xl font-semibold mb-4 text-center text-gray-700">
-        🔍 Buscar Usuario por DNI
-      </h1>
-
-      <div className="flex flex-col mb-4">
-        <label className="text-gray-600 font-medium">DNI</label>
-        <div className="flex flex-wrap items-center gap-2">
-          <InputText
-            name="dni"
-            value={datos.dni}
-            onChange={handleChange}
-            placeholder="Ingrese el DNI..."
-            className="p-inputtext flex-1 min-w-[200px] sm:min-w-[250px] md:min-w-[300px]"
-          />
-          <Button 
-            label="Comprobar" 
-            onClick={Submit} 
-            className="p-button-primary w-full sm:w-auto"
-          />
-        </div>
-      </div>
-
-
-      {mensajeError && <p className="text-red-500 text-sm">{mensajeError}</p>}
-
-      {resultado && resultado.datos && (
-        <Card className="mt-4 border border-gray-300 shadow-sm">
-          <h2 className="text-lg font-semibold text-gray-700 mb-3">
-            ✅ Datos del Usuario
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <strong className="block text-gray-600">Nombre:</strong>
-              <InputText disabled value={resultado.datos.nombres || "N/A"} />
+    <div className="p-4 min-h-screen surface-100 flex justify-content-center">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-4">
+          <div className="flex justify-content-center align-items-center gap-2 mb-2">
+            <div className="p-2 surface-200 border-round">
+              <Search className="text-primary" size={24} />
             </div>
-            <div>
-              <strong className="block text-gray-600">Apellido:</strong>
-              <InputText disabled value={resultado.datos.apellidos || "N/A"} />
-            </div>
-            <div>
-              <strong className="block text-gray-600">Estado:</strong>
-              <InputText disabled value={resultado.datos.estado || "No disponible"} />
-            </div>
-            <div>
-              <strong className="block text-gray-600">Lista:</strong>
-              <InputText disabled value={resultado.encontradoEn || "No encontrado"} />
-            </div>
+            <h1 className="text-3xl font-bold text-900">Búsqueda de Usuario</h1>
           </div>
+          <p className="text-600">Ingrese el número de DNI para consultar la información del usuario en el sistema</p>
+        </div>
+
+        {/* Search Form */}
+        <Card className="mb-4">
+         
+            <div className="field mb-3">
+              <label htmlFor="dni" className="text-sm font-medium mb-1">DNI</label>
+              <div className="flex gap-2">
+                <InputText
+                  id="dni"
+                  value={dni}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, "").slice(0, 8)
+                    setDni(value)
+                    if (mensajeError) setMensajeError("")
+                  }}
+                  maxLength={8}
+                  placeholder="Ej: 12345678"
+                  disabled={isLoading}
+                  className="w-full"
+                />
+                <Button
+                  label={isLoading ? "Buscando..." : "Buscar"}
+                  icon={isLoading ? <Loader2 className="animate-spin" /> : <Search />}
+                  className="px-6 bg-primary hover:bg-primary-700"
+                  disabled={isLoading || !dni.trim()}
+                  onClick={handleSubmit}
+                />
+              </div>
+            </div>
+
+            {mensajeError && <Message severity="error" text={mensajeError} />}
+
         </Card>
-      )}
+
+        {/* Results */}
+        {resultado && resultado.datos && (
+          <Card>
+            <div className="flex justify-content-between align-items-center mb-3">
+              <div className="flex align-items-center gap-2">
+                <User className="text-primary" size={20} />
+                <h2 className="text-xl font-semibold text-900">Información del Usuario</h2>
+              </div>
+              <strong className="bg-blue-100 text-blue-700 p-2">Lista de {resultado.encontradoEn}</strong>
+            </div>
+
+            <p className="text-sm text-600 mb-3">
+              Datos encontrados para el DNI: <strong>{dni}</strong>
+            </p>
+
+            <div className="grid grid-nogutter md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <h3 className="text-md font-semibold mb-2 flex align-items-center gap-2 text-800">
+                  <User size={16} className="text-primary" />
+                  Datos Personales
+                </h3>
+                <div className="mb-2">
+                  <small className="text-500">Nombres</small>
+                  <p className="text-800 font-medium mt-1">{resultado.datos.nombres || "No disponible"}</p>
+                </div>
+                <div className="mb-2">
+                  <small className="text-500">Apellidos</small>
+                  <p className="text-800 font-medium mt-1">{resultado.datos.apellidos || "No disponible"}</p>
+                </div>
+                <div>
+                  <small className="text-500">Estado</small>
+                  <div className="mt-1">{getStatusBadge(resultado.datos.estado)}</div>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-md font-semibold mb-2 flex align-items-center gap-2 text-800">
+                  <MapPin size={16} className="text-primary" />
+                  Información de Contacto
+                </h3>
+                {resultado.datos.telefono && (
+                  <div className="mb-2">
+                    <small className="text-500">Teléfono</small>
+                    <p className="text-800 font-medium mt-1">{resultado.datos.telefono}</p>
+                  </div>
+                )}
+                {resultado.datos.correo && (
+                  <div className="mb-2">
+                    <small className="text-500">Email</small>
+                    <p className="text-800 font-medium mt-1">{resultado.datos.correo}</p>
+                  </div>
+                )}
+                {resultado.datos.rol && (
+                  <div>
+                    <small className="text-500">Dirección</small>
+                    <p className="text-800 font-medium mt-1">{resultado.datos.rol}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </Card>
+        )}
+      </div>
     </div>
-  );
+  )
 }
