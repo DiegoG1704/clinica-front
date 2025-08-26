@@ -1,6 +1,7 @@
 
 export class User {
-  constructor(id, correo, contraseña, nombres, apellidos, dni, estadoCivil, rolId, afiliadorId, clinica_id, fechNac, telefono, fotoPerfil, direccion,rutas,estado,estadoPr,codigo,local_id,rol,estado_solicitud) {
+  constructor(id, correo, contraseña, nombres, apellidos, dni, estadoCivil, 
+    rolId, afiliadorId, clinica_id, fechNac, telefono, fotoPerfil, direccion,rutas,estado,estadoPr,codigo,local_id,rol,estado_solicitud,fechaVenc) {
       this.id = id;
       this.correo = correo;
       // this.contraseña = contraseña;
@@ -22,6 +23,7 @@ export class User {
       this.local_id=local_id
       this.rol=rol
       this.estado_solicitud=estado_solicitud
+      this.fechaVenc=fechaVenc
      
   }
 }

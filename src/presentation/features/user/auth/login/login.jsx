@@ -30,7 +30,7 @@ const Login = ({ onLogin }) => {
         e.preventDefault()
         setLoading(true);
         try {
-            const response = await onLogin(credentials?.correo, credentials?.contraseña);
+            const response = await onLogin(credentials?.documento, credentials?.contraseña);
             if (response?.success) {
                 navigate(response?.data?.rutas?.[0]?.ruta);
             } else {

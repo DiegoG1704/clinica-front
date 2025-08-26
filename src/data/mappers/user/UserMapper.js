@@ -31,7 +31,8 @@ class UserMapper {
             data.codigo,
             data.local_id,
             data.rol,
-            data.estado_solicitud
+            data.estado_solicitud,
+            data?.fechaVenc
         );
     }
     static toData(user) {

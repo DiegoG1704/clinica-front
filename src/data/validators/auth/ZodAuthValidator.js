@@ -10,9 +10,10 @@ export default class ZodAuthValidator extends LoginValidator {
         });
     }
     validateUserData(data) {
+       
         try {
             let resultvalidate = this.userSchema.parse(data);
-            console.log("result",resultvalidate)
+          
             if (resultvalidate) {
                 return { success: true }
             }
