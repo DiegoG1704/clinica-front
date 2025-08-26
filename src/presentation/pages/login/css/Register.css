@@ -1,25 +1,29 @@
 .register-container {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    
+    /* justify-content: center;
+    align-items: center; */
    
-    background-color: #f7f7f7;
-    padding: 30px 20px; /* Añadir un poco de padding lateral */
+     background-color: #f8f9ff;
+    
     position: relative;
+    height: 100%;
+    padding: 10px 20px;
+    
     
 }
 
 
 .register-box {
     width: 100%; /* Cambiar a 100% para que ocupe todo el ancho */
-    max-width: 700px; /* Limitar el ancho máximo */
+    max-width: 550px; /* Limitar el ancho máximo */
     padding: 30px;
     background-color: white;
     border-radius: 28px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    height: auto;
+    height: 100%;
+  
 }
 .register-box .input-group label{
     font-size: 16px!important;
@@ -140,26 +144,27 @@ background-color: black; /* Color de fondo cuando está seleccionado */
     text-decoration: underline;
 }
 .input-calendar .p-datepicker-trigger{
-    background-color: #85c226!important;
-    border-color: #85c226!important;
+    background-color: transparent!important;
+    border-color: transparent!important;
     position: relative;
     right: 4px;
     border-radius: 0px 9px 9px 0px;
+    /* color: #101828; */
 }
 .message-document{
-    background-color: #d1f09e;
-    color: #4e780c;
+    background-color: #eff6ff;
+    color: #3f5dc5;
     margin-top: 5px;
     padding: 6px 10px;
     border-radius: 5px;
     font-size: 0.9em;
 }
 .message-document span{
-    color: #3e5519;
+    color: #3f5dc5;
     font-weight: 600;
 }
 .message-document a{
-    color: #3e5519;
+    color: #3f5dc5;
     font-weight: 600;
 }
 .terminosLink{
@@ -185,6 +190,165 @@ background-color: black; /* Color de fondo cuando está seleccionado */
 }
 .label-error{
     color: rgb(243, 18, 96);;
+}
+.left-section-image{
+    width: auto;
+    height: 570px;
+
+    
+}
+.left-section{
+    display: flex;
+    flex-direction: column;
+
+    
+    flex: 1;
+}
+.container-left-section-image{
+    flex: 1;
+   
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+   
+    padding-top: 80px;
+    
+
+}
+.left-section-paragraph{
+    /* background-color: rgb(7, 115, 216); */
+   flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding-left: 50px;
+    padding-bottom: 50px;
+    padding-top: 20px;
+    /* height: 100%; */
+    
+
+}
+
+
+.right-section{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+   background-color: #f8f9ff;
+}
+.left-section-title p{
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #101828;
+    margin-bottom: 20px;
+    /* max-width: 300px; */
+
+}
+.left-section-title p span{
+    font-size: 2.5rem;
+    font-weight: 700;
+    color:#85c226;
+    margin-bottom: 20px;
+
+
+}
+.left-section-subtitle{
+    font-size: 1.3rem;
+    color: #475467;
+    
+}
+.contact-button{
+    background-color: #85c226;
+    border: none;
+    color: white;
+    padding: 13px 30px;
+    border-radius: 27px;
+    font-weight: 600;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 1.2rem;
+  
+  
+}
+.btn-contact{
+    display: flex;
+    justify-content: start;
+   
+}
+.logo-image{
+    width: 120px;
+    height: auto;
+    margin-bottom: 20px ;
+    position: absolute;
+    top: 14px;
+    left: 50px;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 270px); /* 2 columnas */
+  gap: 2rem; /* 16px */
+
+  width: 100%;
+  margin-top:30px;
+ 
+  justify-content: center;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* 12px */
+
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-green {
+  background-color: rgba(133, 194, 38, 0.1); /* #85c226 con 10% */
+}
+
+.bg-blue {
+  background-color: rgba(22, 97, 124, 0.1); /* #16617c con 10% */
+}
+
+.icon-green {
+  width: 20px;
+  height: 20px;
+  color: #85c226;
+}
+
+.icon-blue {
+  width: 20px;
+  height: 20px;
+  color: #16617c;
+}
+
+.feature-title {
+  font-weight: 600;
+  color: #111827; /* gris muy oscuro */
+  margin: 0;
+
+}
+
+.feature-subtitle {
+  font-size: 0.875rem; /* 14px */
+  color: #4b5563; /* gris medio */
+  margin: 0;
+}
+
+@media (max-width: 1400px) {
+   .left-section{
+        display: none;
+    }
 }
 /* Media Queries para Responsividad */
 @media (max-width: 768px) {
@@ -213,4 +377,7 @@ background-color: black; /* Color de fondo cuando está seleccionado */
         display: flex;
         flex-direction: column;
     }
+    /* .left-section{
+        display: none;
+    } */
 }
