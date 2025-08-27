@@ -235,3 +235,102 @@
     font-size: 17px!important;
     font-weight: 600;
 }
+
+@media screen and (max-width: 1024px) {
+    .container-card-config-user {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .header-profile,
+    .user-form-profile,
+    .user-form-password {
+        width: 100% !important;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .user-profile__image img {
+        width: 140px;
+        height: 140px;
+    }
+
+    .user-profile__info__name {
+        font-size: 1.4em;
+    }
+
+    .user-profile__info__role,
+    .user-profile__info__address {
+        font-size: 1em;
+    }
+
+    .general-info__data {
+        font-size: 1em;
+    }
+
+    .edit-photo {
+        width: 30px;
+        height: 30px;
+    }
+
+    .user-profile__action-button {
+        flex-direction: column;
+    }
+
+    .user-profile__action-button .p-button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .user-form__btn-save {
+        font-size: 1em !important;
+        padding: 6px 10px;
+    }
+
+    .header__title {
+        font-size: 1.6em;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .user-profile__image img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .edit-photo {
+        width: 25px;
+        height: 25px;
+    }
+
+    .user-form-profile,
+    .user-form-password {
+        padding: 10px;
+    }
+
+    .container-module {
+        padding: 10px;
+    }
+
+    .profile label,
+    .input-group label {
+        font-size: 1em !important;
+    }
+
+    .general-info__icon {
+        font-size: 1.2em;
+        padding: 5px;
+    }
+
+    .general-info__data {
+        font-size: 0.95em;
+    }
+
+    .user-profile__info__name {
+        font-size: 1.2em;
+    }
+
+    .header__title {
+        font-size: 1.4em;
+    }
+}

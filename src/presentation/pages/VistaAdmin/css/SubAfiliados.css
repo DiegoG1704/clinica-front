@@ -109,6 +109,13 @@
    font-weight: 600;
     
    }
+
+   @media (max-width: 768px) {
+    .data-afiliados {
+      width: 100%;
+    }
+  }
+
    @media (max-width: 600px) {
     .container-data-afiliados{
       display: flex;

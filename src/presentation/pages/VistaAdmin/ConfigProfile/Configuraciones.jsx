@@ -1,15 +1,9 @@
 import { Divider } from 'primereact/divider';
 import "./style/Configuraciones.css";
 import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
-
-import photoDefault from "../../../img/photo-default.png";  // Imagen predeterminada
-
+import photoDefault from "../../../img/photo-default.png"; 
 import { useAuth } from '../../../context/AuthContext/AuthContext';
-import { FileUpload } from 'primereact/fileupload';
-import { useEffect, useRef, useState } from 'react';  // Asegúrate de que useState esté importado
-
-import { apiAdapter } from '../../../../core/adapters/apiAdapter';
+import { useEffect, useRef, useState } from 'react'; 
 import ChangePassword from './Components/ChangePassword';
 import { useConfiguracionPloc } from '../../../context/ConfiguracionContext/ConfiguracionContext';
 import { usePlocState } from '../../../hooks/ploc/usePlocState';
@@ -68,66 +62,6 @@ export default function Configuraciones() {
       showToast("error", "Error al actulizar", "Hubo un error al actualizar la foto perfil", toast)
     }
     return response
-    // console.log("file", file)
-    // const formData = new FormData();
-    // formData.append('image', file);
-
-    // try {
-    //   // Llamada a la API para subir la imagen
-    //   const response = await apiAdapter.post(
-    //     `Usuario/${user?.id}/uploadProfileImage`,
-    //     formData,
-    //     {
-    //       headers: {
-    //         'Content-Type': 'multipart/form-data'
-    //       }
-    //     }
-    //   );
-
-    //   // Asumiendo que la respuesta contiene la URL de la nueva foto de perfil
-    //   const { fotoPerfil: newFotoPerfil } = response;
-    //   if (typeof newFotoPerfil === 'string') {
-    //     // Actualiza el estado local con la nueva foto
-    //     setFotoPerfil(newFotoPerfil);
-    //     setSelectedImage(`${process.env.REACT_APP_API_BASE_URL}uploads/${newFotoPerfil}`);  // Actualiza la vista previa
-
-    //     // Actualiza el estado global de 'user' con la nueva foto de perfil
-    //     setUser(prevState => ({
-    //       ...prevState,
-    //       fotoPerfil: newFotoPerfil
-    //     }));
-    //   } else {
-    //     console.error('El valor de fotoPerfil no es una cadena de texto:', newFotoPerfil);
-    //   }
-    // } catch (error) {
-    //   console.error('Error al subir la imagen:', error);
-    // }
-
-  };
-
-  // Handler para seleccionar la imagen antes de cargarla (solo para vista previa)
-  const handleImageSelect = (e) => {
-    const file = e.files && e.files[0];  // Asegúrate de que files no esté vacío
-    if (file && file instanceof Blob) {  // Verificar que el archivo sea del tipo Blob
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setSelectedImage(e.target.result);  // Establece la URL de la imagen en base64 para la vista previa
-      };
-      reader.readAsDataURL(file);
-    } else {
-      console.error("El archivo seleccionado no es válido o no es del tipo Blob.");
-    }
-  };
-
-  // Restaura el valor de selectedImage al cargar la nueva imagen
-  const handleImageUploadReset = () => {
-    setSelectedImage(null);  // Resetea la vista previa
-  };
-
-  const chooseOptions = {
-    icon: 'pi pi-camera', // Cambia el ícono
-    iconOnly: true,       // Elimina el texto, solo muestra el ícono
-    className: 'edit-photo' // Clase CSS opcional para estilos adicionales
   };
 
   const handleChangePassword = async () => {
@@ -151,9 +85,6 @@ export default function Configuraciones() {
         <header className="flex">
           <div className="flex-1 py-2 gap-0">
             <h1 className='header__title'>Configuracion de Perfil</h1>
-            {/* <p className={"description-module "}>Gestiona la información del usuario</p> */}
-
-
           </div>
         </header>
 
@@ -174,22 +105,7 @@ export default function Configuraciones() {
                     />
                     <span className='edit-photo  absolute bottom-0 right-0' onClick={openDialogEditPhoto}><i className='pi pi-camera ' style={{ marginLeft: "10px", marginTop: "8px" }}></i></span>
 
-                    {/* <FileUpload
-                      mode="basic"
-                      customUpload
-                      uploadHandler={handleImageUpload}
-                      accept="image/*"
-                    
-                      maxFileSize={1000000}
-                      onSelect={handleImageSelect}
-                      onUpload={handleImageUploadReset}  // Restablecer la opción de seleccionar otra imagen
-                      chooseOptions={chooseOptions}
-
-
-                    /> */}
                   </div>
-
-
                 </div>
                 <div className="user-profile__info text-center  ">
                   <p className="user-profile__info__name">{user?.nombres}</p>
@@ -201,10 +117,7 @@ export default function Configuraciones() {
                 <div className="user-profile__container-action-button">
                   <SelectButton options={state?.configListSection} className='user-profile__action-button' value={ploc.state?.configSectionIndexActive} optionValue='id' onChange={(e) => { ploc?.handleChangeSectionIndex(e.value) }} />
                 </div>
-
               </header>
-
-
             </div>
 
             {state?.configSectionIndexActive == 1 ? (
@@ -213,8 +126,6 @@ export default function Configuraciones() {
                   <div className='flex justify-content-between align-items-center '>
                     <h2 className='title-general-info'>Información Personal</h2>
                     <div className='flex gap-2'>
-                      {/* <Button tooltip='Cambiar contraseña' icon="pi pi-key" rounded className='user-form__btn-cancel' onClick={ploc.showDialogChangePassword} /> */}
-                      {/* <Button tooltip='Editar datos generales' icon=' pi pi-pencil' className='user-form__btn-save' rounded onClick={() => { ploc.openDialogGeneralInfo(user) }} /> */}
                       <Button className='user-form__btn-save' onClick={() => { ploc.openDialogGeneralInfo(user) }} ><span>Editar</span></Button>
 
                     </div>
@@ -260,11 +171,9 @@ export default function Configuraciones() {
                             <label htmlFor="username"> Correo</label>
                             <div className='flex'>
                               <p className='general-info__data'>{user?.correo}</p>
-                              {/* <Button label='Confirmar correo' onClick={()=>setConfirmar(true)} style={{background:'#85C226',color:'white', borderColor:'#85C226'}}/> */}
                             </div>
                           </div>
                         </div>
-
                       </div>
                       <div className="flex flex-column gap-2 flex-1 general-info">
                         <div className="flex general-info__row py-2">
@@ -276,18 +185,11 @@ export default function Configuraciones() {
                             <p className='general-info__data'>{user?.telefono}</p>
                           </div>
                         </div>
-
-
-
                       </div>
                     </div>
                   </div>
                   <div>
-
-
                   </div>
-
-
                 </main>
               </div>
             ) : (<div className="user-form-password p-4 flex flex-column lg:w-8">
@@ -295,8 +197,6 @@ export default function Configuraciones() {
                 <div className='flex justify-content-between align-items-center '>
                   <h2 className='title-general-info'>Seguridad de la Cuenta</h2>
                   <div className='flex gap-2'>
-                    {/* <Button tooltip='Cambiar contraseña' icon="pi pi-key" rounded className='user-form__btn-cancel' onClick={ploc.showDialogChangePassword} /> */}
-                    {/* <Button tooltip='Editar datos generales' icon=' pi pi-pencil' className='user-form__btn-save' rounded onClick={() => { ploc.openDialogGeneralInfo(user) }} /> */}
                     <Button className='user-form__btn-save' onClick={ploc.showDialogChangePassword} ><span>Cambiar Contraseña</span></Button>
 
                   </div>

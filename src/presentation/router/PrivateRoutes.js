@@ -29,6 +29,7 @@ import Loader from '../components/Loader/Loader';
 import Blog from '../pages/VistaAdmin/Blog/BlogPage';
 import CrearBlog from '../pages/VistaAdmin/Blog/Components/CrearBlog';
 import VistaPrevia from '../pages/VistaAdmin/Blog/Components/VistaPrevia';
+import VistaPagos from '../pages/VistaAdmin/Pasarela/Index';
 const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin, LoaderPrivate, setLoaderPrivate }) => {
 
     const componentMap = {
@@ -50,6 +51,7 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
         "AutorizacionFam": <AutorizacionFam />,
         "PagosMensuales": <Pagos />,
         "Blog": <Blog/>,
+        "Pagos": <VistaPagos/>,
     };
 
 

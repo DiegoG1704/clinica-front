@@ -7,13 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import fotoperfil from "../../../img/photo-default.png";
 import { useAuth } from '../../../context/AuthContext/AuthContext';
 import LogoImage from "@/presentation/img/logo-inicio.png";
-import { Divider } from 'primereact/divider';
 import { history } from '@/presentation/utils/history';
+import { useState } from 'react';
 
 export default function Sidebar({ isOpen, toggleSidebar, onLogout }) {
   const navigate = useNavigate();
   const { user } = useAuth();
   console.log("his",history.location.pathname)
+  const [isMobile, setIsMobile] = useState(false);
 
 
   const handleLogout = async () => {
@@ -82,19 +83,16 @@ export default function Sidebar({ isOpen, toggleSidebar, onLogout }) {
           </li>
 
         </ul>
-        
-       
-
 
       </div>
       <Button
         rounded
-        icon={isOpen ? 'pi pi-arrow-left' : 'pi pi-arrow-right'}        
+        icon={isOpen ? 'pi pi-arrow-left' : 'pi pi-arrow-right'}
         onClick={toggleSidebar}
         className="toggle-button"
         style={{
-          left: isOpen ? '250px' : '60px',
-          zIndex: 200,
+          left: isMobile ? '10px' : isOpen ? '250px' : '60px',
+          zIndex: 1000,
         }}
       />
     </>

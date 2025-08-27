@@ -7,6 +7,9 @@ import TerminosyCond from '../../pages/login/Dialog/TerminosyCond';
 import { showToast } from '../../utils/showToast';
 import PromotorUpgradeDialog from '@/presentation/features/admin/admin-usuario/afiliado/components/PromotorUpgradeDialog/PromotorUpgradeDialog';
 import SolicitudEnviadaDialog from '@/presentation/features/admin/admin-usuario/afiliado/TarifariosClinicas/components/SolicitudEnviadaDialog/SolicitudEnviadaDialog';
+import { Dialog } from 'primereact/dialog';
+import PasarelaPagos from '@/presentation/pages/VistaAdmin/Pasarela/components/Pasarela';
+import styles from '../../features/admin/admin-usuario/components/ConfirmSolicitudDialog/styles/ConfirmSolicitudDialog.module.css'
 
 export default function Tarifario() {
     const { user, logout, me } = useAuth();
@@ -16,6 +19,7 @@ export default function Tarifario() {
     const [openTC, setOpenTC] = useState(false);
     const [loading, setLoading] = useState(true);
     const [checked, setChecked] = useState(false);
+    const [visible, setVisible] = useState(false);
     const [datos, setDatos] = useState({
         rol_id: 4,
     });
@@ -44,6 +48,14 @@ export default function Tarifario() {
 
         fetchIsoTipo();
     }, []);
+
+    const fechPagos=async()=>{
+    try {
+        await apiAdapter.get(`/pagosRealizados/${user?.id}`)
+    } catch (error) {
+        console.log('error',error);
+    }
+    }
 
     const handleTermsAccept = () => {
         setChecked(true);
@@ -77,40 +89,40 @@ export default function Tarifario() {
         }
     }
 
-
+    const headerTemplate = (<><h2 className={'text-2xl'}>Cambio de rol a Promotor</h2>
+        <p className={'text-sm'}>Para cambiar de rol a Promotor debe seguir los pasos</p></>)
     return (
         <>
-            <header className={`flex header-module`}>
-                <div className="flex-1 py-2 gap-0">
-                    <h1 className={"title-module "}>Tarifario de las Clínicas</h1>
-                    <p className={"description-module "}>Gestiona y administra tus centros médicos</p>
-                    {/* <Divider /> */}
-
-
+            <header className="flex flex-column md:flex-row justify-content-between align-items-start md:align-items-center flex-wrap gap-4 mb-4 header-module">
+                {/* Contenido del lado izquierdo */}
+                <div className="flex-1">
+                    <h1 className="title-module text-2xl md:text-3xl mb-1">Tarifario de las Clínicas</h1>
+                    <p className="description-module text-sm md:text-base text-gray-600">
+                    Gestiona y administra tus centros médicos
+                    </p>
                 </div>
-                {/* ({user}) */}
-                <div className="flex justify-content-end align-items-center">
-                    <div className="flex justify-content-end align-items-center ">
-                        {user?.rol !== "Promotor" && (<Button
-                            label="Convertirme Promotor"
-                            style={{
-                                backgroundColor: "#85C226",
-                                borderColor: "#85C226",
-                                height: "60px",
-                                borderRadius: "6px",
-                                fontWeight: "bold",
-                                color: "#fff",
-                            }}
 
-                            onClick={handleClickButtonSolicitud}
-                        />)}
-
-
-
+                {/* Botón para promotor */}
+                {user?.rol !== "Promotor" && (
+                    <div className="flex justify-content-end w-full md:w-auto">
+                    <Button
+                        label="Convertirme en Promotor"
+                        className="w-full md:w-auto"
+                        style={{
+                        backgroundColor: "#85C226",
+                        borderColor: "#85C226",
+                        height: "48px",
+                        borderRadius: "6px",
+                        fontWeight: "bold",
+                        color: "#fff",
+                        }}
+                        onClick={() => setVisible(true)}
+                        // onClick={handleClickButtonSolicitud}
+                    />
                     </div>
-                </div>
-
+                )}
             </header>
+
 
             <div className="mt-6">
                 <ClinicaCards Promociones={tarifario} Ancho="600px" Alto="300px" />
@@ -118,6 +130,21 @@ export default function Tarifario() {
             <SolicitudEnviadaDialog visible={visibleSolicitudEnviadaDialog} onHide={hideSolicitudDialog} />
             <PromotorUpgradeDialog visible={open} setVisible={() => setOpen(false)} setChecked={setChecked} setOpenTC={setOpenTC} submit={submit} checked={checked} />
             <TerminosyCond visible={openTC} Close={() => setOpenTC(false)} Aceptar={handleTermsAccept} PDF={'PROMOTOR.pdf'} />
+            <Dialog 
+            visible={visible}
+            onHide={()=>setVisible(false)}
+            header={headerTemplate}
+            style={{ width: '30vw' }}
+            className="p-fluid w-full sm:w-10 md:w-6 lg:w-4"
+            >
+                <PasarelaPagos 
+                onSuccess={() => {
+                    setVisible(false);
+                    fechPagos();
+                    }}
+                rolId={3}
+                />
+            </Dialog>
         </>
     );
 }

@@ -9,6 +9,7 @@ class UserMapper {
     static toDomain(data) {  
         const fechaNacimiento = new Date(data.fechNac)
         const rol = Number(data?.rol_id)
+       console.log(data);
        
         return new User(
             data.id,
@@ -31,7 +32,8 @@ class UserMapper {
             data.codigo,
             data.local_id,
             data.rol,
-            data.estado_solicitud
+            data.estado_solicitud,
+            data.fechaVenc
         );
     }
     static toData(user) {
@@ -59,7 +61,8 @@ class UserMapper {
             fotoPerfil: user.fotoPerfil,
             clinica_id: user.clinica_id, // Asegúrate de usar el nombre correcto aquí
             "codigo2":user?.codigoPromotor,
-            "Local_id":user?.local_id
+            "Local_id":user?.local_id,
+            fechaVenc:user?.fechaVenc
         };
     }
 }

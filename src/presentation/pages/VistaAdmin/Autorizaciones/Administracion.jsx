@@ -9,6 +9,8 @@ import { Toast } from 'primereact/toast';
 import { Divider } from 'primereact/divider';
 import CustomDataTable from './Componente/CustomDataTable';
 import './css/Administracion.css'
+import { TabView, TabPanel } from 'primereact/tabview';
+import PagosVerif from './Componente/PagosVerif';
 
 export default function AdminPanel() {
   const toastRef = useRef(null);
@@ -34,11 +36,10 @@ export default function AdminPanel() {
     fetchAffiliatesData();
   }, []);
 
-  const handleStatusChange = async (id) => {
-    if (id) {
+  const handleStatusChange = async (rowData) => {
+    if (rowData?.id) {
       try {
-
-        const response = await apiAdapter.put(`/CambioEstado/${id}`);
+        const response = await apiAdapter.put(`CambioEstadoPago/${rowData?.id}/${rowData?.pago_id}`);
         console.log('API Response:', response); // Verifica la respuesta de la API
         if (response?.success) {
           toastRef.current.show({
@@ -103,7 +104,7 @@ export default function AdminPanel() {
     <div className="flex gap-2">
       <Button
         severity={rowData.Estado === 'Activo' ? 'success' : 'danger'}
-        onClick={() => showConfirmDialog(rowData.id)}
+        onClick={() => showConfirmDialog(rowData)}
         label={rowData.Estado}
         disabled={rowData.Estado === 'Activo' || rowData.estado_solicitud !== "2"}
         className={rowData.Estado === 'Activo' ? 'green-button' :
@@ -124,9 +125,9 @@ export default function AdminPanel() {
     </div>
   );
 
-  const showConfirmDialog = (id) => {
+  const showConfirmDialog = (rowData) => {
 
-    setSelectedAffiliateId(id);
+    setSelectedAffiliateId(rowData?.id);
     confirmDialog({
       group: 'templating',
       header: 'Confirmación',
@@ -134,11 +135,28 @@ export default function AdminPanel() {
         <div className="flex flex-column align-items-center w-full mt-3  ">
           <span><i className="pi pi-exclamation-circle text-6xl text-orange-500"></i></span>
           <span>¿Desea cambiar de estado?</span>
+          <div className="text-lg text-gray-800 mb-1">
+          <strong>Tipo de pago:</strong> {rowData?.tipopago}
+          </div>
+          <div className="text-lg text-gray-800 mb-2">
+          <strong>fecha de pago:</strong> {rowData?.fechapago}
+          </div>
+          <div className="text-lg text-gray-800 mb-2">
+          <strong>rol pagado:</strong> {rowData?.tipopagorol}
+          </div>
+          <a
+            href={`${process.env.REACT_APP_API_BASE_URL}uploads/${rowData?.archivo}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-lg text-blue-600 underline mt-1 inline-block"
+          >
+              Ver comprobante
+          </a>
         </div>
       ),
       accept: () => {
         console.log("Accept clicked, changing status...");
-        handleStatusChange(id); // Llama a la función para cambiar el estado
+        handleStatusChange(rowData); // Llama a la función para cambiar el estado
       },
       reject: rejectAction,
     });
@@ -173,11 +191,9 @@ export default function AdminPanel() {
     { header: 'Nombres', field: 'nombres' },
     { header: 'Apellidos', field: 'apellidos' },
     { header: 'DNI', field: 'dni' },
-    { header: 'Rol', field: 'rol_nombre' },
     { header: 'fecha_inscripcion', field: 'fecha_inscripcion' },
     { header: 'Codigo', field: 'codigo' },
-    { header: 'Estado Usuario', body: statusChangeButton },
-    { header: 'Estado Promotor', body: statusChangeButtonPR },
+    { header: 'Rol', field: 'rol_nombre' },
   ];
 
   return (
@@ -199,23 +215,31 @@ export default function AdminPanel() {
           />
         </Card>
       </div>
-      {loadingState ? (
-        <div className="flex justify-content-center" style={{ marginTop: '50px' }}>
-          <ProgressSpinner />
-        </div>
-      ) : (
-        <div className="flex justify-content-center">
-          <Card className="admin-card" style={{ marginTop: '15px' }}>
-            <CustomDataTable
-              columns={columns}
-              value={filterAffiliates}
-              paginator={true}
-              rows={5}  // Número de filas por página
-              rowsPerPageOptions={[5, 10, 25, 50]}  // Opciones de filas por página
-            />
-          </Card>
-        </div>
-      )}
+      <div className="flex justify-content-center">
+      <Card className="admin-card" style={{ marginTop: '15px' }}>
+       <TabView>
+          <TabPanel header="Lista de afiliados">
+            {loadingState ? (
+              <div className="flex justify-content-center" style={{ marginTop: '50px' }}>
+                <ProgressSpinner />
+              </div>
+            ) : (
+              
+                  <CustomDataTable
+                    columns={columns}
+                    value={filterAffiliates}
+                    paginator={true}
+                    rows={5}  // Número de filas por página
+                    rowsPerPageOptions={[5, 10, 25, 50]}  // Opciones de filas por página
+                  />
+            )}
+          </TabPanel>
+          <TabPanel header="Lista de Pagos">
+              <PagosVerif/>
+          </TabPanel>
+      </TabView>
+      </Card>
+      </div>
       <ConfirmDialog group="templating" />
     </>
   );

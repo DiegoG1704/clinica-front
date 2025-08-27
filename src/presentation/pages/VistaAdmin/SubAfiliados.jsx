@@ -184,67 +184,62 @@ export default function SubAfiliados({ UserId }) {
   return (
     <div className='flex flex-column w-full'>
       <Toast ref={toast} />
-      <div className="flex p-3 md:flex-column">
-        <div className="flex  w-full justify-content-center gap-3 container-data-afiliados">
-          <div className='data-afiliados flex-1 '>
-            <div className="data-afiliados__header">
-              <h2 className='data-afiliados__header__title'>Total Afiliados</h2>
-              <p className='data-afiliados__header__subtitle'>Todos los niveles</p>
-            </div>
-            <main className='data-afiliados__main' >
-              <p>{dataCards?.totalAfiliados}</p>
-            </main>
-            <footer className='flex justify-content-between'>
-              <div className="data-afiliados__quantity data-afiliados__quantity--first">
-                <p>Nivel 1</p>
-                <span>{dataCards?.totalNivel1}</span>
-              </div>
-              <div className="data-afiliados__quantity data-afiliados__quantity--second">
-                <p>Nivel 2</p>
-                <span>{dataCards?.totalNivel2}</span>
-              </div>
-              <div className="data-afiliados__quantity data-afiliados__quantity--third">
-                <p>Nivel 3</p>
-                <span>{dataCards?.totalNivel3}</span>
-              </div>
-            </footer>
-
-
+      <div className="flex flex-column md:flex-row p-3 gap-3 container-data-afiliados">
+        <div className="data-afiliados flex-1">
+          <div className="data-afiliados__header">
+            <h2 className="data-afiliados__header__title">Total Afiliados</h2>
+            <p className="data-afiliados__header__subtitle">Todos los niveles</p>
           </div>
-          <div className='data-afiliados data-afiliados--second flex-1'>
-            <div className="data-afiliados__header">
-              <h2 className='data-afiliados__header__title'>Por rol</h2>
-              <p className='data-afiliados__header__subtitle'>Distribución de roles</p>
+          <main className="data-afiliados__main">
+            <p>{dataCards?.totalAfiliados}</p>
+          </main>
+          <footer className="flex justify-content-between flex-wrap">
+            <div className="data-afiliados__quantity data-afiliados__quantity--first w-full sm:w-6 md:w-4 lg:w-4">
+              <p>Nivel 1</p>
+              <span>{dataCards?.totalNivel1}</span>
             </div>
-            <main className='data-afiliados__main--second' >
-              <div className='data-afiliados__main--second__item--first'>
-                <p>Promotor</p>
-                <span>{dataCards?.totalPromotor}</span>
-              </div>
-              <div className='data-afiliados__main--second__item--secod'>
-                <p>Usuarios</p>
-                <span>{dataCards?.totalUsuario}</span>
-              </div>
-            </main>
-            <footer className='flex justify-content-between'>
-              <ProgressBar firstPercentage={dataCards?.totalPorcentajePromotor} secondPercentage={dataCards?.totalPorcentajeUsuario} />
-            </footer>
-
-
-          </div>
-          <div className='data-afiliados data-afiliados--third flex-1'>
-            <div className="data-afiliados__header flex-column">
-              <h2>Ganancia Total</h2>
-              <p>Total de ganancia por afiliados</p>
+            <div className="data-afiliados__quantity data-afiliados__quantity--second w-full sm:w-6 md:w-4 lg:w-4">
+              <p>Nivel 2</p>
+              <span>{dataCards?.totalNivel2}</span>
             </div>
-            <main >
-              <p>S/ {dataCards?.totalGanancia}</p>
-            </main>
-
-          </div>
+            <div className="data-afiliados__quantity data-afiliados__quantity--third w-full sm:w-12 md:w-4 lg:w-4">
+              <p>Nivel 3</p>
+              <span>{dataCards?.totalNivel3}</span>
+            </div>
+          </footer>
         </div>
 
+        <div className="data-afiliados data-afiliados--second flex-1">
+          <div className="data-afiliados__header">
+            <h2 className="data-afiliados__header__title">Por rol</h2>
+            <p className="data-afiliados__header__subtitle">Distribución de roles</p>
+          </div>
+          <main className="data-afiliados__main--second">
+            <div className="data-afiliados__main--second__item--first">
+              <p>Promotor</p>
+              <span>{dataCards?.totalPromotor}</span>
+            </div>
+            <div className="data-afiliados__main--second__item--secod">
+              <p>Usuarios</p>
+              <span>{dataCards?.totalUsuario}</span>
+            </div>
+          </main>
+          <footer className="flex justify-content-between">
+            <ProgressBar firstPercentage={dataCards?.totalPorcentajePromotor} secondPercentage={dataCards?.totalPorcentajeUsuario} />
+          </footer>
+        </div>
+
+        <div className="data-afiliados data-afiliados--third flex-1">
+          <div className="data-afiliados__header flex-column">
+            <h2>Ganancia Total</h2>
+            <p>Total de ganancia por afiliados</p>
+          </div>
+          <main>
+            <p>S/ {dataCards?.totalGanancia}</p>
+          </main>
+        </div>
       </div>
+
 
       <div className="flex justify-content-center w-full ">
         <Card style={{ width: '100%', marginTop: '15px' }}>
