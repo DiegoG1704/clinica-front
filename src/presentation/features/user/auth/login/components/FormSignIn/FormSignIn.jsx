@@ -48,14 +48,14 @@ const FormSignIn = ({ credentials, togglePassword, setTogglePassword, handleLogi
                 <label htmlFor="document" className={styles.label}>
                     Nro. de Documento
                 </label>
-                <InputInteger
+                <InputText
                     id="document"
                     type="text"
                     placeholder="Ingresa tu número de documento"
                     className={styles["document-input"]}
                     required
                     name="documento"
-                    maxLength={8}
+                    maxLength={20}
                     value={credentials?.correo}
                     onChange={handleChangeCredentials}
                 />

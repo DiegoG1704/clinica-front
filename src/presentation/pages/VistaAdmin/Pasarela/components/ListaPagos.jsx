@@ -43,15 +43,10 @@ export default function ListaPagos({ data, actualizar }) {
 
   const capitalizar = (texto) => texto.charAt(0).toUpperCase() + texto.slice(1);
 
-  const Dias = {
-    fechaVencimiento: '16-09-2025',
-  };
-
-  const fechaVenc = parse(Dias.fechaVencimiento, 'dd-MM-yyyy', new Date());
   const hoy = new Date();
   const totalDias = 365;
 
-  const diasRestantes = differenceInDays(fechaVenc, hoy);
+  const diasRestantes = differenceInDays(user?.fechaVenc, hoy);
   const esVencido = diasRestantes < 0;
   const diasValor = Math.abs(diasRestantes);
   let progreso = ((totalDias - diasRestantes) / totalDias) * 100;
@@ -61,38 +56,55 @@ export default function ListaPagos({ data, actualizar }) {
     <div className="flex flex-column gap-5 p-3 md:p-4" style={{ fontFamily: 'Inter, sans-serif' }}>
       
       {/* Botón para pagar */}
-      <div className="flex flex-column sm:flex-row sm:justify-content-end">
-        <Button
-          className="px-4 py-2 text-base sm:text-lg font-semibold border-none border-round shadow-2 w-full sm:w-auto"
-          style={{
-            backgroundColor: '#176abc',
-            color: '#ffffff',
-            transition: 'background-color 0.3s',
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#155a9c')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#176abc')}
-          onClick={() => setVisible(true)}
-        >
-          Renovar
-        </Button>
-      </div>
+      {(user?.rol !== 'User') && (
+        <div className="flex flex-column sm:flex-row sm:justify-content-end">
+          <Button
+            className="px-4 py-2 text-base sm:text-lg font-semibold border-none border-round shadow-2 w-full sm:w-auto"
+            style={{
+              backgroundColor: '#176abc',
+              color: '#ffffff',
+              transition: 'background-color 0.3s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#155a9c')}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#176abc')}
+            onClick={() => setVisible(true)}
+          >
+            Renovar
+          </Button>
+        </div>
+      )
+      }
+      
 
       {/* Progreso */}
-      <div className="p-3 surface-100 border-round shadow-1">
-        <h2 className="text-xl sm:text-2xl font-bold mb-3" style={{ color: '#b0c802' }}>
-          Días {esVencido ? 'vencidos' : 'restantes'}:{' '}
-          <span style={{ color: '#16617c' }}>{diasValor}</span>
-        </h2>
-        <ProgressBar
-          value={progreso}
-          style={{ height: '24px', backgroundColor: '#e5e7eb' }}
-          className="border-round"
-          color={esVencido ? '#dc2626' : '#16617c'}
-          displayValueTemplate={() =>
-            `${diasValor} días ${esVencido ? 'vencidos' : 'restantes'}`
-          }
-        />
-      </div>
+      {user?.fechaVenc ? (
+        <div className="p-3 surface-100 border-round shadow-1">
+          <h2 className="text-xl sm:text-2xl font-bold mb-3" style={{ color: '#b0c802' }}>
+            Días {esVencido ? 'vencidos' : 'restantes'}:{' '}
+            <span style={{ color: '#16617c' }}>{diasValor}</span>
+          </h2>
+          <ProgressBar
+            value={progreso}
+            style={{ height: '24px', backgroundColor: '#e5e7eb' }}
+            className="border-round"
+            color={esVencido ? '#dc2626' : '#16617c'}
+            displayValueTemplate={() =>
+              `${diasValor} días ${esVencido ? 'vencidos' : 'restantes'}`
+            }
+          />
+        </div>
+      ) : (
+        <div className="p-3 surface-100 border-round shadow-1">
+          <h2 className="text-xl sm:text-2xl font-bold mb-2 text-gray-700">
+            Fecha de vencimiento aun no registrada
+          </h2>
+          <p className="text-sm text-600">
+            Actualmente no hay una fecha de vencimiento asociada a tu cuenta. Por favor, 
+            esperar la confirmacion del pago.
+          </p>
+        </div>
+      )}
+
 
       {/* Historial */}
       <div className="px-1 sm:px-0">
@@ -128,7 +140,7 @@ export default function ListaPagos({ data, actualizar }) {
               </div>
 
               {/* Comprobante */}
-              {pago.archivo && (
+              {pago.archivo ? (
                 <a
                   href={`${process.env.REACT_APP_API_BASE_URL}uploads/${pago.archivo}`}
                   target="_blank"
@@ -137,6 +149,10 @@ export default function ListaPagos({ data, actualizar }) {
                 >
                   Ver comprobante
                 </a>
+              ) : (
+                <p className="text-sm text-gray-600 mt-2 italic">
+                  El comprobante fue<br/> enviado por WhatsApp.
+                </p>
               )}
 
               {/* Botón pagar */}
@@ -161,7 +177,6 @@ export default function ListaPagos({ data, actualizar }) {
         visible={visible}
         onHide={() => setVisible(false)}
         header="Realizar pago"
-        className="p-fluid w-full sm:w-10 md:w-6 lg:w-4"
       >
         <PasarelaPagos
           onSuccess={() => {

@@ -5,6 +5,8 @@ import { apiAdapter } from '@/core/adapters/apiAdapter';
 import { useAuth } from '@/presentation/context/AuthContext/AuthContext';
 import TerminosyCond from '@/presentation/pages/login/Dialog/TerminosyCond';
 import { Toast } from 'primereact/toast';
+import yape from '../../../../img/yape-bcp-37283_logosenvector.com_5.png'
+import trasferencia from '../../../../img/klipartz.com (8).png'
 
 export default function PasarelaPagos({ onSuccess, rolId }) {
   const [metodoPago, setMetodoPago] = useState('transferencia');
@@ -56,15 +58,15 @@ export default function PasarelaPagos({ onSuccess, rolId }) {
       return;
     }
 
-    if (!voucherFile) {
-      toast.current.show({
-        severity: 'error',
-        summary: 'Voucher no adjunto',
-        detail: 'Por favor, adjunta un comprobante de pago.',
-        life: 4000
-      });
-      return;
-    }
+    // if (!voucherFile) {
+    //   toast.current.show({
+    //     severity: 'error',
+    //     summary: 'Voucher no adjunto',
+    //     detail: 'Por favor, adjunta un comprobante de pago.',
+    //     life: 4000
+    //   });
+    //   return;
+    // }
 
 
     try {
@@ -93,112 +95,143 @@ export default function PasarelaPagos({ onSuccess, rolId }) {
     }
   };
 
-  const renderVoucherUpload = () => (
-    <>
-      <div
-        className="flex flex-column align-items-center justify-content-center border-2 border-dashed border-300 p-4 border-round cursor-pointer hover:surface-hover transition"
-        onClick={() => fileInputRef.current.click()}
-      >
-        <i className="pi pi-upload text-2xl mb-2" />
-        <span className="text-600 font-medium">Adjuntar voucher</span>
-        <input
-          type="file"
-          accept="image/*"
-          ref={fileInputRef}
-          onChange={handleImageChange}
-          className="hidden"
-        />
+  return (
+    <div className="p-4 bg-blue-50 border-round-2xl">
+      <Toast ref={toast} />
+
+      {/* Header */}
+      <div className="text-center mb-5">
+        <h2 className="text-2xl font-bold" style={{ color: '#b0c802' }}>Resumen del Pago</h2>
+        <p className="text-lg text-[#16617c] mt-2">
+          Rol seleccionado: <span className="font-semibold">{currentRol?.name}</span><br />
+          Monto a pagar: <span className="font-bold">S/ {currentRol?.cantidad}</span>
+        </p>
       </div>
 
-      {voucherPreview && (
-        <div className="mt-3 text-center">
-          <p className="text-sm text-600 mb-2">Previsualización:</p>
-          <img src={voucherPreview} alt="Voucher" className="border-round border-1 surface-border w-full max-w-20rem mx-auto" />
+      {/* Método de pago */}
+      <div className="mb-4">
+        <h3 className="text-xl font-semibold mb-2" style={{ color: '#176abc' }}>Selecciona un método de pago</h3>
+        <div className="flex flex-wrap gap-3">
+          {/* Transferencia */}
+          <div
+            className={`flex align-items-center gap-3 px-4 py-3 border-2 border-round cursor-pointer transition w-full sm:w-12rem justify-content-center text-base font-medium
+              ${metodoPago === 'transferencia'
+                ? 'border-[#176abc] bg-[#e0f2fe] text-[#176abc]'
+                : 'border-gray-300 bg-white text-gray-700'}`}
+            onClick={() => handleMetodoPago('transferencia')}
+          >
+            <img src={trasferencia} alt="Transferencia" className="w-2rem h-2rem object-contain" />
+            Transferencia
+          </div>
+
+          {/* Yape */}
+          <div
+            className={`flex align-items-center gap-3 px-4 py-3 border-2 border-round cursor-pointer transition w-full sm:w-12rem justify-content-center text-base font-medium
+              ${metodoPago === 'yape'
+                ? 'border-[#9333ea] bg-[#f3e8ff] text-[#9333ea]'
+                : 'border-gray-300 bg-white text-gray-700'}`}
+            onClick={() => handleMetodoPago('yape')}
+          >
+            <img src={yape} alt="Yape" className="w-2rem h-2rem object-contain" />
+            Yape
+          </div>
+        </div>
+      </div>
+
+      {/* Indicaciones y datos bancarios */}
+      {metodoPago && (
+        <div className="border-1 border-round p-4 mb-4" style={{ background: '#f9fafb', borderColor: '#d1d5db' }}>
+          <h4 className="text-lg font-bold mb-2" style={{ color: '#b0c802' }}>Instrucciones de pago</h4>
+          <ul className="text-sm text-gray-700 list-disc ml-4 mb-3">
+            <li>Deposita <strong>S/ {currentRol?.cantidad}</strong> a la cuenta indicada.</li>
+            <li>Adjunta el comprobante del pago.</li>
+            <li>Activación: hasta 24h (48h si es interbancario).</li>
+          </ul>
+
+          {metodoPago === 'transferencia' && (
+            <div className="flex flex-column gap-3 text-sm">
+              <div>
+                <strong className="text-[#16617c]">Nombre de cuenta:</strong>
+                <p className="bg-white border p-2 rounded mt-1">ADB CONSULTING SAC</p>
+              </div>
+              <div>
+                <strong className="text-[#16617c]">Cuenta Corriente:</strong>
+                <p className="bg-white border p-2 rounded mt-1">194-2659964-0-21</p>
+              </div>
+              <div>
+                <strong className="text-[#16617c]">CCI:</strong>
+                <p className="bg-white border p-2 rounded mt-1">002-19400265996402191</p>
+              </div>
+            </div>
+          )}
+
+          {metodoPago === 'yape' && (
+            <div className="mt-3 text-sm">
+              <strong className="text-[#16617c]">Yape:</strong>
+              <p className="bg-white border p-2 rounded mt-1 w-fit">920517220</p>
+            </div>
+          )}
         </div>
       )}
 
+      {/* Subir Voucher */}
+      {metodoPago && (
+        <div className="mb-4">
+          <h4 className="text-md font-semibold mb-2" style={{ color: '#176abc' }}>Sube tu voucher</h4>
+          <div
+            className="flex flex-column align-items-center justify-content-center border-2 border-dashed border-gray-300 p-4 border-round cursor-pointer hover:bg-gray-50 transition"
+            onClick={() => fileInputRef.current.click()}
+          >
+            <i className="pi pi-upload text-2xl mb-2 text-gray-600" />
+            <span className="text-gray-700">Haz clic para adjuntar comprobante</span>
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleImageChange}
+              className="hidden"
+            />
+          </div>
+
+          {voucherPreview && (
+            <div className="mt-3">
+              <p className="text-sm text-gray-600 mb-1">Previsualización:</p>
+              <img
+                src={voucherPreview}
+                alt="Voucher"
+                className="border-round border-1 surface-border w-full max-w-20rem mx-auto"
+              />
+            </div>
+          )}
+        </div>
+      )}
+      <div className='flex align-items-center message-document'>
+        <i className='pi pi-exclamation-circle'></i>
+        <p>Si lo prefieres, también puedes enviar la imagen del <br/>comprobante por WhatsApp al número <strong>920 517 220</strong>.</p>
+      </div>
+      {/* Términos y condiciones */}
+      <div className="flex items-start gap-2 mb-4">
+        <Checkbox onChange={e => setChecked(e.checked)} checked={checked} />
+        <p className="text-sm text-gray-700">
+          Acepto la{' '}
+          <span onClick={() => setOpenTC(true)} className="text-blue-800 font-semibold underline cursor-pointer">
+            Política de Privacidad y los Términos y Condiciones
+          </span>
+        </p>
+      </div>
+
+      {/* Botón Enviar */}
       <Button
-        label="Enviar"
-        className="w-full mt-3"
+        label="Enviar comprobante"
+        className="w-full"
         style={{ backgroundColor: '#176abc', borderColor: '#176abc' }}
         onClick={handleSubmit}
       />
-    </>
-  );
 
-  return (
-    <div className="p-4">
-      <Toast ref={toast} />
-      <div className="flex flex-column align-items-center mb-5 text-center">
-        <h1 className="text-2xl font-semibold text-[#b0c802] mb-3">Realizar el pago</h1>
-
-        <div className="flex flex-column w-full md:w-30rem text-left gap-4 mb-4">
-          <strong className="text-xl mb-1" style={{ color: '#2e7d32' }}>Selecciona método de pago</strong>
-          <div className="flex flex-column sm:flex-row justify-content-center gap-3">
-            <div className="flex align-items-center gap-2 cursor-pointer" onClick={() => handleMetodoPago('transferencia')}>
-              <Checkbox inputId="transferencia" checked={metodoPago === 'transferencia'} />
-              <label htmlFor="transferencia" className="text-base">Transferencia</label>
-            </div>
-            <div className="flex align-items-center gap-2 cursor-pointer" onClick={() => handleMetodoPago('yape')}>
-              <Checkbox inputId="yape" checked={metodoPago === 'yape'} />
-              <label htmlFor="yape" className="text-base">Yape</label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {(metodoPago === 'transferencia' || metodoPago === 'yape') && (
-        <div className="flex justify-content-center px-2">
-          <div className="flex flex-column w-full md:w-30rem">
-            <p className="text-xl mb-2" style={{ color: '#2e7d32', fontWeight: 600 }}>Indicaciones:</p>
-            <p className="text-md text-700">
-              - Depositar cantidad de <span style={{ color: '#2e7d32', fontWeight: 600 }}>S/{currentRol?.cantidad ?? '...'}</span>
-            </p>
-            <p className="text-sm text-600">- Adjuntar el Voucher del pago</p>
-            <p className="text-sm text-600 mb-3">- La cuenta se activará hasta 24h después de la transferencia o 48h si es interbancaria.</p>
-
-            <div className="border-1 border-round p-3 mb-4" style={{ background: '#f0fdfa', borderColor: '#99f6e4' }}>
-              <p className="text-lg mb-2" style={{ color: '#0f766e', fontWeight: 600 }}>Pagos</p>
-
-              {metodoPago === 'transferencia' ? (
-                <div className="flex flex-column gap-3">
-                  <div className="flex flex-column">
-                    <strong className="text-sm mb-1" style={{ color: '#0f766e' }}>Nombre de cuenta:</strong>
-                    <span className="px-2 py-1 border-round border-1" style={{ borderColor: '#99f6e4', background: '#ffffff', color: '#0f766e' }}>ADB CONSULTING SAC</span>
-                  </div>
-                  <div className="flex flex-column">
-                    <strong className="text-sm mb-1" style={{ color: '#0f766e' }}>Cuenta Corriente SOLES:</strong>
-                    <span className="px-2 py-1 border-round border-1" style={{ borderColor: '#99f6e4', background: '#ffffff', color: '#0f766e' }}>194-2659964-0-21</span>
-                  </div>
-                  <div className="flex flex-column">
-                    <strong className="text-sm mb-1" style={{ color: '#0f766e' }}>CCI Moneda Nacional:</strong>
-                    <span className="px-2 py-1 border-round border-1" style={{ borderColor: '#99f6e4', background: '#ffffff', color: '#0f766e' }}>002-19400265996402191</span>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex flex-column">
-                  <strong className="text-sm mb-1" style={{ color: '#0f766e' }}>Yape:</strong>
-                  <span className="px-2 py-1 border-round border-1" style={{ borderColor: '#99f6e4', background: '#ffffff', color: '#0f766e' }}>920517220</span>
-                </div>
-              )}
-            </div>
-            <div className='flex'>
-              <Checkbox
-                  onChange={e => { setChecked(e.checked) }}
-                  checked={checked}
-                  className="mt-2"
-              />
-              <p className="text-sm">
-                  Al registrarte aceptas haber leído y estar de acuerdo con la
-                  <span onClick={() => setOpenTC(true)} className="text-blue-600 font-bold cursor-pointer"> Política de Privacidad y los Términos y Condiciones</span>
-              </p>
-            </div>
-
-            {renderVoucherUpload()}
-          </div>
-        </div>
-      )}
-    <TerminosyCond visible={openTC} Close={() => setOpenTC(false)} Aceptar={hideDialog} PDF={'PROMOTOR.pdf'} />
+      {/* Modal de términos */}
+      <TerminosyCond visible={openTC} Close={() => setOpenTC(false)} Aceptar={hideDialog} PDF={'PROMOTOR.pdf'} />
     </div>
+
+
   );
 }

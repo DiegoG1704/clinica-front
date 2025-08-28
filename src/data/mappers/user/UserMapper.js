@@ -33,7 +33,7 @@ class UserMapper {
             data.local_id,
             data.rol,
             data.estado_solicitud,
-            data.fechaVenc
+            data?.fechaVenc
         );
     }
     static toData(user) {

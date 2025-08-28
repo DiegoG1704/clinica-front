@@ -40,7 +40,7 @@ export default function PagosVerif() {
         {pagos.map((pago) => (
           <div key={pago.id} className="col-12 md:col-6 lg:col-4">
             <div className="p-4 border-1 surface-border border-round surface-card shadow-1 flex flex-column justify-between h-full">
-              <div className="mb-3">
+              <div className="mb-2">
                 <div className="text-900 mb-1">
                   <strong>{pago.nombres} {pago.apellidos}</strong>
                 </div>
@@ -58,7 +58,7 @@ export default function PagosVerif() {
                 </div>
               </div>
 
-              {pago.archivo && (
+              {pago.archivo? (
                 <a
                   href={`${process.env.REACT_APP_API_BASE_URL}uploads/${pago.archivo}`}
                   target="_blank"
@@ -67,6 +67,10 @@ export default function PagosVerif() {
                 >
                   Ver comprobante
                 </a>
+              ) : (
+                <p className="text-sm text-gray-600 mb-3 italic">
+                  El comprobante fue enviado por WhatsApp.
+                </p>
               )}
 
               <Button
