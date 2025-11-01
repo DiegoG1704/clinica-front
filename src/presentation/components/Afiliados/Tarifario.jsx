@@ -10,12 +10,14 @@ import SolicitudEnviadaDialog from '@/presentation/features/admin/admin-usuario/
 import { Dialog } from 'primereact/dialog';
 import PasarelaPagos from '@/presentation/pages/VistaAdmin/Pasarela/components/Pasarela';
 import styles from '../../features/admin/admin-usuario/components/ConfirmSolicitudDialog/styles/ConfirmSolicitudDialog.module.css'
+import { useNavigate } from 'react-router-dom';
 
 export default function Tarifario() {
     const { user, logout, me } = useAuth();
     const [tarifario, setTarifario] = useState([]);
     const [open, setOpen] = useState(false);
     const toast = useRef(null);
+    const navigate=useNavigate()
     const [openTC, setOpenTC] = useState(false);
     const [loading, setLoading] = useState(true);
     const [checked, setChecked] = useState(false);
@@ -122,10 +124,38 @@ export default function Tarifario() {
                     </div>
                 )}
             </header>
+            
 
-
+            <div className="flex justify-content-end w-full md:w-auto pr-5">
+                <Button
+                 label='Buscar tarifas por nombre'
+                 style={{
+                    backgroundColor: 'white',
+                    borderColor: "#6b92e7ff",
+                    height: "48px",
+                    borderRadius: "6px",
+                    fontWeight: "bold",
+                    color: "#6b92e7ff",
+                    }}
+                onClick={()=>navigate('/BuscarTarifas')}
+                 />
+            </div>
+            
             <div className="mt-6">
                 <ClinicaCards Promociones={tarifario} Ancho="600px" Alto="300px" />
+            </div>
+
+            {/* Sección de información importante */}
+            <div className="p-3 mb-4 border-round-xl bg-blue-50 border-1 border-blue-200 shadow-2 flex items-start gap-3 mx-2">
+                <i className="pi pi-info-circle text-xl text-blue-600 mt-1"></i>
+                <div>
+                    <h2 className="text-base font-semibold text-blue-700 mb-2">Información Importante</h2>
+                    <ul className="text-sm text-blue-800 m-0 pl-3 list-disc">
+                        <li>Los precios con Massalud requieren inscripción previa al programa.</li>
+                        <li>Las promociones están sujetas a disponibilidad de citas.</li>
+                        <li>Válido hasta el 31 de diciembre de 2026.</li>
+                    </ul>
+                </div>
             </div>
             <SolicitudEnviadaDialog visible={visibleSolicitudEnviadaDialog} onHide={hideSolicitudDialog} />
             <PromotorUpgradeDialog visible={open} setVisible={() => setOpen(false)} setChecked={setChecked} setOpenTC={setOpenTC} submit={submit} checked={checked} />

@@ -30,6 +30,8 @@ import Blog from '../pages/VistaAdmin/Blog/BlogPage';
 import CrearBlog from '../pages/VistaAdmin/Blog/Components/CrearBlog';
 import VistaPrevia from '../pages/VistaAdmin/Blog/Components/VistaPrevia';
 import VistaPagos from '../pages/VistaAdmin/Pasarela/Index';
+import ClinicasTar from '../pages/VistaAdmin/clinicasTarifas';
+import Tarifas from '../pages/VistaAdmin/Tarifas/Tarifas';
 const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router, isAuthenticated, onLogin, LoaderPrivate, setLoaderPrivate }) => {
 
     const componentMap = {
@@ -52,6 +54,7 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
         "PagosMensuales": <Pagos />,
         "Blog": <Blog/>,
         "Pagos": <VistaPagos/>,
+        "Completar":<ClinicasTar/>,
     };
 
 
@@ -77,6 +80,7 @@ const PrivateRoutes = ({ isSidebarOpen, toggleSidebar, logout, idUsuario, router
                             element={componentMap[route.nombre] || null}
                         />
                     ))}
+                    <Route path='/BuscarTarifas' element={<Tarifas/>}/>
                     <Route path="/CrearBlog" element={<CrearBlog />} />
                     <Route path='/VistaPrevia/:id' element={<VistaPrevia />} />
                     <Route path='/Configuraciones' element={<ConfiguracionProvider><Configuraciones /></ConfiguracionProvider>} />
