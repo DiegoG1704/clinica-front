@@ -1,15 +1,18 @@
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
-import React, { useState } from 'react';
 import PasarelaPagos from './Pasarela';
-import { differenceInDays, parse } from 'date-fns';
+import { differenceInDays} from 'date-fns';
 import { ProgressBar } from 'primereact/progressbar';
 import { CheckCircle, AlertCircle, Clock, XCircle } from 'lucide-react';
 import { useAuth } from '@/presentation/context/AuthContext/AuthContext';
+import { apiAdapter } from '@/core/adapters/apiAdapter';
+import React, { useState, useRef } from 'react';
+import { Toast } from 'primereact/toast';
 
 export default function ListaPagos({ data, actualizar }) {
   const [visible, setVisible] = useState(false);
   const { user } = useAuth();
+   const toast = useRef(null);
 
   const getEstadoStyle = (estado) => {
     switch (estado) {
@@ -52,9 +55,25 @@ export default function ListaPagos({ data, actualizar }) {
   let progreso = ((totalDias - diasRestantes) / totalDias) * 100;
   progreso = Math.min(Math.max(progreso, 0), 100);
 
+
+  const handleSubmit = async ({ id, rolpagado }) => {
+    console.log('resultado:',id, rolpagado,user?.id);
+    
+    try {
+      await apiAdapter.post(`ActualizarEstadoPago/${user?.id}/${id}`, { rol_id: Number(rolpagado)});
+      toast.current.show({ severity: 'success', summary: 'Éxito', detail: 'Pago aprobado correctamente', life: 3000 });
+      //fetchPagos(); // refrescar lista
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (error) {
+      console.log('error', error);
+      toast.current.show({ severity: 'error', summary: 'Error', detail: 'No se pudo aprobar el pago', life: 3000 });
+    }
+  };
   return (
     <div className="flex flex-column gap-5 p-3 md:p-4" style={{ fontFamily: 'Inter, sans-serif' }}>
-      
+      <Toast ref={toast} />
       {/* Botón para pagar */}
       {(user?.rol !== 'User') && (
         <div className="flex flex-column sm:flex-row sm:justify-content-end">
@@ -167,6 +186,15 @@ export default function ListaPagos({ data, actualizar }) {
                   onClick={() => setVisible(true)}
                 />
               )}
+              <Button
+                  label="Aprobar"
+                  className="mt-3 text-sm font-semibold border-none border-round w-full"
+                  style={{
+                    backgroundColor: '#176abc',
+                    color: '#fff',
+                  }}
+                  onClick={() => handleSubmit(pago)}
+                />
             </div>
           ))}
         </div>

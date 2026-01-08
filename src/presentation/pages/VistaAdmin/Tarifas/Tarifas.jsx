@@ -16,16 +16,25 @@ export default function Tarifas() {
     const [totalPages, setTotalPages] = useState(1);
     const itemsPerPage = 21;
 
-    const fetchIsoTipo = async (page = 1, searchTerm = '') => {
-    try {
-        const response = await apiAdapter.get(`getPromociones?page=${page}&limit=${itemsPerPage}&search=${searchTerm}`);
-        setTarifario(response.data);
-        setCurrentPage(response.currentPage);
-        setTotalPages(response.totalPages);
-    } catch (error) {
-        console.error('Error al obtener tarifas:', error);
-    }
-    };
+    const fetchIsoTipo = async (page = 1, searchTerm = '', clinicaId = null) => {
+        try {
+            // Construimos la URL dinámicamente según si hay clínica seleccionada
+            let url = `getPromociones?page=${page}&limit=${itemsPerPage}&search=${searchTerm}`;
+            if (clinicaId) {
+            url += `&clinicaId=${clinicaId}`;
+            }
+
+            const response = await apiAdapter.get(url);
+
+            setTarifario(response.data);
+            setCurrentPage(response.currentPage);
+            setTotalPages(response.totalPages);
+        } catch (error) {
+            console.error('Error al obtener tarifas:', error);
+        }
+        };
+
+    
 
     const fetchLogo = async () => {
         try {
@@ -41,8 +50,9 @@ export default function Tarifas() {
     }, []);
 
     useEffect(() => {
-    fetchIsoTipo(currentPage, searchTerm);
-    }, [currentPage, searchTerm]);
+        fetchIsoTipo(currentPage, searchTerm, selectedClinicaId);
+        }, [currentPage, searchTerm, selectedClinicaId]);
+
 
 
     // Manejador para filtrar por clínica (logo)
